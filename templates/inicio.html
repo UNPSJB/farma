@@ -1,9 +1,9 @@
 {%extends "base.html"%}
 {% load staticfiles %}
 
-     {% block stylesheets %}<link href="{% static 'css/inicio.css' %}" rel="stylesheet">{% endblock %}
+{% block stylesheets %}<link href="{% static 'css/inicio.css' %}" rel="stylesheet">{% endblock %}
+
 {% block content%}
-<!---HOLA MODIFICANDO PARA PULL--->
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -22,18 +22,14 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pedidos <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Registrar Pedido de Farmacia</a></li>
+            <li><a href="#">Registrar Pedido de Clinica</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Realizar Pedido a Laboratorio</a></li>
             <li><a href="#">Registrar Recepcion de pedido de Laboratorio</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Registrar Pedido de Clinicas</a></li>
-
           </ul>
         </li>
       </ul>
@@ -46,15 +42,57 @@
       </form>
       --->
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
         <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Organizaciones <span class="caret"></span></a>
+    		<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+              <li class="dropdown-submenu">
+                <a tabindex="-1" href="#">Farmacias</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Dar de alta una Farmacia</a></li>
+                  <li><a href="#">Modificar datos de una Farmacia</a></li>
+                  <li><a href="#">Dar de baja una Farmacia</a></li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a tabindex="-1" href="#">Clínicas</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Dar de alta una Clínica</a></li>
+                  <li><a href="#">Modificar datos de una Clínica</a></li>
+                  <li><a href="#">Dar de baja una Clínica</a></li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a tabindex="-1" href="#">Obras Sociales</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Dar de alta una Obra Social</a></li>
+                  <li><a href="#">Modificar datos de una Obra Social</a></li>
+                  <li><a href="#">Dar de baja una Obra Social</a></li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a tabindex="-1" href="#">Laboratorios</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Dar de alta un laboratorio</a></li>
+                  <li><a href="#">Modificar datos de un Laboratorio</a></li>
+                  <li><a href="#">Dar de baja un Laboratorio</a></li>
+                </ul>
+              </li>
+            </ul>
+        </li>
+        <li liass="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Medicamentos <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Dar de alta un Medicamento</a></li>
             <li><a href="#">Modificar el Stock Minimo o el Precio de un medicamento</a></li>
             <li><a href="#">Dar de baja un medicamento </a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuario <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Perfil</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
+            <li><a href="#">Salir</a></li>
           </ul>
         </li>
       </ul>
@@ -62,6 +100,7 @@
   </div><!-- /.container-fluid -->
 </nav>
 <hr>
+
 <!-- Carousel
     ================================================== -->
 <div class="container-fluid">
