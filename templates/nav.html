@@ -1,0 +1,86 @@
+{% load staticfiles %}
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">
+        <img alt="Brand" src="{% static 'images/logopequeno.png'%}">
+      </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pedidos <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Registrar Pedido de Farmacia</a></li>
+            <li><a href="#">Registrar Pedido de Clinica</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Realizar Pedido a Laboratorio</a></li>
+            <li><a href="#">Registrar Recepcion de pedido de Laboratorio</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Organizaciones <span class="caret"></span></a>
+        <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+              <li class="dropdown-submenu">
+                <a href="#">Farmacias</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Dar de alta una Farmacia</a></li>
+                  <li><a href="#">Eliminar/Modificar Farmacia</a></li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a href="#">Clínicas</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Dar de alta una Clínica</a></li>
+                  <li><a href="#">Eliminar/Modificar Clínica</a></li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a href="#">Obras Sociales</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Dar de alta una Obra Social</a></li>
+                  <li><a href="#">Eliminar/Modificar Obra Social</a></li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a href="#">Laboratorios</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Dar de alta un laboratorio</a></li>
+                  <li><a href="#">Eliminar/Modificar Laboratorio</a></li>
+                </ul>
+              </li>
+            </ul>
+        </li>
+        <li liass="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Medicamentos <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Dar de alta un Medicamento</a></li>
+            <li><a href="#">Modificar el Stock Minimo o el Precio de un medicamento</a></li>
+            <li><a href="#">Dar de baja un medicamento </a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuario <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Perfil</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Salir</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<hr>
