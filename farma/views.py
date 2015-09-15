@@ -5,3 +5,6 @@ def login(request):
 
 def inicio(request):
     return render(request, "inicio.html")
+
+def altafarmacia(request):
+	return render(request, "altafarmacia.html")
