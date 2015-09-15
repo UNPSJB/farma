@@ -10,10 +10,8 @@
 </head>
 <body>
 <div class="container-fluid">
-    {% block navbar %}{% endblock %}
     {% bootstrap_messages %}
     {% block content %}{% endblock %}
-    {% block footer %}{% endblock %}
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/jquery-ui.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
