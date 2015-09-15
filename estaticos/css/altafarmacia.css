@@ -1,0 +1,22 @@
+body { padding-bottom: 70px; }
+
+footer {
+	background-color: #DD5D26 !important;
+}
+
+header > .navbar-default{
+	background-color: #50232e;
+}
+
+.navbar-nav > li > a:hover{
+	color:#FFF !important;
+}
+
+.header-xs{
+	font-family: "Times New Roman", Times, serif;
+	text-align: center;
+}
+
+.navbar-text{
+	color: #FFF !important;
+}

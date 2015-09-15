@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block stylesheets %}
+	<link  href="{% static 'css/altafarmacia.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}
+<title>Alta de Farmacia</title>
+{% endblock %}
+
+{% block navbar %}
+<header>
+	<nav role="navigation" class="navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+	            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+	                <span class="sr-only">Toggle navigation</span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	            </button>
+	            <a href="#" class="navbar-brand">Logotipo</a>
+	        </div>
+	 
+	        <div id="navbarCollapse" class="collapse navbar-collapse">
+	            <ul class="nav navbar-nav">
+	                <li><a href="#">Inicio</a></li>
+	                <li><a href="#">Medicamentos</a></li>
+	                <li><a href="#">Pedidos</a></li>
+	                <li><a href="#">Farmacia</a></li>
+	                <li class="visible-xs"><a href="#">Log Out</a></li>
+	            </ul>
+	        </div>
+		</div>
+	</nav>
+</header>
+{% endblock %}
+
+
+
+
+{% block content %}
+<div class="container">
+		<div class="page-header hidden-xs">
+			<h1>Alta de Farmacia<small> Droguería Farma</small></h1>
+		</div>
+		<div class="visible-xs header-xs">
+			<h2 class="">Alta de Farmacia</h2>
+			<hr>
+		</div>
+</div>
+
+<div class="container">
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label class="control-label col-sm-offset-1 col-sm-2" for="razon">Razon Social:</label>
+			<div class="col-sm-7">
+				<input class="form-control" id="razon" type="text" name="razon" placeholder="Razón Social" autofocus required />
+			</div>		
+		</div>
+		
+		<div class="form-group">
+			<label class="control-label col-sm-offset-1 col-sm-2" for="cuit">Cuit:</label>
+			<div class="col-sm-7">
+				<input class="form-control"id="cuit" type="text" name="cuit" placeholder="Cuit" required />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-offset-1 col-sm-2" for="direccion">Dirección:</label>
+			<div class="col-sm-7">
+				<input class="form-control"id="direccion" type="text" name="direccion" placeholder="Dirección" required />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-offset-1 col-sm-2" for="localidad">Localidad:</label>
+			<div class="col-sm-7">	
+				<input class="form-control"id="localidad "type="text" name="localidad" placeholder="Localidad" required />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-offset-1 col-sm-2" for="encargado">Encargado:</label>
+			<div class="col-sm-7">
+				<input class="form-control"id="encargado" type="text" name="encargado" placeholder="Nombre del encargado" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-offset-1 col-sm-2" for="telefono">Teléfono:</label>
+			<div class="col-sm-7">	
+				<input class="form-control"id="tel" type="tel" name="tel" placeholder="Teléfono" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-offset-1 col-sm-2" for="email">Email:</label>
+			<div class="col-sm-7">
+				<input class="form-control" id="email" type="email" name="email" placeholder="Email" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="">
+				<button class="btn btn-warning col-xs-offset-1 col-xs-4  col-sm-offset-4 col-sm-2" type="reset"><span class="gliphicon glyphicon glyphicon-refresh"></span> Limpiar</button>
+
+				<button class="btn btn-primary col-xs-offset-1 col-xs-5 col-sm-2" type="submit"><span class="gliphicon glyphicon glyphicon-ok"></span> Confirmar</button>
+			</div>				
+		</div>	
+	</form>
+</div>
+{% endblock %}
+
+{% block footer %}
+<footer class="navbar navbar-default navbar-fixed-bottom hidden-xs color-1">
+	<div class="container">	
+		<div class="row">
+			<div class="col-sm-offset-4 col-sm-6">
+					<span class="navbar-text"><span class=" glyphicon glyphicon-copyright-mark"></span> Copyrigth 2015 UNPSJB - Todos los derechos reservados.</span>
+			</div>
+		</div>			
+	</div>
+</footer>
+{% endblock %}
