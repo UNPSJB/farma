@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.login, name="login"),
     url(r'^inicio/$', views.inicio, name="inicio"),
-    url(r'^altaFarmacia/$', views.altaFarmacia, name="altaFarmacia"),
-    url(r'^altaClinica/$', views.altaClinica, name="altaClinica"),
-    url(r'^altaObraSocial/$', views.altaObraSocial, name="altaObraSocial"),
+    url(r'^altafarmacia/$', views.altafarmacia, name="altafarmacia"),
+    url(r'^monodrogas/$', views.monodrogas, name="monodrogas"),
+    url(r'^altaMedicamento/$', views.altaMedicamento, name="altaMedicamento"),
 ]
