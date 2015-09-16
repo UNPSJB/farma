@@ -6,5 +6,11 @@ def login(request):
 def inicio(request):
     return render(request, "inicio.html")
 
-def altafarmacia(request):
-	return render(request, "altafarmacia.html")
+def altaFarmacia(request):
+	return render(request, "altaFarmacia.html")
+
+def altaClinica(request):
+	return render(request, "altaClinica.html")
+
+def altaObraSocial(request):
+	return render(request, "altaObraSocial.html")
