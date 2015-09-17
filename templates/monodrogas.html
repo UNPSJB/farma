@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="GET" class="form-inline pull-right">
+    <div class="form-group">
+        <label for="algo" >Monodroga</label>
+        <input class="filtro" id="monodroga" name="monodroga" value="{{filtros.monodroga}}" placeholder="Monodorga">
+    </div>
+    <div class="form-group">
+        <label for="algo" >Algo</label>
+        <input class="filtro" id="algo" name="algo" value="{{filtros.algo}}" placeholder="Algo">
+    </div>
+    <div class="form-group">
+        <label for="nombre" >Nombre</label>
+        <input class="filtro" id="nombre" name="nombre" value="{{filtros.nombre}}" placeholder="Nombre">
+    </div>
+</form>
+<button>New</button>
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr><th>Nombre</th></tr>
+    </thead>
+    <tbody>
+        {% for monodroga in monodrogas %}
+        <tr class="clickeable" data-mono="{{monodroga}}"><th>{{ monodroga }}</th></tr>
+        {% endfor %}
+    </tbody>
+</table>
+<form action="add" method="POST">
+    {{ form }}
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(".filtro").change(function(e) {
+        $(this).closest("form").submit();
+    });
+    $(".clickeable").click(function(e) {
+        var t = $(this).closest("table");
+        $("tr", t).removeClass("active");
+        $(this).addClass("active");
+        var m = $(this).data("mono");
+        console.log(m);
+    });
+</script>
+{% endblock %}
