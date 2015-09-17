@@ -38,7 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'markupfield',
-    'bootstrap3'
+    'bootstrap3',
+    'medicamentos',
 )
 
 MIDDLEWARE_CLASSES = (
