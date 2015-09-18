@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{% static 'css/nav.css' %}">
+	<link  href="{% static 'css/footer.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}
+<title>Recepción de Pedido a Laboratorio</title>
+{% endblock %}
+
+
+{% block content %}
+
+{% include 'nav.html' %}
+
+<div class="container">
+		<div class="page-header hidden-xs">
+			<h1>Recepción de Pedido a Laboratorio</h1>
+		</div>
+		<div class="visible-xs">
+			<h2 class="">Recepción de Pedido a Laboratorio</h2>
+			<hr>
+		</div>
+</div>
+
+<div class="container">
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label class="control-label col-md-offset-1 col-md-2" for="laboratorio">Laboratorio:</label>
+			<div class="col-md-7">
+				<input type="text" class="form-control " placeholder="Nombre de laboratorio" autofocus required />
+
+			</div>
+			<button class="btn btn-warning hidden-xs hidden-sm" type="button" data-toggle="modal" data-target="#myModal1"><span class="sr-only">Seleccionar</span><span class="glyphicon glyphicon-plus"></button></span>				
+		</div>
+		
+		<div class="form-group">
+			<label class="control-label col-sm-offset-1 col-sm-2" for="numero-de-pedido">Número de Pedido:</label>
+			<div class="col-sm-7">
+				<input class="form-control" id="pedido" type="text" name="pedido-pendiente" placeholder="Número del Pedido Pendiente correspondiente al Laboratorio" autofocus required />
+			</div>		
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-offset-1 col-sm-2" for="numero-remito">Número de Remito:</label>
+			<div class="col-sm-7">
+				<input class="form-control" id="remito" type="text" name="numero-remito" placeholder="Número de Remito" autofocus required />
+			</div>		
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-offset-1 col-sm-2" for="detalles-pedido">Detalles del Pedido:</label>
+			<div class="col-sm-3">
+				<button class="btn btn-info" type="button" data-toggle="modal" data-target="#agregar-detalles"><span class="glyphicon glyphicon-list-alt"></span> Editar</button>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="">
+				<button class="btn btn-warning col-xs-offset-1 col-xs-4  col-sm-offset-4 col-sm-2" type="reset"><span class="gliphicon glyphicon glyphicon-refresh"></span> Limpiar</button>
+
+				<button class="btn btn-primary col-xs-offset-1 col-xs-5 col-sm-2" type="submit"><span class="gliphicon glyphicon glyphicon-ok"></span> Registrar</button>
+			</div>				
+		</div>
+
+		<div class="form-group pull-right">
+			<label class="control-label" for="remito">Guías de envío:</label>
+			<button class="btn btn-danger" type="button"><span class="glyphicon glyphicon-print"></span> Imprimir</button>
+		</div>	
+	</form>
+</div>
+
+<!-- Modal 1 -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Seleccionar Laboratorio</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+        	<div class="row">
+				<div class="col-md-7">
+					<table class="table table-hover table-condensed table-responsive">
+						<thead>
+							<tr class="info">
+								<th>#</th>
+								<th>Razon Social</th>
+					        	<th>Cuit</th>
+					        	<th>Dirección</th>
+					        </tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>Laboratorio #1</td>
+					        	<td>Cuit #1</td>
+					        	<td>Direccion #1</td>
+					        </tr>
+					        <tr>
+								<td>2</td>
+								<td>Laboratorio #2</td>
+					        	<td>Cuit #2</td>
+					        	<td>Direccion #2</td>
+					        </tr>
+					        <tr>
+								<td>3</td>
+								<td>Laboratorio #3</td>
+					        	<td>Cuit #3</td>
+					        	<td>Direccion #3</td>
+					        </tr>
+						</tbody>					        						  		
+					</table>
+				</div>
+        	</div>    	
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Seleccionar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Modal -->
+
+<!-- Model agregar-detalle-->
+<div class="modal fade" id="agregar-detalles" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Detalles del pedido</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+        	<div class="row">
+				<div class="col-md-6">
+					<table class="table table-hover table-condensed table-responsive">
+						<thead>
+							<tr class="info">
+								<th>#</th>
+								<th>Medicamento</th>
+								<th>Lote</th>
+					        	<th>Cantidad</th>
+					        </tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>Medicamento #1</td>
+								<td>Lote #1</td>
+					        	<td>Cantidad #1</td>
+					        </tr>
+					        <tr>
+								<td>2</td>
+								<td>Medicamento #2</td>
+								<td>Lote #2</td>
+					        	<td>Cantidad #2</td>
+					        </tr>
+					        <tr>
+								<td>3</td>
+								<td>Medicamento #3</td>
+								<td>Lote #3</td>
+					        	<td>Cantidad #3</td>
+					        </tr>
+						</tbody>					        						  		
+					</table>
+				</div>
+
+				<div class="col-md-1">
+					<button class="btn btn-success btn-xs" type="button" data-toggle="modal" data-target="#agregar-nuevo-detalle"><span class="glyphicon glyphicon-plus"></span></button>
+					<button class="btn btn-danger btn-xs" type="button"><span class="glyphicon glyphicon-minus"></span></button>
+				</div>
+
+        	</div>    	
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Model -->
+
+<!--Model agregar-nuevo-detalle-->
+<div class="modal fade" id="agregar-nuevo-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Nuevo Detalle</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+			<form class="form-horizontal">
+        		<div class="form-group">
+        			<label class="control-label col-md-2" for="medicamento">Medicamento: </label>
+        			<div class="col-md-5">
+        				<input type="text" class="form-control" placeholder="Código de Barras" autofocus required />
+        			</div>
+        		</div>
+
+        		<div class="form-group">
+        			<label for="lote" class="control-label col-md-2">Lote: </label>
+        			<div class="col-md-5">
+        				<input type="text" class="form-control" placeholder="Lote" required />
+        			</div>
+        		</div>
+
+        		<div class="form-group">
+        			<label for="cantidad" class="control-label col-md-2">Cantidad: </label>
+        			<div class="col-md-5">
+        				<input type="text" class="form-control" placeholder="Cantidad" required />
+        			</div>
+        		</div>
+        	</form>
+        </div>	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Modal-->
+
+{% include 'footer.html'%}
+
+{% endblock %}
+
