@@ -27,4 +27,8 @@ urlpatterns = [
     url(r'^monodrogas/$', mviews.monodrogas, name="monodrogas"),
     url(r'^monodrogas/add/$', mviews.monodrogas, name="monodroga_add"),
     url(r'^altaMedicamento/$', views.altaMedicamento, name="altaMedicamento"),
+    url(r'^pedidoLaboratorio/$', views.pedidoLaboratorio, name="pedidoLaboratorio"),
+    url(r'^recepcionPedidoLaboratorio/$', views.recepcionPedidoLaboratorio, name="recepcionPedidoLaboratorio"),
+    url(r'^pedidoDeFarmacia/$', views.pedidoDeFarmacia, name="pedidoDeFarmacia"),
+    url(r'^pedidoDeClinica/$', views.pedidoDeClinica,name="pedidoDeClinica"),
 ]
