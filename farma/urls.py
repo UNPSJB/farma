@@ -16,13 +16,19 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from . import views
+from medicamentos import views as mviews
 
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', views.login, name="login"),
-    url(r'^inicio/$', views.inicio, name="inicio"),
+    url(r'^$', views.inicio, name="inicio"),
+    url(r'^login', views.login_user, name="login"),
     url(r'^altafarmacia/$', views.altafarmacia, name="altafarmacia"),
-    url(r'^monodrogas/$', views.monodrogas, name="monodrogas"),
+    url(r'^monodrogas/$', mviews.monodrogas, name="monodrogas"),
+    url(r'^monodrogas/add/$', mviews.monodrogas, name="monodroga_add"),
     url(r'^altaMedicamento/$', views.altaMedicamento, name="altaMedicamento"),
+    url(r'^pedidoLaboratorio/$', views.pedidoLaboratorio, name="pedidoLaboratorio"),
+    url(r'^recepcionPedidoLaboratorio/$', views.recepcionPedidoLaboratorio, name="recepcionPedidoLaboratorio"),
+    url(r'^pedidoDeFarmacia/$', views.pedidoDeFarmacia, name="pedidoDeFarmacia"),
+    url(r'^pedidoDeClinica/$', views.pedidoDeClinica,name="pedidoDeClinica"),
 ]

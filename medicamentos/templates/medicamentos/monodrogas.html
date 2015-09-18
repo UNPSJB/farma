@@ -1,33 +1,34 @@
 {% extends "base.html" %}
-
+{% load bootstrap3 %}
 {% block content %}
+
 <form method="GET" class="form-inline pull-right">
     <div class="form-group">
-        <label for="algo" >Monodroga</label>
-        <input class="filtro" id="monodroga" name="monodroga" value="{{filtros.monodroga}}" placeholder="Monodorga">
-    </div>
-    <div class="form-group">
-        <label for="algo" >Algo</label>
-        <input class="filtro" id="algo" name="algo" value="{{filtros.algo}}" placeholder="Algo">
-    </div>
-    <div class="form-group">
-        <label for="nombre" >Nombre</label>
+        <label for="nombre" >Buscar:</label>
         <input class="filtro" id="nombre" name="nombre" value="{{filtros.nombre}}" placeholder="Nombre">
     </div>
 </form>
+
 <button>New</button>
+
 <table class="table table-hover table-bordered">
     <thead>
         <tr><th>Nombre</th></tr>
     </thead>
     <tbody>
         {% for monodroga in monodrogas %}
-        <tr class="clickeable" data-mono="{{monodroga}}"><th>{{ monodroga }}</th></tr>
+        <tr class="clickeable" data-id="{{monodroga.id}}"><th>{{ monodroga }}</th></tr>
         {% endfor %}
     </tbody>
 </table>
-<form action="add" method="POST">
-    {{ form }}
+<form action="{% url 'monodroga_add' %}" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">
+            {% bootstrap_icon "star" %} Submit
+        </button>
+    {% endbuttons %}
 </form>
 {% endblock %}
 
@@ -40,7 +41,7 @@
         var t = $(this).closest("table");
         $("tr", t).removeClass("active");
         $(this).addClass("active");
-        var m = $(this).data("mono");
+        var m = $(this).data("id");
         console.log(m);
     });
 </script>

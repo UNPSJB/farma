@@ -4,23 +4,34 @@
 {% block stylesheets %}<link href="{% static 'css/signin.css' %}" rel="stylesheet">{% endblock %}
 {% block content%}
 <center>
-<div class="panel panel-default panel-signin">
-  <div class="panel-body">
-      <img src="{% static 'images/logo.png'%}">
-      <form class="form-signin">
-        <h2 class="form-signin-heading">Por Favor Ingresa para Comenzar</h2>
-        <label for="inputEmail" class="sr-only">Usuario</label>
-        <input type="text" id="inputEmail" class="form-control" placeholder="Usuario" required autofocus>
-        <label for="inputPassword" class="sr-only">Contraseña</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Recordarme
-          </label>
+    <div class="panel panel-default panel-signin">
+         <div class="panel-body">
+              <img src="{% static 'images/logo.png'%}">
+   <div id="login">
+        <form class="form-horizontal" name="LoginForm" action="/login/" method="post">
+        {% csrf_token %}
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}" />
+        {% endif %}
+        <div class="control-group">
+            <label class="control-label" for="username">Username</label>
+            <div class="controls">
+                <input type="text" id="username" name="username"  placeholder="Username">
+            </div>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
-      </form>
-</div>
-</div>
+        <div class="control-group">
+            <label class="control-label" for="password">Password</label>
+            <div class="controls">
+                <input type="password" name="password" id="password" placeholder="Password">
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn">Login</button>
+            </div>
+        </div>
+        </form>
+    </div>
+         </div>
 </center>
 {%endblock%}
