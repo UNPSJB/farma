@@ -12,24 +12,13 @@ def get_order(get):
 def inicio(request):
     return render(request, "inicio.html")
 
-def altaFarmacia(request):
-	return render(request, "altaFarmacia.html")
+def altafarmacia(request):
+	return render(request, "altafarmacia.html")
 
 def altaMedicamento(request):
 	return render(request, "altaMedicamento.html")
 
-def pedidoLaboratorio(request):
-	return render(request, "pedidoLaboratorio.html")
-
-def recepcionPedidoLaboratorio(request):
-	return render(request, "recepcionPedidoLaboratorio.html")
-
-def pedidoDeFarmacia(request):
-	return render(request, "pedidoDeFarmacia.html")
-
-def pedidoDeClinica(request):
-	return render(request, "pedidoDeClinica.html")
-
+#<<<<<<< HEAD
 def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -42,3 +31,16 @@ def login_user(request):
                else:
                    return HttpResponse('inactive')
     return render(request, "login.html")
+#=======
+def pedidoLaboratorio(request):
+	return render(request, "pedidoLaboratorio.html")
+
+def recepcionPedidoLaboratorio(request):
+	return render(request, "recepcionPedidoLaboratorio.html")
+
+def pedidoDeFarmacia(request):
+	return render(request, "pedidoDeFarmacia.html")
+
+def pedidoDeClinica(request):
+	return render(request, "pedidoDeClinica.html")
+#>>>>>>> ba6d14ed57204d044b031850dc42ac5ed0571d97
