@@ -1,23 +1,26 @@
 {% load staticfiles bootstrap3 %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
-    <link href="{% static 'css/jquery-ui.css' %}" rel="stylesheet">
-
+    <link rel="stylesheet" href="{%  static 'css/base.css'  %}">
      {% block stylesheets %}{% endblock %}
      {% block title %}{% endblock %}
 </head>
 <body>
-<div class="container-fluid">
-    {% bootstrap_messages %}
-    {% block content %}{% endblock %}
-    <script src="{% static 'js/jquery.js' %}"></script>
-    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <div class="container-fluid">
+        {% bootstrap_messages %}
 
-    {% block scripts %}{% endblock %}
-</div>
+        {% include 'nav.html' %}
+        {% block content %}{% endblock %}
+        {% include 'footer.html' %}
+
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        {% block scripts %}{% endblock %}
+    </div>
 </body>
 </html>

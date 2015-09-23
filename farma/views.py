@@ -1,9 +1,8 @@
-from django.shortcuts import render
-from django.http import *
-from django.shortcuts import render_to_response,redirect
+from django.shortcuts import render, render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth import authenticate
+from django.http import *
+import datetime
 
 def get_order(get):
     if "o" in get:
@@ -18,17 +17,21 @@ def altaFarmacia(request):
 def altaMedicamento(request):
 	return render(request, "altaMedicamento.html")
 
-def pedidoLaboratorio(request):
-	return render(request, "pedidoLaboratorio.html")
+def pedidoALaboratorio(request):
+  fecha = datetime.datetime.now()
+  return render(request, "pedidoALaboratorio.html", {'fecha_pedido': fecha})
 
-def recepcionPedidoLaboratorio(request):
-	return render(request, "recepcionPedidoLaboratorio.html")
+def recepcionPedidoDeLaboratorio(request):
+  fecha = datetime.datetime.now()
+  return render(request, "recepcionPedidoDeLaboratorio.html", {'fecha_pedido': fecha})
 
 def pedidoDeFarmacia(request):
-	return render(request, "pedidoDeFarmacia.html")
+  fecha = datetime.datetime.now()
+  return render(request, "pedidoDeFarmacia.html",{'fecha_pedido': fecha})
 
 def pedidoDeClinica(request):
-	return render(request, "pedidoDeClinica.html")
+  fecha = datetime.datetime.now()
+  return render(request, "pedidoDeClinica.html",{'fecha_pedido': fecha})
 
 def login_user(request):
     if request.method == 'POST':

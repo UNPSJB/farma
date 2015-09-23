@@ -10,7 +10,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="{% url 'inicio' %}">
         <img alt="Brand" src="{% static 'images/logopequeno.png'%}">
       </a>
     </div>
@@ -24,8 +24,8 @@
             <li><a href="{% url 'pedidoDeFarmacia' %}">Registrar Pedido de Farmacia</a></li>
             <li><a href="{% url 'pedidoDeClinica' %}">Registrar Pedido de Clinica</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="{% url 'pedidoLaboratorio' %}">Realizar Pedido a Laboratorio</a></li>
-            <li><a href="{% url 'recepcionPedidoLaboratorio' %}">Registrar Recepcion de pedido de Laboratorio</a></li>
+            <li><a href="{% url 'pedidoALaboratorio' %}">Realizar Pedido a Laboratorio</a></li>
+            <li><a href="{% url 'recepcionPedidoDeLaboratorio' %}">Registrar Recepcion de pedido de Laboratorio</a></li>
           </ul>
         </li>
       </ul>

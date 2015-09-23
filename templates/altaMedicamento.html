@@ -1,19 +1,12 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block stylesheets %}
-	<link rel="stylesheet" href="{% static 'css/nav.css' %}">
-	<link  href="{% static 'css/footer.css' %}" rel="stylesheet" />
-{% endblock %}
-
 {% block title %}
 <title>Alta de Medicamento</title>
 {% endblock %}
 
 
 {% block content %}
-
-{% include 'nav.html' %}
 
 <div class="container">
 		<div class="page-header hidden-xs">
@@ -90,8 +83,6 @@
 
 	</form>
 </div>
-
-{% include 'footer.html'%}
 
 {% endblock %}
 

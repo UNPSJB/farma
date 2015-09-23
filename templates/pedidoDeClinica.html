@@ -1,287 +1,38 @@
-{% extends "base.html" %}
+{% extends "base-pedidos.html" %}
 {% load staticfiles %}
 
-{% block stylesheets %}
-	<link rel="stylesheet" href="{% static 'css/pedido.css' %}">
-{% endblock %}
-
 {% block title %}
-<title>Pedido De Clínica</title>
+	<title>Pedido De Clinica</title>
 {% endblock %}
 
+{% block panel-title-pedido %}
+	<h3 class="panel-title">Pedido de Clinica</h3> 
+{% endblock %}
 
-{% block content %}
-
-{% include 'nav.html' %}
-
-<div class="container">
-		<div class="page-header hidden-xs">
-			<h1>Pedido De Clínica</h1>
-		</div>
-		<div class="visible-xs">
-			<h2 class="">Pedido De Clínica</h2>
-			<hr>
-		</div>
-</div>
-
-<div class="container">
+{% block form-pedido %}
 	<form class="form-horizontal">
+		<div class="form-group">
+			<label class="control-label col-xs-12 col-md-2" for="inputClinica">Clínica:</label>
+			<div class="col-xs-12 col-md-10">
+				<input class="form-control" id="inputClinica" type="text" placeholder="Nombre de la Clínica" autofocus required />
+			</div>
+		</div> <!-- end form-group -->
 
 		<div class="form-group">
-			<label class="control-label col-md-offset-1 col-md-2" for="clinica">Clínica:</label>
-			<div class="col-md-7">
-				<input type="text" class="form-control " placeholder="Nombre de Clinica" autofocus required />
-
+			<label class="control-label col-xs-12 col-md-2" for="inputMedico">Médico :</label>
+			<div class="col-xs-12 col-md-10">
+				<input class="form-control" id="inputMedico" type="text" placeholder="Nombre del Médico Auditor" autofocus />
 			</div>
-			<button class="btn btn-warning hidden-xs hidden-sm" type="button" data-toggle="modal" data-target="#clinicas"><span class="sr-only">Seleccionar</span><span class="glyphicon glyphicon-plus"></button></span>				
-		</div>
-		
-		<div class="form-group">
-			<label class="control-label col-sm-offset-1 col-sm-2" for="medico-auditor">Médico auditor:</label>
-			<div class="col-sm-7">
-				<input class="form-control" id="medico" type="text" name="razon" placeholder="Nombre Médico Auditor" autofocus required />
-			</div>		
-		</div>
+		</div> <!-- end form-group -->
 
 		<div class="form-group">
-			<label class="control-label col-md-offset-1 col-md-2" for="obra-social">Obra Social:</label>
-			<div class="col-md-7">
-				<input type="text" class="form-control " placeholder="Obra Social" autofocus required />
+			<label class="control-label col-xs-12 col-md-2" for="inputObraSocial">Obra Social:</label>
+			<div class="col-xs-12 col-md-10">
+				<input class="form-control" id="inputObraSocial" type="text" placeholder="Nombre de la Obra Social" autofocus />
 			</div>
-			<button class="btn btn-warning hidden-xs hidden-sm" type="button" data-toggle="modal" data-target="#obras-sociales"><span class="sr-only">Seleccionar</span><span class="glyphicon glyphicon-plus"></button></span>				
-		</div>
+		</div> <!-- end form-group -->
 
-		<div class="form-group">
-				<label class="control-label col-sm-offset-1 col-sm-2 " for="detalles-pedido">Detalles del Pedido:</label>
-				<div class="col-sm-3">
-					<button class="btn btn-info" type="button" data-toggle="modal" data-target="#detalles-pedido"><span class="glyphicon glyphicon-list-alt"></span> Editar</button>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<div class="">
-					<button class="btn btn-warning col-xs-offset-1 col-xs-4  col-sm-offset-4 col-sm-2" type="reset"><span class="gliphicon glyphicon glyphicon-refresh"></span> Limpiar</button>
-
-					<button class="btn btn-primary col-xs-offset-1 col-xs-5 col-sm-2" type="submit"><span class="gliphicon glyphicon glyphicon-ok"></span> Registrar</button>
-				</div>
-			</div>
-
-			<div class="form-group pull-right">
-				<label class="control-label" for="remito">Remito:</label>
-				<button class="btn btn-danger" type="button"><span class="glyphicon glyphicon-print"></span> Imprimir</button>
-			</div>
-			<div class="clearfix"></div>
-			<div class="form-group pull-right">
-				<label class="control-label" for="guias-de-envio">Guías de Envío:</label>
-				<button class="btn btn-danger" type="button" ><span class="glyphicon glyphicon-print"></span> Imprimir</button>
-			</div>	
-	</form>
-</div>
-
-
-<!-- Modal clinicas -->
-<div class="modal fade" id="clinicas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Seleccionar Clínica</h4>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-        	<div class="row">
-				<div class="col-xs-6 ">
-					<table class="table table-hover table-condensed table-responsive">
-						<thead>
-							<tr class="info">
-								<th>#</th>
-								<th>Razon Social</th>
-					        	<th>Cuit</th>
-					        	<th>Dirección</th>
-					        </tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>1</td>
-								<td>Clínica #1</td>
-					        	<td>Cuit #1</td>
-					        	<td>Direccion #1</td>
-					        </tr>
-					        <tr>
-								<td>2</td>
-								<td>Clínica #2</td>
-					        	<td>Cuit #2</td>
-					        	<td>Direccion #2</td>
-					        </tr>
-					        <tr>
-								<td>3</td>
-								<td>Clínica #3</td>
-					        	<td>Cuit #3</td>
-					        	<td>Direccion #3</td>
-					        </tr>
-						</tbody>					        						  		
-					</table>
-				</div>
-        	</div>    	
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Seleccionar</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end Modal -->
-
-<!-- Modal obras-sociales -->
-<div class="modal fade" id="obras-sociales" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Seleccionar Obra Social</h4>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-        	<div class="row">
-				<div class="col-xs-6 col-lg-6">
-					<table class="table table-hover table-condensed table-responsive">
-						<thead>
-							<tr class="info">
-								<th>#</th>
-								<th>Razon Social</th>
-					        	<th>Cuit</th>
-					        	<th>Dirección</th>
-					        </tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>1</td>
-								<td>Obra Social #1</td>
-					        	<td>Cuit #1</td>
-					        	<td>Direccion #1</td>
-					        </tr>
-					        <tr>
-								<td>2</td>
-								<td>Obra Social #2</td>
-					        	<td>Cuit #2</td>
-					        	<td>Direccion #2</td>
-					        </tr>
-					        <tr>
-								<td>3</td>
-								<td>Obra Social #3</td>
-					        	<td>Cuit #3</td>
-					        	<td>Direccion #3</td>
-					        </tr>
-						</tbody>					        						  		
-					</table>
-				</div>
-        	</div>    	
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Seleccionar</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end Modal -->
-
-<!-- Modal detalles-pedido -->
-<div class="modal fade" id="detalles-pedido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Detalles del pedido</h4>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-        	<div class="row">
-				<div class=" col-xs-5 col-lg-5">
-					<table class="table table-hover table-condensed table-responsive">
-						<thead>
-							<tr class="info">
-								<th>#</th>
-								<th>Medicamento</th>
-					        	<th>Cantidad</th>
-					        </tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>1</td>
-								<td>Medicamento #1</td>
-					        	<td>Cantidad #1</td>
-					        </tr>
-					        <tr>
-								<td>2</td>
-								<td>Medicamento #2</td>
-					        	<td>Cantidad #2</td>
-					        </tr>
-					        <tr>
-								<td>3</td>
-								<td>Medicamento #3</td>
-					        	<td>Cantidad #3</td>
-					        </tr>
-						</tbody>					        						  		
-					</table>
-				</div>
-
-				<div class="col-xs-1 col-lg-1">
-					<button class="btn btn-success btn-xs" type="button" data-toggle="modal" data-target="#agregar-detalle"><span class="glyphicon glyphicon-plus"></span></button>
-					<button class="btn btn-danger btn-xs" type="button"><span class="glyphicon glyphicon-minus"></span></button>
-				</div>
-
-        	</div>    	
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end Modal-->
-
-<!-- Modal agregar-detalle -->
-<div class="modal fade" id="agregar-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Agregar Detalle</h4>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-        	<form class="form-horizontal">
-        		<div class="form-group">
-        			<label class="control-label col-xs-2 col-lg-2" for="medicamento">Medicamento: </label>
-        			<div class="col-xs-5 col-lg-4">
-        				<input type="text" class="form-control" placeholder="Nombre del medicamento" autofocus required />
-        			</div>
-        		</div>
-        		<div class="form-group">
-        			<label for="cantidad" class="control-label col-xs-2 col-lg-2">Cantidad: </label>
-        			<div class="col-xs-5 col-lg-4">
-        				<input type="text" class="form-control" placeholder="Cantidad" required />
-        			</div>
-        		</div>
-        	</form>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary">Agregar</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end Modal agregar-detalle -->
-
-{% include 'footer.html'%}
-
-{% endblock %}
+	</form> <!-- end form -->
+{% endblock %}				
+						
 
