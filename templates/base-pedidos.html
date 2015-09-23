@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{%  static 'css/pedidos.css'  %}">
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+
+{% block content %}
+
+	<!-- Cabezera del pedido -->
+	<div class="container panel-cabezera">
+		<div class="col-xs-12 col-md-offset-2 col-md-8">
+			<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div class="pull-left">
+							{% block panel-title-pedido %}
+							{% endblock %}
+						</div>
+						<button class="btn btn-warning btn-xs pull-right" type="button" data-toggle="modal" data-target="#printPedido"><span class="glyphicon glyphicon-print"></span></button>
+						<div class="clearfix"></div>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-8">
+								<img class="img-resonsive" src="{% static 'images/logo-pedido.jpg' %}" alt="Logo">
+							</div>
+							<div class="col-md-offset-1 col-md-3">
+								<p>Nº pedido: <span>#1{{ nro_pedido }}</span></p>
+								<br />
+								<p>Fecha: {{ fecha_pedido|date:"d/m/Y" }}</p>
+							</div>
+						</div> <!-- end row -->		
+						<div class="form-cabezera">
+							{% block form-pedido %}
+							{% endblock %}
+						</div>				
+					</div><!-- end panel-body -->
+					<!--<div class="panel-footer"></div>--> <!-- end panel-footer -->
+			</div><!-- end panel -->
+		</div><!-- end col-md ... -->
+	</div><!-- end container ...-->
+	<!-- end cabezera del pedido-->
+
+	<!-- Detalles del pedido -->
+	<div class="container panel-detalle">
+		<div class="col-xs-12 col-md-offset-2 col-md-8">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					{% block panel-heading-detalles %}
+						<h3 class="panel-title pull-left">Detalles del pedido</h3>							
+							<div class="btn-group btn-group-xs pull-right">
+								{% block panel-heading-detalles-more-buttons  %}
+								{% endblock %}
+								<button class="btn btn-success" type="button" data-toggle="modal" data-target="#add-detalle"><span class="glyphicon glyphicon-plus"></span></button>
+								<button class="btn btn-danger" type="button"><span class="glyphicon glyphicon-minus"></span></button>
+							</div>
+							<div class="clearfix"></div>
+						
+					{% endblock %}
+				</div>
+				<div class="panel-body">
+					{% block panel-body-detalles %}
+						<table class="table table-hover table-condensed table-responsive">
+							<thead>
+								<tr class="info">
+									<th>#</th>
+									<th>Medicamento</th>
+									<th>Cantidad</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>#1</td>
+									<td>Medicamento #1</td>
+									<td>Cantidad #1</td>
+								</tr>
+							</tbody>
+						</table><!-- end table -->
+					{% endblock %}
+				</div><!-- end panel-body -->
+				<div class="panel-footer">
+					<div class="pull-right">
+						<button class="btn btn-success" type="submit">Registrar</button>
+					</div>
+					<div class="clearfix"></div>
+				</div><!--- end panel-footer -->
+			</div><!-- end panel -->
+		</div><!-- end col-md ... -->
+	</div><!-- end container ... -->
+	<!-- end detalles del pedido -->
+	
+
+	
+	{% block modals-add-detalle %} 
+		<!-- Modal add-detalle -->
+		<div class="modal fade" id="add-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        		<h4 class="modal-title" id="myModalLabel">Agregar Detalle</h4>
+		      		</div>
+		      		<div class="modal-body">
+		      			{% block modal-body-add-detalle %}
+		      				<form class="form-horizontal">
+		      					<div class="form-group">
+		      						<label class="control-label col-md-3" for="inputMedicamento " >Medicamento:</label>
+		      						    <div class="col-md-9">
+		      						    	<input class="form-control" id="input-Medicamento" type="text" placeholder="Nombre del medicamento" autofocus required />
+		      						    </div>
+		      					</div>
+		      					<div class="form-group">
+		      						<label class="control-label col-md-3" for="inputCantidad">Cantidad:</label>
+		      						<div class="col-md-9">
+		      							<input class="form-control" id="inputCantidad" type="text" placeholder="Cantidad" required />
+		      						</div>
+		      					</div>
+		      				</form>
+		      			{% endblock %}
+		      		</div>
+		      		<div class="modal-footer">
+		        		<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		        		<button type="submit" class="btn btn-primary">Guardar</button>
+		      		</div>
+		    	</div><!-- modal-content -->
+		  	</div><!-- end modal-dialog -->
+		</div><!-- end modal ...-->
+		<!-- end modal add-detalle -->
+	{% endblock %}
+
+
+	{% block more-modals %} 
+	{% endblock %}
+
+{% endblock %}
+
