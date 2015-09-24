@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from . import views
 from medicamentos import views as mviews
-
+from organizaciones import views as oviews
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -31,4 +31,5 @@ urlpatterns = [
     url(r'^recepcionPedidoDeLaboratorio/$', views.recepcionPedidoDeLaboratorio, name="recepcionPedidoDeLaboratorio"),
     url(r'^pedidoDeFarmacia/$', views.pedidoDeFarmacia, name="pedidoDeFarmacia"),
     url(r'^pedidoDeClinica/$', views.pedidoDeClinica,name="pedidoDeClinica"),
+    url(r'^farmacias/$',oviews.farmacias, name="farmacias"),
 ]

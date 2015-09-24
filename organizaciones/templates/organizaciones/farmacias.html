@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block content %}
+
+<form method="GET" class="form-inline pull-right">
+    <div class="form-group">
+        <label for="razonSocial" >Buscar:</label>
+        <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder="Razon Social">
+    </div>
+</form>
+
+<button>Alta</button>
+<button>Baja</button>
+<button>Modificacion</button>
+
+
+
+<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+
+    <thead>
+
+        <tr>
+
+        <th>Razon Social </th>
+        <th>Dirección</th>
+        <th>Mail</th>
+        <th>Localidad</th>
+        <th>Nombre Encargado</th>
+        <th>Teléfono</th>
+        <th>Cuit</th>
+
+        </tr>
+
+        {% for farmacia in farmacias %}
+
+            <tr>
+            <td>{{farmacia.razonSocial}}</td>
+            <td>{{farmacia.direccion}}</td>
+            <td>{{farmacia.mail}}</td>
+            <td>{{farmacia.localidad}}</td>
+            <td>{{farmacia.nombreEncargado}}</td>
+            <td>{{farmacia.telefono}}</td>
+            <td>{{farmacia.cuit}}</td>
+            </tr>
+
+        {% endfor %}
+
+    </thead>
+
+</table>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(".filtro").change(function(e) {
+        $(this).closest("form").submit();
+    });
+    $(".clickeable").click(function(e) {
+        var t = $(this).closest("table");
+        $("tr", t).removeClass("active");
+        $(this).addClass("active");
+        var m = $(this).data("id");
+        console.log(m);
+    });
+</script>
+
+{% endblock %}
