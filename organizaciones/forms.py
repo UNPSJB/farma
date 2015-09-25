@@ -18,3 +18,11 @@ class ClinicaForm(forms.ModelForm):
     class Meta:
         model = models.Clinica
         fields = ["razonSocial", "direccion","mail","localidad","obraSocial","telefono","cuit"]
+
+class LaboratorioForm(forms.ModelForm):
+
+    razonSocial = forms.ModelChoiceField(queryset=models.Laboratorio.objects.all())
+
+    class Meta:
+        model = models.Laboratorio
+        fields = ["razonSocial", "direccion","mail","localidad","telefono","cuit"]

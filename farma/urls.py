@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.inicio, name="inicio"),
     url(r'^login', views.login_user, name="login"),
+    url(r'^logout', views.logout_user, name="logout"),
     url(r'^monodrogas/$', mviews.monodrogas, name="monodrogas"),
     url(r'^monodrogas/add/$', mviews.monodrogas, name="monodroga_add"),
     url(r'^altaMedicamento/$', views.altaMedicamento, name="altaMedicamento"),
@@ -32,4 +33,5 @@ urlpatterns = [
     url(r'^pedidoDeClinica/$', views.pedidoDeClinica,name="pedidoDeClinica"),
     url(r'^farmacias/$',oviews.farmacias, name="farmacias"),
     url(r'^clinicas/$',oviews.clinicas, name="clinicas"),
+    url(r'^laboratorios/$',oviews.laboratorios, name="laboratorios"),
 ]
