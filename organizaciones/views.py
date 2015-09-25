@@ -30,3 +30,22 @@ def farmacias(request):
         {"farmacias": farmacias,
          "filtros": filters,
          "form": form})
+
+def clinicas(request):
+    clinicas = None
+    filters = None
+    if request.method == "POST":
+        form = forms.ClinicaForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            form.save()
+            return redirect('clinicas')
+    else:
+        form = forms.ClinicaForm()
+        filters = get_filtros(request.GET, models.Clinica)
+        mfilters = dict(filter(lambda v: v[0] in models.Clinica.FILTROS, filters.items()))
+        farmacias = models.Clinica.objects.filter(**mfilters)
+    return render(request, "organizaciones/clinicas.html",
+        {"clinicas": clinicas,
+         "filtros": filters,
+         "form": form})

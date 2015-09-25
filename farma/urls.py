@@ -26,10 +26,10 @@ urlpatterns = [
     url(r'^monodrogas/$', mviews.monodrogas, name="monodrogas"),
     url(r'^monodrogas/add/$', mviews.monodrogas, name="monodroga_add"),
     url(r'^altaMedicamento/$', views.altaMedicamento, name="altaMedicamento"),
-    url(r'^altaFarmacia/$', views.altaFarmacia, name="altaFarmacia"),
     url(r'^pedidoALaboratorio/$', views.pedidoALaboratorio, name="pedidoALaboratorio"),
     url(r'^recepcionPedidoDeLaboratorio/$', views.recepcionPedidoDeLaboratorio, name="recepcionPedidoDeLaboratorio"),
     url(r'^pedidoDeFarmacia/$', views.pedidoDeFarmacia, name="pedidoDeFarmacia"),
     url(r'^pedidoDeClinica/$', views.pedidoDeClinica,name="pedidoDeClinica"),
     url(r'^farmacias/$',oviews.farmacias, name="farmacias"),
+    url(r'^clinicas/$',oviews.clinicas, name="clinicas"),
 ]

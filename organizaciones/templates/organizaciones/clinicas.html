@@ -11,7 +11,7 @@
     </div>
 </form>
 
-<button class="btn btn-success" type="button" data-toggle="modal" data-target="#add-farmacia"><span class="glyphicon glyphicon-plus"></span>  Alta</button>
+<button class="btn btn-success" type="button" data-toggle="modal" data-target="#add-clinica"><span class="glyphicon glyphicon-plus"></span>  Alta</button>
 <button class="btn btn-danger" type="button"><span class="glyphicon glyphicon-minus"></span>  Baja</button>
 <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-cog"></span>  Modificación</button>
 
@@ -24,7 +24,7 @@
         <th>Dirección</th>
         <th>Mail</th>
         <th>Localidad</th>
-        <th>Nombre Encargado</th>
+        <th>Obra Social</th>
         <th>Teléfono</th>
         <th>Cuit</th>
 
@@ -32,16 +32,16 @@
     </thead>
 
     <tbody>
-        {% for farmacia in farmacias %}
+        {% for clinica in clinicas %}
 
-            <tr class="clickeable" data-id="{{ farmacias.id }}">
-            <td>{{farmacia.razonSocial}}</td>
-            <td>{{farmacia.direccion}}</td>
-            <td>{{farmacia.mail}}</td>
-            <td>{{farmacia.localidad}}</td>
-            <td>{{farmacia.nombreEncargado}}</td>
-            <td>{{farmacia.telefono}}</td>
-            <td>{{farmacia.cuit}}</td>
+            <tr class="clickeable" data-id="{{ clinicas.id }}">
+            <td>{{clinica.razonSocial}}</td>
+            <td>{{clinica.direccion}}</td>
+            <td>{{clinica.mail}}</td>
+            <td>{{clinica.localidad}}</td>
+            <td>{{clinica.obraSocial}}</td>
+            <td>{{clinica.telefono}}</td>
+            <td>{{clinica.cuit}}</td>
             </tr>
 
         {% endfor %}
@@ -49,14 +49,14 @@
 
 </table>
 
-{% block modals-add-farmacia %}
-    <!-- Modal add-farmacia -->
-    <div class="modal fade" id="add-farmacia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+{% block modals-add-clinica %}
+    <!-- Modal add-clinica -->
+    <div class="modal fade" id="add-clinica" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Agregar Farmacia</h4>
+                    <h4 class="modal-title" id="myModalLabel">Agregar Clínica</h4>
                 </div>
                 <div class="modal-body">
                     {% block modal-body-add-detalle %}
@@ -90,9 +90,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-sm-offset-1 col-sm-2" for="encargado">Encargado:</label>
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="obraSocial">Obra Social:</label>
                                 <div class="col-sm-7">
-                                    <input class="form-control"id="encargado" type="text" name="encargado" placeholder="Nombre del encargado" />
+                                    <input class="form-control"id="obraSocial" type="text" name="obraSocial" placeholder="Obra Social" />
                                 </div>
                             </div>
 
@@ -140,6 +140,3 @@
 </script>
 
 {% endblock %}
-
-
-

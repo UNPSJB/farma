@@ -7,9 +7,14 @@ class FarmaciaForm(forms.ModelForm):
 
     razonSocial = forms.ModelChoiceField(queryset=models.Farmacia.objects.all())
 
-    #day = forms.DateField(initial=datetime.date.today)
-
     class Meta:
         model = models.Farmacia
         fields = ["razonSocial", "direccion","mail","localidad","nombreEncargado","telefono","cuit"]
 
+class ClinicaForm(forms.ModelForm):
+
+    razonSocial = forms.ModelChoiceField(queryset=models.Clinica.objects.all())
+
+    class Meta:
+        model = models.Clinica
+        fields = ["razonSocial", "direccion","mail","localidad","obraSocial","telefono","cuit"]

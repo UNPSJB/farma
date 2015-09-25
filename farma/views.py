@@ -11,9 +11,6 @@ def get_order(get):
 def inicio(request):
     return render(request, "inicio.html")
 
-def altaFarmacia(request):
-	return render(request, "altaFarmacia.html")
-
 def altaMedicamento(request):
 	return render(request, "altaMedicamento.html")
 
