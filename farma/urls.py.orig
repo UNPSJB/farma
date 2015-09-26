@@ -31,11 +31,15 @@ urlpatterns = [
     url(r'^recepcionPedidoDeLaboratorio/$', views.recepcionPedidoDeLaboratorio, name="recepcionPedidoDeLaboratorio"),
     url(r'^pedidoDeFarmacia/$', views.pedidoDeFarmacia, name="pedidoDeFarmacia"),
     url(r'^pedidoDeClinica/$', views.pedidoDeClinica,name="pedidoDeClinica"),
+<<<<<<< HEAD
+	url(r'^altaMonodroga/$', views.altaMonodroga,name="altaMonodroga"),
+=======
     url(r'^farmacias/$',oviews.farmacias, name="farmacias"),
-    url(r'^farmacias/add/$', oviews.farmacias, name="farmacia_add"),
     url(r'^clinicas/$',oviews.clinicas, name="clinicas"),
-    url(r'^clinicas/add/$', oviews.clinicas, name="clinica_add"),
     url(r'^laboratorios/$',oviews.laboratorios, name="laboratorios"),
+<<<<<<< HEAD
     url(r'^error404/$',views.error404, name="error404"),
-    url(r'^laboratorios/add/$', oviews.laboratorios, name="laboratorio_add"),
+=======
+>>>>>>> aff5a162af77f282496339c78602e6ebea1c992b
+>>>>>>> 121ec0e5a3ecba1d73c6e2d5026299e49bf7ea74
 ]

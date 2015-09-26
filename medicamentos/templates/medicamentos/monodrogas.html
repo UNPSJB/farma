@@ -17,9 +17,11 @@
         <tr><th>Nombre</th></tr>
     </thead>
     <tbody>
+		
         {% for monodroga in monodrogas %}
-        <tr class="clickeable" data-id="{{monodroga.id}}"><th>{{ monodroga }}</th></tr>
+			<tr class="clickeable" data-id="{{monodroga.id}}"><th>{{ monodroga }}</th></tr>
         {% endfor %}
+		
     </tbody>
 </table>
 
