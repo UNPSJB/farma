@@ -1,0 +1,44 @@
+{% extends "base-organizaciones.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	<title>Laboratorios</title>
+{% endblock %}
+
+{% block panel-title-organizacion %}
+    <h3 class="panel-title">Laboratorios</h3>
+{% endblock %}
+
+{% block add-button %}
+    <button class="btn btn-success btn-xs pull-right" type="button" data-toggle="modal" data-target="#add-laboratorio"><span class="glyphicon glyphicon-plus"></span>  Alta</button>
+{% endblock %}
+
+{% block grid %}
+    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+            <th>Razón Social </th>
+            <th>Dirección</th>
+            <th>Mail</th>
+            <th>Localidad</th>
+            <th>Teléfono</th>
+            <th>Cuit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for laboratorio in laboratorios %}
+
+                <tr class="clickeable" data-id="{{ laboratorios.id }}">
+                <td>{{laboratorio.razonSocial}}</td>
+                <td>{{laboratorio.direccion}}</td>
+                <td>{{laboratorio.mail}}</td>
+                <td>{{laboratorio.localidad}}</td>
+                <td>{{laboratorio.obraSocial}}</td>
+                <td>{{laboratorio.telefono}}</td>
+                <td>{{laboratorio.cuit}}</td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{% static 'css/organizaciones.css' %}">
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid panel-grid">
+		<div class="col-xs-12">
+			<div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        {% block panel-title-organizacion %}
+                        {% endblock %}
+                    </div>
+                    <button class="btn btn-warning btn-xs pull-right" type="button"><span class="glyphicon glyphicon-cog"></span>  Modificación</button>
+                    <button class="btn btn-danger btn-xs pull-right" type="button"><span class="glyphicon glyphicon-minus"></span>  Baja</button>
+                    {% block add-button %}
+                    {% endblock %}
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                    <form method="GET" class="form-inline pull-right">
+                        <div class="form-group">
+                            <label for="razonSocial" >Buscar:</label>
+                            <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social">
+                        </div>
+                    </form>
+                    {% block grid %}
+                    {% endblock %}
+                </div>
+			</div>
+		</div>
+	</div>
+
+    {% block modals-add %}
+        <!-- Modal add-farmacia -->
+        <div class="modal fade" id="add-farmacia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Agregar Farmacia</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="razon">Razon Social:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control" id="razon" type="text" name="razon" placeholder="Razón Social" autofocus required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="cuit">Cuit:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="cuit" type="text" name="cuit" placeholder="Cuit" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="direccion">Dirección:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="direccion" type="text" name="direccion" placeholder="Dirección" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="localidad">Localidad:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="localidad "type="text" name="localidad" placeholder="Localidad" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="encargado">Encargado:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="encargado" type="text" name="encargado" placeholder="Nombre del encargado" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="telefono">Teléfono:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="tel" type="tel" name="tel" placeholder="Teléfono" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="email">Email:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control" id="email" type="email" name="email" placeholder="Email" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </div><!-- modal-content -->
+            </div><!-- end modal-dialog -->
+        </div><!-- end modal ...-->
+        <!-- end modal add-farmacia -->
+
+        <!-- Modal add-clinica -->
+        <div class="modal fade" id="add-clinica" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Agregar Clínica</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="razon">Razon Social:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control" id="razon" type="text" name="razon" placeholder="Razón Social" autofocus required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="cuit">Cuit:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="cuit" type="text" name="cuit" placeholder="Cuit" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="direccion">Dirección:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="direccion" type="text" name="direccion" placeholder="Dirección" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="localidad">Localidad:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="localidad "type="text" name="localidad" placeholder="Localidad" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="obraSocial">Obra Social:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="obraSocial" type="text" name="obraSocial" placeholder="Obra Social" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="telefono">Teléfono:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="tel" type="tel" name="tel" placeholder="Teléfono" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="email">Email:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control" id="email" type="email" name="email" placeholder="Email" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </div><!-- modal-content -->
+            </div><!-- end modal-dialog -->
+        </div><!-- end modal ...-->
+        <!-- end modal add-clínica -->
+
+        <!-- Modal add-laboratorio -->
+        <div class="modal fade" id="add-laboratorio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Agregar Laboratorio</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="razon">Razon Social:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control" id="razon" type="text" name="razon" placeholder="Razón Social" autofocus required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="cuit">Cuit:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="cuit" type="text" name="cuit" placeholder="Cuit" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="direccion">Dirección:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="direccion" type="text" name="direccion" placeholder="Dirección" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="localidad">Localidad:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="localidad "type="text" name="localidad" placeholder="Localidad" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="telefono">Teléfono:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control"id="tel" type="tel" name="tel" placeholder="Teléfono" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-offset-1 col-sm-2" for="email">Email:</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control" id="email" type="email" name="email" placeholder="Email" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </div><!-- modal-content -->
+            </div><!-- end modal-dialog -->
+        </div><!-- end modal ...-->
+        <!-- end modal add-laboratorio -->
+
+    {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(".filtro").change(function(e) {
+            $(this).closest("form").submit();
+        });
+        $(".clickeable").click(function(e) {
+            var t = $(this).closest("table");
+            $("tr", t).removeClass("active");
+            $(this).addClass("active");
+            var m = $(this).data("id");
+            console.log(m);
+        });
+    </script>
+{% endblock %}

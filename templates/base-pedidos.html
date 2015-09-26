@@ -2,15 +2,13 @@
 {% load staticfiles %}
 
 {% block stylesheets %}
-	<link rel="stylesheet" href="{%  static 'css/pedidos.css'  %}">
+	<link rel="stylesheet" href="{% static 'css/pedidos.css' %}">
 {% endblock %}
 
 {% block title %}
 {% endblock %}
 
-
 {% block content %}
-
 	<!-- Cabezera del pedido -->
 	<div class="container panel-cabezera">
 		<div class="col-xs-12 col-md-offset-2 col-md-8">
@@ -92,9 +90,7 @@
 		</div><!-- end col-md ... -->
 	</div><!-- end container ... -->
 	<!-- end detalles del pedido -->
-	
 
-	
 	{% block modals-add-detalle %} 
 		<!-- Modal add-detalle -->
 		<div class="modal fade" id="add-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -131,7 +127,6 @@
 		</div><!-- end modal ...-->
 		<!-- end modal add-detalle -->
 	{% endblock %}
-
 
 	{% block more-modals %} 
 	{% endblock %}

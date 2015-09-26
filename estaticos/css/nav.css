@@ -3,10 +3,14 @@
   border-color: #d97424;
 }
 
+.navbar-default .navbar-text{
+    font-family: Garamond;
+    font-size: 1.5em;
+}
+
 .navbar .nav > li > a, .navbar .nav > li >
 .navbar .nav > li.current-menu-item > a,
 .navbar .nav > li.current-menu-ancestor > a {
-
 
 font-family:    Garamond;
 font-size:      1.5em;

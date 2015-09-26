@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load bootstrap3 %}
+
 {% block content %}
 
 <form method="GET" class="form-inline pull-right">
@@ -23,6 +24,7 @@
 		
     </tbody>
 </table>
+
 <form action="{% url 'monodroga_add' %}" method="POST">
     {% csrf_token %}
     {% bootstrap_form form %}

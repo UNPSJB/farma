@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'markupfield',
     'bootstrap3',
     'medicamentos',
+    'organizaciones',
 
 )
 

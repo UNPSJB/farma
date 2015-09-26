@@ -10,9 +10,11 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+
       <a class="navbar-brand" href="{% url 'inicio' %}">
         <img alt="Brand" src="{% static 'images/logopequeno.png'%}">
       </a>
+
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -33,14 +35,14 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Organizaciones <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Farmacias</a></li>
-            <li><a href="#">Laboratorios</a></li>
+            <li><a href="{% url 'farmacias' %}">Farmacias</a></li>
+            <li><a href="{% url 'laboratorios' %}">Laboratorios</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Obras Sociales</a></li>
-            <li><a href="#">Clinicas</a></li>
+            <li><a href="{% url 'clinicas' %}">Clinicas</a></li>
           </ul>
         
-        <li liass="dropdown">
+        <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Medicamentos <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="{% url 'altaMedicamento' %}">Dar de alta un Medicamento</a></li>
@@ -48,14 +50,9 @@
             <li><a href="#">Dar de baja un medicamento </a></li>
           </ul>
         </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuario <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Perfil</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="{% url 'login' %}">Salir</a></li>
-          </ul>
-        </li>
+
+        <p class="navbar-text"><a href="{% url 'logout' %}" class="navbar-link">Salir</a></p>
+
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
