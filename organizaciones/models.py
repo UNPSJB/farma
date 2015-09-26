@@ -27,6 +27,7 @@ class Clinica(models.Model):
         return self.razonSocial
 
 class Laboratorio(models.Model):
+
     FILTROS = ["razonSocial__icontains"]
     razonSocial = models.CharField(max_length=50)
     direccion = models.CharField(max_length=100)

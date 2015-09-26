@@ -5,7 +5,7 @@ import datetime
 
 class FarmaciaForm(forms.ModelForm):
 
-    razonSocial = forms.ModelChoiceField(queryset=models.Farmacia.objects.all())
+    #razonSocial = forms.ModelChoiceField(queryset=models.Farmacia.objects.all())
 
     class Meta:
         model = models.Farmacia
@@ -13,7 +13,8 @@ class FarmaciaForm(forms.ModelForm):
 
 class ClinicaForm(forms.ModelForm):
 
-    razonSocial = forms.ModelChoiceField(queryset=models.Clinica.objects.all())
+    #razonSocial = forms.ModelChoiceField(queryset=models.Clinica.objects.all())
+    #obraSocial = forms.ModelChoiceField(queryset=models..objects.all())
 
     class Meta:
         model = models.Clinica
@@ -21,8 +22,8 @@ class ClinicaForm(forms.ModelForm):
 
 class LaboratorioForm(forms.ModelForm):
 
-    razonSocial = forms.ModelChoiceField(queryset=models.Laboratorio.objects.all())
+    #razonSocial = forms.ModelChoiceField(queryset=models.Laboratorio.objects.all())
 
     class Meta:
         model = models.Laboratorio
-        fields = ["razonSocial", "direccion","mail","localidad","telefono","cuit"]
+        fields = ["razonSocial", "cuit","direccion","localidad","telefono","mail"]

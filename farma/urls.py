@@ -32,6 +32,9 @@ urlpatterns = [
     url(r'^pedidoDeFarmacia/$', views.pedidoDeFarmacia, name="pedidoDeFarmacia"),
     url(r'^pedidoDeClinica/$', views.pedidoDeClinica,name="pedidoDeClinica"),
     url(r'^farmacias/$',oviews.farmacias, name="farmacias"),
+    url(r'^farmacias/add/$', oviews.farmacias, name="farmacia_add"),
     url(r'^clinicas/$',oviews.clinicas, name="clinicas"),
+    url(r'^clinicas/add/$', oviews.clinicas, name="clinica_add"),
     url(r'^laboratorios/$',oviews.laboratorios, name="laboratorios"),
+    url(r'^laboratorios/add/$', oviews.laboratorios, name="laboratorio_add"),
 ]

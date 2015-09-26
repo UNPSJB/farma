@@ -59,11 +59,15 @@ def laboratorios(request):
     laboratorios = None
     filters = None
     if request.method == "POST":
+
         form = forms.LaboratorioForm(request.POST)
+
         if form.is_valid():
             print(form.cleaned_data)
             form.save()
             return redirect('laboratorios')
+        else:
+            print("holass")
     else:
         form = forms.LaboratorioForm()
         filters = get_filtros(request.GET, models.Laboratorio)
