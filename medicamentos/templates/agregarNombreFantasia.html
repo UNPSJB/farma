@@ -1,0 +1,75 @@
+				
+<form class="form-horizontal"></form>	
+
+<p align="center">				
+<div class="form-group">
+	<div class="col-xs-4 col-xs-offset-1">
+
+		<div class="container">
+			<button class="btn btn-default" data-toggle="modal" data-target="#agregarNombreFantasia">Agregar Nombre de Fantasia</button>
+		</div>
+
+		<div class="modal fade" id="agregarNombreFantasia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			
+				<div class="modal-content">
+						 
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>				
+					</div>
+						  
+					<form id="nombreFform" method="post" class="form-horizontal">	
+						{% csrf_token %}
+						<!--INICIO MODAL-->
+						<div class="doc-demo">		
+							<div class="tab-content">
+								<div class="tab-pane active" id="combobox-form-tab">
+						
+									<style type="text/css">
+											/* Adjust feedback icon position */
+											#nombreFform .selectContainer .form-control-feedback,
+											#nombreFform .inputGroupContainer .form-control-feedback {right: -15px;}
+									</style>
+																				
+									<form id="nombreFform" method="post" class="form-horizontal">
+																							
+										<div class="form-group">
+											<label class="col-xs-3 control-label">Nombre</label>
+											<div class="col-xs-5 selectContainer">
+												<select class="form-control" name="nombreF">
+													<option value="">Seleccione nombre</option>
+													<option>ibupirac</option>
+													<option>actron</option>
+													<option>ibu400</option>
+													<option>mejoralito</option>
+													<option>refrianex</option>
+													<option>curaplus</option>
+													<option>amoxidal</option>
+													<option>ibuevanol</option>
+												</select>
+											</div>
+										</div>																										
+																																		
+										<div class="form-group">
+											<div class="col-xs-5 col-xs-offset-3">
+												<button type="submit" class="btn btn-default">AGREGAR</button>
+											</div>													
+										</div>												
+										<table class="table">
+
+										</table>												
+									</form>
+								</div>
+							</div>
+						</div>
+						<!--FIN MODAL-->																	
+					</form>										  
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>		
+					</div>		  
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	
