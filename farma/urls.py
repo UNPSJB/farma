@@ -34,4 +34,5 @@ urlpatterns = [
     url(r'^farmacias/$',oviews.farmacias, name="farmacias"),
     url(r'^clinicas/$',oviews.clinicas, name="clinicas"),
     url(r'^laboratorios/$',oviews.laboratorios, name="laboratorios"),
+    url(r'^error404/$',views.error404, name="error404"),
 ]

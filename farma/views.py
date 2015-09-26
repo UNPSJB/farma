@@ -53,3 +53,10 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+
+
+def error404(request):
+      return HttpResponseNotFound('<h1>ERROR 404 : Page not found</h1>')
+
+
