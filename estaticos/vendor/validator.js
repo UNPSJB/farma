@@ -15,9 +15,11 @@ $(document).ready(
 							
 							monodroga: {
 								validators: {
+									
 									notEmpty: {
 										message: 'La Monodroga es Requerida'
 									}
+									
 								}
 							},
 							dosis: {
@@ -25,6 +27,7 @@ $(document).ready(
 									notEmpty: {
 										message: 'La dosis es Requerida'
 									}
+									
 								}
 							},
 							umedida: {
@@ -32,9 +35,10 @@ $(document).ready(
 									notEmpty: {
 										message: 'La unidad de medida es Requerida'
 									}
+									
 								}
+								
 							},
-							
 						}
 					})
 					// Using Bootbox for color and monodroga select elements
@@ -99,7 +103,12 @@ $(document).ready(
 								validators: {
 									notEmpty: {
 										message: 'El nombre es Requerida'
-									}
+									},
+									stringLength: {
+														min: 2,
+														max: 50,
+														message: 'The descripcion must be more than 50 and less than 1000 characters'
+													}
 								}
 							},
 							
