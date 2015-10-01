@@ -13,3 +13,20 @@ class MonodrogaForm(forms.ModelForm):
     class Meta:
         model = models.Monodroga
         fields = ["unidad", "nombre"]
+
+
+class NombreFantasiaForm(forms.ModelForm):
+
+    #razonSocial = forms.ModelChoiceField(queryset=models.Laboratorio.objects.all())
+
+    class Meta:
+        model = models.NombreFantasia
+        fields = ["nombre"]
+
+class PresentacionForm(forms.ModelForm):
+
+    #razonSocial = forms.ModelChoiceField(queryset=models.Laboratorio.objects.all())
+
+    class Meta:
+        model = models.Presentacion
+        fields = ["descripcion" , "unidadMedida", "cantidad"]

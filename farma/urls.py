@@ -38,4 +38,9 @@ urlpatterns = [
     url(r'^laboratorios/$',oviews.laboratorios, name="laboratorios"),
     url(r'^error404/$',views.error404, name="error404"),
     url(r'^laboratorios/add/$', oviews.laboratorios, name="laboratorio_add"),
+    url(r'^nombresFantasia/$', mviews.nombresFantasia, name="nombresFantasia"),
+    url(r'^nombresFantasia_add/$', mviews.nombresFantasia, name="nombresFantasia_add"),
+    url(r'^Presentacion/$', mviews.presentacion, name="presentacion"),
+    url(r'^Presentacion_add/$', mviews.presentacion, name="presentacion_add"),
+
 ]

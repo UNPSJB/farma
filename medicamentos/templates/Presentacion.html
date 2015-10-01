@@ -1,0 +1,39 @@
+{% extends "base-atributos.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	<title>Forma de Presentacion</title>
+{% endblock %}
+
+{% block panel-title-organizacion %}
+    <h3 class="panel-title">Formas de Presentacion</h3>
+{% endblock %}
+
+{% block add-button %}
+    <button class="btn btn-success btn-xs pull-right" type="button" data-toggle="modal" data-target="#add-presentacion"><span class="glyphicon glyphicon-plus"></span>  Alta</button>
+{% endblock %}
+
+{% block grid %}
+    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+            <th>Descripcion</th>
+            <th>Cantidad</th>
+            <th>Unidad de Medida</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for presentacion in presentaciones %}
+
+                <tr class="clickeable" data-id="{{ presentaciones.id }}">
+                <td>{{presentacion.descripcion}}</td>
+                <td>{{presentacion.cantidad}}</td>
+                <td>{{presentacion.unidadMedida}}</td>
+               
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from . import models
 from . import forms
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def get_filtros(get, modelo):
@@ -28,5 +30,48 @@ def monodrogas(request):
         monodrogas = models.Monodroga.objects.filter(**mfilters)
     return render(request, "medicamentos/monodrogas.html",
         {"monodrogas": monodrogas,
+         "filtros": filters,
+         "form": form})
+
+
+
+@login_required(login_url='login')
+def nombresFantasia(request):
+    nombresFantasia = None
+    filters = None
+    if request.method == "POST":
+        form = forms.NombreFantasiaForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            form.save()
+            return redirect('nombresFantasia')
+    else:
+        form = forms.NombreFantasiaForm()
+        filters = get_filtros(request.GET, models.NombreFantasia)
+        mfilters = dict(filter(lambda v: v[0] in models.NombreFantasia.FILTROS, filters.items()))
+        nombresFantasia = models.NombreFantasia.objects.filter(**mfilters)
+    return render(request, "NombreFantasia.html",
+        {"nombresFantasia": nombresFantasia,
+         "filtros": filters,
+         "form": form})
+
+
+@login_required(login_url='login')
+def presentacion(request):
+    presentaciones = None
+    filters = None
+    if request.method == "POST":
+        form = forms.PresentacionForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            form.save()
+            return redirect('presentacion')
+    else:
+        form = forms.PresentacionForm()
+        filters = get_filtros(request.GET, models.Presentacion)
+        mfilters = dict(filter(lambda v: v[0] in models.Presentacion.FILTROS, filters.items()))
+        presentaciones = models.Presentacion.objects.filter(**mfilters)
+    return render(request, "Presentacion.html",
+        {"presentaciones": presentaciones,
          "filtros": filters,
          "form": form})
