@@ -163,5 +163,27 @@
 	{% block more-modals %} 
 	{% endblock %}
 
+	{% block scripts %}
+		<script>
+			$(".clickeable").click(function(e) {
+				var t = $(this).closest("table");
+				$("tr", t).removeClass("active");
+				$(this).addClass("active");
+				var m = $(this).data("id");
+				console.log(m);
+				e.stopPropagation();
+			});
+			$(document).keyup(function(e){
+				if(e.keyCode == 27){
+					$("tr").removeClass("active");
+				}
+			});
+			$(document).on("click", function(e){
+				$("tr").removeClass("active");
+				console.log("click en documento");
+			});
+		</script>
+	{% endblock %}
+
 {% endblock %}
 

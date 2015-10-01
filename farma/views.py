@@ -36,7 +36,18 @@ def pedidoDeFarmacia(request):
 def pedidoDeClinica(request):
   fecha = datetime.datetime.now()
   return render(request, "pedidoDeClinica.html",{'fecha_pedido': fecha})
-  
+
+@login_required(login_url='login')
+def devolucionMedicamentosVencidos(request):
+  fecha = datetime.datetime.now()
+  return render(request, "pedidoDeClinica.html",{'fecha_pedido': fecha})
+
+@login_required(login_url='login')
+def recepcionReemplazoMedicamentos(request):
+  fecha = datetime.datetime.now()
+  return render(request, "pedidoDeClinica.html",{'fecha_pedido': fecha})
+
+@login_required(login_url='login')
 def altaMonodroga(request):
   return render(request, "altaMonodroga.html")  
 
@@ -56,8 +67,6 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('login')
-
-
 
 def error404(request):
       return HttpResponseNotFound('<h1>ERROR 404 : Page not found</h1>')
