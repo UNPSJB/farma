@@ -1,2 +1,7 @@
 @import url("nav.css");
 @import url("footer.css");
+
+.contenedor-carousel{
+	padding-left: 0px;
+    padding-right: 0px;
+}

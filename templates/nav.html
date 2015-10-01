@@ -27,7 +27,10 @@
             <li><a href="{% url 'pedidoDeClinica' %}">Registrar Pedido de Clinica</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="{% url 'pedidoALaboratorio' %}">Realizar Pedido a Laboratorio</a></li>
-            <li><a href="{% url 'recepcionPedidoDeLaboratorio' %}">Registrar Recepcion de pedido de Laboratorio</a></li>
+            <li><a href="{% url 'recepcionPedidoDeLaboratorio' %}">Registrar Recepcion de Pedido de Laboratorio</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="{% url 'devolucionMedicamentosVencidos' %}">Registrar Devolución de Medicamentos Vencidos</a></li>
+            <li><a href="{% url 'recepcionReemplazoMedicamentos' %}">Registrar Recepción de Medicamentos para Reemplazar Vencidos</a></li>
           </ul>
         </li>
       </ul>
@@ -56,7 +59,7 @@
           </ul>
         </li>
 
-        <p class="navbar-text"><a href="{% url 'logout' %}" class="navbar-link">Salir</a></p>
+        <li><a href="{% url 'logout' %}" class="navbar-link">Salir</a></li>
 
       </ul>
     </div><!-- /.navbar-collapse -->
