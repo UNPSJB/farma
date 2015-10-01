@@ -1,0 +1,30 @@
+
+Model field				Form field
+
+AutoField				Not represented in the form
+BigIntegerField				IntegerField with min_value set to -9223372036854775808 and max_value set to 9223372036854775807.
+BooleanField				BooleanField
+CharField				CharField with max_length set to the model field's max_length
+CommaSeparatedIntegerField		CharField
+DateField				DateField
+DateTimeField				DateTimeField
+DecimalField				DecimalField
+EmailField				EmailField
+FileField				FileField
+FilePathField				CharField
+FloatField				FloatField
+ForeignKey				ModelChoiceField (see below)
+ImageField				ImageField
+IntegerField				IntegerField
+IPAddressField				IPAddressField
+GenericIPAddressField			GenericIPAddressField
+ManyToManyField				ModelMultipleChoiceField (see below)
+NullBooleanField			CharField
+PhoneNumberField			USPhoneNumberField (from django.contrib.localflavor.us)
+PositiveIntegerField			IntegerField
+PositiveSmallIntegerField		IntegerField
+SlugField				SlugField
+SmallIntegerField			IntegerField
+TextField				CharField with widget=forms.Textarea
+TimeField				TimeField
+URLField				URLField
