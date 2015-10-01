@@ -21,8 +21,8 @@
                         {% endblock %}
                     </div>
 
-                    <button class="btn btn-warning btn-xs pull-right" type="button"><span class="glyphicon glyphicon-cog"></span>  Modificación</button>
-                    <button class="btn btn-danger btn-xs pull-right" type="button"><span class="glyphicon glyphicon-minus"></span>  Baja</button>
+                    <button class="btn btn-warning btn-xs pull-right hidden" id="modificar" type="button"><span class="glyphicon glyphicon-cog"></span>  Modificación</button>
+                    <button class="btn btn-danger btn-xs pull-right hidden" id="baja" type="button"><span class="glyphicon glyphicon-minus"></span>  Baja</button>
                     {% block add-button %}
                     {% endblock %}
                     <div class="clearfix"></div>
@@ -263,8 +263,24 @@
             var t = $(this).closest("table");
             $("tr", t).removeClass("active");
             $(this).addClass("active");
+            $("#modificar").removeClass("hidden");
+            $("#baja").removeClass("hidden");
             var m = $(this).data("id");
             console.log(m);
+            e.stopPropagation();
+        });
+        $(document).keyup(function(e){
+            if(e.keyCode == 27){
+                $("tr").removeClass("active");
+                $("#modificar").addClass("hidden");
+                $("#baja").addClass("hidden");
+            }
+        });
+        $(document).on("click", function(e){
+            $("tr").removeClass("active");
+            $("#modificar").addClass("hidden");
+            $("#baja").addClass("hidden");
+            console.log("click en documento");
         });
     </script>
 {% endblock %}
