@@ -3,7 +3,7 @@ $(document).ready(function() {
 	    //registrar pedido
 	    $("#registrar-pedido").click(function(event) {
 	        $("#inputLaboratorio").prop('disabled', false);
-	        btn = $("#boton-abm");
+	        var btn = $("#boton-abm");
 	        if (btn.hasClass("btn-warning"))
 	            btn.removeClass("btn-warning");
 	        else {
@@ -24,7 +24,7 @@ $(document).ready(function() {
 	    //modificar pedido
 	    $("#modificar-pedido").click(function(event) {
 	        $("#inputLaboratorio").prop('disabled', true);
-	        btn = $("#boton-abm");
+	        var btn = $("#boton-abm");
 	        if (btn.hasClass("btn-success"))
 	            btn.removeClass("btn-success");
 	        else {
@@ -45,7 +45,7 @@ $(document).ready(function() {
 	    //eliminar pedido
 	    $("#eliminar-pedido").click(function(event) {
 	        $("#inputLaboratorio").prop('disabled', true);
-	        btn = $("#boton-abm");
+	        var btn = $("#boton-abm");
 	        if (btn.hasClass("btn-success"))
 	            btn.removeClass("btn-success");
 	        else {

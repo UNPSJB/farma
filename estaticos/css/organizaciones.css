@@ -17,3 +17,7 @@ label{
 button, input, optgroup, select, textarea{
     margin: 2px;
 }
+
+tbody tr{
+	cursor: pointer;
+}

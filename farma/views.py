@@ -40,12 +40,12 @@ def pedidoDeClinica(request):
 @login_required(login_url='login')
 def devolucionMedicamentosVencidos(request):
   fecha = datetime.datetime.now()
-  return render(request, "pedidoDeClinica.html",{'fecha_pedido': fecha})
+  return render(request, "devolucionMedicamentosVencidos.html",{'fecha_pedido': fecha})
 
 @login_required(login_url='login')
 def recepcionReemplazoMedicamentos(request):
   fecha = datetime.datetime.now()
-  return render(request, "pedidoDeClinica.html",{'fecha_pedido': fecha})
+  return render(request, "recepcionReemplazoMedicamentos.html",{'fecha_pedido': fecha})
 
 @login_required(login_url='login')
 def altaMonodroga(request):

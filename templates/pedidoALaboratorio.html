@@ -147,7 +147,7 @@
 	      						<div class="panel-body">
 	      							<table class="table table-responsive table-hover">
 	      								<thead>
-	      									<tr>
+	      									<tr class="clickeable">
 	      										<th>#</th>
 	      										<th>Medicamento</th>
 	      										<th>Cantidad</th>
@@ -189,7 +189,7 @@
 	      					</tr>
 	      				</thead>
 	      				<tbody>
-	      					<tr>
+	      					<tr class="clickeable">
 	      						<td>1234</td>
 	      						<td>Farmacia Shopping</td>
 	      						<td>22-09-2015</td>
@@ -270,6 +270,6 @@
 
 
 
-{% block scripts %}
+{% block more-scripts%}
 <script type="text/javascript" src="{% static 'js/pedidos.js' %}"></script>
 {% endblock %}

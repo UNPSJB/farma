@@ -1,12 +1,9 @@
 {% extends "base-pedidos.html" %}
-{% load staticfiles %}
 
-{% block title %}
-	<title>Recepción de Pedido de Laboratorio</title>
-{% endblock %}
+{% block title %} <title>Recepción de medicamentos para reemplazar por vencidos</title> {% endblock %}
 
-{% block panel-title-pedido %}
-	<h3 class="panel-title">Pedido de Laboratorio</h3> 
+{% block panel-title-pedido %} 
+	<h3 class="panel-title">Recepción de medicamentos para reemplazar por vencidos</h3> 
 {% endblock %}
 
 {% block form-pedido %}
@@ -14,26 +11,26 @@
 		<div class="form-group">
 			<label class="control-label col-xs-12 col-md-3" for="inputLaboratorio">Laboratorio:</label>
 			<div class="col-xs-12 col-md-9">
-				<input class="form-control" name="inputLaboratorio" type="text" placeholder="Nombre del Laboratorio" autofocus required />
+				<input type="text" class="form-control" name="inputLaboratorio" placeholder="Nombre del Laboratorio" autofocus required />
 			</div>
-		</div> <!-- end form-group -->
+		</div>
 
 		<div class="form-group">
-			<label class="control-label col-xs-12 col-md-3" for="inputNroPedido">Nº de pedido:</label>
+			<label class="control-label col-xs-12 col-md-3" for="inputNroRemitoMedicamentosVencidos">Nº de remito origen:</label>
 			<div class="col-xs-10 col-md-8">
-				<input class="form-control" name="inputNroPedido" type="text" placeholder="Número de Pedido" autofocus required />
+				<input type="text" class="form-control" name="inputNroRemitoMedicamentosVencidos" placeholder="Nº de remito de medicamentos vencidos"required />
 			</div>
-			<button class="btn btn-info" type="button" data-toggle="modal" data-target="#search-pedidos-pendientes-laboratorio"><span class="glyphicon glyphicon-search"></span></button>
-		</div> <!-- end form-group -->
+			<button class="btn btn-info" type="button" data-toggle="modal" data-target="#search-remitos-medicamentos-vencidos"><span class="glyphicon glyphicon-search"></span></button>
+		</div>
 
 		<div class="form-group">
-			<label class="control-label col-xs-12 col-md-3" for="inputNroRemito">Nº de Remito:</label>
+			<label class="control-label col-xs-12 col-md-3" for="inputNroRemitoRecibido">Nº de remito recibido:</label>
 			<div class="col-xs-12 col-md-9">
-				<input class="form-control" name="inputNroRemito" type="text" placeholder="Número de Remito" autofocus required />
+				<input type="text" class="form-control" name="inputNroRemitoRecibido" placeholder="Nº de remito recibido" autofocus required />
 			</div>
-		</div> <!-- end form-group -->
-	</form> <!-- end form -->
-{% endblock %}	
+		</div>
+	</form>
+{% endblock %}
 
 {% block panel-body-detalles %}
 	<table class="table table-hover table-responsive">
@@ -59,7 +56,7 @@
 	    <div class="form-group">
 	        <label class="control-label col-md-3" for="inputMedicamento " >Medicamento:</label>
 	        <div class="col-md-9">
-	            <input class="form-control" name="inputMedicamento" type="text" placeholder="Código de Barras del medicamento" autofocus required />
+	            <input class="form-control" name="inputMedicamento" type="text" placeholder="Código de barras del medicamento" autofocus required />
 	        </div>
 	    </div>
 	    <div class="form-group">
@@ -75,22 +72,24 @@
 		    </div>
 		</div>
 	</form>
-{% endblock %}		
+{% endblock %}
+
 
 {% block more-modals %}
-	<!-- Modal search-pedidos-pendientes-laboratorio -->
-		<div class="modal fade" id="search-pedidos-pendientes-laboratorio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<!-- Modal search-remitos-medicamentos-vencidos -->
+		<div class="modal fade" id="search-remitos-medicamentos-vencidos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
 		    	<div class="modal-content">
 		      		<div class="modal-header">
 		        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        		<h4 class="modal-title" id="myModalLabel">Pedidos pendientes del Laboratorio</h4>
+		        		<h4 class="modal-title" id="myModalLabel">Remitos de medicamentos vencidos
+						pendientes del laboratorio</h4>
 		      		</div>
 		      		<div class="modal-body">
 		      			<table class="table table-responsive table-hover">
 		      				<thead>
 		      					<tr class="info">
-		      						<th>Nº de Pedido</th>
+		      						<th>Nº de Remito</th>
 		      						<th>Fecha</th>
 		      					</tr>
 		      				</thead>

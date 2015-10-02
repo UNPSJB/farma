@@ -28,13 +28,14 @@
 							<div class="col-md-8">
 								<img class="img-resonsive" src="{% static 'images/logo-pedido.jpg' %}" alt="Logo">
 							</div>
-							<div class="col-md-offset-1 col-md-3">
+							<div class="col-xs-12 col-md-offset-1 col-md-3">
 								{% block panel-body-pedido-datos %}
 									<p>Nº pedido: <span>#1{{ nro_pedido }}</span></p>
 									<br />
-									<p>Fecha: {{ fecha_pedido|date:"d/m/Y" }}</p>
+									<p>{{ fecha_pedido|date:"d/m/Y" }}</p>
 								{% endblock %}
 							</div>
+							<div class="clearfix"></div>
 						</div> <!-- end row -->		
 						<div class="form-cabezera">
 							{% block form-pedido %}
@@ -65,17 +66,15 @@
 				</div>
 				<div class="panel-body">
 					{% block panel-body-detalles %}
-						<table class="table table-hover table-condensed table-responsive">
+						<table class="table table-condensed table-responsive" >
 							<thead>
-								<tr class="info">
-									<th>Código de Barras</th>
+								<tr class="info" align="center">
 									<th>Medicamento</th>
 									<th>Cantidad</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>Código #1</td>
+								<tr class="clickeable">
 									<td>Medicamento #1</td>
 									<td>Cantidad #1</td>
 								</tr>
@@ -164,13 +163,10 @@
 	{% endblock %}
 
 	{% block scripts %}
+		<script src="{% static 'js/utils.js' %}"></script>
 		<script>
 			$(".clickeable").click(function(e) {
-				var t = $(this).closest("table");
-				$("tr", t).removeClass("active");
-				$(this).addClass("active");
-				var m = $(this).data("id");
-				console.log(m);
+				select_row_table(this);
 				e.stopPropagation();
 			});
 			$(document).keyup(function(e){
@@ -180,9 +176,11 @@
 			});
 			$(document).on("click", function(e){
 				$("tr").removeClass("active");
-				console.log("click en documento");
 			});
 		</script>
+
+		{% block more-scripts%}{% endblock %}
+
 	{% endblock %}
 
 {% endblock %}
