@@ -21,7 +21,7 @@ class NombreFantasiaForm(forms.ModelForm):
 
     class Meta:
         model = models.NombreFantasia
-        fields = ["nombre"]
+        fields = ["nombreF"]
 
 class PresentacionForm(forms.ModelForm):
 
