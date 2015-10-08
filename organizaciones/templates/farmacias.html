@@ -26,7 +26,7 @@
         <tbody>
             {% for farmacia in farmacias %}
 
-                <tr class="clickeable" data-id="{{ farmacias.id }}">
+                <tr class="clickeable" data-id="{{ farmacia.id }}">
                 <td>{{farmacia.razonSocial}}</td>
                 <td>{{farmacia.direccion}}</td>
                 <td>{{farmacia.mail}}</td>
@@ -42,7 +42,7 @@
 {% endblock %}
 
 {% block modal-alta-title %}
-    <h4 class="modal-title" id="myModalLabel">Agregar Farmacia</h4>
+    <h4 class="modal-title">Agregar Farmacia</h4>
 {% endblock %}
 
 {% block modal-alta-body %}
@@ -90,6 +90,17 @@
                 <input class="form-control" id="email" type="email" name="mail" placeholder="Email" />
             </div>
         </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
     </form>
 {% endblock %}
 
+{% block modal-baja-title %}
+    <h4 class="modal-title">Eliminar Farmacia </h4>
+{% endblock %}
+
+{% block modal-baja-texto %}
+    <p> La farmacia seleccionada se eliminara permanentemente ¿Esta seguro?</p>
+{% endblock %}

@@ -10,8 +10,6 @@
 {% endblock %}
 
 {% block content %}
-    {{ form.errors }}
-    {{ form.non_field_errors }}
 
     <div class="container-fluid panel-grid">
         <div class="col-xs-12">
@@ -52,10 +50,6 @@
                 <div class="modal-body">
                     {% block modal-alta-body %}{% endblock %}
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
             </div>
             <!-- modal-content -->
         </div>
@@ -68,6 +62,27 @@
     {% endblock %}
 
     {% block modal-baja %}
+    <!-- Modal modal-baja -->
+    <div class="modal fade" id="modal-baja" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {% block modal-baja-title %}{% endblock %}
+                </div>
+                <div class="modal-body">
+                    {% block modal-baja-texto %}{% endblock %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <a {% block href-baja %}{% endblock %} class="btn btn-primary">Confirmar</a>
+                </div>
+            </div>
+            <!-- modal-content -->
+        </div>
+        <!-- end modal-dialog -->
+    </div>
+    <!-- end modal ...-->
     {% endblock %}
 
 {% endblock %}

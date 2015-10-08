@@ -25,7 +25,7 @@
         <tbody>
             {% for laboratorio in laboratorios %}
 
-                <tr class="clickeable" data-id="{{ laboratorios.id }}">
+                <tr class="clickeable" data-id="{{ laboratorio.id }}">
                 <td>{{laboratorio.razonSocial}}</td>
                 <td>{{laboratorio.direccion}}</td>
                 <td>{{laboratorio.mail}}</td>
@@ -81,6 +81,10 @@
             <div class="col-sm-7">
                 <input class="form-control" id="mail" type="email" name="mail" placeholder="Email" />
             </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
     </form>
 {% endblock %}

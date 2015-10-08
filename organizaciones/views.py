@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from . import models
 from . import forms
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -16,8 +15,15 @@ def get_filtros(get, modelo):
 
 @login_required(login_url='login')
 def farmacias(request):
-    farmacias = None
-    filters = None
+    filters = get_filtros(request.GET, models.Farmacia)
+    mfilters = dict(filter(lambda v: v[0] in models.Farmacia.FILTROS, filters.items()))
+    farmacias = models.Farmacia.objects.filter(**mfilters)
+    return render(request, "farmacias.html",
+         {"farmacias": farmacias,
+         "filtros": filters})
+
+@login_required(login_url='login')
+def farmacias_add(request):
     if request.method == "POST":
         form = forms.FarmaciaForm(request.POST)
         if form.is_valid():
@@ -26,13 +32,14 @@ def farmacias(request):
             return redirect('farmacias')
     else:
         form = forms.FarmaciaForm()
-        filters = get_filtros(request.GET, models.Farmacia)
-        mfilters = dict(filter(lambda v: v[0] in models.Farmacia.FILTROS, filters.items()))
-        farmacias = models.Farmacia.objects.filter(**mfilters)
     return render(request, "farmacias.html",
-        {"farmacias": farmacias,
-         "filtros": filters,
-         "form": form})
+        {"form": form})
+
+@login_required(login_url='login')
+def farmacias_delete(request, id):
+    farmacia = models.Farmacia.objects.get(pk = id)
+    farmacia.delete()
+    return redirect('farmacias')
 
 @login_required(login_url='login')
 def clinicas(request):

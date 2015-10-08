@@ -25,7 +25,7 @@
         <tbody>
             {% for clinica in clinicas %}
 
-                <tr class="clickeable" data-id="{{ clinicas.id }}">
+                <tr class="clickeable" data-id="{{ clinica.id }}">
                 <td>{{clinica.razonSocial}}</td>
                 <td>{{clinica.direccion}}</td>
                 <td>{{clinica.mail}}</td>
@@ -88,6 +88,10 @@
             <div class="col-sm-7">
                 <input class="form-control" id="email" type="email" name="mail" placeholder="Email" />
             </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
     </form>
 
