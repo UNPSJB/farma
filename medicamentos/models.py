@@ -16,6 +16,9 @@ class Medicamento(models.Model):
 
 
 
+
+
+
 class Presentacion(models.Model):
     FILTROS = ["descripcion__icontains"]
     descripcion = models.TextField()
@@ -49,7 +52,7 @@ class Dosis(models.Model):
     cantidad = models.IntegerField()
 
     def __str__(self):
-        return "%d - %s" % (self.cantidad, self.unidadMedida)
+        return "%s - %s" % (self.cantidad, self.unidad)
 
 class NombreFantasia(models.Model):
     FILTROS = ["nombreF__icontains"]
