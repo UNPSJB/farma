@@ -88,3 +88,17 @@
         </div>
     </form>
 {% endblock %}
+
+{% block modal-baja-title %}
+    <h4 class="modal-title">Eliminar Laboratorio </h4>
+{% endblock %}
+
+{% block modal-baja-texto %}
+    <p> El laboratorio seleccionada se eliminara permanentemente ¿Esta seguro?</p>
+{% endblock %}
+
+{% block more-scripts %}
+    $("#baja").click(function(e) {
+        bajaOrganizacion("/laboratorios/delete/", id)
+    });
+{% endblock %}

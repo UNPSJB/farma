@@ -87,12 +87,26 @@
         <div class="form-group">
             <label class="control-label col-sm-offset-1 col-sm-2" for="email">Email:</label>
             <div class="col-sm-7">
-                <input class="form-control" id="email" type="email" name="mail" placeholder="Email" />
+                <input class="form-control" id="email" type="email" name="email" placeholder="Email" />
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block modal-modificar-title %}
+    <h4 class="modal-title">Modificar Farmacia</h4>
+{% endblock %}
+
+{% block modal-modificar-body %}
+    <form method="POST" class="form-horizontal">
+        {{ form.as_p }}
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <a class="btn btn-primary guardar">Guardar</a>
         </div>
     </form>
 {% endblock %}
@@ -103,4 +117,10 @@
 
 {% block modal-baja-texto %}
     <p> La farmacia seleccionada se eliminara permanentemente ¿Esta seguro?</p>
+{% endblock %}
+
+{% block more-scripts %}
+    $("#baja").click(function(e) {
+        bajaOrganizacion("/farmacias/delete/", id);
+    });
 {% endblock %}

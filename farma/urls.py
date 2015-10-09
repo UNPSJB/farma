@@ -50,7 +50,6 @@ urlpatterns = [
     
     
     # ****** CLINICAS ******
-
     url(r'^clinicas/$',oviews.clinicas, name="clinicas"),
     url(r'^clinicas/add/$', oviews.clinica_add, name="clinica_add"),
     url(r'^clinicas/modify/(?P<pk>\d+)/$', oviews.clinicas, name="clinica_modify"),
