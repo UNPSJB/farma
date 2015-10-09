@@ -15,12 +15,12 @@
         <thead>
             <tr>
             <th>Razón Social </th>
-            <th>Dirección</th>
-            <th>Mail</th>
+            <th>Cuit</th>
             <th>Localidad</th>
+            <th>Dirección</th>        
             <th>Nombre Encargado</th>
             <th>Teléfono</th>
-            <th>Cuit</th>
+            <th>Email</th>
             </tr>
         </thead>
         <tbody>
@@ -28,12 +28,12 @@
 
                 <tr class="clickeable" data-id="{{ farmacia.id }}">
                 <td>{{farmacia.razonSocial}}</td>
-                <td>{{farmacia.direccion}}</td>
-                <td>{{farmacia.mail}}</td>
+                <td>{{farmacia.cuit}}</td>
                 <td>{{farmacia.localidad}}</td>
+                <td>{{farmacia.direccion}}</td>               
                 <td>{{farmacia.nombreEncargado}}</td>
                 <td>{{farmacia.telefono}}</td>
-                <td>{{farmacia.cuit}}</td>
+                <td>{{farmacia.email}}</td>
                 </tr>
 
             {% endfor %}

@@ -1,7 +1,7 @@
 __author__ = 'fedde'
 from django import forms
 from . import models
-import datetime
+from django.utils.translation import ugettext_lazy as _
 
 class FarmaciaForm(forms.ModelForm):
 
@@ -9,7 +9,16 @@ class FarmaciaForm(forms.ModelForm):
 
     class Meta:
         model = models.Farmacia
-        fields = ["razonSocial", "direccion","mail","localidad","nombreEncargado","telefono","cuit"]
+        fields = ["razonSocial","cuit","localidad", "direccion","nombreEncargado","telefono","email"]
+        labels = {
+            'razonSocial': _('Razón Social'),
+            'cuit': _('Cuit'),
+            'localidad': _('Localidad'),
+            'direccion': _('Dirección'),
+            'nombreEncargado': _('Nombre del encargado'),
+            'telefono': _('Teléfono'),
+            'email': _('Email'),
+        }
 
 class ClinicaForm(forms.ModelForm):
 
@@ -18,7 +27,16 @@ class ClinicaForm(forms.ModelForm):
 
     class Meta:
         model = models.Clinica
-        fields = ["razonSocial", "direccion","mail","localidad","obraSocial","telefono","cuit"]
+        fields = ["razonSocial","cuit","localidad", "direccion","obraSocial","telefono","email"]
+        labels = {
+            'razonSocial': _('Razón Social'),
+            'cuit': _('Cuit'),
+            'localidad': _('Localidad'),
+            'direccion': _('Dirección'),
+            'obraSocial': _('Obra Social'),
+            'telefono': _('Teléfono'),
+            'email': _('Email'),
+        }
 
 class LaboratorioForm(forms.ModelForm):
 
@@ -26,4 +44,12 @@ class LaboratorioForm(forms.ModelForm):
 
     class Meta:
         model = models.Laboratorio
-        fields = ["razonSocial", "cuit","direccion","localidad","telefono","mail"]
+        fields = ["razonSocial", "cuit","localidad","direccion","telefono","email"]
+        labels = {
+            'razonSocial': _('Razón Social'),
+            'cuit': _('Cuit'),
+            'localidad': _('Localidad'),
+            'direccion': _('Dirección'),
+            'telefono': _('Teléfono'),
+            'email': _('Email'),
+        }
