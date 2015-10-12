@@ -10,6 +10,7 @@ function select_row_table(row){
 	$(row).addClass("active");
 	var m = $(row).data("id");
 	console.log(m);
+	return m;
 }
 
 /*
@@ -40,4 +41,14 @@ function add_remove_class(targets, name_class, is_add){
 		else
 			$(targets[i]).removeClass(name_class);
 	}
+}
+
+function bajaOrganizacion(url, id){
+	if (id) {
+                var urlFinal = url + id + "/";
+                var $modal = $("#modal-baja");
+                var $confirmar = $(".confirmar", $modal);
+                $modal.modal("show");
+                $confirmar.attr("href", urlFinal);
+            }
 }

@@ -65,6 +65,6 @@ def logout_user(request):
     return redirect('login')
 
 def error404(request):
-      return HttpResponseNotFound('<h1>ERROR 404 : Page not found</h1>')
+      return HttpResponseNotFound('<h1>ERROR 404 : Pagina en construccion</h1>')
 
 
