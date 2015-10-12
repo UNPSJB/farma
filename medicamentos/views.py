@@ -33,7 +33,24 @@ def monodrogas(request):
          "filtros": filters,
          "form": form})
 
-
+@login_required(login_url='login')
+def altaMedicamento(request):
+    dosis_formset = forms.DosisFormSet()
+    medicamento_form = forms.MedicamentoForm()
+    if request.method == 'POST':
+        medicamento_form = forms.MedicamentoForm(request.POST)
+        dosis_formset = forms.DosisFormSet(request.POST)
+        if medicamento_form.is_valid() and dosis_formset.is_valid():
+            medicamento = medicamento_form.save()
+            for dosis_form in dosis_formset:
+                dosis = dosis_form.save(commit=False)
+                dosis.medicamento = medicamento
+                dosis.save()
+            redirect("altaMedicamento")
+    return render(request, "altaMedicamento.html", {
+        "medicamento_form": medicamento_form,
+        "dosis_formset": dosis_formset,
+    })
 
 @login_required(login_url='login')
 def nombresFantasia(request):

@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'markupfield',
     'bootstrap3',
+    'selectable',
     'medicamentos',
     'organizaciones',
 

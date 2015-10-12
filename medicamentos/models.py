@@ -7,16 +7,13 @@ class Medicamento(models.Model):
     formulas = models.ManyToManyField('Monodroga', through='Dosis')
     nombreFantasia = models.ForeignKey('NombreFantasia')
     presentacion = models.ForeignKey('Presentacion')
-    codigoBarras = models.CharField(max_length=15)
-    stockMinimo = models.IntegerField()
+    codigoBarras = models.CharField("Codigo de barras", max_length=15)
+    stockMinimo = models.IntegerField("Stock minimo de reposicion",
+                                      help_text="Este es el stock minimo en el cual el sistema alertara de que es necesario realizar un pedido")
     precio = models.FloatField()
 
     def __str__(self):
         return self.codigoBarras
-
-
-
-
 
 
 class Presentacion(models.Model):
@@ -26,7 +23,7 @@ class Presentacion(models.Model):
     unidadMedida = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.descripcion
+        return "%s - %s %s" % (self.descripcion, self.cantidad, self.unidadMedida)
 
 class Formula(models.Model):
     monodroga = models.ForeignKey('Monodroga',on_delete = models.CASCADE)
@@ -52,7 +49,7 @@ class Dosis(models.Model):
     cantidad = models.IntegerField()
 
     def __str__(self):
-        return "%s - %s" % (self.cantidad, self.unidad)
+        return "%s - %s" % (self.cantidad, self.get_unidad_display())
 
 class NombreFantasia(models.Model):
     FILTROS = ["nombreF__icontains"]

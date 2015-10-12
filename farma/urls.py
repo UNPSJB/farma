@@ -21,12 +21,13 @@ from organizaciones import views as oviews
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^selectable/', include('selectable.urls')),
     url(r'^$', views.inicio, name="inicio"),
     url(r'^login', views.login_user, name="login"),
     url(r'^logout', views.logout_user, name="logout"),
     url(r'^monodrogas/$', mviews.monodrogas, name="monodrogas"),
     url(r'^monodrogas/add/$', mviews.monodrogas, name="monodroga_add"),
-    url(r'^altaMedicamento/$', views.altaMedicamento, name="altaMedicamento"),
+    url(r'^altaMedicamento/$', mviews.altaMedicamento, name="altaMedicamento"),
     url(r'^pedidoALaboratorio/$', views.pedidoALaboratorio, name="pedidoALaboratorio"),
     url(r'^recepcionPedidoDeLaboratorio/$', views.recepcionPedidoDeLaboratorio, name="recepcionPedidoDeLaboratorio"),
     url(r'^pedidoDeFarmacia/$', views.pedidoDeFarmacia, name="pedidoDeFarmacia"),

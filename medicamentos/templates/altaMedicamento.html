@@ -1,16 +1,13 @@
-
-{% load staticfiles %}
+{% load staticfiles bootstrap3 %}
 
 {% block stylesheets %}
 
 	<meta charset="UTF-8" />
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
+	<link rel="stylesheet" href="{%  static 'css/custom-theme/jquery-ui-1.10.3.custom.css'  %}">
     <link rel="stylesheet" href="{%  static 'css/base.css'  %}">
-
-	<script src="{% static 'js/jquery.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-		
+    {{ dosis_formset.media.css }}
 {% endblock %}
 
 {% include 'nav.html' %}
@@ -23,93 +20,35 @@
 {% block content %}
 
 <div class="container">
-		<div class="page-header hidden-xs">
+		<div class="page-header">
 			<h1>Alta de Medicamento</h1>
 		</div>
-		<div class="visible-xs header-xs">
-			<h2 class="">Alta de Medicamento</h2>
-			<hr>
-		</div>
-</div>
-	
-	<form class="form-horizontal">
-		
-		<div class="container">
-		
-			<div class="form-group">
-				<label class="col-xs-3 control-label">Laboratorio</label>
-					<div class="col-xs-5 selectContainer">
-						<select class="form-control" name="laboratorio">
-							
-							<option value="">Seleccione Laboratorio</option>
-							<option>VADEMECUM</option>
-							<option>BAYER</option>
-							<option>BAGO</option>
-							<option>ARISTON</option>
-						</select>
-					</div>
-			</div>
-		
-		
-			<div class="form-group">
-				<label class="control-label col-sm-offset-1 col-sm-2" for="codigo">Codigo de barras:</label>
-				<div class="col-sm-7">
-					<input class="form-control" id="codBarra" type="text" name="codigo" placeholder="Codigo de barras" autofocus required />
-				</div>		
-			</div>
-			
-			<div class="form-group">
-				<label class="control-label col-sm-offset-1 col-sm-2" for="stock">Stock Minimo:</label>
-				<div class="col-sm-7">
-					<input class="form-control"id="stock" type="text" name="stock" placeholder="Stock Minimo" required />
-				</div>
-			</div>
+	{{ medicamento_form.errors }}
+	{{ medicamento_form.non_field_errors }}
+	<form class="form-horizontal" method="post">
+		{% csrf_token %}
+		{% bootstrap_form medicamento_form %}
+		<label class="col-xs-3 control-label">Formula</label>
+		{{ dosis_form.errors }}
+		{{ dosis_form.non_field_errors }}
+		{% bootstrap_formset dosis_formset layout='inline' %}
 
-			<div class="form-group">
-				<label class="control-label col-sm-offset-1 col-sm-2" for="precio">Precio:</label>
-				<div class="col-sm-7">
-					<input class="form-control"id="precio" type="text" name="precio" placeholder="Precio" required />
-				</div>
-			</div>
-				
-				<form class="form-horizontal">
-																	
-					<div class="form-group">
-							
-							
-							<label class="col-xs-3 control-label">Monodroga: </label>
-								{% include 'agregarMonodrogas.html' %}
-						
-							
-							<label class="col-xs-3 control-label">Presentacion: </label>	
-								{% include 'agregarPresentacion.html' %}
-						
-						
-							<label class="col-xs-3 control-label">Nombre de Fantasia: </label>	
-								{% include 'agregarNombreFantasia.html' %}
-					</div>
-				</form>
-				
-			
-			<div class="form-group">
-				<div class="">
-					<button class="btn btn-warning col-xs-offset-1 col-xs-4  col-sm-offset-4 col-sm-2" type="reset"><span class="gliphicon glyphicon glyphicon-refresh"></span> Limpiar</button>
-
-					<button class="btn btn-primary col-xs-offset-1 col-xs-5 col-sm-2" type="submit"><span class="gliphicon glyphicon glyphicon-ok"></span> Confirmar</button>
-				</div>	
-			</div>
-		</div>	
+		{% buttons %}
+			<button type="button" class="btn btn-primary">
+				{% bootstrap_icon "refresh" %} Limpiar
+			</button>
+			<button type="submit" class="btn btn-primary">
+				{% bootstrap_icon "ok" %} Guardar
+			</button>
+		{% endbuttons %}
 	</form>
-	
-	
+</div>
 
 {% block scripts %}
-	<script src="{% static 'ajax/jquery.min.js' %}"></script>	
-	<script src="{% static 'vendor/formvalidation/js/formValidation.min.js' %}"></script>
-	<script src="{% static 'vendor/formvalidation/js/framework/bootstrap.min.js' %}"></script>	
-	<script src="{% static 'vendor/bootstrap-combobox/js/bootstrap-combobox.js' %}"></script>		
-	<script src="{% static 'vendor/validatorMonodroga.js' %}"></script>
-	<script src="{% static 'vendor/validator.js' %}"></script>
+	<script src="{% static 'js/jquery.js' %}"></script>
+	<script src="{% static 'js/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+	{{ dosis_formset.media.js }}
 {% endblock %}		
 			
 {% endblock %}
