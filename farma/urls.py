@@ -30,7 +30,8 @@ urlpatterns = [
     url(r'^monodrogas/$', mviews.monodrogas, name="monodrogas"),
     url(r'^monodrogas/add/$', mviews.monodrogas, name="monodroga_add"),
     url(r'^altaMedicamento/$', mviews.altaMedicamento, name="altaMedicamento"),
-    url(r'^altaMedicamento/$', views.altaMedicamento, name="altaMedicamento"),
+    #
+    # url(r'^altaMedicamento/$', views.altaMedicamento, name="altaMedicamento"),
     url(r'^nombresFantasia/$', mviews.nombresFantasia, name="nombresFantasia"),
     url(r'^nombresFantasia_add/$', mviews.nombresFantasia, name="nombresFantasia_add"),
     url(r'^Presentacion/$', mviews.presentacion, name="presentacion"),
