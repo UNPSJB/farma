@@ -46,4 +46,4 @@ class DosisForm(forms.ModelForm):
             'monodroga': selectable.AutoCompleteSelectWidget(lookup_class=lookups.MonodrogaLookup),
         }
 
-DosisFormSet = formset_factory(DosisForm, extra=2)
+DosisFormSet = formset_factory(DosisForm)
