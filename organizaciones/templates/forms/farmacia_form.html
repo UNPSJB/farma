@@ -1,0 +1,6 @@
+{% load bootstrap3 %}
+
+<form method="POST" action="{% url 'farmacia_add' %}" class="form-horizontal">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+</form>

@@ -9,7 +9,6 @@
     <h3 class="panel-title">Farmacias</h3>
 {% endblock %}
 
-
 {% block grid %}
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
@@ -41,75 +40,7 @@
     </table>
 {% endblock %}
 
-{% block modal-alta-title %}
-    <h4 class="modal-title">Agregar Farmacia</h4>
-{% endblock %}
-
-{% block modal-alta-body %}
-    <form  action="{% url 'farmacia_add' %}" method="POST" class="form-horizontal">
-        {% csrf_token %}
-        <div class="form-group">
-            <label class="control-label col-sm-offset-1 col-sm-2" for="razon">Razon Social:</label>
-            <div class="col-sm-7">
-                <input class="form-control" id="razon" type="text" name="razonSocial" placeholder="Razón Social" autofocus required />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-offset-1 col-sm-2" for="cuit">Cuit:</label>
-            <div class="col-sm-7">
-                <input class="form-control"id="cuit" type="text" name="cuit" placeholder="Cuit" required />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-offset-1 col-sm-2" for="direccion">Dirección:</label>
-            <div class="col-sm-7">
-                <input class="form-control"id="direccion" type="text" name="direccion" placeholder="Dirección" required />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-offset-1 col-sm-2" for="localidad">Localidad:</label>
-            <div class="col-sm-7">
-                <input class="form-control"id="localidad "type="text" name="localidad" placeholder="Localidad" required />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-offset-1 col-sm-2" for="encargado">Encargado:</label>
-            <div class="col-sm-7">
-                <input class="form-control"id="encargado" type="text" name="nombreEncargado" placeholder="Nombre del encargado" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-offset-1 col-sm-2" for="telefono">Teléfono:</label>
-            <div class="col-sm-7">
-                <input class="form-control"id="tel" type="tel" name="telefono" placeholder="Teléfono" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-offset-1 col-sm-2" for="email">Email:</label>
-            <div class="col-sm-7">
-                <input class="form-control" id="email" type="email" name="email" placeholder="Email" />
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-        </div>
-    </form>
-{% endblock %}
-
-{% block modal-modificar-title %}
-    <h4 class="modal-title">Modificar Farmacia</h4>
-{% endblock %}
-
-{% block modal-modificar-body %}
-    <form method="POST" class="form-horizontal">
-        {{ form.as_p }}
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <a class="btn btn-primary guardar">Guardar</a>
-        </div>
-    </form>
-{% endblock %}
+{% block url-add %}{% url 'farmacia_add' %}{% endblock %}
 
 {% block modal-baja-title %}
     <h4 class="modal-title">Eliminar Farmacia </h4>

@@ -23,11 +23,14 @@ def farmacias(request):
 
 @login_required(login_url='login')
 def farmacia_add(request):
-    form = forms.FarmaciaForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('farmacias')
-    return render(request, "farmacias.html", {"form": form})
+    if request.method == "POST":
+        form = forms.FarmaciaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('farmacias')
+    else:
+        form = forms.FarmaciaForm()
+    return render(request, "farmaciaAdd.html", {"form": form})
 
 @login_required(login_url='login')
 def farmacia_modify(request, pk):
