@@ -19,18 +19,14 @@
                         {% block panel-title-organizacion %}
                         {% endblock %}
                     </div>
-                    <div class="btn-group btn-group-xs pull-right">
-                        <a class="btn btn-success" href="{% block url-add %} {% endblock %}" id="alta"><span class="glyphicon glyphicon-plus"></span>  Alta</a>
-                        <a class="btn btn-warning hidden" id="modificar"><span class="glyphicon glyphicon-pencil"></span>  Modificación</a>
-                        <a class="btn btn-danger hidden" id="baja"><span class="glyphicon glyphicon-minus"></span>  Baja</a>
-                    </div>
+                    <button class="btn btn-danger btn-xs pull-right hidden" id="baja" type="button"><span class="glyphicon glyphicon-minus"></span>Baja</button>
                     <div class="clearfix"></div>
                 </div>
                 <div class="panel-body">
                     <form method="GET" class="form-inline pull-right">
                         <div class="form-group">
-                            <label for="razonSocial" >Buscar:</label>
-                            <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social">
+                            <label for="codigoBarras" >Buscar:</label>
+                            <input class="filtro" id="codigoBarras" name="codigoBarras" value="{{filtros.codigoBarras}}" placeholder=" Codigo de Barras">
                         </div>
                     </form>
                     {% block grid %}
@@ -39,7 +35,6 @@
             </div>
         </div>
     </div>
-
 
     {% block modal-baja %}
     <!-- Modal modal-baja -->
@@ -71,19 +66,30 @@
     <script src="{% static 'js/utils.js' %}"></script>
     <script>
     $(function() {
+        var id;
         $(".filtro").change(function(e) {
             $(this).closest("form").submit();
         });
 
         $(".clickeable").click(function(e) {
-            select_row_table(this);
-            ocultarElementos(["#modificar", "#baja"], false);
+            id = select_row_table(this);
+            hidden_show(["#modificar", "#baja"], false);
             e.stopPropagation();
+        });
+
+        $("#modificar").click(function(e) {
+            if (id) {
+                var url = "/farmacias/modify/" + id + "/";
+                var $modal = $("#modal-modificar");
+                var $guardar = $(".guardar", $modal);
+                $modal.modal("show");
+                $guardar.attr("href", url);
+            }
         });
 
         function limpiar(e) {
             $("tr").removeClass("active");
-            ocultarElementos(["#modificar", "#baja"], true);
+            hidden_show(["#modificar", "#baja"], true);
             id = null;
         }
 
@@ -94,9 +100,9 @@
         });
 
         $(document).on("click", limpiar);
-        
+        {% block more-scripts %}{% endblock %}
     });
     </script>
-    {% block more-scripts %}{% endblock %}
+
 {% endblock %}
 

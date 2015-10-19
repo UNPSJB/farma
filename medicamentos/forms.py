@@ -3,6 +3,7 @@ from django.utils.safestring import mark_safe
 from django.forms import widgets
 from django.conf import settings
 
+
 from django import forms
 from . import models
 from . import lookups
@@ -81,12 +82,7 @@ class MedicamentoForm(forms.ModelForm):
 
     )
 
-    nombreFantasia = forms.ModelChoiceField(
-       required=True,
-       queryset=models.NombreFantasia.objects.all(),
-       widget=RelatedFieldWidgetCanAdd(models.NombreFantasia, related_url="nombresFantasia")
 
-    )
 
     class Meta:
         model = models.Medicamento
@@ -100,5 +96,4 @@ class DosisForm(forms.ModelForm):
             'monodroga': selectable.AutoCompleteSelectWidget(lookup_class=lookups.MonodrogaLookup),
         }
 
-DosisFormSet = formset_factory(DosisForm)
-
+DosisFormSet = formset_factory(DosisForm, extra=1,can_order=True,can_delete=True,max_num=1,validate_max=True,min_num=1,validate_min=True)

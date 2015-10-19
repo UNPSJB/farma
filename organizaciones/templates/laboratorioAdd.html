@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}<title>Alta Laboratorio</title>{% endblock %}
+
+{% block content %}
+	<div style="margin: 30px 20px 40px 20px;">
+		<div class="container">
+			<div class="col-xs-12 col-md-offset-1 col-md-10">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Alta de Laboratorio</h3>
+					</div>
+					<div class="panel-body">
+						<form class="form-horizontal my-form" action="{% url 'laboratorio_add'%}" method="POST" > {% csrf_token %}
+							{% include "forms/form_snippet.html" %}
+						</form>
+					</div>
+					<div class="panel-footer">
+						<button id="btn-guardar" class="btn btn-primary pull-right">Guardar</button>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<nav>
+			<ul class="pager">
+				<li class="previous pull-right">
+					<a href="{% url 'laboratorios' %}"><span aria-hidden="true">&larr;</span> Volver</a>
+		    	</li>
+		    </ul>
+		</nav>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+	$(document).ready(function(){
+		$("label").addClass("control-label");
+		//$("label").addClass("col-sm-offset-1");
+		$("label").addClass("col-sm-3");
+		$("input").addClass("form-control");
+
+		$("#btn-guardar").click(function(e){
+			var form = $(".my-form");
+			form.submit();
+		})
+	});
+	</script>
+{% endblock %}

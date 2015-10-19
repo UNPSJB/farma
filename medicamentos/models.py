@@ -4,6 +4,7 @@ from django.db import models
 # Create your models here.
 
 class Medicamento(models.Model):
+    FILTROS = ["codigoBarras__icontains"]
     formulas = models.ManyToManyField('Monodroga', through='Dosis')
     nombreFantasia = models.ForeignKey('NombreFantasia', help_text="Este es el Nombre Comercial del medicamento")
     presentacion = models.ForeignKey('Presentacion', help_text="Esta es la forma en la que se encuentra comercialmente el Medicamento")
@@ -26,8 +27,8 @@ class Presentacion(models.Model):
         return "%s - %s %s" % (self.descripcion, self.cantidad, self.unidadMedida)
 
 class Formula(models.Model):
-    monodroga = models.ForeignKey('Monodroga',on_delete = models.CASCADE)
-    dosis = models.ForeignKey('Dosis',on_delete = models.CASCADE)
+    monodroga = models.ForeignKey('Monodroga')
+    dosis = models.ForeignKey('Dosis') #on_delete = modelds.CASCADE
 
 
 class Monodroga(models.Model):

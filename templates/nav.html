@@ -41,7 +41,7 @@
             <li><a href="{% url 'farmacias' %}">Farmacias</a></li>
             <li><a href="{% url 'laboratorios' %}">Laboratorios</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="{% url 'error404' %}">Obras Sociales</a></li>
+            <li><a href="{% url 'paginaEnConstruccion' %}">Obras Sociales</a></li>
             <li><a href="{% url 'clinicas' %}">Clinicas</a></li>
           </ul>
         
@@ -50,7 +50,7 @@
           <ul class="dropdown-menu">
             <li><a href="{% url 'altaMedicamento' %}">Dar de alta un Medicamento</a></li>
             <li><a href="#">Modificar el Stock Minimo o el Precio de un medicamento</a></li>
-            <li><a href="#">Dar de baja un medicamento </a></li>
+            <li><a href="{% url 'medicamentos' %}">Dar de baja un medicamento </a></li>
             <li role="separator" class="divider"></li>
             <li><a href="{% url 'monodrogas' %}">ABM monodrogas</a></li>
             <li><a href="{% url 'presentacion' %}">ABM Presentaciones</a></li>
