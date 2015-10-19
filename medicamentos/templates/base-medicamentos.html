@@ -73,7 +73,7 @@
 
         $(".clickeable").click(function(e) {
             id = select_row_table(this);
-            hidden_show(["#modificar", "#baja"], false);
+            ocultarElementos(["#modificar", "#baja"], false);
             e.stopPropagation();
         });
 
@@ -89,7 +89,7 @@
 
         function limpiar(e) {
             $("tr").removeClass("active");
-            hidden_show(["#modificar", "#baja"], true);
+            ocultarElementos(["#modificar", "#baja"], true);
             id = null;
         }
 
