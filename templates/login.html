@@ -1,0 +1,52 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/signin.css'%}">
+    <title>Iniciar Sesión</title>
+</head>
+<body>
+    <div class="container-fluid">
+            <div class="panel panel-default panel-signin" style="margin: auto;">
+                <div class="panel-body">                    
+                    <div id="login">
+
+                        <div class="logo-farma" style="margin-bottom: 20px;">
+                            <img class="img-responsive" src="{% static 'images/logo.png'%}">
+                        </div>
+                        <form class="form-horizontal" name="LoginForm" action="/login/" method="post">
+                            {% csrf_token %}
+                            {% if next %}
+                                <input type="hidden" name="next" value="{{ next }}" />
+                            {% endif %}
+                            <div class="form-group">
+                                <div class="input-group col-xs-offset-2 col-xs-8">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                    <input class="form-control" type="text" id="username" name="username" placeholder="Usuario" autofocus required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="input-group col-xs-offset-2 col-xs-8">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                    <input class="form-control" type="password" id="password" name="password" placeholder="Contraseña" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div style="text-align:center;">
+                                    <button type="submit" class="btn btn-primary btn-lg">Acceder</button>
+                                 </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

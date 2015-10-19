@@ -1,0 +1,37 @@
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
+
+table tbody tr{
+	cursor: pointer;
+}
+
+.panel-cabezera{
+	margin-top: 20px;
+}
+
+.panel-detalle{
+	margin-top: 0px;
+	margin-bottom: 25px;
+}
+
+.form-cabezera{
+	margin-top: 20px;
+}
+
+.logo-pedido{
+	text-align: center;
+}
+
+.panel-body  p{
+	display: inline-block;
+	font-weight: bold;
+}
+
+.panel-body  p > span{
+	color: red;
+}
+
+.titulo-tabla{
+	color: red;
+}

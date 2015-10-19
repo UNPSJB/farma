@@ -1,0 +1,23 @@
+{% extends "base-pedidos.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	<title>Pedido De Farmacia</title>
+{% endblock %}
+
+{% block panel-title-pedido %}
+	<h3 class="panel-title">Pedido de Farmacia</h3> 
+{% endblock %}
+
+{% block form-pedido %}
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label class="control-label col-xs-12 col-md-2" for="inputFarmacia">Farmacia:</label>
+			<div class="col-xs-12 col-md-10">
+				<input class="form-control" id="inputFarmacia" type="text" placeholder="Nombre de la Farmacia" autofocus required />
+			</div>
+		</div> <!-- end form-group -->
+	</form> <!-- end form -->
+{% endblock %}				
+						
+

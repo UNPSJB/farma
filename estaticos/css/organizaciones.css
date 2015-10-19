@@ -1,0 +1,24 @@
+.panel-grid{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.panel-title{
+    font-size: 20px;
+}
+
+.btn-group-xs > .btn, .btn-xs{
+    font-size: 14px;
+}
+
+label{
+    margin-bottom: 15px;
+}
+
+button, input, optgroup, select, textarea{
+    margin: 2px;
+}
+
+tbody tr{
+	cursor: pointer;
+}

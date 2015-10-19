@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{% static 'css/pedidos.css' %}">
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+	<!-- Cabezera del pedido -->
+	<div class="container panel-cabezera">
+		<div class="col-xs-12 col-md-offset-2 col-md-8">
+			<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div class="pull-left">
+							{% block panel-title-pedido %}
+							{% endblock %}
+						</div>
+						{% block panel-heading-pedido-buttons %}
+							<button class="btn btn-warning btn-xs pull-right" type="button" data-toggle="modal" data-target="#printPedido"><span class="glyphicon glyphicon-print"></span></button>
+						{% endblock %}
+						<div class="clearfix"></div>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-8">
+								<img class="img-resonsive" src="{% static 'images/logo-pedido.jpg' %}" alt="Logo">
+							</div>
+							<div class="col-xs-12 col-md-offset-1 col-md-3">
+								{% block panel-body-pedido-datos %}
+									<p>Nº pedido: <span>#1{{ nro_pedido }}</span></p>
+									<br />
+									<p>{{ fecha_pedido|date:"d/m/Y" }}</p>
+								{% endblock %}
+							</div>
+							<div class="clearfix"></div>
+						</div> <!-- end row -->		
+						<div class="form-cabezera">
+							{% block form-pedido %}
+							{% endblock %}
+						</div>				
+					</div><!-- end panel-body -->
+					<!--<div class="panel-footer"></div>--> <!-- end panel-footer -->
+			</div><!-- end panel -->
+		</div><!-- end col-md ... -->
+	</div><!-- end container ...-->
+	<!-- end cabezera del pedido-->
+
+	<!-- Detalles del pedido -->
+	<div class="container panel-detalle">
+		<div class="col-xs-12 col-md-offset-2 col-md-8">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					{% block panel-heading-detalles %}
+						<h3 class="panel-title pull-left">Detalles del pedido</h3>							
+							<div id="botones-detalles" class="btn-group btn-group-xs pull-right">
+								{% block panel-heading-detalles-more-buttons  %}
+								{% endblock %}
+								<button class="btn btn-success" type="button" data-toggle="modal" data-target="#add-detalle"><span class="glyphicon glyphicon-plus"></span></button>
+								<button class="btn btn-danger" type="button" data-toggle="modal" data-target="#del-detalle"><span class="glyphicon glyphicon-minus"></span></button>
+							</div>
+							<div class="clearfix"></div>				
+					{% endblock %}
+				</div>
+				<div class="panel-body">
+					{% block panel-body-detalles %}
+						<table class="table table-condensed table-responsive" >
+							<thead>
+								<tr class="info" align="center">
+									<th>Medicamento</th>
+									<th>Cantidad</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="clickeable">
+									<td>Medicamento #1</td>
+									<td>Cantidad #1</td>
+								</tr>
+							</tbody>
+						</table><!-- end table -->
+					{% endblock %}
+				</div><!-- end panel-body -->
+				<div class="panel-footer">
+					<div class="pull-right">
+						<button id="boton-abm" class="btn btn-success" type="submit">Registrar</button>
+					</div>
+					<div class="clearfix"></div>
+				</div><!--- end panel-footer -->
+			</div><!-- end panel -->
+		</div><!-- end col-md ... -->
+	</div><!-- end container ... -->
+	<!-- end detalles del pedido -->
+
+	{% block modals-add-detalle %} 
+		<!-- Modal add-detalle -->
+		<div class="modal fade" id="add-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        		<h4 class="modal-title" id="myModalLabel">Agregar Detalle</h4>
+		      		</div>
+		      		<div class="modal-body">
+		      			{% block modal-body-add-detalle %}
+		      				<form class="form-horizontal">
+		      					<div class="form-group">
+		      						<label class="control-label col-md-3" for="inputMedicamentoAdd " >Medicamento:</label>
+		      						    <div class="col-md-9">
+		      						    	<input class="form-control" id="input-MedicamentoAdd" type="text" placeholder="Código de barras del medicamento" autofocus required />
+		      						    </div>
+		      					</div>
+		      					<div class="form-group">
+		      						<label class="control-label col-md-3" for="inputCantidad">Cantidad:</label>
+		      						<div class="col-md-9">
+		      							<input class="form-control" id="inputCantidad" type="text" placeholder="Cantidad" required />
+		      						</div>
+		      					</div>
+		      				</form>
+		      			{% endblock %}
+		      		</div>
+		      		<div class="modal-footer">
+		        		<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		        		<button type="submit" class="btn btn-primary">Guardar</button>
+		      		</div>
+		    	</div><!-- modal-content -->
+		  	</div><!-- end modal-dialog -->
+		</div><!-- end modal ...-->
+		<!-- end modal add-detalle -->
+	{% endblock %}
+	
+	{% block modals-del-detalle %} 
+		<!-- Modal del-detalle -->
+		<div class="modal fade" id="del-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        		<h4 class="modal-title" id="myModalLabel">Eliminar Detalle</h4>
+		      		</div>
+		      		<div class="modal-body">
+		      				<form class="form-horizontal">
+		      					<div class="form-group">
+		      						<label class="control-label col-md-3" for="inputMedicamentoDel " >Medicamento:</label>
+		      						    <div class="col-md-9">
+		      						    	<input class="form-control" id="input-MedicamentoDel" type="text" placeholder="Código de barras del medicamento" autofocus required />
+		      						    </div>
+		      					</div>
+		      				</form>
+		      		</div>
+		      		<div class="modal-footer">
+		        		<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		        		<button type="submit" class="btn btn-danger">Eliminar</button>
+		      		</div>
+		    	</div><!-- modal-content -->
+		  	</div><!-- end modal-dialog -->
+		</div><!-- end modal ...-->
+		<!-- end modal del-detalle -->
+	{% endblock %}
+
+	{% block more-modals %} 
+	{% endblock %}
+
+	{% block scripts %}
+		<script src="{% static 'js/utils.js' %}"></script>
+		<script>
+			$(".clickeable").click(function(e) {
+				select_row_table(this);
+				e.stopPropagation();
+			});
+			$(document).keyup(function(e){
+				if(e.keyCode == 27){
+					$("tr").removeClass("active");
+				}
+			});
+			$(document).on("click", function(e){
+				$("tr").removeClass("active");
+			});
+		</script>
+
+		{% block more-scripts%}{% endblock %}
+
+	{% endblock %}
+
+{% endblock %}
+
