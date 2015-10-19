@@ -39,55 +39,7 @@
     </table>
 {% endblock %}
 
-{% block modal-alta-title %}
-    <h4 class="modal-title" id="myModalLabel">Agregar Laboratorio</h4>
-{% endblock %}
-
-{% block modal-alta-body %}
-    <form action="{% url 'laboratorio_add' %}" method="POST" class="form-horizontal">
-        {% csrf_token %}
-        <div class="form-group">
-            <label class="control-label col-sm-offset-1 col-sm-2" for="razon">Razon Social:</label>
-            <div class="col-sm-7">
-                <input class="form-control" id="razonSocial" type="text" name="razonSocial" placeholder="Razón Social" autofocus required />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-offset-1 col-sm-2" for="cuit">Cuit:</label>
-            <div class="col-sm-7">
-                <input class="form-control"id="cuit" type="text" name="cuit" placeholder="Cuit" required />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-offset-1 col-sm-2" for="direccion">Dirección:</label>
-            <div class="col-sm-7">
-                <input class="form-control"id="direccion" type="text" name="direccion" placeholder="Dirección" required />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-offset-1 col-sm-2" for="localidad">Localidad:</label>
-            <div class="col-sm-7">
-                <input class="form-control"id="localidad "type="text" name="localidad" placeholder="Localidad" required />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-offset-1 col-sm-2" for="telefono">Teléfono:</label>
-            <div class="col-sm-7">
-                <input class="form-control"id="telefono" type="tel" name="telefono" placeholder="Teléfono" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-offset-1 col-sm-2" for="email">Email:</label>
-            <div class="col-sm-7">
-                <input class="form-control" id="mail" type="email" name="mail" placeholder="Email" />
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-        </div>
-    </form>
-{% endblock %}
+{% block url-add %}{% url 'laboratorio_add' %}{% endblock %}
 
 {% block modal-baja-title %}
     <h4 class="modal-title">Eliminar Laboratorio </h4>
@@ -98,7 +50,24 @@
 {% endblock %}
 
 {% block more-scripts %}
-    $("#baja").click(function(e) {
-        bajaOrganizacion("/laboratorios/delete/", id)
-    });
+    <script>
+        $(document).ready(function(){
+            $("#baja").click(function(e) {
+                var id = get_selected_row();
+                if(id){
+                   bajaOrganizacion("/laboratorios/delete/", id);
+                }
+                
+            });
+
+            $("#modificar").click(function(e){
+                var id = get_selected_row();
+                if(id){
+                    var url = "/laboratorios/update/" + id +"/";
+                    $(this).attr("href", url);
+                }
+            });
+
+        });
+    </script>
 {% endblock %}

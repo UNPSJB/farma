@@ -6,7 +6,7 @@ class Farmacia(models.Model):
     cuit = models.CharField(max_length=80)
     localidad= models.CharField(max_length=50)
     direccion = models.CharField(max_length=100)
-    email = models.CharField(max_length=50, blank=True)
+    email = models.EmailField(max_length=50, blank=True)
     nombreEncargado = models.CharField(max_length=80, blank=True)
     telefono = models.CharField(max_length=80, blank=True)
 
@@ -21,7 +21,7 @@ class Clinica(models.Model):
     localidad= models.CharField(max_length=50)
     direccion = models.CharField(max_length=100)
     obraSocial = models.CharField(max_length=80)
-    email = models.CharField(max_length=50, blank=True)
+    email = models.EmailField(max_length=50, blank=True)
     telefono = models.CharField(max_length=80, blank=True)
 
 
@@ -35,7 +35,7 @@ class Laboratorio(models.Model):
     cuit = models.CharField(max_length=80)
     localidad= models.CharField(max_length=50)
     direccion = models.CharField(max_length=100)
-    email = models.CharField(max_length=50, blank=True)
+    email = models.EmailField(max_length=50, blank=True)
     telefono = models.CharField(max_length=80, blank=True)
 
 
