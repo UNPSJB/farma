@@ -28,7 +28,7 @@ def monodrogas(request):
         filters = get_filtros(request.GET, models.Monodroga)
         mfilters = dict(filter(lambda v: v[0] in models.Monodroga.FILTROS, filters.items()))
         monodrogas = models.Monodroga.objects.filter(**mfilters)
-    return render(request, "medicamentos/monodrogas.html",
+    return render(request, "Monodrogas.html",
         {"monodrogas": monodrogas,
          "filtros": filters,
          "form": form})
@@ -46,6 +46,7 @@ def altaMedicamento(request):
                 dosis = dosis_form.save(commit=False)
                 dosis.medicamento = medicamento
                 dosis.save()
+
             redirect("altaMedicamento")
     return render(request, "altaMedicamento.html", {
         "medicamento_form": medicamento_form,

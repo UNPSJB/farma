@@ -9,6 +9,9 @@
 	<link rel="stylesheet" href="{%  static 'css/custom-theme/jquery-ui-1.10.3.custom.css'  %}">
     <link rel="stylesheet" href="{%  static 'css/base.css'  %}">
     {{ dosis_formset.media.css }}
+	<script src="{% static 'js/jquery.js' %}"></script>
+	<script src="{% static 'js/jquery-ui.js' %}"></script>
+	{{ dosis_formset.media.js }}
 {% endblock %}
 
 {% include 'nav.html' %}
@@ -32,7 +35,8 @@
 		<label class="col-xs-3 control-label">Formula</label>
 		{{ dosis_form.errors }}
 		{{ dosis_form.non_field_errors }}
-		{% bootstrap_dynamic_formset dosis_formset layout='inline'  %}
+		{% bootstrap_dynamic_formset dosis_formset can_order=True can_delete=True layout='inline'  %}
+
 
 		{% buttons %}
 			<button type="button" class="btn btn-primary">
@@ -46,11 +50,10 @@
 </div>
 
 {% block scripts %}
-	<script src="{% static 'js/jquery.js' %}"></script>
-	<script src="{% static 'js/jquery-ui.js' %}"></script>
+t>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/formset.js' %}"></script>
-	{{ dosis_formset.media.js }}
+
+
 {% endblock %}		
 			
 {% endblock %}
