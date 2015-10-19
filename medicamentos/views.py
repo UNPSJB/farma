@@ -28,7 +28,7 @@ def monodrogas(request):
         filters = get_filtros(request.GET, models.Monodroga)
         mfilters = dict(filter(lambda v: v[0] in models.Monodroga.FILTROS, filters.items()))
         monodrogas = models.Monodroga.objects.filter(**mfilters)
-    return render(request, "medicamentos/monodrogas.html",
+    return render(request, "Monodrogas.html",
         {"monodrogas": monodrogas,
          "filtros": filters,
          "form": form})
@@ -92,3 +92,15 @@ def presentacion(request):
         {"presentaciones": presentaciones,
          "filtros": filters,
          "form": form})
+
+
+def medicamentos(request):
+    filters = get_filtros(request.GET, models.Medicamento)
+    mfilters = dict(filter(lambda v: v[0] in models.Medicamento.FILTROS, filters.items()))
+    medicamentos = models.Medicamento.objects.filter(**mfilters)
+    return render(request, "medicamentos.html", {"medicamentos": medicamentos, "filtros": filters})
+
+def medicamento_delete(request, pk):
+    medicamento = models.Medicamento.objects.get(pk=pk)
+    medicamento.delete()
+    return redirect('medicamentos')
