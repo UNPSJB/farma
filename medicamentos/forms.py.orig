@@ -54,6 +54,16 @@ class PresentacionForm(forms.ModelForm):
         }
 
 
+<<<<<<< HEAD
+'''
+
+##### Forma simple dos forms para modelo
+class AltaMedicamentoForm(forms.ModelForm):
+    class Meta:
+        model = models.Medicamento
+
+class ModificarMedicamentoForm(forms.ModelForm):
+=======
 class RelatedFieldWidgetCanAdd(widgets.Select):
 
     def __init__(self, related_model, related_url=None, *args, **kw):
@@ -98,9 +108,30 @@ class MedicamentoForm(forms.ModelForm):
 
 
 
+>>>>>>> 3a879af21b1565d389e558cc9869197dbbd433d2
     class Meta:
         model = models.Medicamento
-        fields = ["nombreFantasia", "codigoBarras", "stockMinimo","presentacion", "precio"]
+        fields = ["stockMinimo","presentacion", "precio"]
+
+###### Factroy de form medicamento
+def MedicamentoFormFactory(tipo):
+    class MedicamentoForm(forms.ModelForm):
+        class Meta:
+            model = models.Medicamento
+            if tipo == 'modificar':
+                fields = ["stockMinimo","presentacion", "precio"]
+
+    return MedicamentoForm
+
+AltaMedicamentoForm = MedicamentoFormFactory("alta")
+ModificarMedicamentoForm = MedicamentoFormFactory("modificar")
+
+'''
+class MedicamentoForm(forms.ModelForm):
+    class Meta:
+            model = models.Medicamento
+            fields = ["stockMinimo","presentacion", "precio"]
+
 
 class DosisForm(forms.ModelForm):
     class Meta:

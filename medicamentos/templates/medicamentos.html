@@ -1,0 +1,52 @@
+{% extends "base-medicamentos.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	<title>Medicamentos</title>
+{% endblock %}
+
+{% block panel-title-organizacion %}
+    <h3 class="panel-title">Baja de Medicamentos</h3>
+{% endblock %}
+
+
+{% block grid %}
+    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+            <th>Nombre de Fantasia</th>
+            <th>Codigo de Barras</th>
+            <th>Presentacion</th>
+            <th>Formula</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medicamento in medicamentos %}
+
+                <tr class="clickeable" data-id="{{ medicamento.id }}">
+
+                    <td>{{medicamento.nombreFantasia}}</td>
+                    <td>{{medicamento.codigoBarras}}</td>
+                    <td>{{medicamento.presentacion}}</td>
+                    <td>{{medicamento.formulas.all|join:", "}}</td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block modal-baja-title %}
+    <h4 class="modal-title">Eliminar Medicamento </h4>
+{% endblock %}
+
+{% block modal-baja-texto %}
+    <p> El Medicamento se eliminara permanentemente ¿Esta seguro?</p>
+{% endblock %}
+
+{% block more-scripts %}
+    $("#baja").click(function(e) {
+        bajaOrganizacion("/medicamentos/delete/", id);
+    });
+{% endblock %}

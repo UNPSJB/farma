@@ -9,10 +9,6 @@
     <h3 class="panel-title">Nombres Fantasia</h3>
 {% endblock %}
 
-{% block add-button %}
-    <button class="btn btn-success btn-xs pull-right" type="button" data-toggle="modal" data-target="#add-nombreFantasia"><span class="glyphicon glyphicon-plus"></span>  Alta</button>
-{% endblock %}
-
 {% block grid %}
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
@@ -24,7 +20,11 @@
         <tbody>
             {% for nombreFantasia in nombresFantasias %}
 
+<<<<<<< HEAD
                 <tr class="clickeable" data-id="{{ nombreFantasia.id }}">
+=======
+                <tr class="clickeable" data-id="{{ nombres.id }}">
+>>>>>>> 3a879af21b1565d389e558cc9869197dbbd433d2
                 <td>{{nombreFantasia.nombreF}}</td>
 
                 </tr>

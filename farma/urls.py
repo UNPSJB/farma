@@ -33,6 +33,8 @@ urlpatterns = [
     url(r'^monodrogas/delete/(?P<id_monodroga>\d+)/$', mviews.monodroga_delete, name="monodroga_delete"),
 
     url(r'^altaMedicamento/$', mviews.altaMedicamento, name="altaMedicamento"),
+    url(r'^medicamentos/$',mviews.medicamentos, name="medicamentos"),
+    url(r'^medicamentos/delete/(?P<pk>\d+)/$', mviews.medicamento_delete, name="medicamento_delete"),
     #
     # url(r'^altaMedicamento/$', views.altaMedicamento, name="altaMedicamento"),
     url(r'^nombresFantasia/$', mviews.nombresFantasia, name="nombresFantasia"),

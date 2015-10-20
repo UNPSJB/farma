@@ -26,11 +26,11 @@ def monodroga_add(request):
     if request.method == "POST":
         form = forms.MonodrogaForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             form.save()
             return redirect('monodroga_add')
     else:
         form = forms.MonodrogaForm()
+<<<<<<< HEAD
     return render(request, "MonodrogasAdd.html", {"form": form})
 
 @login_required(login_url='login')
@@ -52,6 +52,15 @@ def monodroga_delete(request, id_monodroga):
     return redirect('monodrogas')
 
 
+=======
+        filters = get_filtros(request.GET, models.Monodroga)
+        mfilters = dict(filter(lambda v: v[0] in models.Monodroga.FILTROS, filters.items()))
+        monodrogas = models.Monodroga.objects.filter(**mfilters)
+    return render(request, "Monodrogas.html",
+        {"monodrogas": monodrogas,
+         "filtros": filters,
+         "form": form})
+>>>>>>> 3a879af21b1565d389e558cc9869197dbbd433d2
 
 @login_required(login_url='login')
 def altaMedicamento(request):
@@ -85,7 +94,6 @@ def nombresFantasia_add(request):
     if request.method == "POST":
         form = forms.NombreFantasiaForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             form.save()
             return redirect('nombresFantasia_add')
     else:
@@ -130,6 +138,7 @@ def presentacion_add(request):
             return redirect('presentacion_add')
     else:
         form = forms.PresentacionForm()
+<<<<<<< HEAD
     return render(request, "PresentacionAdd.html", {"form": form})
 
 @login_required(login_url='login')
@@ -149,3 +158,24 @@ def presentacion_delete(request, id_presentacion):
     clinica = models.Presentacion.objects.get(pk=id_presentacion)
     clinica.delete()
     return redirect('presentacion')
+=======
+        filters = get_filtros(request.GET, models.Presentacion)
+        mfilters = dict(filter(lambda v: v[0] in models.Presentacion.FILTROS, filters.items()))
+        presentaciones = models.Presentacion.objects.filter(**mfilters)
+    return render(request, "Presentacion.html",
+        {"presentaciones": presentaciones,
+         "filtros": filters,
+         "form": form})
+
+
+def medicamentos(request):
+    filters = get_filtros(request.GET, models.Medicamento)
+    mfilters = dict(filter(lambda v: v[0] in models.Medicamento.FILTROS, filters.items()))
+    medicamentos = models.Medicamento.objects.filter(**mfilters)
+    return render(request, "medicamentos.html", {"medicamentos": medicamentos, "filtros": filters})
+
+def medicamento_delete(request, pk):
+    medicamento = models.Medicamento.objects.get(pk=pk)
+    medicamento.delete()
+    return redirect('medicamentos')
+>>>>>>> 3a879af21b1565d389e558cc9869197dbbd433d2
