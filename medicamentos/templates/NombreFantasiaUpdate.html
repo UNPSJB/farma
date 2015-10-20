@@ -1,0 +1,20 @@
+{% extends "base-ADD-UPDATE.html" %}
+
+{% block title %}<title>Actualizar Nombre de Fantasia</title>{% endblock %}
+
+
+					{% block panel-heading-add %}
+
+                        <h3 class="panel-title">Modificacion de Nombre Fantasia</h3>
+
+                    {% endblock %}
+
+                    {% block url-form-action %} {% url 'nombresFantasia_update' id %}  {% endblock %}
+
+                    {% block boton-form %}
+
+                        <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+
+                    {% endblock%}
+
+					{% block url-previous %} {% url 'nombresFantasia' %} {% endblock %}

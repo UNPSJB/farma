@@ -31,7 +31,7 @@ class Formula(models.Model):
 
 
 class Monodroga(models.Model):
-    #FILTROS = ["nombre__icontains"]
+    FILTROS = ["nombre__icontains"]
     nombre = models.CharField(max_length=100)
 
     def __str__(self):

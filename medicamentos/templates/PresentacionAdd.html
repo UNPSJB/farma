@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends "base-ADD-UPDATE.html" %}
+{% block title %}<title>Alta Presentacion</title>{% endblock %}
 
-</body>
-</html>
+
+					{% block panel-heading-add %}
+
+                        <h3 class="panel-title">Alta de Presentacion</h3>
+
+                    {% endblock %}
+
+                    {% block url-form-action %} {% url 'presentacion_add' %}  {% endblock %}
+
+                    {% block boton-form %}
+
+                        <button id="btn-guardar" class="btn btn-primary pull-right">Guardar</button>
+
+                    {% endblock%}
+
+					{% block url-previous %} {% url 'presentacion' %} {% endblock %}
+

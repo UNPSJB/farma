@@ -1,16 +1,12 @@
-{% extends "base-atributos.html" %}
+{% extends "base-ABM.html" %}
 {% load staticfiles %}
 
 {% block title %}
-	<title>Forma de Presentacion</title>
+	<title>ABM Monodrogas</title>
 {% endblock %}
 
-{% block panel-title-organizacion %}
-    <h3 class="panel-title">Formas de Presentacion</h3>
-{% endblock %}
-
-{% block add-button %}
-    <button class="btn btn-success btn-xs pull-right" type="button" data-toggle="modal" data-target="#add-presentacion"><span class="glyphicon glyphicon-plus"></span>  Alta</button>
+{% block panel-title-ABM %}
+    <h3 class="panel-title">ABM Monodrogas</h3>
 {% endblock %}
 
 {% block grid %}
@@ -18,18 +14,58 @@
         <thead>
             <tr>
             <th>Nombre</th>
-
-
             </tr>
         </thead>
         <tbody>
             {% for monodroga in monodrogas %}
 
-                <tr class="clickeable" data-id="{{ presentaciones.id }}">
+                <tr class="clickeable" data-id="{{ monodroga.id }}">
                     <td>{{monodroga.nombre}}</td>
                 </tr>
 
             {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+
+{% block url-add %}{% url 'monodroga_add' %}{% endblock %}
+
+{% block filtro %}
+
+ <label for="nombre" >Buscar:</label>
+ <input class="filtro" id="nombre" name="nombre" value="{{filtros.nombre}}" placeholder=" Nombre">
+
+{% endblock %}
+
+{% block modal-baja-title %}
+    <h4 class="modal-title">Eliminar Monodroga </h4>
+{% endblock %}
+
+{% block modal-baja-texto %}
+    <p> La monodroga seleccionada se eliminara permanentemente ¿Esta seguro?</p>
+{% endblock %}
+
+{% block more-scripts %}
+
+    <script>
+        $(document).ready(function(){
+            $("#baja").click(function(e) {
+                var id = get_selected_row();
+                if(id){
+                   bajaOrganizacion("/monodrogas/delete/", id);
+                }
+            });
+
+            $("#modificar").click(function(e){
+                var id = get_selected_row();
+                if(id){
+                    var url="/monodrogas/update/" + id +"/";
+                    $(this).attr("href", url);
+
+                }
+
+            });
+
+    });
+    </script>
 {% endblock %}

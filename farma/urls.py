@@ -28,14 +28,23 @@ urlpatterns = [
 
     # ****** MEDICAMENTOS ******
     url(r'^monodrogas/$', mviews.monodrogas, name="monodrogas"),
-    url(r'^monodrogas/add/$', mviews.monodrogas, name="monodroga_add"),
+    url(r'^monodrogas/add/$', mviews.monodroga_add, name="monodroga_add"),
+    url(r'^monodrogas/update/(?P<id_monodroga>\d+)/$', mviews.monodroga_update, name="monodroga_update"),
+    url(r'^monodrogas/delete/(?P<id_monodroga>\d+)/$', mviews.monodroga_delete, name="monodroga_delete"),
+
     url(r'^altaMedicamento/$', mviews.altaMedicamento, name="altaMedicamento"),
     #
     # url(r'^altaMedicamento/$', views.altaMedicamento, name="altaMedicamento"),
     url(r'^nombresFantasia/$', mviews.nombresFantasia, name="nombresFantasia"),
-    url(r'^nombresFantasia_add/$', mviews.nombresFantasia, name="nombresFantasia_add"),
+    url(r'^nombresFantasia_add/$', mviews.nombresFantasia_add, name="nombresFantasia_add"),
+    url(r'^nombresFantasia/update/(?P<id_nombreFantasia>\d+)/$', mviews.nombresFantasia_update, name="nombresFantasia_update"),
+    url(r'^nombresFantasia/delete/(?P<id_nombreFantasia>\d+)/$', mviews.nombresFantasia_delete, name="nombresFantasia_delete"),
+
     url(r'^Presentacion/$', mviews.presentacion, name="presentacion"),
-    url(r'^Presentacion_add/$', mviews.presentacion, name="presentacion_add"),
+    url(r'^Presentacion_add/$', mviews.presentacion_add, name="presentacion_add"),
+    url(r'^Presentacion/update/(?P<id_presentacion>\d+)/$', mviews.presentacion_update, name="presentacion_update"),
+    url(r'^Presentacion/delete/(?P<id_presentacion>\d+)/$', mviews.presentacion_delete, name="presentacion_delete"),
+
 
     # ****** PEDIDOS ******
     url(r'^pedidoALaboratorio/$', views.pedidoALaboratorio, name="pedidoALaboratorio"),
@@ -68,9 +77,6 @@ urlpatterns = [
     
     # ****** OTROS ******
     url(r'^obrasSociales/$',views.paginaEnConstruccion, name="paginaEnConstruccion"),
-    url(r'^nombresFantasia/$', mviews.nombresFantasia, name="nombresFantasia"),
-    url(r'^nombresFantasia_add/$', mviews.nombresFantasia, name="nombresFantasia_add"),
-    url(r'^Presentacion/$', mviews.presentacion, name="presentacion"),
-    url(r'^Presentacion_add/$', mviews.presentacion, name="presentacion_add"),
+
 
 ]

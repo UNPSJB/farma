@@ -1,50 +1,20 @@
-{% extends "base.html" %}
-{% load staticfiles %}
-{% block title %}<title>Modificar Farmacia</title>{% endblock %}
+{% extends "base-ADD-UPDATE.html" %}
 
-{% block content %}
-	<div style="margin: 30px 20px 40px 20px;">
-		<div class="container">
-			<div class="col-xs-12 col-md-offset-1 col-md-10">
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<h3 class="panel-title">Actualizar información de Farmacia</h3>
-					</div>
-					<div class="panel-body">
-						<form class="form-horizontal my-form" action="{% url 'farmacia_update' id %}" method="POST" > {% csrf_token %}
-							{% include "forms/form_snippet.html" %}
-						</form>
-					</div>
-					<div class="panel-footer">
-						<button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
-						<div class="clearfix"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<nav>
-			<ul class="pager">
-				<li class="previous pull-right">
-					<a href="{% url 'farmacias' %}"><span aria-hidden="true">&larr;</span> Volver</a>
-		    	</li>
-		    </ul>
-		</nav>
-	</div>
-{% endblock %}
+{% block title %}<title>Actualizar Farmacia</title>{% endblock %}
 
-{% block scripts %}
-	<script src="{% static 'js/utils.js' %}"></script>
-	<script>
-	$(document).ready(function(){
-		$("label").addClass("control-label");
-		//$("label").addClass("col-sm-offset-1");
-		$("label").addClass("col-sm-3");
-		$("input").addClass("form-control");
 
-		$("#btn-guardar").click(function(e){
-			var form = $(".my-form");
-			form.submit();
-		});
-	});
-	</script>
-{% endblock %}
+					{% block panel-heading-add %}
+
+                        <h3 class="panel-title">Modificacion de Farmacia</h3>
+
+                    {% endblock %}
+
+                    {% block url-form-action %} {% url 'farmacia_update' id %}  {% endblock %}
+
+                    {% block boton-form %}
+
+                        <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+
+                    {% endblock%}
+
+					{% block url-previous %} {% url 'farmacias' %} {% endblock %}

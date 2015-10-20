@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends "base-ADD-UPDATE.html" %}
 
-</body>
-</html>
+{% block title %}<title>Alta Nombre Fantasia</title>{% endblock %}
+
+
+					{% block panel-heading-add %}
+
+                        <h3 class="panel-title">Alta de Nombre Fantasia</h3>
+
+                    {% endblock %}
+
+                    {% block url-form-action %} {% url 'nombresFantasia_add' %}  {% endblock %}
+
+                    {% block boton-form %}
+
+                        <button id="btn-guardar" class="btn btn-primary pull-right">Guardar</button>
+
+                    {% endblock%}
+
+					{% block url-previous %} {% url 'nombresFantasia' %} {% endblock %}
+

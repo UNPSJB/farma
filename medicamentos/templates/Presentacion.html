@@ -1,16 +1,12 @@
-{% extends "base-atributos.html" %}
+{% extends "base-ABM.html" %}
 {% load staticfiles %}
 
 {% block title %}
-	<title>Forma de Presentacion</title>
+	<title>ABM Presentaciones</title>
 {% endblock %}
 
-{% block panel-title-organizacion %}
-    <h3 class="panel-title">Formas de Presentacion</h3>
-{% endblock %}
-
-{% block add-button %}
-    <button class="btn btn-success btn-xs pull-right" type="button" data-toggle="modal" data-target="#add-presentacion"><span class="glyphicon glyphicon-plus"></span>  Alta</button>
+{% block panel-title-ABM %}
+    <h3 class="panel-title">Forma de Presentacion</h3>
 {% endblock %}
 
 {% block grid %}
@@ -26,14 +22,53 @@
         <tbody>
             {% for presentacion in presentaciones %}
 
-                <tr class="clickeable" data-id="{{ presentaciones.id }}">
+                <tr class="clickeable" data-id="{{ presentacion.id }}">
                 <td>{{presentacion.descripcion}}</td>
                 <td>{{presentacion.cantidad}}</td>
                 <td>{{presentacion.unidadMedida}}</td>
-               
+
                 </tr>
 
             {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+
+{% block url-add %}{% url 'presentacion_add' %}{% endblock %}
+
+{% block filtro %}
+
+ <label for="descripcion" >Buscar:</label>
+ <input class="filtro" id="descripcion" name="descripcion" value="{{filtros.descripcion}}" placeholder=" Descripcion">
+
+{% endblock %}
+
+{% block modal-baja-title %}
+    <h4 class="modal-title">Eliminar Presentacion </h4>
+{% endblock %}
+
+{% block modal-baja-texto %}
+    <p> La presentacion seleccionada se eliminara permanentemente ¿Esta seguro?</p>
+{% endblock %}
+
+{% block more-scripts %}
+    <script>
+        $(document).ready(function(){
+            $("#baja").click(function(e) {
+                var id = get_selected_row();
+                if(id){
+                   bajaOrganizacion("/Presentacion/delete/", id);
+                }
+            });
+
+            $("#modificar").click(function(e){
+                var id = get_selected_row();
+                if(id){
+                    var url = "/Presentacion/update/" + id +"/";
+                    $(this).attr("href", url);
+                }
+            });
+
+    });
+    </script>
 {% endblock %}

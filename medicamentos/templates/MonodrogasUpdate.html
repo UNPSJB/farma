@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends "base-ADD-UPDATE.html" %}
 
-</body>
-</html>
+{% block title %}<title>Actualizar Monodroga</title>{% endblock %}
+
+
+					{% block panel-heading-add %}
+
+                        <h3 class="panel-title">Modificacion de Monodroga</h3>
+
+                    {% endblock %}
+
+                    {% block url-form-action %} {% url 'monodroga_update' id %}  {% endblock %}
+
+                    {% block boton-form %}
+
+                        <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+
+                    {% endblock%}
+
+					{% block url-previous %} {% url 'monodrogas' %} {% endblock %}

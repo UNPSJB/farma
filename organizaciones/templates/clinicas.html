@@ -1,11 +1,12 @@
-{% extends "base-organizaciones.html" %}
+{% extends "base-ABM.html" %}
+
 {% load staticfiles %}
 
 {% block title %}
 	<title>Clínicas</title>
 {% endblock %}
 
-{% block panel-title-organizacion %}
+{% block panel-title-ABM %}
     <h3 class="panel-title">Clínicas</h3>
 {% endblock %}
 
@@ -41,6 +42,14 @@
 {% endblock %}
 
 {% block url-add %}{% url 'clinica_add' %}{% endblock %}
+
+{% block filtro %}
+
+ <label for="razonSocial" >Buscar:</label>
+ <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social">
+
+{% endblock %}
+
 
 {% block modal-baja-title %}
     <h4 class="modal-title">Eliminar Clínica </h4>

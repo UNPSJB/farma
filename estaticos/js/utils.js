@@ -1,4 +1,3 @@
-
 /*
 <<Descripción: Función que sirve para seleccionar una fila de una tabla y devolver su id>>
 El parámetro recibido indica la fila de la tabla a seleccionar
