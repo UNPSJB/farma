@@ -1,12 +1,22 @@
-{% extends "base-medicamentos.html" %}
+{% extends "base-ABM.html" %}
 {% load staticfiles %}
 
 {% block title %}
 	<title>Medicamentos</title>
 {% endblock %}
 
-{% block panel-title-organizacion %}
-    <h3 class="panel-title">Baja de Medicamentos</h3>
+
+{% block panel-title-ABM%}
+    <h3 class="panel-title">Medicamentos</h3>
+{% endblock %}
+
+{% block url-add %}{% url 'medicamento_add' %}{% endblock %}
+
+{% block filtro %}
+
+ <label for="codigoBarras" >Buscar:</label>
+ <input class="filtro" id="codigoBarras" name="codigoBarras" value="{{filtros.codigoBarras}}" placeholder=" Codigo Barra">
+
 {% endblock %}
 
 
@@ -46,7 +56,15 @@
 {% endblock %}
 
 {% block more-scripts %}
-    $("#baja").click(function(e) {
-        bajaOrganizacion("/medicamentos/delete/", id);
-    });
+    <script>
+        $(document).ready(function(){
+            $("#baja").click(function(e) {
+                var id = get_selected_row();
+                if(id){
+                   bajaOrganizacion("/medicamentos/delete/", id);
+                }
+            });
+
+        });
+    </script>
 {% endblock %}

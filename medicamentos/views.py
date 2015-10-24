@@ -59,13 +59,13 @@ def medicamentos(request):
     return render(request, "medicamentos.html", {"medicamentos": medicamentos, "filtros": filters})
 
 @login_required(login_url='login')
-def medicamento_delete(request, pk):
-    medicamento = models.Medicamento.objects.get(pk=pk)
+def medicamento_delete(request, id_medicamento):
+    medicamento = models.Medicamento.objects.get(pk= id_medicamento)
     medicamento.delete()
     return redirect('medicamentos')
 
 @login_required(login_url='login')
-def altaMedicamento(request):
+def medicamento_add(request):
     dosis_formset = forms.DosisFormSet()
     medicamento_form = forms.MedicamentoForm()
     if request.method == 'POST':
@@ -78,8 +78,8 @@ def altaMedicamento(request):
                 dosis.medicamento = medicamento
                 dosis.save()
 
-            redirect("altaMedicamento")
-    return render(request, "altaMedicamento.html", {
+            redirect("medicamento_add")
+    return render(request, "MedicamentoAdd.html", {
         "medicamento_form": medicamento_form,
         "dosis_formset": dosis_formset,
     })
