@@ -96,8 +96,6 @@ class MedicamentoForm(forms.ModelForm):
 
     )
 
-
-
     class Meta:
         model = models.Medicamento
         fields = ["nombreFantasia", "codigoBarras", "stockMinimo","presentacion", "precio"]

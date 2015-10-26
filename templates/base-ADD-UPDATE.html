@@ -35,13 +35,11 @@
 	<script>
 	$(document).ready(function(){
 		$("label").addClass("control-label");
-		//$("label").addClass("col-sm-offset-1");
 		$("label").addClass("col-sm-3");
 		$("input").addClass("form-control");
 
 		$("#btn-guardar").click(function(e){
-			var form = $(".my-form");
-			form.submit();
+			$(".my-form").submit();
 		})
 	});
 	</script>
