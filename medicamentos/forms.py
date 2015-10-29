@@ -29,6 +29,13 @@ class MonodrogaForm(forms.ModelForm):
             'nombre': _('Nombre')
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nombre'].widget.attrs.update(
+            {'placeholder': 'Nombre monodroga', 'class': 'form-control'})
+
+     
+
 class NombreFantasiaForm(forms.ModelForm):
 
     #razonSocial = forms.ModelChoiceField(queryset=models.Laboratorio.objects.all())
@@ -40,6 +47,11 @@ class NombreFantasiaForm(forms.ModelForm):
             'nombreF': _('Nombre')
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nombreF'].widget.attrs.update(
+            {'placeholder': 'Nombre fantasía', 'class':'form-control'})
+
 class PresentacionForm(forms.ModelForm):
 
     #razonSocial = forms.ModelChoiceField(queryset=models.Laboratorio.objects.all())
@@ -48,10 +60,21 @@ class PresentacionForm(forms.ModelForm):
         model = models.Presentacion
         fields = ["descripcion" , "unidadMedida", "cantidad"]
         labels = {
-            'descripcion': _('Descripcion'),
+            'descripcion': _('Descripción'),
             'unidadMedida': _('Unidad Medida'),
             'cantidad': _('Cantidad')
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field_name in self.fields:
+            field = self.fields.get(field_name)
+            if field:
+                field.widget.attrs.update({
+                    'placeholder': field.label,
+                    'class': 'form-control'
+                })
 
 
 class RelatedFieldWidgetCanAdd(widgets.Select):
@@ -83,6 +106,7 @@ class RelatedFieldWidgetCanAdd(widgets.Select):
 
 class MedicamentoForm(forms.ModelForm):
     nombreFantasia = forms.ModelChoiceField(
+       label = "Nombre Fantasia",
        required=True,
        queryset=models.NombreFantasia.objects.all(),
        widget=RelatedFieldWidgetCanAdd(models.NombreFantasia, related_url="nombresFantasia_add")
@@ -99,6 +123,7 @@ class MedicamentoForm(forms.ModelForm):
     class Meta:
         model = models.Medicamento
         fields = ["nombreFantasia", "codigoBarras", "stockMinimo","presentacion", "precio"]
+
 
 class DosisForm(forms.ModelForm):
     class Meta:

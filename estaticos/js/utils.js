@@ -54,7 +54,7 @@ function agregarClase(targets, name_class, is_add){
 	}
 }
 
-function bajaOrganizacion(url, id){
+function crear_baja(url, id){
     if (id) {
         var urlFinal = url + id + "/";
         var $modal = $("#modal-baja");

@@ -13,7 +13,7 @@
 {% block grid %}
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
-            <tr>
+            <tr class="info">
             <th>Razón Social </th>
             <th>Cuit</th>
             <th>Localidad</th>
@@ -46,7 +46,7 @@
 {% block filtro %}
 
  <label for="razonSocial" >Buscar:</label>
- <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social">
+ <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social" autofocus>
 
 {% endblock %}
 
@@ -63,10 +63,12 @@
     <script>
         $(document).ready(function(){
             $("#baja").click(function(e) {
+                e.stopPropagation();
                 var id = get_selected_row();
                 if(id){
-                   bajaOrganizacion("/clinicas/delete/", id);
+                   crear_baja("/clinicas/delete/", id);
                 }
+                e.stopPropagation();
             });
 
             $("#modificar").click(function(e){
@@ -75,6 +77,7 @@
                     var url = "/clinicas/update/" + id +"/";
                     $(this).attr("href", url);
                 }
+                e.stopPropagation();
             });
 
     });

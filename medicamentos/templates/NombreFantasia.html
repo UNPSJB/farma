@@ -16,7 +16,7 @@
 {% block grid %}
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
-            <tr>
+            <tr class="info">
             <th>Nombre Fantasia </th>
 
             </tr>
@@ -40,7 +40,7 @@
 {% block filtro %}
 
  <label for="nombre" >Buscar:</label>
- <input class="filtro" id="nombre" name="nombre" value="{{filtros.nombreF}}" placeholder=" Nombre">
+ <input class="filtro" id="nombre" name="nombre" value="{{filtros.nombreF}}" placeholder=" Nombre" autofocus>
 
 {% endblock %}
 
@@ -59,8 +59,9 @@
             $("#baja").click(function(e) {
                 var id = get_selected_row();
                 if(id){
-                   bajaOrganizacion("/nombresFantasia/delete/", id);
+                   crear_baja("/nombresFantasia/delete/", id);
                 }
+                e.stopPropagation();
             });
 
             $("#modificar").click(function(e){
@@ -70,7 +71,7 @@
                     $(this).attr("href", url);
 
                 }
-
+                e.stopPropagation();
             });
 
     });

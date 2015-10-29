@@ -79,6 +79,10 @@
             ocultarElementos(["#modificar", "#baja"], false);
             e.stopPropagation();
         });
+        
+        $("#alta").click(function(e){
+            e.stopPropagation();
+        });
 
         function limpiar(e) {
             $("tr").removeClass("active");

@@ -23,10 +23,6 @@ def recepcionPedidoDeLaboratorio(request):
   fecha = datetime.datetime.now()
   return render(request, "recepcionPedidoDeLaboratorio.html", {'fecha_pedido': fecha})
 
-@login_required(login_url='login')
-def pedidoDeFarmacia(request):
-  fecha = datetime.datetime.now()
-  return render(request, "pedidoDeFarmacia.html",{'fecha_pedido': fecha})
 
 @login_required(login_url='login')
 def pedidoDeClinica(request):

@@ -27,7 +27,10 @@ def farmacia_add(request):
         form = forms.FarmaciaForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('farmacia_add')
+            if '_volver' in request.POST:
+                return redirect('farmacias')
+            else:
+                return redirect('farmacia_add')
     else:
         form = forms.FarmaciaForm()
     return render(request, "farmaciaAdd.html", {"form": form})
@@ -65,7 +68,10 @@ def clinica_add(request):
         form = forms.ClinicaForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('clinica_add')
+            if '_volver' in request.POST:
+                return redirect('clinicas')
+            else:
+                return redirect('clinica_add')
     else:
         form = forms.ClinicaForm()
     return render(request, "clinicaAdd.html", {"form": form})
@@ -104,7 +110,10 @@ def laboratorio_add(request):
         form = forms.LaboratorioForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('laboratorio_add')
+            if '_volver' in request.POST:
+                return redirect('laboratorios')
+            else:
+                return redirect('laboratorio_add')
     else:
         form = forms.LaboratorioForm()
     return render(request, "laboratorioAdd.html", {"form": form})

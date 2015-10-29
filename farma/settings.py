@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'selectable',
     'medicamentos',
     'organizaciones',
+    'pedidos',
     'django_bootstrap_dynamic_formsets'
 
 )

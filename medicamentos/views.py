@@ -28,7 +28,10 @@ def monodroga_add(request):
         if form.is_valid():
             print(form.cleaned_data)
             form.save()
-            return redirect('monodroga_add')
+            if '_volver' in request.POST:
+                return redirect('monodrogas')
+            else:
+                return redirect('monodroga_add')
     else:
         form = forms.MonodrogaForm()
     return render(request, "MonodrogasAdd.html", {"form": form})
@@ -98,7 +101,10 @@ def nombresFantasia_add(request):
         if form.is_valid():
             print(form.cleaned_data)
             form.save()
-            return redirect('nombresFantasia_add')
+            if '_volver' in request.POST:
+                return redirect('nombresFantasia')
+            else:
+                return redirect('nombresFantasia_add')
     else:
         form = forms.NombreFantasiaForm()
     return render(request, "NombreFantasiaAdd.html", {"form": form})
@@ -138,7 +144,10 @@ def presentacion_add(request):
         form = forms.PresentacionForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('presentacion_add')
+            if '_volver' in request.POST:
+                return redirect('presentacion')
+            else:
+                return redirect('presentacion_add')
     else:
         form = forms.PresentacionForm()
     return render(request, "PresentacionAdd.html", {"form": form})

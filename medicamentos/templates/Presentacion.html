@@ -12,7 +12,7 @@
 {% block grid %}
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
-            <tr>
+            <tr class="info">
             <th>Descripcion</th>
             <th>Cantidad</th>
             <th>Unidad de Medida</th>
@@ -39,7 +39,7 @@
 {% block filtro %}
 
  <label for="descripcion" >Buscar:</label>
- <input class="filtro" id="descripcion" name="descripcion" value="{{filtros.descripcion}}" placeholder=" Descripcion">
+ <input class="filtro" id="descripcion" name="descripcion" value="{{filtros.descripcion}}" placeholder=" Descripcion" autofocus>
 
 {% endblock %}
 
@@ -57,8 +57,9 @@
             $("#baja").click(function(e) {
                 var id = get_selected_row();
                 if(id){
-                   bajaOrganizacion("/Presentacion/delete/", id);
+                   crear_baja("/Presentacion/delete/", id);
                 }
+                e.stopPropagation();
             });
 
             $("#modificar").click(function(e){
@@ -67,6 +68,7 @@
                     var url = "/Presentacion/update/" + id +"/";
                     $(this).attr("href", url);
                 }
+                e.stopPropagation();
             });
 
     });

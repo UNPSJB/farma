@@ -18,6 +18,7 @@ from django.contrib import admin
 from . import views
 from medicamentos import views as mviews
 from organizaciones import views as oviews
+from pedidos import views as pviews
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -49,9 +50,9 @@ urlpatterns = [
 
 
     # ****** PEDIDOS ******
+    url(r'^pedidoDeFarmacia/$', pviews.pedidoDeFarmacia, name="pedidoDeFarmacia"),
     url(r'^pedidoALaboratorio/$', views.pedidoALaboratorio, name="pedidoALaboratorio"),
     url(r'^recepcionPedidoDeLaboratorio/$', views.recepcionPedidoDeLaboratorio, name="recepcionPedidoDeLaboratorio"),
-    url(r'^pedidoDeFarmacia/$', views.pedidoDeFarmacia, name="pedidoDeFarmacia"),
     url(r'^pedidoDeClinica/$', views.pedidoDeClinica,name="pedidoDeClinica"),
     url(r'^devolucionMedicamentosVencidos/$', views.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
     url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos,name="recepcionReemplazoMedicamentos"),

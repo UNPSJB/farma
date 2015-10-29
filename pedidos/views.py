@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from . import models
-from . import forms
+from pedidos import forms, models
+from django.contrib.auth.decorators import login_required
+import datetime
 # Create your views here.
 
 def get_filtros(get, modelo):
@@ -30,3 +31,9 @@ def remitos(request):
         {"remitos": remitos,
          "filtros": filters,
          "form": form})
+
+#PEDIDO DE FARMACIA#
+@login_required(login_url='login')
+def pedidoDeFarmacia(request):
+  fecha = datetime.datetime.now()
+  return render(request, "pedidoDeFarmacia.html",{'fecha_pedido': fecha})

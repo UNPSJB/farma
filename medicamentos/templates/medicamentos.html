@@ -15,7 +15,7 @@
 {% block filtro %}
 
  <label for="codigoBarras" >Buscar:</label>
- <input class="filtro" id="codigoBarras" name="codigoBarras" value="{{filtros.codigoBarras}}" placeholder=" Codigo Barra">
+ <input class="filtro" id="codigoBarras" name="codigoBarras" value="{{filtros.codigoBarras}}" placeholder=" Codigo Barra" autofocus>
 
 {% endblock %}
 
@@ -23,7 +23,7 @@
 {% block grid %}
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
-            <tr>
+            <tr class="info">
             <th>Nombre de Fantasia</th>
             <th>Codigo de Barras</th>
             <th>Presentacion</th>
@@ -61,8 +61,9 @@
             $("#baja").click(function(e) {
                 var id = get_selected_row();
                 if(id){
-                   bajaOrganizacion("/medicamentos/delete/", id);
+                   crear_baja("/medicamentos/delete/", id);
                 }
+                e.stopPropagation();
             });
 
         });

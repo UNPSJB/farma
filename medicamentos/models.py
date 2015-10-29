@@ -5,7 +5,7 @@ from django.db import models
 
 class Medicamento(models.Model):
     FILTROS = ["codigoBarras__icontains"]
-    formulas = models.ManyToManyField('Monodroga', through='Dosis')
+    formulas = models.ManyToManyField('Monodroga',  through='Dosis')
     nombreFantasia = models.ForeignKey('NombreFantasia', help_text="Este es el Nombre Comercial del medicamento")
     presentacion = models.ForeignKey('Presentacion', help_text="Esta es la forma en la que se encuentra comercialmente el Medicamento")
     codigoBarras = models.CharField("Codigo de barras", max_length=15, help_text="Este es un valor numerico, el cual deberia ser la clave")
