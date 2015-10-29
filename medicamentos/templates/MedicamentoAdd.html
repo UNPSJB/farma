@@ -38,12 +38,16 @@
                             {{ dosis_form.non_field_errors }}
                             {% bootstrap_dynamic_formset dosis_formset can_order=True can_delete=True layout='inline'  %}
                             <div class="pull-right" style="margin-bottom: -10px;">
-                                <button type="button" class="btn btn-primary">
+                                <button type="button" class="btn btn-warning" style="margin-right: 10px;">
                                     {% bootstrap_icon "refresh" %} Limpiar
                                 </button>
-                                <button type="submit" class="btn btn-primary">
-                                    {% bootstrap_icon "ok" %} Guardar
-                                </button>
+                                <button type="submit" id="btn-guardar-continuar" class="btn btn-success pull-right" style="margin-left:10px;" value="_continuar" name="_continuar">
+	                        		{% bootstrap_icon "ok" %} Guardar y Continuar
+	                        	</button>
+								<button type="submit" id="btn-guardar-volver" class="btn btn-primary pull-right" value="_volver" name="_volver">
+									{% bootstrap_icon "ok" %} Guarrdar y Volver
+								</button>
+                                <div class="clearfix"></div>
                             </div>
                         </form>
                     </div>

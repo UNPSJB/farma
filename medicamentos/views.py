@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from . import forms
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -80,8 +79,11 @@ def medicamento_add(request):
                 dosis = dosis_form.save(commit=False)
                 dosis.medicamento = medicamento
                 dosis.save()
-
-            redirect("medicamento_add")
+                if '_volver' in request.POST:
+                    return redirect('medicamentos')
+                else:
+                    return redirect('medicamento_add')
+            #redirect("medicamento_add")
     return render(request, "MedicamentoAdd.html", {
         "medicamento_form": medicamento_form,
         "dosis_formset": dosis_formset,
