@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from django import forms
 from organizaciones import models
 from django.utils.translation import ugettext_lazy as _
@@ -9,17 +10,17 @@ class FarmaciaForm(forms.ModelForm):
         model = models.Farmacia
         fields = ["razonSocial","cuit","localidad", "direccion","nombreEncargado","telefono","email"]
         labels = {
-            'razonSocial': _('Razón Social'),
+            'razonSocial': _('Razon Social'),
             'cuit': _('Cuit'),
             'localidad': _('Localidad'),
-            'direccion': _('Dirección'),
+            'direccion': _('Direccion'),
             'nombreEncargado': _('Nombre del encargado'),
-            'telefono': _('Teléfono'),
+            'telefono': _('Telefono'),
             'email': _('Email'),
         }
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(self.__class__, self).__init__(*args, **kwargs)
 
         for field_name in self.fields:
             field = self.fields.get(field_name)
@@ -39,17 +40,17 @@ class ClinicaForm(forms.ModelForm):
         model = models.Clinica
         fields = ["razonSocial","cuit","localidad", "direccion","obraSocial","telefono","email"]
         labels = {
-            'razonSocial': _('Razón Social'),
+            'razonSocial': _('Razon Social'),
             'cuit': _('Cuit'),
             'localidad': _('Localidad'),
-            'direccion': _('Dirección'),
+            'direccion': _('Direccion'),
             'obraSocial': _('Obra Social'),
-            'telefono': _('Teléfono'),
+            'telefono': _('Telefono'),
             'email': _('Email'),
         }
     
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(self.__class__, self).__init__(*args, **kwargs)
 
         for field_name in self.fields:
             field = self.fields.get(field_name)
@@ -69,16 +70,16 @@ class LaboratorioForm(forms.ModelForm):
         model = models.Laboratorio
         fields = ["razonSocial", "cuit","localidad","direccion","telefono","email"]
         labels = {
-            'razonSocial': _('Razón Social'),
+            'razonSocial': _('Razon Social'),
             'cuit': _('Cuit'),
             'localidad': _('Localidad'),
-            'direccion': _('Dirección'),
-            'telefono': _('Teléfono'),
+            'direccion': _('Direccion'),
+            'telefono': _('Telefono'),
             'email': _('Email'),
         }
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(self.__class__, self).__init__(*args, **kwargs)
 
         for field_name in self.fields:
             field = self.fields.get(field_name)
