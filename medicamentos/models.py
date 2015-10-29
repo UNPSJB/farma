@@ -1,8 +1,6 @@
 # - encode: utf-8 -
 from django.db import models
 
-# Create your models here.
-
 class Medicamento(models.Model):
     FILTROS = ["codigoBarras__icontains"]
     formulas = models.ManyToManyField('Monodroga',  through='Dosis')
@@ -28,7 +26,7 @@ class Presentacion(models.Model):
 
 class Formula(models.Model):
     monodroga = models.ForeignKey('Monodroga')
-    dosis = models.ForeignKey('Dosis') #on_delete = modelds.CASCADE
+    dosis = models.ForeignKey('Dosis')
 
 
 class Monodroga(models.Model):
