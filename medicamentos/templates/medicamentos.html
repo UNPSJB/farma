@@ -28,6 +28,8 @@
             <th>Codigo de Barras</th>
             <th>Presentacion</th>
             <th>Formula</th>
+            <th>Stock Minimo</th>
+            <th>Precio</th>
             </tr>
         </thead>
         <tbody>
@@ -39,6 +41,8 @@
                     <td>{{medicamento.codigoBarras}}</td>
                     <td>{{medicamento.presentacion}}</td>
                     <td>{{medicamento.formulas.all|join:", "}}</td>
+                    <td>{{medicamento.stockMinimo}}</td>
+                    <td>{{medicamento.precio}}</td>
                 </tr>
 
             {% endfor %}
@@ -62,6 +66,16 @@
                 var id = get_selected_row();
                 if(id){
                    crear_baja("/medicamentos/delete/", id);
+                }
+                e.stopPropagation();
+            });
+
+            $("#modificar").click(function(e){
+                var id = get_selected_row();
+                if(id){
+                    var url="/medicamentos/update/" + id +"/";
+                    $(this).attr("href", url);
+
                 }
                 e.stopPropagation();
             });

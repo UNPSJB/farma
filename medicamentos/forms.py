@@ -105,6 +105,18 @@ class MedicamentoForm(forms.ModelForm):
         model = models.Medicamento
         fields = ["nombreFantasia", "codigoBarras", "stockMinimo","presentacion", "precio"]
 
+
+class MedicamentoModForm(forms.ModelForm):
+
+
+
+    class Meta:
+        model = models.Medicamento
+        fields = ["stockMinimo", "precio"]
+
+
+
+
 class DosisForm(forms.ModelForm):
     class Meta:
         model = models.Dosis

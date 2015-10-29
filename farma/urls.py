@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^medicamentos/$',mviews.medicamentos, name="medicamentos"),
     url(r'^medicamentos/add/$', mviews.medicamento_add, name="medicamento_add"),
     url(r'^medicamentos/delete/(?P<id_medicamento>\d+)/$', mviews.medicamento_delete, name="medicamento_delete"),
+    url(r'^medicamentos/update/(?P<id_medicamento>\d+)/$', mviews.medicamento_update, name="medicamento_update"),
     #
     # url(r'^altaMedicamento/$', views.altaMedicamento, name="altaMedicamento"),
     url(r'^nombresFantasia/$', mviews.nombresFantasia, name="nombresFantasia"),

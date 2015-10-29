@@ -88,6 +88,21 @@ def medicamento_add(request):
     })
 
 @login_required(login_url='login')
+def medicamento_update(request, id_medicamento):
+    medicamento= get_object_or_404(models.Medicamento, pk=id_medicamento)
+    if request.method == "POST":
+        form = forms.MedicamentoModForm(request.POST, instance=medicamento)
+        if form.is_valid():
+            form.save()
+            return redirect('medicamentos')
+    else:
+        form = forms.MedicamentoModForm(instance=medicamento)
+    return render(request, "MedicamentoUpdate.html", {'form': form, 'id': id_medicamento})
+
+
+
+
+@login_required(login_url='login')
 def nombresFantasia(request):
     filters = get_filtros(request.GET, models.NombreFantasia)
     mfilters = dict(filter(lambda v: v[0] in models.NombreFantasia.FILTROS, filters.items()))
