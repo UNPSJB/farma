@@ -4,7 +4,8 @@ from organizaciones import models
 from django.utils.translation import ugettext_lazy as _
 import re
 
-class FarmaciaForm(forms.ModelForm):
+
+class FarmaciaFormGenerico(forms.ModelForm):
 
     class Meta:
         model = models.Farmacia
@@ -19,6 +20,18 @@ class FarmaciaForm(forms.ModelForm):
             'email': _('Email'),
         }
 
+
+    def clean_cuit(self):
+        cuit = self.cleaned_data['cuit']
+        if cuit:
+            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
+                raise forms.ValidationError(_('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x'))
+        return cuit
+
+
+
+class FarmaciaForm(FarmaciaFormGenerico):
+
     def __init__(self, *args, **kwargs):
         super(self.__class__, self).__init__(*args, **kwargs)
 
@@ -27,12 +40,16 @@ class FarmaciaForm(forms.ModelForm):
             if field:
                 field.widget.attrs.update({'placeholder': field.label, 'class': 'form-control'})
 
-    def clean_cuit(self):
-        cuit = self.cleaned_data['cuit']
-        if cuit:
-            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
-                raise forms.ValidationError(_('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x'))
-        return cuit
+
+
+
+class FarmaciaFormUpdate(FarmaciaForm):
+
+    def __init__(self, *args, **kwargs):
+        super(FarmaciaForm,self).__init__(*args, **kwargs)
+        self.fields['razonSocial'].widget.attrs['readonly'] = True
+
+
 
 class ClinicaForm(forms.ModelForm):
 

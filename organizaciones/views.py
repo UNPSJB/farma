@@ -37,13 +37,15 @@ def farmacia_add(request):
 @login_required(login_url='login')
 def farmacia_update(request, id_farmacia):
     farmacia = get_object_or_404(models.Farmacia, pk=id_farmacia)
+
     if request.method == "POST":
-        form = forms.FarmaciaForm(request.POST, instance=farmacia)
+        form = forms.FarmaciaFormUpdate(request.POST, instance=farmacia)
+
         if form.is_valid():
             form.save()
             return redirect('farmacias')
     else:
-        form = forms.FarmaciaForm(instance=farmacia)
+        form = forms.FarmaciaFormUpdate(instance=farmacia)
     return render(request, "farmaciaUpdate.html", {'form': form, 'id': id_farmacia})
 
 @login_required(login_url='login')
