@@ -7,9 +7,10 @@ from django.conf import settings
 from django import forms
 from . import models
 from . import lookups
-from django.forms.formsets import formset_factory
+from django.forms.formsets import BaseFormSet, formset_factory
 from selectable import forms as selectable
 from django.utils.translation import ugettext_lazy as _
+
 
 class MonodrogaForm(forms.ModelForm):
 
@@ -109,12 +110,9 @@ class MedicamentoForm(forms.ModelForm):
 class MedicamentoModForm(forms.ModelForm):
 
 
-
     class Meta:
         model = models.Medicamento
         fields = ["stockMinimo", "precio"]
-
-
 
 
 class DosisForm(forms.ModelForm):
@@ -125,4 +123,16 @@ class DosisForm(forms.ModelForm):
             'monodroga': selectable.AutoCompleteSelectWidget(lookup_class=lookups.MonodrogaLookup),
         }
 
-DosisFormSet = formset_factory(DosisForm, extra=1,can_order=True,can_delete=True,max_num=1,validate_max=True,min_num=1,validate_min=True)
+class DosisFormSetBase(BaseFormSet):
+    def is_valid(self):
+        ret = super(DosisFormSetBase, self).is_valid()
+        formula=set()
+        for form in self.forms:
+            mono = form.cleaned_data["monodroga"].pk
+            if mono in formula:
+                self._non_form_errors = self.error_class(forms.ValidationError("No se puede cargar una monodroga repetida"))
+                return False
+            formula.add(mono)
+            print(formula)
+        return ret
+DosisFormSet = formset_factory(DosisForm, formset=DosisFormSetBase, extra=1)

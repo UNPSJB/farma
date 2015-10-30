@@ -6,7 +6,7 @@ class Medicamento(models.Model):
     formulas = models.ManyToManyField('Monodroga',  through='Dosis')
     nombreFantasia = models.ForeignKey('NombreFantasia', help_text="Este es el Nombre Comercial del medicamento")
     presentacion = models.ForeignKey('Presentacion', help_text="Esta es la forma en la que se encuentra comercialmente el Medicamento")
-    codigoBarras = models.CharField("Codigo de barras", max_length=15, help_text="Este es un valor numerico, el cual deberia ser la clave")
+    codigoBarras = models.CharField("Codigo de barras", max_length=15, unique=True, error_messages={'unique':" Este codigo de barras ya esta cargado!"}, help_text="Este es un valor numerico, el cual deberia ser la clave")
     stockMinimo = models.PositiveIntegerField("Stock minimo de reposicion",
                                       help_text="Este es el stock minimo en el cual el sistema alertara de que es necesario realizar un pedido")
     precio = models.FloatField(help_text="Este es el precio de venta del medicamento")
@@ -28,10 +28,9 @@ class Formula(models.Model):
     monodroga = models.ForeignKey('Monodroga')
     dosis = models.ForeignKey('Dosis')
 
-
 class Monodroga(models.Model):
     FILTROS = ["nombre__icontains"]
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=100, unique=True, error_messages={'unique':" Esta monodroga ya esta cargada!"})
 
     def __str__(self):
         return "%s" % self.nombre
@@ -52,7 +51,7 @@ class Dosis(models.Model):
 
 class NombreFantasia(models.Model):
     FILTROS = ["nombreF__icontains"]
-    nombreF = models.CharField(max_length=100)
+    nombreF = models.CharField(max_length=100,unique=True,error_messages={'unique':" Este nombre de fantasia ya esta cargado!"})
 
     def __str__(self):
         return "%s" % self.nombreF
@@ -60,7 +59,7 @@ class NombreFantasia(models.Model):
 
 class Lote(models.Model):
     FILTROS = ["numero__icontains"]
-    numero = models.PositiveIntegerField()
+    numero = models.PositiveIntegerField(unique=True, error_messages={'unique':" Este numero de lote ya esta cargado!"})
     fechaVencimiento= models.DateField()
     stock=models.PositiveIntegerField()
     precio=models.FloatField()

@@ -79,10 +79,10 @@ def medicamento_add(request):
                 dosis = dosis_form.save(commit=False)
                 dosis.medicamento = medicamento
                 dosis.save()
-                if '_volver' in request.POST:
-                    return redirect('medicamentos')
-                else:
-                    return redirect('medicamento_add')
+            if '_volver' in request.POST:
+                return redirect('medicamentos')
+            else:
+                return redirect('medicamento_add')
             #redirect("medicamento_add")
     return render(request, "MedicamentoAdd.html", {
         "medicamento_form": medicamento_form,
