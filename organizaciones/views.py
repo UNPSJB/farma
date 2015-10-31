@@ -81,12 +81,12 @@ def clinica_add(request):
 def clinica_update(request, id_clinica):
     clinica = get_object_or_404(models.Clinica, pk=id_clinica)
     if request.method == "POST":
-        form = forms.ClinicaForm(request.POST, instance=clinica)
+        form = forms.ClinicaFormUpdate(request.POST, instance=clinica)
         if form.is_valid():
             form.save()
             return redirect('clinicas')
     else:
-        form = forms.ClinicaForm(instance=clinica)
+        form = forms.ClinicaFormUpdate(instance=clinica)
     return render(request, "clinicaUpdate.html", {'form': form, 'id': id_clinica})
 
 @login_required(login_url='login')
@@ -123,12 +123,12 @@ def laboratorio_add(request):
 def laboratorio_update(request, id_laboratorio):
     laboratorio = get_object_or_404(models.Laboratorio, pk=id_laboratorio)
     if request.method == "POST":
-        form = forms.LaboratorioForm(request.POST, instance=laboratorio)
+        form = forms.LaboratorioFormUpdate(request.POST, instance=laboratorio)
         if form.is_valid():
             form.save()
             return redirect('laboratorios')
     else:
-        form = forms.LaboratorioForm(instance=laboratorio)
+        form = forms.LaboratorioFormUpdate(instance=laboratorio)
     return render(request, "laboratorioUpdate.html", {'form': form, 'id': id_laboratorio})
 
 @login_required(login_url='login')

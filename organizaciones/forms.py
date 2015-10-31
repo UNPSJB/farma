@@ -25,7 +25,7 @@ class FarmaciaFormGenerico(forms.ModelForm):
         cuit = self.cleaned_data['cuit']
         if cuit:
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
-                raise forms.ValidationError(_('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x'))
+                raise forms.ValidationError('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
 
 
@@ -33,7 +33,7 @@ class FarmaciaFormGenerico(forms.ModelForm):
 class FarmaciaForm(FarmaciaFormGenerico):
 
     def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
+        super(FarmaciaForm, self).__init__(*args, **kwargs)
 
         for field_name in self.fields:
             field = self.fields.get(field_name)
@@ -46,12 +46,13 @@ class FarmaciaForm(FarmaciaFormGenerico):
 class FarmaciaFormUpdate(FarmaciaForm):
 
     def __init__(self, *args, **kwargs):
-        super(FarmaciaForm,self).__init__(*args, **kwargs)
+        super(FarmaciaFormUpdate,self).__init__(*args, **kwargs)
         self.fields['razonSocial'].widget.attrs['readonly'] = True
+        self.fields['cuit'].widget.attrs['readonly'] = True
 
 
 
-class ClinicaForm(forms.ModelForm):
+class ClinicaFormGenerico(forms.ModelForm):
 
     class Meta:
         model = models.Clinica
@@ -66,22 +67,32 @@ class ClinicaForm(forms.ModelForm):
             'email': _('Email'),
         }
     
+    def clean_cuit(self):
+        cuit = self.cleaned_data['cuit']
+        if cuit:
+            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
+                raise forms.ValidationError('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x')
+        return cuit
+
+class ClinicaForm(ClinicaFormGenerico):
+
     def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
+        super(ClinicaForm, self).__init__(*args, **kwargs)
 
         for field_name in self.fields:
             field = self.fields.get(field_name)
             if field:
                 field.widget.attrs.update({'placeholder': field.label, 'class': 'form-control'})
 
-    def clean_cuit(self):
-        cuit = self.cleaned_data['cuit']
-        if cuit:
-            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
-                raise forms.ValidationError(_('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x'))
-        return cuit
+class ClinicaFormUpdate(ClinicaForm):
 
-class LaboratorioForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ClinicaFormUpdate,self).__init__(*args, **kwargs)
+        self.fields['razonSocial'].widget.attrs['readonly'] = True
+        self.fields['cuit'].widget.attrs['readonly'] = True
+    
+
+class LaboratorioFormGenerico(forms.ModelForm):
 
     class Meta:
         model = models.Laboratorio
@@ -95,17 +106,26 @@ class LaboratorioForm(forms.ModelForm):
             'email': _('Email'),
         }
 
+    def clean_cuit(self):
+        cuit = self.cleaned_data['cuit']
+        if cuit:
+            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
+                raise forms.ValidationError('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x')
+        return cuit
+
+class LaboratorioForm(LaboratorioFormGenerico):
+
     def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
+        super(LaboratorioForm, self).__init__(*args, **kwargs)
 
         for field_name in self.fields:
             field = self.fields.get(field_name)
             if field:
                 field.widget.attrs.update({'placeholder': field.label, 'class': 'form-control'})
 
-    def clean_cuit(self):
-        cuit = self.cleaned_data['cuit']
-        if cuit:
-            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
-                raise forms.ValidationError(_('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x'))
-        return cuit
+class LaboratorioFormUpdate(LaboratorioForm):
+
+    def __init__(self, *args, **kwargs):
+        super(LaboratorioFormUpdate,self).__init__(*args, **kwargs)
+        self.fields['razonSocial'].widget.attrs['readonly'] = True
+        self.fields['cuit'].widget.attrs['readonly'] = True
