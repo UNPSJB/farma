@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from pedidos import forms, models
 from django.contrib.auth.decorators import login_required
 import datetime
@@ -35,5 +35,39 @@ def remitos(request):
 #PEDIDO DE FARMACIA#
 @login_required(login_url='login')
 def pedidoDeFarmacia(request):
-  fecha = datetime.datetime.now()
-  return render(request, "pedidoDeFarmacia.html",{'fecha_pedido': fecha})
+    if request.method == "POST":
+        form = forms.PedidoFarmaciaForm(request.POST)
+        if form.is_valid():
+            pedido = form.save()
+            return redirect('detallesPedidoFarmacia', pedido.nroPedido)
+    else:
+        form = forms.PedidoFarmaciaForm()
+    return render(request, "pedidoDeFarmacia.html",{"form": form })
+
+@login_required(login_url='login')
+def detallesPedidoFarmacia(request, id_pedido):
+    detalles = models.DetallePedidoFarmacia.objects.filter(pedidoFarmacia=id_pedido)
+    return render(request,"detallesPedidoFarmacia.html", {"detalles": detalles, "id_pedido": id_pedido})
+
+@login_required(login_url='login')
+def addDetallesPedidoFarmacia(request, id_pedido):
+    if request.method == "POST":
+        form = forms.DetallePedidoFarmaciaForm(request.POST)
+        if form.is_valid():
+            detalle = form.save(commit=False)
+            pedido = get_object_or_404(models.PedidoFarmacia, pk=id_pedido)
+            detalle.pedidoFarmacia = pedido
+            detalle.save()
+            if '_volver' in request.POST:
+                return redirect('detallesPedidoFarmacia', id_pedido)
+            else:
+                return redirect('addDetallesPedidoFarmacia', id_pedido)
+    else:
+        form = forms.DetallePedidoFarmaciaForm()
+    return render(request, "addDetallesPedidoFarmacia.html",{"form": form, "id_pedido": id_pedido})
+
+@login_required(login_url='login')
+def deleteDetallesPedidoFarmacia(request, id_pedido, id_detalle):
+    detalle = get_object_or_404(models.DetallePedidoFarmacia, pedidoFarmacia= id_pedido, pk=id_detalle)
+    detalle.delete()
+    return redirect('detallesPedidoFarmacia', id_pedido)

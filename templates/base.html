@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+    <link rel="stylesheet" href="{% static 'css/jquery.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{%  static 'css/base.css' %}">
 
@@ -21,6 +22,7 @@
         {% include 'footer.html' %}
 
         <script src="{% static 'js/jquery.js' %}"></script>
+        <script src="{% static 'js/jquery-ui.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
         {% block scripts %}{% endblock %}

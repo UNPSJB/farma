@@ -57,7 +57,13 @@ urlpatterns = [
     url(r'^pedidoDeClinica/$', views.pedidoDeClinica,name="pedidoDeClinica"),
     url(r'^devolucionMedicamentosVencidos/$', views.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
     url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos,name="recepcionReemplazoMedicamentos"),
-    
+
+
+    # ****** DETALLES DEL PEDIDO ******
+    url(r'^pedidoDeFarmacia/(?P<id_pedido>\d+)/detalles/$', pviews.detallesPedidoFarmacia, name="detallesPedidoFarmacia"),
+    url(r'^pedidoDeFarmacia/(?P<id_pedido>\d+)/detalles/add/$', pviews.addDetallesPedidoFarmacia, name="addDetallesPedidoFarmacia"),
+    url(r'^pedidoDeFarmacia/(?P<id_pedido>\d+)/detalles/delete/(?P<id_detalle>\d+)/$', pviews.deleteDetallesPedidoFarmacia, name="deleteDetallesPedidoFarmacia"),
+
     # ****** FARMACIAS ******
     url(r'^farmacias/$',oviews.farmacias, name="farmacias"),
     url(r'^farmacias/add/$', oviews.farmacia_add, name="farmacia_add"),
