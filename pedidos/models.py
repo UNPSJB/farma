@@ -62,3 +62,24 @@ class DetallePedidoFarmacia(DetallePedido):
 
     class Meta(DetallePedido.Meta):
         verbose_name_plural = "Detalles de Pedidos de Farmacia"
+
+#PEDIDO A LABORATORIO
+
+class PedidoAlaboratorio(models.Model):
+    numero = models.PositiveIntegerField(primary_key=True)
+    fecha = models.DateField()
+    laboratorio = models.ForeignKey('organizaciones.Laboratorio')
+
+    def __str__(self):
+        return "Laboratorio: %s - Fecha: %s - Nro Pedido: %s" % (self.laboratorio, self.fecha, self.numero)
+
+#DETALLE PEDIDO A LABORATORIO
+
+class DetallePedidoAlaboratorio(models.Model):
+    renglon = models.AutoField(primary_key=True)
+    pedido = models.ForeignKey('PedidoAlaboratorio', null=True)
+    cantidad = models.PositiveIntegerField()
+    medicamento = models.ForeignKey('medicamentos.Medicamento')
+
+    def __str__(self):
+        return ""

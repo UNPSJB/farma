@@ -71,3 +71,23 @@ def deleteDetallesPedidoFarmacia(request, id_pedido, id_detalle):
     detalle = get_object_or_404(models.DetallePedidoFarmacia, pedidoFarmacia= id_pedido, pk=id_detalle)
     detalle.delete()
     return redirect('detallesPedidoFarmacia', id_pedido)
+
+#@login_required(login_url='login')
+#def pedidoALaboratorio(request):
+#  pedidoALaboratorio = models.PedidoAlaboratorio
+
+ # return render(request, "pedidoALaboratorio.html")
+
+@login_required(login_url='login')
+def pedidoALaboratorio(request):
+    if request.method == "POST":
+        pedidoALaboratorio_form = forms.PedidoLaboratorioForm(request.POST)
+        if pedidoALaboratorio_form.is_valid():
+            pedidoALaboratorio_form.save()
+            if '_volver' in request.POST:
+                return redirect('pedidoALaboratorio')
+            else:
+                return redirect('pedidoALaboratorio')
+    else:
+        pedidoALaboratorio_form = forms.PedidoLaboratorioForm()
+    return render(request, "pedidoALaboratorio.html", {"pedidoALaboratorio_form": pedidoALaboratorio_form})

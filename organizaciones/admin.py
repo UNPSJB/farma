@@ -6,4 +6,3 @@ from .models import Farmacia, Clinica, Laboratorio
 admin.site.register(Farmacia)
 admin.site.register(Clinica)
 admin.site.register(Laboratorio)
-

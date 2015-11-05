@@ -47,3 +47,9 @@ class DetallePedidoFarmaciaForm(forms.ModelForm):
             field = self.fields.get(field_name)
             if field:
                 field.widget.attrs.update({'placeholder': field.label, 'class': 'form-control'})
+
+class PedidoLaboratorioForm(forms.ModelForm):
+
+    class Meta:
+        model = models.PedidoAlaboratorio
+        fields = ["numero" , "fecha", "laboratorio"]
