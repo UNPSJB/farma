@@ -4,6 +4,8 @@
 
 {% block stylesheets %}
 	<link rel="stylesheet" href="{% static 'css/base-ABM.css' %}">
+    {% block more-stylesheets %}
+    {% endblock %}
 {% endblock %}
 
 {% block title %}
@@ -12,7 +14,7 @@
 {% block content %}
 
     <div class="container-fluid panel-grid">
-        <div class="col-xs-12">
+        <div class="col-xs-12 {% block ancho-panel %}{% endblock %}">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="pull-left">
@@ -21,20 +23,25 @@
                     </div>
                     <div class="btn-group btn-group-xs pull-right">
                         <a class="btn btn-success" href="{% block url-add %} {% endblock %}" id="alta"><span class="glyphicon glyphicon-plus"></span>  Alta</a>
-                        <a class="btn btn-warning hidden" id="modificar"><span class="glyphicon glyphicon-pencil"></span>  Modificación</a>
+                        {% block btn-modificacion %}
+                            <a class="btn btn-warning hidden" id="modificar"><span class="glyphicon glyphicon-pencil"></span>  Modificación</a>
+                        {% endblock %}
                         <a class="btn btn-danger hidden" id="baja"><span class="glyphicon glyphicon-minus"></span>  Baja</a>
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="panel-body">
-                    <form method="GET" class="form-inline pull-right">
-                        <div class="form-group">
-                            {%block filtro %} {% endblock %}
-                        </div>
-                    </form>
+                    {% block form-busqueda %}
+                        <form method="GET" class="form-inline pull-right">
+                            <div class="form-group">
+                                {%block filtro %} {% endblock %}
+                            </div>
+                        </form>
+                    {% endblock %}
                     {% block grid %}
                     {% endblock %}
                 </div>
+                {% block panel-footer %}{% endblock %}
             </div>
         </div>
     </div>

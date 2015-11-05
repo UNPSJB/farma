@@ -1,23 +1,34 @@
-{% extends "base-pedidos.html" %}
+{% extends "base-crear-pedido.html" %}
 {% load staticfiles %}
+
+{% block more-stylesheets %}
+    <link rel="stylesheet" href="{%  static 'css/custom-theme/jquery-ui-1.10.3.custom.css'  %}">
+    {{ form.media.css }}
+{% endblock %}
 
 {% block title %}
 	<title>Pedido De Farmacia</title>
 {% endblock %}
 
 {% block panel-title-pedido %}
-	<h3 class="panel-title">Pedido de Farmacia</h3> 
+	Pedido de Farmacia
 {% endblock %}
 
-{% block form-pedido %}
-	<form class="form-horizontal">
-		<div class="form-group">
-			<label class="control-label col-xs-12 col-md-2" for="inputFarmacia">Farmacia:</label>
-			<div class="col-xs-12 col-md-10">
-				<input class="form-control" id="inputFarmacia" type="text" placeholder="Nombre de la Farmacia" autofocus required />
-			</div>
-		</div> <!-- end form-group -->
-	</form> <!-- end form -->
-{% endblock %}				
-						
+{% block form-action %}
+{% url 'pedidoDeFarmacia' %}
+{% endblock %}
+
+{% block more-scripts %}
+    {{ form.media.js }}
+    <script>
+        (function(){
+            $(".datepicker").datepicker({
+                changeDay: true,
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1990:2030",
+            });
+        })();
+    </script>
+{% endblock %}
 

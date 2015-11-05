@@ -26,6 +26,9 @@ class PedidoVenta(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return str(self.nroPedido)
+
 
 #CLASE ABSTRACTA DETALLE PEDIDO
 class DetallePedido(models.Model):
@@ -35,6 +38,9 @@ class DetallePedido(models.Model):
 
     class Meta:
         abstract = True
+
+    def __str__(self):
+        return str(self.renglon)
 
 #PEDIDO DE FARMACIA
 class PedidoFarmacia(PedidoVenta):
@@ -46,7 +52,13 @@ class PedidoFarmacia(PedidoVenta):
     farmacia = models.ForeignKey('organizaciones.Farmacia')
     estado = models.CharField(max_length=25, choices=ESTADOS)
 
+    class Meta(PedidoVenta.Meta):
+        verbose_name_plural = "Pedidos de Farmacia"
+
 #DETALLE PEDIDO DE FARMACIA
 
 class DetallePedidoFarmacia(DetallePedido):
     pedidoFarmacia = models.ForeignKey('PedidoFarmacia')
+
+    class Meta(DetallePedido.Meta):
+        verbose_name_plural = "Detalles de Pedidos de Farmacia"
