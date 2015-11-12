@@ -2,11 +2,11 @@
 {% load staticfiles %}
 
 {% block title %}
-	<title>Nombre Fantasia</title>
+	Nombre Fantasia
 {% endblock %}
 
 {% block panel-title-ABM %}
-    <h3 class="panel-title">Nombres Fantasia</h3>
+    Nombres Fantasia
 {% endblock %}
 
 {% block add-button %}
@@ -42,6 +42,15 @@
  <label for="nombre" >Buscar:</label>
  <input class="filtro" id="nombre" name="nombre" value="{{filtros.nombreF}}" placeholder=" Nombre" autofocus>
 
+{% endblock %}
+
+{% block cantidad-elementos %}
+    {{ nombresFantasias|length }}
+    {% if nombresFantasias|length != 1%}
+        nombres fantasias
+    {% else %}
+        nombre fantasia
+    {% endif %}
 {% endblock %}
 
 {% block modal-baja-title %}

@@ -60,13 +60,13 @@ class NombreFantasia(models.Model):
 class Lote(models.Model):
     FILTROS = ["numero__icontains"]
     numero = models.PositiveIntegerField(unique=True, error_messages={'unique':" Este numero de lote ya esta cargado!"})
-    fechaVencimiento= models.DateField()
-    stock=models.PositiveIntegerField()
-    precio=models.FloatField()
-    medicamento=models.ForeignKey('Medicamento', on_delete=models.CASCADE)
+    fechaVencimiento = models.DateField()
+    stock = models.PositiveIntegerField()
+    precio = models.FloatField()
+    medicamento = models.ForeignKey('Medicamento', on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s" % self.nombreF
+        return "%s" % self.numero
 
 
 

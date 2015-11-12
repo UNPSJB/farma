@@ -98,7 +98,7 @@ class MedicamentoForm(forms.ModelForm):
     presentacion = forms.ModelChoiceField(
        required=True,
        queryset=models.Presentacion.objects.all(),
-       widget=RelatedFieldWidgetCanAdd(models.Presentacion, related_url="presentacion")
+       widget=RelatedFieldWidgetCanAdd(models.Presentacion, related_url="presentacion_add")
 
     )
 

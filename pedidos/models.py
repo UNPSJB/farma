@@ -1,8 +1,21 @@
 from django.db import models
-
+from medicamentos.models import Lote
 # Create your models here.
+
+class Remito(models.Model):
+    pedidoFarmacia = models.ForeignKey('PedidoFarmacia', on_delete=models.CASCADE)
+    fecha = models.DateField()
+
+
+class DetalleRemito(models.Model):
+    remito = models.ForeignKey('Remito', on_delete=models.CASCADE)
+    cantidad = models.BigIntegerField()
+    detallePedidoFarmacia = models.ForeignKey('DetallePedidoFarmacia')
+
+    def __str__(self):
+        return self.remito
+
 class RemitoMedVencido(models.Model):
-    FILTROS = ["numero__icontains"]
     numero = models.BigIntegerField()
     fecha = models.DateField()
     #estado
@@ -20,6 +33,7 @@ class DetalleRemitoVencido(models.Model):
 
 #CLASE ABSTRACTA PEDIDO VENTA
 class PedidoVenta(models.Model):
+    FILTROS = "farmacia__razonSocial__icontains"
     nroPedido = models.AutoField(primary_key=True)
     fecha = models.DateField(editable=True)
 
@@ -32,7 +46,6 @@ class PedidoVenta(models.Model):
 
 #CLASE ABSTRACTA DETALLE PEDIDO
 class DetallePedido(models.Model):
-    renglon = models.AutoField(primary_key=True)
     cantidad = models.PositiveIntegerField()
     medicamento = models.ForeignKey('medicamentos.Medicamento')
 
@@ -40,14 +53,20 @@ class DetallePedido(models.Model):
         abstract = True
 
     def __str__(self):
-        return str(self.renglon)
+        return str(self.id)
 
 #PEDIDO DE FARMACIA
 class PedidoFarmacia(PedidoVenta):
+    FILTROS = ["farmacia", "desde", "hasta"]
+    FILTERMAPPER = {
+        'desde': "fecha__gte",
+        'hasta': "fecha__lte",
+        'farmacia': "farmacia__razonSocial__icontains"
+    }
     ESTADOS = (
-        ('pendiente', 'Pendiente'),
-        ('parcialmente enviado', 'Parcialmente enviado'),
-        ('enviado', 'Enviado'),
+        ('Pendiente', 'Pendiente'),
+        ('Parcialmente enviado', 'Parcialmente enviado'),
+        ('Enviado', 'Enviado'),
     )
     farmacia = models.ForeignKey('organizaciones.Farmacia')
     estado = models.CharField(max_length=25, choices=ESTADOS)
@@ -62,3 +81,9 @@ class DetallePedidoFarmacia(DetallePedido):
 
     class Meta(DetallePedido.Meta):
         verbose_name_plural = "Detalles de Pedidos de Farmacia"
+
+    def save(self, *args, **kwargs):
+        super(DetallePedidoFarmacia, self).save(*args, **kwargs)
+        lotes = Lote.objects.filter(medicamento__codigoBarras=self.medicamento.codigoBarras)
+        print lotes
+

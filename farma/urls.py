@@ -45,24 +45,27 @@ urlpatterns = [
     url(r'^nombresFantasia/delete/(?P<id_nombreFantasia>\d+)/$', mviews.nombresFantasia_delete, name="nombresFantasia_delete"),
 
     url(r'^Presentacion/$', mviews.presentacion, name="presentacion"),
-    url(r'^Presentacion_add/$', mviews.presentacion_add, name="presentacion_add"),
+    url(r'^Presentacion/add/$', mviews.presentacion_add, name="presentacion_add"),
     url(r'^Presentacion/update/(?P<id_presentacion>\d+)/$', mviews.presentacion_update, name="presentacion_update"),
     url(r'^Presentacion/delete/(?P<id_presentacion>\d+)/$', mviews.presentacion_delete, name="presentacion_delete"),
 
 
     # ****** PEDIDOS ******
-    url(r'^pedidoDeFarmacia/$', pviews.pedidoDeFarmacia, name="pedidoDeFarmacia"),
     url(r'^pedidoALaboratorio/$', views.pedidoALaboratorio, name="pedidoALaboratorio"),
     url(r'^recepcionPedidoDeLaboratorio/$', views.recepcionPedidoDeLaboratorio, name="recepcionPedidoDeLaboratorio"),
     url(r'^pedidoDeClinica/$', views.pedidoDeClinica,name="pedidoDeClinica"),
     url(r'^devolucionMedicamentosVencidos/$', views.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
     url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos,name="recepcionReemplazoMedicamentos"),
 
-
-    # ****** DETALLES DEL PEDIDO ******
-    url(r'^pedidoDeFarmacia/(?P<id_pedido>\d+)/detalles/$', pviews.detallesPedidoFarmacia, name="detallesPedidoFarmacia"),
-    url(r'^pedidoDeFarmacia/(?P<id_pedido>\d+)/detalles/add/$', pviews.addDetallesPedidoFarmacia, name="addDetallesPedidoFarmacia"),
-    url(r'^pedidoDeFarmacia/(?P<id_pedido>\d+)/detalles/delete/(?P<id_detalle>\d+)/$', pviews.deleteDetallesPedidoFarmacia, name="deleteDetallesPedidoFarmacia"),
+    # ****** PEDIDOS DE FARMACIA ******
+    url(r'^pedidosDeFarmacia/$', pviews.pedidosDeFarmacia, name="pedidosDeFarmacia"),
+    url(r'^pedidosDeFarmacia/add/$', pviews.pedidoF_add, name="pedidoF_add"),
+    url(r'^pedidosDeFarmacia/add/(?P<id_pedido>\d+)$', pviews.detalles_pedidoF, name="detalles_pedidoF"),
+    url(r'^pedidosDeFarmacia/add/(?P<id_pedido>\d+)/detalles/add/$', pviews.addDetalle_pedidoF, name="addDetalle_pedidoF"),
+    url(r'^pedidosDeFarmacia/add/(?P<id_pedido>\d+)/detalles/delete/(?P<id_detalle>\d+)/$', pviews.deleteDetalle_pedidoF, name="deleteDetalle_pedidoF"),
+    url(r'^pedidosDeFarmacia/add/(?P<id_pedido>\d+)/detalles/update/(?P<id_detalle>\d+)/$', pviews.updateDetalle_pedidoF, name="updateDetalle_pedidoF"),
+    url(r'^pedidosDeFarmacia/despachar/(?P<id_pedido>\d+)/$', pviews.despachar_pedidoF, name="despachar_pedidoF"),
+    url(r'^get_detalles_pedido_farmacia_ajax/$', pviews.get_detalles_pedido_farmacia_ajax, name="get_detalles_pedido_farmacia_ajax"),
 
     # ****** FARMACIAS ******
     url(r'^farmacias/$',oviews.farmacias, name="farmacias"),
@@ -87,6 +90,5 @@ urlpatterns = [
     
     # ****** OTROS ******
     url(r'^obrasSociales/$',views.paginaEnConstruccion, name="paginaEnConstruccion"),
-
 
 ]

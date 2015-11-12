@@ -1,4 +1,4 @@
-{% extends "base-crear-pedido.html" %}
+{% extends "pedidoDeFarmacia/base-add-pedido.html" %}
 {% load staticfiles %}
 
 {% block more-stylesheets %}
@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block title %}
-	<title>Pedido De Farmacia</title>
+	Alta Pedido De Farmacia
 {% endblock %}
 
 {% block panel-title-pedido %}
@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block form-action %}
-{% url 'pedidoDeFarmacia' %}
+{% url 'pedidoF_add' %}
 {% endblock %}
 
 {% block more-scripts %}

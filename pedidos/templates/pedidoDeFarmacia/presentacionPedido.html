@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{% static 'css/pedidos-detalles.css' %}">
+    <style>
+      .panel{
+        font-family: 'Bree Serif', serif;
+      }
+    </style>
+{% endblock %}
+
+{% block title %}
+Pedido de Farmacia
+{% endblock %}
+
+{% block content %}
+
+	<!-- Cabezera del pedido -->
+	<div class="container">
+		<div class="col-xs-12 col-md-offset-2 col-md-8">
+			<div class="panel panel-primary panel-cabezera">
+					<div class="panel-heading">
+                        <h3 class="panel-title">Pedido de Farmacia</h3>
+					</div>
+					<div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-xs-7">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Farmacia:
+                                            <span class="text-info">{{ pedido.farmacia.razonSocial }}</span>
+                                        </h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p>Cuit: {{ pedido.farmacia.cuit }}</p>
+                                        <p>Localidad: {{ pedido.farmacia.localidad}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <p class="text-right"><span class="glyphicon glyphicon-calendar text-primary"></span> {{ pedido.fecha|date:"d/m/Y" }}</p>
+                                <div class="panel panel-default numero-pedido pull-right">
+                                    <div class="panel-body">
+                                        <span> N {{ pedido.nroPedido }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- end panel-body -->
+			</div><!-- end panel -->
+		</div><!-- end col-md ... -->
+	</div><!-- end container ...-->
+	<!-- end cabezera del pedido-->
+
+	<!-- Detalles del pedido -->
+	<div class="container panel-detalle">
+		<div class="col-xs-12 col-md-offset-2 col-md-8">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+						<h3 class="panel-title pull-left">Detalles del pedido</h3>							
+							<div id="botones-detalles" class="btn-group btn-group-xs pull-right">
+								<a class="btn btn-success" href="{% url 'addDetalle_pedidoF' pedido.nroPedido %}" >
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </a>
+                                <a id="btn-modificar-detalle" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
+								<a id="btn-baja-detalle" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></a>
+							</div>
+							<div class="clearfix"></div>
+				</div>
+				<div class="panel-body">
+						<table class="table table-condensed table-responsive" >
+							<thead>
+								<tr class="info" align="center">
+									<th>Medicamento</th>
+									<th>Cantidad</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for detalle in detalles %}
+                                    <tr class="clickeable" data-id="{{ detalle.id }}">
+                                        <td>{{ detalle.medicamento }}</td>
+                                        <td>{{ detalle.cantidad }}</td>
+                                    </tr>
+                                {% endfor %}
+							</tbody>
+						</table><!-- end table -->
+				</div><!-- end panel-body -->
+				<div class="panel-footer">
+					<div class="pull-right">
+						<button class="btn btn-success" type="submit">Registrar</button>
+					</div>
+					<div class="clearfix"></div>
+				</div><!--- end panel-footer -->
+			</div><!-- end panel -->
+		</div><!-- end col-md ... -->
+	</div><!-- end container ... -->
+	<!-- end detalles del pedido -->
+
+
+
+
+    <div class="modal fade" id="modal-baja" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Eliminar Detalle</h4>
+                </div>
+                <div class="modal-body">
+                    <p>El detalle se eliminara permanentemente -esta seguro- </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary confirmar">Confirmar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/utils.js' %}"></script>
+    <script>
+        (function(){
+            $(".clickeable").click(function(e) {
+                select_row_table(this);
+                e.stopPropagation();
+            });
+
+            $(document).keyup(function(e){
+                if(e.keyCode == 27){
+                    $("tr").removeClass("active");
+                }
+            });
+
+            $(document).on("click", function(e){
+                $("tr").removeClass("active");
+            });
+
+            $("#btn-baja-detalle").click(function(e){
+                var id = get_selected_row();
+                if(id){
+                    crear_baja("/pedidosDeFarmacia/add/{{id_pedido}}/detalles/delete/", id);
+                }
+                e.stopPropagation();
+            });
+
+            $("#btn-modificar-detalle").click(function(e){
+                var id = get_selected_row();
+                if(id){
+                    $(this).attr("href", "/pedidosDeFarmacia/add/" + {{id_pedido}} + "/detalles/update/" + id +"/");
+                }
+                e.stopPropagation();
+            });
+        })();
+    </script>
+
+    {% block more-scripts%}{% endblock %}
+
+{% endblock %}
+

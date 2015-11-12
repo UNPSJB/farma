@@ -2,11 +2,11 @@
 {% load staticfiles %}
 
 {% block title %}
-	<title>Laboratorios</title>
+	Laboratorios
 {% endblock %}
 
 {% block panel-title-ABM %}
-    <h3 class="panel-title">Laboratorios</h3>
+    Laboratorios
 {% endblock %}
 
 
@@ -48,6 +48,14 @@
 
 {% endblock %}
 
+{% block cantidad-elementos %}
+    {{ laboratorios|length }}
+    {% if laboratorios|length != 1%}
+        laboratorios
+    {% else %}
+        laboratorio
+    {% endif %}
+{% endblock %}
 
 {% block modal-baja-title %}
     <h4 class="modal-title">Eliminar Laboratorio </h4>

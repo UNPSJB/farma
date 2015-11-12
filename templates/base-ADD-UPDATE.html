@@ -31,10 +31,14 @@
 		<nav>
 			<ul class="pager" style="margin-bottom: 40px;">
 				<li class="previous pull-right">
-					<a href="{% block url-previous %} {% endblock %}"><span aria-hidden="true">&larr;</span> 	Volver</a>
+					<a href="#" onclick="history.back();"><span aria-hidden="true">&larr;</span> 	Volver</a>
 	    		</li>
 	    	</ul>
 		</nav>
 	</div>
 	
 {% endblock %}
+
+{% block scripts %}
+
+{% endblock%}

@@ -1,0 +1,27 @@
+{% extends "base-ADD-UPDATE.html" %}
+
+{% block title %}Actualizar Detalle{% endblock %}
+
+{% block panel-heading-add %}
+    <h3 class="panel-title">Modificacion del Detalle</h3>
+{% endblock %}
+
+{% block url-form-action %} {% url 'updateDetalle_pedidoF' id_pedido id_detalle %}  {% endblock %}
+
+{% block boton-form %}
+    <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+{% endblock%}
+
+<!--{% block url-previous %} {% url 'detalles_pedidoF' id_pedido%} {% endblock %}-->
+
+{% block more-scripts %}
+    <script>
+
+        (function(){
+            $("#btn-guardar").click(function(e){
+                $("select").attr('disabled', false);
+                e.stopPropagation();
+            });
+        })();
+    </script>
+{% endblock%}

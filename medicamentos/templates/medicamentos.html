@@ -2,12 +2,12 @@
 {% load staticfiles %}
 
 {% block title %}
-	<title>Medicamentos</title>
+	Medicamentos
 {% endblock %}
 
 
 {% block panel-title-ABM%}
-    <h3 class="panel-title">Medicamentos</h3>
+    Medicamentos
 {% endblock %}
 
 {% block url-add %}{% url 'medicamento_add' %}{% endblock %}
@@ -50,6 +50,14 @@
     </table>
 {% endblock %}
 
+{% block cantidad-elementos %}
+    {{ medicamentos|length }}
+    {% if medicamentos|length != 1%}
+        medicamentos
+    {% else %}
+        medicamento
+    {% endif %}
+{% endblock %}
 
 {% block modal-baja-title %}
     <h4 class="modal-title">Eliminar Medicamento </h4>

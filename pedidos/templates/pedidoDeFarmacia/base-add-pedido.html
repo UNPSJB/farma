@@ -3,7 +3,12 @@
 {% load staticfiles %}
 
 {% block stylesheets %}
-	<link rel="stylesheet" href="{% static 'css/pedidos.css' %}">
+	<style>
+		.panel-cabezera{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+	</style>
     {% block more-stylesheets %}{% endblock %}
 {% endblock %}
 

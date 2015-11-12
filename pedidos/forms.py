@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 from django import forms
-from . import models
-import datetime
-from . import lookups
+from pedidos import models, lookups
 from selectable import forms as selectable
+from django.core.exceptions import ObjectDoesNotExist
+import datetime
 
 class RemitoForm(forms.ModelForm):
 
@@ -18,7 +18,7 @@ class PedidoFarmaciaForm(forms.ModelForm):
 
     class Meta:
         model = models.PedidoFarmacia
-        fields = ["farmacia", "fecha", "estado"]
+        fields = ["farmacia", "fecha"]
         widgets = {
             'farmacia': selectable.AutoCompleteSelectWidget(lookup_class=lookups.FarmaciaLookup),
         }
@@ -47,3 +47,10 @@ class DetallePedidoFarmaciaForm(forms.ModelForm):
             field = self.fields.get(field_name)
             if field:
                 field.widget.attrs.update({'placeholder': field.label, 'class': 'form-control'})
+
+
+class DetallePedidoFarmaciaFormUpdate(DetallePedidoFarmaciaForm):
+
+    def __init__(self, *args, **kwargs):
+        super(DetallePedidoFarmaciaFormUpdate, self).__init__(*args, **kwargs)
+        self.fields['medicamento'].widget.attrs['disabled'] = True

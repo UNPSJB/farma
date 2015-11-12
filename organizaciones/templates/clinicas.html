@@ -3,11 +3,11 @@
 {% load staticfiles %}
 
 {% block title %}
-	<title>Clínicas</title>
+	Clínicas
 {% endblock %}
 
 {% block panel-title-ABM %}
-    <h3 class="panel-title">Clínicas</h3>
+    Clínicas
 {% endblock %}
 
 {% block grid %}
@@ -50,6 +50,14 @@
 
 {% endblock %}
 
+{% block cantidad-elementos %}
+    {{ clinicas|length }}
+    {% if clinicas|length != 1%}
+        clinicas
+    {% else %}
+        clinica
+    {% endif %}
+{% endblock %}
 
 {% block modal-baja-title %}
     <h4 class="modal-title">Eliminar Clínica </h4>
