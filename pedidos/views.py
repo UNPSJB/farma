@@ -54,7 +54,7 @@ def pedidoF_add(request):
             pedido.save()
             return redirect('detalles_pedidoF', pedido.nroPedido)
     else:
-        form = forms.PedidoFarmaciaForm()
+           form = forms.PedidoFarmaciaForm()
     return render(request, "pedidoDeFarmacia/pedidoAdd.html", {"form": form})
 
 

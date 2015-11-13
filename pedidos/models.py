@@ -1,5 +1,8 @@
 from django.db import models
-from medicamentos.models import Lote
+
+
+
+
 # Create your models here.
 
 class Remito(models.Model):
@@ -11,6 +14,7 @@ class DetalleRemito(models.Model):
     remito = models.ForeignKey('Remito', on_delete=models.CASCADE)
     cantidad = models.BigIntegerField()
     detallePedidoFarmacia = models.ForeignKey('DetallePedidoFarmacia')
+   # lote = models.ForeignKey('medicamentos.Lote')
 
     def __str__(self):
         return self.remito
@@ -74,16 +78,63 @@ class PedidoFarmacia(PedidoVenta):
     class Meta(PedidoVenta.Meta):
         verbose_name_plural = "Pedidos de Farmacia"
 
+    def save(self, *args, **kwargs):
+        super(PedidoFarmacia, self).save(*args, **kwargs)
+        remito = Remito()
+        remito.pedidoFarmacia=self
+        remito.fecha=self.fecha
+        remito.save()
+
 #DETALLE PEDIDO DE FARMACIA
 
 class DetallePedidoFarmacia(DetallePedido):
     pedidoFarmacia = models.ForeignKey('PedidoFarmacia')
+
 
     class Meta(DetallePedido.Meta):
         verbose_name_plural = "Detalles de Pedidos de Farmacia"
 
     def save(self, *args, **kwargs):
         super(DetallePedidoFarmacia, self).save(*args, **kwargs)
-        lotes = Lote.objects.filter(medicamento__codigoBarras=self.medicamento.codigoBarras)
-        print lotes
+        todosLotes= Lote.objects.filter(medicamento__id = self.id).order_by('fechaVencimiento')
+        stock = 0
+
+        for lote in todosLotes:
+                stock+=lote.stock
+
+        if(self.cantidad <= stock):
+            cantParaPedido=self.cantidad
+            i=0
+            while (cantParaPedido>0):
+                lote=todosLotes[i]
+
+                if(lote.stock<cantParaPedido):
+                    cantParaPedido-=lote.stock
+                    lote.stock = 0
+
+                else:
+                    lote.stock-= cantParaPedido
+                    cantParaPedido=0
+
+                detalleRemito = DetalleRemito()
+                detalleRemito.lote=lote
+                detalleRemito.cantidad= lote.stock
+                detalleRemito.detallePedidoFarmacia=self
+                remito=Remito.objects.get(pedidoFarmacia=self.pedidoFarmacia)
+                detalleRemito.remito=remito
+
+                i+=1
+
+
+
+
+
+
+
+
+
+
+
+
+
 
