@@ -1,0 +1,27 @@
+{% extends "pedidoDeFarmacia/base-presentacion-pedido.html" %}
+
+{% block title %}Ver Pedido De Farmacia{% endblock %}
+
+{% block more-scripts%}
+    <script>
+        (function(){
+
+            /**************************** EVENTOS ****************************/
+            $(".clickeable").click(function(e) {
+                select_row_table(this);
+                e.stopPropagation();
+            });
+
+            $(document).keyup(function(e){
+                if(e.keyCode == 27){
+                    $("tr").removeClass("active");
+                }
+            });
+
+            $(document).on("click", function(e){
+                $("tr").removeClass("active");
+            });
+
+        })();
+    </script>
+{% endblock %}

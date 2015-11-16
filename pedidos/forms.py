@@ -3,19 +3,21 @@ from django import forms
 from pedidos import models, lookups
 from selectable import forms as selectable
 from django.core.exceptions import ObjectDoesNotExist
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field
 import datetime
 
-class RemitoForm(forms.ModelForm):
-
-    numero = forms.ModelChoiceField(queryset=models.RemitoMedVencido.objects.all())
-    day = forms.DateField(initial=datetime.date.today)
-
-    class Meta:
-        model = models.RemitoMedVencido
-        fields = ["numero", "fecha"]
-
 class PedidoFarmaciaForm(forms.ModelForm):
-
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'form-pedido'
+    helper.form_action = 'pedidoF_add'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('farmacia', placeholder='Farmacia'),
+        Field('fecha', placeholder='Fecha', css_class='datepicker'),
+    )
     class Meta:
         model = models.PedidoFarmacia
         fields = ["farmacia", "fecha"]
@@ -23,34 +25,35 @@ class PedidoFarmaciaForm(forms.ModelForm):
             'farmacia': selectable.AutoCompleteSelectWidget(lookup_class=lookups.FarmaciaLookup),
         }
 
-    def __init__(self, *args, **kwargs):
-        super(PedidoFarmaciaForm, self).__init__(*args, **kwargs)
 
-        for field_name in self.fields:
-            field = self.fields.get(field_name)
-            if field:
-                clases = 'form-control'
-                if field_name == 'fecha':
-                    clases = clases + ' datepicker'
-                field.widget.attrs.update({'placeholder': field.label, 'class': clases})
-
+#CRISPY-FORMS
 class DetallePedidoFarmaciaForm(forms.ModelForm):
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'form-add-detalle'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        'medicamento',
+        Field('cantidad', placeholder='Cantidad'),
+    )
 
     class Meta:
         model = models.DetallePedidoFarmacia
         fields = ["medicamento", "cantidad"]
 
-    def __init__(self, *args, **kwargs):
-        super(DetallePedidoFarmaciaForm, self).__init__(*args, **kwargs)
+class UpdateDetallePedidoFarmaciaForm(forms.ModelForm):
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'form-update-detalle'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        #Field('medicamento', disabled=True),
+        'medicamento',
+        Field('cantidad', placeholder='Cantidad'),
+    )
 
-        for field_name in self.fields:
-            field = self.fields.get(field_name)
-            if field:
-                field.widget.attrs.update({'placeholder': field.label, 'class': 'form-control'})
-
-
-class DetallePedidoFarmaciaFormUpdate(DetallePedidoFarmaciaForm):
-
-    def __init__(self, *args, **kwargs):
-        super(DetallePedidoFarmaciaFormUpdate, self).__init__(*args, **kwargs)
-        self.fields['medicamento'].widget.attrs['disabled'] = True
+    class Meta:
+        model = models.DetallePedidoFarmacia
+        fields = ["medicamento", "cantidad"]

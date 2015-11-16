@@ -1,106 +1,29 @@
-{% extends "base.html" %}
+{% extends "pedidoDeFarmacia/base-presentacion-pedido.html" %}
 {% load staticfiles %}
-
-{% block stylesheets %}
-	<link rel="stylesheet" href="{% static 'css/pedidos-detalles.css' %}">
-    <style>
-      .panel{
-        font-family: 'Bree Serif', serif;
-      }
-    </style>
-{% endblock %}
+{% load crispy_forms_tags %}
 
 {% block title %}
 Pedido de Farmacia
 {% endblock %}
 
-{% block content %}
 
-	<!-- Cabezera del pedido -->
-	<div class="container">
-		<div class="col-xs-12 col-md-offset-2 col-md-8">
-			<div class="panel panel-primary panel-cabezera">
-					<div class="panel-heading">
-                        <h3 class="panel-title">Pedido de Farmacia</h3>
-					</div>
-					<div class="panel-body">
+{% block panel-heading-right %}
+    <div class="btn-group btn-group-xs">
+        <a id="btn-add-detalle" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>
+        <a id="btn-update-detalle" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
+        <a id="btn-baja-detalle" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></a>
+    </div>
+{% endblock %}
 
-                        <div class="row">
-                            <div class="col-xs-7">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">Farmacia:
-                                            <span class="text-info">{{ pedido.farmacia.razonSocial }}</span>
-                                        </h3>
-                                    </div>
-                                    <div class="panel-body">
-                                        <p>Cuit: {{ pedido.farmacia.cuit }}</p>
-                                        <p>Localidad: {{ pedido.farmacia.localidad}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-5">
-                                <p class="text-right"><span class="glyphicon glyphicon-calendar text-primary"></span> {{ pedido.fecha|date:"d/m/Y" }}</p>
-                                <div class="panel panel-default numero-pedido pull-right">
-                                    <div class="panel-body">
-                                        <span> N {{ pedido.nroPedido }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{% block table-tbody %}{% endblock %}
+{% block panel-footer %}
+    <div class="pull-right">
+        <button id="btn-registrar" class="btn btn-primary" type="submit">Registrar</button>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}
 
-                    </div><!-- end panel-body -->
-			</div><!-- end panel -->
-		</div><!-- end col-md ... -->
-	</div><!-- end container ...-->
-	<!-- end cabezera del pedido-->
-
-	<!-- Detalles del pedido -->
-	<div class="container panel-detalle">
-		<div class="col-xs-12 col-md-offset-2 col-md-8">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-						<h3 class="panel-title pull-left">Detalles del pedido</h3>							
-							<div id="botones-detalles" class="btn-group btn-group-xs pull-right">
-								<a class="btn btn-success" href="{% url 'addDetalle_pedidoF' pedido.nroPedido %}" >
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                </a>
-                                <a id="btn-modificar-detalle" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
-								<a id="btn-baja-detalle" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></a>
-							</div>
-							<div class="clearfix"></div>
-				</div>
-				<div class="panel-body">
-						<table class="table table-condensed table-responsive" >
-							<thead>
-								<tr class="info" align="center">
-									<th>Medicamento</th>
-									<th>Cantidad</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for detalle in detalles %}
-                                    <tr class="clickeable" data-id="{{ detalle.id }}">
-                                        <td>{{ detalle.medicamento }}</td>
-                                        <td>{{ detalle.cantidad }}</td>
-                                    </tr>
-                                {% endfor %}
-							</tbody>
-						</table><!-- end table -->
-				</div><!-- end panel-body -->
-				<div class="panel-footer">
-					<div class="pull-right">
-						<button class="btn btn-success" type="submit">Registrar</button>
-					</div>
-					<div class="clearfix"></div>
-				</div><!--- end panel-footer -->
-			</div><!-- end panel -->
-		</div><!-- end col-md ... -->
-	</div><!-- end container ... -->
-	<!-- end detalles del pedido -->
-
-
-
+{% block more-content %}
 
     <div class="modal fade" id="modal-baja" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-sm" role="document">
@@ -121,13 +44,275 @@ Pedido de Farmacia
     </div>
 
 
+    <!-- Modal add-detalle-modal-->
+    <div class="modal fade" id="modal-add-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Agregar Detalles al Pedido</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="collapse" id="collapse-error">
+                        <div class="alert alert-danger" role="alert">
+                            <span id="message-error"></span>
+                        </div>
+                    </div>
+                    <form id="form-add-detalle" action="">{% csrf_token %}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button id="btn-save-detalle" type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal modal-update-detalle--->
+    <div class="modal fade" id="modal-update-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Actualizar Detalle del Pedido</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form-update-detalle" action="">{% csrf_token %}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button id="btn-save-update-detalle" type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal modal-registrar-pedido -->
+    <div class="modal fade" id="modal-registrar-pedido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title">Registrar Pedido</h3>
+                </div>
+                <div class="modal-body">
+                    <p id="mensaje-registrar" class="text-center"></p>
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+            <!-- modal-content -->
+        </div>
+        <!-- end modal-dialog -->
+    </div>
+    <!-- end modal ...-->
+
 {% endblock %}
 
-{% block scripts %}
-    <script src="{% static 'js/utils.js' %}"></script>
+{% block more-scripts %}
+    <script src="{% static 'js/ajax.js' %}"></script>
     <script>
         (function(){
-            $(".clickeable").click(function(e) {
+            /*************************** Variables globales ***************************/
+            var id_detalle;
+            var detalles = [];
+
+            /************************** FUNCIONES ************************************/
+
+            function refreshTable(){
+                var $tbody = $("table tbody");
+                $tbody.children().remove();
+                for(var i=0; i < detalles.length; i++){
+                   var row = "<tr class=\"clickeable\" data-id=" + detalles[i].fields.medicamento + "><td>" + detalles[i].fields.medicamento + "</td>" +
+                         "<td>" + detalles[i].fields.cantidad + "</td></tr>";
+                   $tbody.append(row);
+                }
+            }
+
+            function estaEnPedido(d){
+                for(var i=0; i < detalles.length; i++){
+                    if(detalles[i].fields.medicamento == d.fields.medicamento){
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            function getDetalle(id){
+                for(var i=0; i < detalles.length; i++){
+                    if(detalles[i].fields.medicamento == id)
+                        return detalles[i];
+                }
+                return null;
+            }
+
+            function deleteDetalle(id){
+                for(var i=0; i < detalles.length; i++){
+                    if(detalles[i].fields.medicamento == id){
+                        detalles.splice(i, 1);
+                    }
+                }
+                refreshTable();
+            }
+
+
+            function procesar_form_add(data){
+                $("#form-add-detalle").replaceWith(data['form_html']);
+                if (data['success']){
+                    if(! estaEnPedido(data['detalle'][0])){
+                        detalles.push(data['detalle'][0]);
+
+                    //actualizar tabla de detalles del pedido
+                    refreshTable();
+                    }else{
+                        //seteo mensaje de error
+                        var $msg = $("#message-error").text("Este medicamento ya esta cargado en un detalle del actual pedido");
+                        //muestro collapse con el error
+                        $("#collapse-error").collapse('show');
+                    }
+                }
+            }
+
+            function procesar_form_update(data){
+                if(data['success']){
+                    for(var i=0; i < detalles.length; i++){
+                        if(detalles[i].fields.medicamento == data['detalle'][0].fields.medicamento)
+                            detalles[i] = data['detalle'][0];
+                            refreshTable();
+
+                        //cierro modal
+                        $("#modal-update-detalle").modal('hide');
+                    }
+                }else{
+                    //si hubo errores en la modificacion, seteo form con errores
+                    $("#form-update-detalle").replaceWith(data['form_html']);
+                }
+            }
+
+            function loadForm($form, $modal, new_form){
+                // Reemplaza formulario
+                $form.replaceWith(new_form);
+
+                //muestro el modal
+                $modal.modal('show');
+            }
+
+            function loadModalRegistrar(html, clases){
+                    var $mensaje_registrar = $("#mensaje-registrar");
+                    $mensaje_registrar.removeClass();
+                    $mensaje_registrar.addClass(clases);
+                    $mensaje_registrar.html(html);
+
+                    //muestro modal
+                    $("#modal-registrar-pedido").modal('show');
+            }
+
+            /**************************** FUNCIONES AJAX ****************************/
+
+            function load_form_add_ajax(datos){
+                if(arguments.length == 1){
+                    $.ajax({
+                        type: "GET",
+                        url: datos.url,
+                        dataType: 'json',
+                        success: function(data) {
+                            loadForm(datos.form, datos.modal, data['form_html']);
+                        },
+                        error: function () {
+                            alert("Error inesperado, intente de nuevo por favor.");
+                        }
+                    });
+                }else{
+                    alert("La funcion 'load_form_add_ajax' recibe solo un argumento");
+                }
+            }
+
+            function load_form_update_ajax(datos){
+                if(arguments.length == 1){
+                    $.ajax({
+                        type: "GET",
+                        url: datos.url,
+                        dataType: 'json',
+                        data: {
+                            'detalle': datos.detalle,
+                        },
+                        success: function(data) {
+                            loadForm(datos.form, datos.modal, data['form_html']);
+                        },
+                        error: function () {
+                            alert("Error inesperado, intente de nuevo por favor.");
+                        }
+                    });
+                }else{
+                    alert("La funcion 'load_form_update_ajax' recibe solo un argumento");
+                }
+            }
+
+            function send_form_ajax(datos){
+                if(arguments.length == 1){
+                    $.ajax({
+                        type: "POST",
+                        url: datos.url,
+                        async: false,
+                        dataType: 'json',
+                        data: datos.extra_data,
+                        success: function(data) {
+                            if(datos.task == 'add'){
+                                procesar_form_add(data)
+                            }else{
+                                if(datos.task == 'update'){
+                                    procesar_form_update(data)
+                                }
+                            }
+                        },
+                        error: function (err) {
+                            alert("Error inesperado, por favor vuelva a intentarlo");
+                        },
+                    });
+                }else{
+                    alert("La funcion 'send_form_ajax' recibe solo un argumento");
+                }
+            }
+
+            function registrar_pedido_ajax(){
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'registrar_pedido_farmacia' %}",
+                    data:{
+                        'id_pedido': '{{ id_pedido }}',
+                        'detalles': JSON.stringify(detalles),
+                    },
+                    success: function(data){
+                        if(data['success']){
+                            var mensaje = "<span class=\"glyphicon glyphicon-ok\"></span> El pedido fue registrado correctamente!";
+                            loadModalRegistrar(mensaje, "text-success text-center");
+                        }else{
+                            var mensaje = "<span class=\"glyphicon glyphicon-exclamation-sign\"></span> Este pedido ya fue registrado!";
+                            loadModalRegistrar(mensaje, "text-danger text-center");
+                        }
+                    },
+                    error: function(err){
+                        alert("Error inesperado, por favor vuelva a intentarlo");
+                    },
+                });
+            }
+
+            /**************************** EVENTOS ****************************/
+
+            window.onbeforeunload = function(){
+                //aca va el codigo para guardar los detalles
+                console.log("refrescando");
+            }
+
+            window.onload = function(){
+                //aca va el codigo para recuperar los detalles antes salvados
+                console.log("cargada");
+            }
+
+            $("tbody").on("click", ".clickeable", function(e) {
                 select_row_table(this);
                 e.stopPropagation();
             });
@@ -136,31 +321,118 @@ Pedido de Farmacia
                 if(e.keyCode == 27){
                     $("tr").removeClass("active");
                 }
+                e.stopPropagation();
             });
 
             $(document).on("click", function(e){
                 $("tr").removeClass("active");
+                e.stopPropagation();
             });
+
+            $("#modal-add-detalle").on("change", "select", function(e){
+                //cuando se cambia la opcion del select del medicamento, oculto el collapse
+                $collapse = $("#collapse-error").collapse('hide');
+
+                e.stopPropagation();
+            });
+
 
             $("#btn-baja-detalle").click(function(e){
-                var id = get_selected_row();
-                if(id){
-                    crear_baja("/pedidosDeFarmacia/add/{{id_pedido}}/detalles/delete/", id);
+                var id_detalle = get_selected_row();
+                if(id_detalle){
+                    deleteDetalle(id_detalle);
                 }
                 e.stopPropagation();
             });
 
-            $("#btn-modificar-detalle").click(function(e){
-                var id = get_selected_row();
-                if(id){
-                    $(this).attr("href", "/pedidosDeFarmacia/add/" + {{id_pedido}} + "/detalles/update/" + id +"/");
+            $("#btn-add-detalle").click(function(e){
+
+                //Oculto todos los collapse's del modal, por si las moscas
+                $("#collapse-error").collapse('hide');
+
+                var datos = new Array();
+                datos = {form: $("#form-add-detalle"),
+                         modal: $("#modal-add-detalle"),
+                         url: "{% url 'add_detalle_pedido_farmacia' %}",
+                };
+
+                load_form_add_ajax(datos);
+                e.stopPropagation();
+            });
+
+            $("#btn-save-detalle").click(function(e){
+
+                //recupero form para enviarlo por ajax
+                var $form = $("#form-add-detalle");
+
+                //datos a enviar en la peticion -> form + otros
+                var data = $form.serializeArray();
+                data.push({name:'id_pedido', value: '{{id_pedido}}'.toString()});
+
+                var datos = new Array();
+                datos = {task: 'add',
+                         url: "{% url 'add_detalle_pedido_farmacia' %}",
+                         extra_data: data,
+                };
+
+                send_form_ajax(datos);
+
+                e.stopPropagation();
+            });
+
+            $("#btn-update-detalle").click(function(e){
+                //recupero fila seleccionada
+                id_detalle = get_selected_row();
+
+                //recupero objeto detalle correspondiente a la fila seleccionada
+                var detalle = getDetalle(id_detalle);
+
+                if(detalle){
+                    var datos = new Array();
+                    var $form = $("#form-update-detalle");
+                    var $modal = $("#modal-update-detalle");
+                    datos = {form: $form, modal: $modal, url: "/update_detalle_pedido_farmacia/" + id_detalle + "/", detalle: JSON.stringify([detalle])};
+                    load_form_update_ajax(datos);
                 }
                 e.stopPropagation();
             });
+
+            $("#btn-save-update-detalle").click(function(e){
+                if(id_detalle){
+                    var detalle = getDetalle(id_detalle);
+                    var $form = $("#form-update-detalle");
+
+                    //datos a enviar en la peticion -> form + otros
+                    var data = $form.serializeArray();
+                    data.push({name: 'detalle', value: JSON.stringify([detalle])});
+
+                    var datos = new Array();
+                    datos = {task: 'update',
+                             url: "/update_detalle_pedido_farmacia/" + id_detalle + "/",
+                             extra_data: data,
+                    };
+
+                    //Habilito todos los selects para enviar la info
+
+                    send_form_ajax(datos);
+                }
+
+                e.stopPropagation();
+            });
+
+            $("#btn-registrar").click(function(e){
+                if(detalles.length != 0){
+                    registrar_pedido_ajax()
+                }else{
+                    //mensaje de error
+                    var mensaje = "<span class=\"glyphicon glyphicon-exclamation-sign\"></span> No se puede registrar un pedido sin detalles";
+                    loadModalRegistrar(mensaje, "text-danger text-center");
+                }
+
+            });
+
         })();
     </script>
-
-    {% block more-scripts%}{% endblock %}
 
 {% endblock %}
 

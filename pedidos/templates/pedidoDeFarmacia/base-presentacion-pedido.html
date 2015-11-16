@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{% static 'css/pedidos-detalles.css' %}">
+    <style>
+        .jumbotron{
+            padding: 28px 30px;
+            max-height: 9.5em;
+        }
+        .jumbotron h3{
+            font-size: 28px;
+        }
+
+        .jumbotron p{
+            font-size: 18px;
+        }
+
+        .jumbotron, .panel{
+            font-family: 'Bree Serif', serif;
+        }
+
+        .panel-nro-pedido{
+            display: inline-block;
+            min-width: 7em;
+            text-align: center;
+        }
+
+        .panel-nro-pedido .panel-body{
+            padding: 8px 10px;
+        }
+    </style>
+    {% block more-stylesheets %}{% endblock %}
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+
+	<!-- Cabezera del pedido -->
+    <div class="jumbotron">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h3>Pedido de Farmacia <small class="text-primary">{{ pedido.farmacia.razonSocial }}</small></h3>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <p class="text-right"><span class="glyphicon glyphicon-calendar text-primary"></span> {{ pedido.fecha|date:"d/m/Y" }}</p>
+                    <div class="panel panel-default panel-nro-pedido pull-right">
+                        <div class="panel-body">
+                            <span> Numero: {{ pedido.nroPedido }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+	<!-- Detalles del pedido -->
+	<div class="container panel-detalle">
+		<div class="col-xs-12 ">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+                    <h3 class="panel-title pull-left">Detalles del pedido</h3>
+                    <div class="pull-right">
+                        {% block panel-heading-right %}{% endblock %}
+                    </div>
+                    <div class="clearfix"></div>
+				</div>
+				<div class="panel-body">
+						<table class="table table-condensed table-responsive" >
+							<thead>
+								<tr class="info" align="center">
+									<th>Medicamento</th>
+									<th>Cantidad</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% block table-tbody %}
+                                    {% for detalle in detalles %}
+                                        <tr class="clickeable" data-id="{{ detalle.id }}">
+                                            <td>{{ detalle.medicamento }}</td>
+                                            <td>{{ detalle.cantidad }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endblock %}
+							</tbody>
+						</table><!-- end table -->
+				</div><!-- end panel-body -->
+				<div class="panel-footer">
+					{% block panel-footer %}{% endblock %}
+				</div><!--- end panel-footer -->
+			</div><!-- end panel -->
+		</div><!-- end col-md ... -->
+	</div><!-- end container ... -->
+	<!-- end detalles del pedido -->
+
+    {% block more-content %}{% endblock %}
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/utils.js' %}"></script>
+    {% block more-scripts%}{% endblock %}
+
+{% endblock %}
+

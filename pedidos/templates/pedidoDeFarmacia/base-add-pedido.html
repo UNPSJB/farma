@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load staticfiles %}
+{% load crispy_forms_tags %}
 
 {% block stylesheets %}
 	<style>
@@ -26,25 +27,22 @@
                         </h3>
 					</div>
 					<div class="panel-body">
-						<div class="row">
-							<div class="col-md-8">
-								<img class="img-resonsive" src="{% static 'images/logo-pedido.jpg' %}" alt="Logo">
-							</div>
-							<div class="col-xs-12 col-md-offset-1 col-md-3">
-								{% block panel-body-pedido-datos %}
-									<p>Nº pedido: <span>#1{{ nro_pedido }}</span></p>
-									<br />
-									<p>{{ fecha_pedido|date:"d/m/Y" }}</p>
-								{% endblock %}
-							</div>
-							<div class="clearfix"></div>
-						</div> <!-- end row -->
+						<!--<div class="row">-->
+							<!--<div class="col-md-8">-->
+								<!--<img class="img-resonsive" src="{% static 'images/logo-pedido.jpg' %}" alt="Logo">-->
+							<!--</div>-->
+							<!--<div class="col-xs-12 col-md-offset-1 col-md-3">-->
+								<!--{% block panel-body-pedido-datos %}-->
+									<!--<p>Nº pedido: <span>#1{{ nro_pedido }}</span></p>-->
+									<!--<br />-->
+									<!--<p>{{ fecha_pedido|date:"d/m/Y" }}</p>-->
+								<!--{% endblock %}-->
+							<!--</div>-->
+							<!--<div class="clearfix"></div>-->
+						<!--</div> &lt;!&ndash; end row &ndash;&gt;-->
 						<div class="form-cabezera">
 							{% block form-pedido %}
-                                <form id="form-pedido" class="form-horizontal" action="{% block form-action %}{% endblock %}" method="POST">
-                                    {% csrf_token %}
-                                    {% include "forms/form_snippet2.html" %}
-                                </form>
+                                {% crispy form %}
 							{% endblock %}
 						</div>
 					</div><!-- end panel-body -->

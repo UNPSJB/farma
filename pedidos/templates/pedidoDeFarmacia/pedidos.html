@@ -15,12 +15,10 @@
 {% block btn-modificar %}{% endblock %}
 
 {% block more-buttons %}
-    <a id="detalles" class="btn btn-info hidden" href="#" >
-        <span class="glyphicon glyphicon-eye-open"></span> Detalles
+    <a id="btn-ver" class="btn btn-info hidden" href="#" >
+        <span class="glyphicon glyphicon-eye-open"></span> Ver
     </a>
-    <a id="despachar" class="btn btn-warning hidden" href="#" >
-        <span class="glyphicon glyphicon-send"></span> Despachar
-    </a>
+
 {% endblock %}
 
 {%block filtro %}
@@ -52,96 +50,26 @@
 {% endblock %}
 
 {% block cantidad-elementos %}
+
     {{ pedidos|length }}
     {% if pedidos|length != 1%}
         pedidos de farmacia
     {% else %}
         pedido de farmacia
     {% endif %}
-{% endblock %}
 
-{% block more-content %}
-    <!-- Modal Detalles -->
-    <div class="modal fade" id="modal-detalles" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Pedido N <span></span> - Detalles </h4>
-                </div>
-                <div class="modal-body">
-                   <div class="panel panel-default">
-                       <div class="panel-body">
-                            <table class="table table-hover table-responsive" id="tabla-detalles">
-                                <thead>
-                                    <tr>
-                                        <th>Medicamento</th>
-                                        <th>Cantidad</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                       </div>
-                       <div class="panel-footer">
-                           <span id="count-detalles" class="text-left"></span>
-                       </div>
-                   </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endblock %}
+{% endblock %}
 
 {% block more-scripts %}
     <script>
         (function(){
 
-            $("#modificar").click(function(e){
-                e.stopPropagation();
-            });
-
-            $("#detalles").click(function(e){
-                var id = get_selected_row();
+            $("#btn-ver").click(function(e){
+                id = get_selected_row()
                 if(id){
-                    $.ajax({
-                        url:'{% url 'get_detalles_pedido_farmacia_ajax' %}',
-                        dataType: 'json',
-                        data:{
-                            'id': id
-                        },
-                        type: 'GET',
-                        success: function(data){
-                            $("#myModalLabel span").text(" #" + id);
-                            var $tbody = $("#tabla-detalles tbody");
-                            $tbody.children().remove();
-                            for(var i = 0; i < data.length; i++){
-                                var new_row = "";
-                                new_row += "<tr><td>" + data[i].medicamento +"</td>" +
-                                            "<td>" + data[i].cantidad + "</td></tr>";
-                                $tbody.append(new_row);
-                            }
-                            var cantidad_detalles = data.length + " detalle";
-                            if(data.length != 1)
-                                cantidad_detalles += "s";
-
-                            $("#count-detalles").text(cantidad_detalles);
-                        },
-                        error: function(err){
-                            alert("Error inesperado: por favor vuelva a intentarlo");
-                        },
-                    });
-                    $("#modal-detalles").modal('show');
+                    $(this).attr("href", "/pedidosDeFarmacia/ver/" + id + "/");
                 }
-                e.stopPropagation();
-            });
 
-            $("#despachar").click(function(e){
-                var id = get_selected_row();
-                $(this).attr("href","/pedidosDeFarmacia/despachar/" + id +"/")
                 e.stopPropagation();
             });
 
