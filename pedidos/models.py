@@ -88,6 +88,8 @@ class PedidoFarmacia(PedidoVenta):
 
 class DetallePedidoFarmacia(DetallePedido):
     pedidoFarmacia = models.ForeignKey('PedidoFarmacia')
+    cantidadPendiente =models.PositiveIntegerField()
+    estaPedido = models.BooleanField(default= False)
 
 
     class Meta(DetallePedido.Meta):

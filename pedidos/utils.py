@@ -14,14 +14,17 @@ def procesar_detalle(detallePedidoFarmacia):
     stockTotal = get_stock_total(lotes)
     if stockTotal == 0:
         print "Stock cero"
-        pass
+        detallePedidoFarmacia.cantidadPendiente=detallePedidoFarmacia.cantidad
+        detallePedidoFarmacia.save()
     else:
         remito = models.Remito.objects.get(pedidoFarmacia__nroPedido=detallePedidoFarmacia.pedidoFarmacia.nroPedido)
 
         if stockTotal < detallePedidoFarmacia.cantidad:
             print "Stock insuficiente"
+            cantidadTotal=0
+
             for lote in lotes:
-                detallePedidoFarmacia.cantidad -= lote.stock
+                cantidadTotal += lote.stock
                 cantidadTomadaDeLote = lote.stock
                 lote.stock = 0
                 detalleRemito = models.DetalleRemito()
@@ -33,11 +36,14 @@ def procesar_detalle(detallePedidoFarmacia):
                 detalleRemito.save()
                 lote.save()
 
-            #Vuelvo a guardar el detalle del pedido con la nueva cantidad
+            #Vuelvo a guardar el detalle del pedido con la cantidad pendiente
+            detallePedidoFarmacia.cantidadPendiente=detallePedidoFarmacia.cantidad-cantidadTotal
             detallePedidoFarmacia.save()
         else:
             print "stock suficiente"
+            detallePedidoFarmacia.cantidadPendiente=0
             cantidadNecesaria = detallePedidoFarmacia.cantidad
+            detallePedidoFarmacia.save()
             i = 0
             while cantidadNecesaria > 0:
                 lote = lotes[i]
@@ -61,3 +67,24 @@ def procesar_detalle(detallePedidoFarmacia):
                 lote.save()
 
                 i += 1
+
+
+def setearEstado(id_pedido):
+
+    pedido= models.PedidoFarmacia.objects.get(id_pedido)
+    detallesPedido = models.DetallePedidoFarmacia.objects.filter(pedidoFarmacia__nroPedido = id_pedido)
+    remito = models.Remito.objects.get(pedidoFarmacia__nroPedido = id_pedido)
+    detalleRemito = models.DetalleRemito.objects.filter(remito__id = remito.id)
+
+
+    if (not(detalleRemito)):
+        pedido.estado = "Pendiente"
+        remito.delete()
+    else:
+
+        for detalle in detallesPedido:
+            if(detalle.cantidadPendiente <> 0):
+                pedido.estado = "Parcialmente Enviado"
+                break
+
+    pedido.save()

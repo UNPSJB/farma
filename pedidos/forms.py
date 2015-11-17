@@ -49,8 +49,8 @@ class UpdateDetallePedidoFarmaciaForm(forms.ModelForm):
     helper.label_class = 'col-md-3'
     helper.field_class = 'col-md-8'
     helper.layout = Layout(
-        #Field('medicamento', disabled=True),
-        'medicamento',
+        Field('medicamento', disabled=True),
+        #'medicamento',
         Field('cantidad', placeholder='Cantidad'),
     )
 

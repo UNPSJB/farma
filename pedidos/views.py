@@ -115,12 +115,14 @@ def add_detalle_pedido_farmacia(request):
 @login_required(login_url='login')
 def update_detalle_pedido_farmacia(request, id_detalle):
     success = False
+
     if request.method == 'POST':
         detalle = request.POST.get('detalle')
         list_deserializer = serializers.deserialize('json', detalle)
         for obj in list_deserializer:
             detalle = models.DetallePedidoFarmacia(pedidoFarmacia=obj.object.pedidoFarmacia, medicamento=obj.object.medicamento, cantidad=obj.object.cantidad)
         form = forms.UpdateDetallePedidoFarmaciaForm(request.POST, instance=detalle)
+
         if form.is_valid():
             detalle = form.save(commit=False)
             detalle_json = serializers.serialize('python', [detalle])
@@ -129,6 +131,7 @@ def update_detalle_pedido_farmacia(request, id_detalle):
     else:
         detalle = request.GET.get('detalle')
         list_deserializer = serializers.deserialize('json', detalle)
+
         for obj in list_deserializer:
             detalle = models.DetallePedidoFarmacia(pedidoFarmacia=obj.object.pedidoFarmacia, medicamento=obj.object.medicamento, cantidad=obj.object.cantidad)
         form = forms.UpdateDetallePedidoFarmaciaForm(instance=detalle)
@@ -148,8 +151,11 @@ def registrar_pedido_farmacia(request):
         #Si el pedido no tiene detalles en la db, significa que todavia no registro el pedido completo
         if not detalles_pedido:
             list_deserializer = serializers.deserialize('json', request.POST.get('detalles'))
-            for detalle in list_deserializer:
+            for obj in list_deserializer:
+                detalle = models.DetallePedidoFarmacia(pedidoFarmacia=obj.object.pedidoFarmacia, medicamento=obj.object.medicamento, cantidad=obj.object.cantidad)
+                utils.procesar_detalle(detalle)
                 detalle.save()
+            utils.setearEstado(id_pedido)
             return {'success': True}
         else:
             #Si el pedido tiene detalles en la db, significa que ya se registro anteriormente
