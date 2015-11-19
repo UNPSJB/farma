@@ -5,9 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import ensure_csrf_cookie
 from crispy_forms.utils import render_crispy_form
 from django.core import serializers
+from datetime import datetime
 from medicamentos.models import Medicamento
 import json
 import datetime
+import re
 
 # Create your views here.
 
@@ -16,9 +18,20 @@ def get_filtros(get, modelo):
     for filtro in modelo.FILTROS:
         if filtro in get and get[filtro]:
             attr = filtro
-            if hasattr(models, "FILTERMAPPER") and filtro in models.PedidoFarmacia.FILTERMAPPER:
-                attr = models.FILTERMAPPER[filtro]
-            mfilter[attr] = get[filtro]
+            value = get[filtro]
+
+            if hasattr(modelo, "FILTERMAPPER") and filtro in modelo.FILTERMAPPER:
+                attr = modelo.FILTERMAPPER[filtro]
+
+            if value.isdigit():
+                value = int(value)
+            elif re.match(r"^[0-9]{2}/[0-9]{2}/[0-9]{4}$", value):
+                fechaAux = value.split("/") # fecha separada por /
+                fechaModificada =datetime.date(month=int(fechaAux[0]),day=int(fechaAux[1]), year=int(fechaAux[2]))
+                value = fechaModificada
+
+            mfilter[attr] = value
+
     return mfilter
 
 def remitos(request):
@@ -43,10 +56,13 @@ def remitos(request):
 # ****** PEDIDOS DE FARMACIA ******
 @login_required(login_url='login')
 def pedidosDeFarmacia(request):
-    filters = get_filtros(request.GET, models.PedidoFarmacia)
-    mfilters = dict(filter(lambda v: v[0] in models.PedidoFarmacia.FILTROS, filters.items()))
+    utils.limpiarPedidosVacios()
+    mfilters = get_filtros(request.GET, models.PedidoFarmacia)
+    #mfilters = dict(filter(lambda v: v[0] in models.PedidoFarmacia.FILTROS, filters.items()))
     pedidos = models.PedidoFarmacia.objects.filter(**mfilters)
-    return render(request, "pedidoDeFarmacia/pedidos.html", {"pedidos": pedidos, "filtros": filters})
+
+
+    return render(request, "pedidoDeFarmacia/pedidos.html", {"pedidos": pedidos, "filtros": request.GET})
 
 @login_required(login_url='login')
 def pedidoF_add(request):
@@ -153,10 +169,13 @@ def registrar_pedido_farmacia(request):
             list_deserializer = serializers.deserialize('json', request.POST.get('detalles'))
             for obj in list_deserializer:
                 detalle = models.DetallePedidoFarmacia(pedidoFarmacia=obj.object.pedidoFarmacia, medicamento=obj.object.medicamento, cantidad=obj.object.cantidad)
-                utils.procesar_detalle(detalle)
                 detalle.save()
+                utils.procesar_detalle(detalle)
             utils.setearEstado(id_pedido)
+
             return {'success': True}
         else:
             #Si el pedido tiene detalles en la db, significa que ya se registro anteriormente
             return {'success': False}
+
+        # incuna/django-wkhtmltopdf PARA PDF !

@@ -4,6 +4,11 @@
 
 {% block title %}Pedidos de Farmacia{% endblock %}
 
+    {% block more-stylesheets %}
+        <link rel="stylesheet" href="{%  static 'css/custom-theme/jquery-ui-1.10.3.custom.css'  %}">
+    {% endblock %}
+
+
 {% block panel-title-ABM %}Pedidos de Farmacia{% endblock %}
 
 {% block url-add %}{% url 'pedidoF_add' %}{% endblock %}
@@ -23,7 +28,13 @@
 
 {%block filtro %}
     <label for="farmacia" >Buscar:</label>
-     <input class="filtro" id="farmacia" name="farmacia" value="{{filtros.farmacia}}" placeholder="Farmacia" autofocus>
+        <input class="filtro" id="farmacia" name="farmacia" value="{{filtros.farmacia}}" placeholder="Farmacia" autofocus>
+    <input class="datepicker filtro" id="desde" name="desde" value="{{filtros.desde}}" placeholder="Fecha" autofocus>
+    <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn_filtrar">Filtrar</button>
+
+    <button class="btn btn-primary btn-sm" type="reset" value="Reset" >Limpiar</button>
+
+
 {% endblock %}
 
 {% block grid %}
@@ -72,6 +83,15 @@
 
                 e.stopPropagation();
             });
+
+         (function(){
+            $(".datepicker").datepicker({
+                changeDay: true,
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1990:2030",
+            });
+        })();
 
         })();
     </script>

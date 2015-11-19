@@ -88,7 +88,7 @@ class PedidoFarmacia(PedidoVenta):
 
 class DetallePedidoFarmacia(DetallePedido):
     pedidoFarmacia = models.ForeignKey('PedidoFarmacia')
-    cantidadPendiente =models.PositiveIntegerField()
+    cantidadPendiente =models.PositiveIntegerField(default= 0)
     estaPedido = models.BooleanField(default= False)
 
 
