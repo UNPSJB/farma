@@ -60,14 +60,13 @@ urlpatterns = [
     # ****** PEDIDOS DE FARMACIA ******
     url(r'^pedidosDeFarmacia/$', pviews.pedidosDeFarmacia, name="pedidosDeFarmacia"),
     url(r'^pedidosDeFarmacia/add/$', pviews.pedidoF_add, name="pedidoF_add"),
-    url(r'^pedidosDeFarmacia/add/(?P<id_pedido>\d+)/$', pviews.detalles_pedidoF, name="detalles_pedidoF"),
+    url(r'^pedidosDeFarmacia/add/detalles-pedido/$', pviews.detalles_pedidoF, name="detalles_pedidoF"),
+    url(r'^pedidosDeFarmacia/add/detalles-pedido/add/$', pviews.add_detalle_pedido_farmacia, name="add_detalle_pedido_farmacia"),
+    url(r'^pedidosDeFarmacia/add/detalles-pedido/update/(?P<id_detalle>\d+)/$', pviews.update_detalle_pedido_farmacia, name="update_detalle_pedido_farmacia"),
+    url(r'^pedidosDeFarmacia/add/detalles-pedido/delete/(?P<id_detalle>\d+)/$', pviews.delete_detalle_pedido_farmacia, name="delete_detalle_pedido_farmacia"),
+    url(r'^pedidosDeFarmacia/add/detalles-pedido/delete/(?P<id_detalle>\d+)/$', pviews.delete_detalle_pedido_farmacia, name="delete_detalle_pedido_farmacia"),
+    url(r'^pedidosDeFarmacia/add/registrar-pedido/$', pviews.registrar_pedido_farmacia, name="registrar_pedido_farmacia"),
     url(r'^pedidosDeFarmacia/ver/(?P<id_pedido>\d+)/$', pviews.ver_pedidoF, name="ver_pedidoF"),
-
-    url(r'^add_detalle_pedido_farmacia/$', pviews.add_detalle_pedido_farmacia, name="add_detalle_pedido_farmacia"),
-    url(r'^update_detalle_pedido_farmacia/(?P<id_detalle>\d+)/$', pviews.update_detalle_pedido_farmacia, name="update_detalle_pedido_farmacia"),
-    url(r'^pedidosDeFarmacia/add/(?P<id_pedido>\d+)/detalles/delete/(?P<id_detalle>\d+)/$', pviews.deleteDetalle_pedidoF, name="deleteDetalle_pedidoF"),
-    url(r'^registrar_pedido_farmacia/$', pviews.registrar_pedido_farmacia, name="registrar_pedido_farmacia"),
-
 
     # ****** FARMACIAS ******
     url(r'^farmacias/$',oviews.farmacias, name="farmacias"),

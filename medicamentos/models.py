@@ -12,7 +12,7 @@ class Medicamento(models.Model):
     precio = models.FloatField(help_text="Este es el precio de venta del medicamento")
 
     def __str__(self):
-        return self.codigoBarras
+        return "%s %s" % (self.nombreFantasia, self.presentacion)
 
 
 class Presentacion(models.Model):

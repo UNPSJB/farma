@@ -69,11 +69,10 @@ def procesar_detalle(detallePedidoFarmacia):
                 i += 1
 
 
-def setearEstado(id_pedido):
+def setearEstado(pedido):
 
-    pedido= models.PedidoFarmacia.objects.get(pk=id_pedido)
-    detallesPedido = models.DetallePedidoFarmacia.objects.filter(pedidoFarmacia__nroPedido = id_pedido)
-    remito = models.Remito.objects.get(pedidoFarmacia__nroPedido = id_pedido)
+    detallesPedido = models.DetallePedidoFarmacia.objects.filter(pedidoFarmacia__nroPedido = pedido.nroPedido)
+    remito = models.Remito.objects.get(pedidoFarmacia__nroPedido = pedido.nroPedido)
     detalleRemito = models.DetalleRemito.objects.filter(remito__id = remito.id)
 
 
@@ -90,9 +89,3 @@ def setearEstado(id_pedido):
     pedido.save()
 
 
-def limpiarPedidosVacios():
-    pedidos = models.PedidoFarmacia.objects.all()
-    for p in pedidos:
-        detallePedido= models.DetallePedidoFarmacia.objects.filter(pedidoFarmacia__nroPedido = p.nroPedido)
-        if (not(detallePedido)):
-            p.delete()

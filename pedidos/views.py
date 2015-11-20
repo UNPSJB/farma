@@ -1,13 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404, RequestContext
 from jsonview.decorators import json_view
 from pedidos import forms, models, utils
+from organizaciones.models import Farmacia
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import ensure_csrf_cookie
 from crispy_forms.utils import render_crispy_form
-from django.core import serializers
 from datetime import datetime
 from medicamentos.models import Medicamento
-import json
 import datetime
 import re
 
@@ -56,35 +54,39 @@ def remitos(request):
 # ****** PEDIDOS DE FARMACIA ******
 @login_required(login_url='login')
 def pedidosDeFarmacia(request):
-    utils.limpiarPedidosVacios()
     mfilters = get_filtros(request.GET, models.PedidoFarmacia)
-    #mfilters = dict(filter(lambda v: v[0] in models.PedidoFarmacia.FILTROS, filters.items()))
     pedidos = models.PedidoFarmacia.objects.filter(**mfilters)
-
-
     return render(request, "pedidoDeFarmacia/pedidos.html", {"pedidos": pedidos, "filtros": request.GET})
 
 @login_required(login_url='login')
 def pedidoF_add(request):
+    if 'pedidoFarmacia' in request.session:
+        del request.session['pedidoFarmacia']
+
+    if 'detalles' in request.session:
+        del request.session['detalles']
+
     if request.method == "POST":
         form = forms.PedidoFarmaciaForm(request.POST)
         if form.is_valid():
             pedido = form.save(commit=False)
             pedido.estado = 'Enviado'
-            pedido.save()
-            return redirect('detalles_pedidoF', pedido.nroPedido)
+            request.session['pedidoFarmacia'] = {'nroPedido': 1, 'farmacia':{'id': pedido.farmacia.id, 'razonSocial': pedido.farmacia.razonSocial},
+                                                 'fecha': pedido.fecha.strftime('%d/%m/%Y')}
+            return redirect('detalles_pedidoF')
     else:
            form = forms.PedidoFarmaciaForm()
     return render(request, "pedidoDeFarmacia/pedidoAdd.html", {"form": form})
 
 
 @login_required(login_url='login')
-def detalles_pedidoF(request, id_pedido):
-    pedido = get_object_or_404(models.PedidoFarmacia, pk=id_pedido)
-    detalles = models.DetallePedidoFarmacia.objects.filter(pedidoFarmacia=id_pedido)
-    return render(request, "pedidoDeFarmacia/presentacionPedido.html", {"pedido": pedido,
-                                                                 "detalles": detalles,
-                                                                 "id_pedido": id_pedido})
+def detalles_pedidoF(request):
+    #del request.session['detalles']
+    detalles = request.session.setdefault("detalles", [])
+    pedido = request.session['pedidoFarmacia']
+    return render(request, "pedidoDeFarmacia/presentacionPedido.html", {'pedido': pedido, 'detalles': detalles})
+
+
 @login_required(login_url='login')
 def ver_pedidoF(request, id_pedido):
     pedido = get_object_or_404(models.PedidoFarmacia,pk=id_pedido)
@@ -95,87 +97,88 @@ def ver_pedidoF(request, id_pedido):
 @login_required(login_url='login')
 def deleteDetalle_pedidoF(request, id_pedido, id_detalle):
     detalle = get_object_or_404(models.DetallePedidoFarmacia, pk=id_detalle)
-    detalle.delete();
+    detalle.delete()
     return redirect('detalles_pedidoF', id_pedido)
 
 
 # ********************************** CRISPY FORMS **********************************
-@ensure_csrf_cookie
 @json_view
 @login_required(login_url='login')
 def add_detalle_pedido_farmacia(request):
-    success = False
-    new_form = False
-    detalle_json = None
+    success = True
+    form = forms.DetallePedidoFarmaciaForm(request.POST or None)
     if request.method == 'POST':
-        form = forms.DetallePedidoFarmaciaForm(request.POST)
         if form.is_valid():
-            detalle = form.save(commit=False)
-            id_pedido = int(request.POST.get('id_pedido'))
-            detalle.pedidoFarmacia = get_object_or_404(models.PedidoFarmacia, pk=id_pedido)
-            detalle_json = serializers.serialize('python', [detalle])
-            success = True
-            new_form = True
-    else:
-        new_form = True
-
-    if new_form:
-        form = forms.DetallePedidoFarmaciaForm()
-
-    request_context = RequestContext(request)
-    form_html = render_crispy_form(form, context=request_context)
-    return {'new_form': new_form, 'success': success, 'form_html': form_html, 'detalle': detalle_json}
-
-@ensure_csrf_cookie
-@json_view
-@login_required(login_url='login')
-def update_detalle_pedido_farmacia(request, id_detalle):
-    success = False
-
-    if request.method == 'POST':
-        detalle = request.POST.get('detalle')
-        list_deserializer = serializers.deserialize('json', detalle)
-        for obj in list_deserializer:
-            detalle = models.DetallePedidoFarmacia(pedidoFarmacia=obj.object.pedidoFarmacia, medicamento=obj.object.medicamento, cantidad=obj.object.cantidad)
-        form = forms.UpdateDetallePedidoFarmaciaForm(request.POST, instance=detalle)
-
-        if form.is_valid():
-            detalle = form.save(commit=False)
-            detalle_json = serializers.serialize('python', [detalle])
-            success = True
-            return {'success': success, 'detalle': detalle_json}
-    else:
-        detalle = request.GET.get('detalle')
-        list_deserializer = serializers.deserialize('json', detalle)
-
-        for obj in list_deserializer:
-            detalle = models.DetallePedidoFarmacia(pedidoFarmacia=obj.object.pedidoFarmacia, medicamento=obj.object.medicamento, cantidad=obj.object.cantidad)
-        form = forms.UpdateDetallePedidoFarmaciaForm(instance=detalle)
-
-    request_context = RequestContext(request)
-    form_html = render_crispy_form(form, context=request_context)
+            det = form.save(commit=False)
+            detalles = request.session['detalles']
+            for detalle in detalles:
+                if detalle['medicamento']['id'] == det.medicamento.id: #no puede haber dos detalles con el mismo medicamento
+                    success = False
+                    break
+            if success:
+                detalles.append({'renglon': len(detalles) + 1,
+                             'medicamento': {"id": det.medicamento.id,
+                                             "descripcion": det.medicamento.nombreFantasia.nombreF + " " +
+                                                            det.medicamento.presentacion.descripcion + " " +
+                                                            str(det.medicamento.presentacion.cantidad) + " " +
+                                                            det.medicamento.presentacion.unidadMedida
+                                             },
+                             'cantidad': det.cantidad})
+                request.session['detalles'] = detalles
+                form = forms.DetallePedidoFarmaciaForm() #Nuevo form para seguir dando de alta
+                form_html = render_crispy_form(form, context=RequestContext(request))
+                return {'success': success, 'form_html': form_html, 'detalles': detalles}
+    form_html = render_crispy_form(form, context=RequestContext(request))
     return {'success': success, 'form_html': form_html}
 
 
 @json_view
 @login_required(login_url='login')
-def registrar_pedido_farmacia(request):
-    if request.method == 'POST':
-        id_pedido = request.POST.get('id_pedido')
-
-        detalles_pedido = models.DetallePedidoFarmacia.objects.filter(pedidoFarmacia__nroPedido=id_pedido)
-        #Si el pedido no tiene detalles en la db, significa que todavia no registro el pedido completo
-        if not detalles_pedido:
-            list_deserializer = serializers.deserialize('json', request.POST.get('detalles'))
-            for obj in list_deserializer:
-                detalle = models.DetallePedidoFarmacia(pedidoFarmacia=obj.object.pedidoFarmacia, medicamento=obj.object.medicamento, cantidad=obj.object.cantidad)
-                detalle.save()
-                utils.procesar_detalle(detalle)
-            utils.setearEstado(id_pedido)
-
-            return {'success': True}
+def update_detalle_pedido_farmacia(request, id_detalle):
+    detalles = request.session['detalles']
+    detalle = models.DetallePedidoFarmacia(cantidad=detalles[int(id_detalle) - 1]['cantidad'])
+    if request.method == "POST":
+        form = forms.UpdateDetallePedidoFarmaciaForm(request.POST, instance=detalle)
+        if form.is_valid():
+            det = form.save(commit=False)
+            detalles[int(id_detalle) - 1]['cantidad'] = det.cantidad
+            request.session['detalles'] = detalles
+            return {'success': True, 'detalles': detalles}
         else:
-            #Si el pedido tiene detalles en la db, significa que ya se registro anteriormente
-            return {'success': False}
+            form_html = render_crispy_form(form, context=RequestContext(request))
+            return {'success': False, 'form_html': form_html}
+    else:
+        form = forms.UpdateDetallePedidoFarmaciaForm(instance=detalle)
+    form_html = render_crispy_form(form, context=RequestContext(request))
+    return {'form_html': form_html}
 
-        # incuna/django-wkhtmltopdf PARA PDF !
+@json_view
+@login_required(login_url='login')
+def delete_detalle_pedido_farmacia(request, id_detalle):
+    detalles = request.session['detalles']
+    del detalles[int(id_detalle) - 1]
+    for i in range(0, len(detalles)):
+        detalles[i]['renglon'] = i + 1
+    request.session['detalles'] = detalles
+    return {'detalles': detalles}
+
+#https://github.com/incuna/django-wkhtmltopdf
+@json_view
+@login_required(login_url='login')
+def registrar_pedido_farmacia(request):
+    pedido = request.session['pedidoFarmacia']
+    detalles = request.session['detalles']
+    if detalles:
+        farmacia = get_object_or_404(Farmacia, pk=pedido['farmacia']['id'])
+        fecha = datetime.datetime.strptime(pedido['fecha'], '%d/%m/%Y').date()
+        p = models.PedidoFarmacia(farmacia=farmacia, fecha=fecha, estado='Enviado')
+        p.save()
+        for detalle in detalles:
+            medicamento = get_object_or_404(Medicamento, pk=detalle['medicamento']['id'])
+            d = models.DetallePedidoFarmacia(pedidoFarmacia=p, medicamento=medicamento, cantidad=detalle['cantidad'])
+            d.save()
+            utils.procesar_detalle(d)
+        utils.setearEstado(p)
+        return {'success': True}
+    else:
+        return {'success': False, 'mensaje-error': "No se puede registrar un pedido sin detalles"}
