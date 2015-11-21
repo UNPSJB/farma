@@ -27,7 +27,6 @@ def get_filtros(get, modelo):
                 fechaAux = value.split("/") # fecha separada por /
                 fechaModificada =datetime.date(month=int(fechaAux[0]),day=int(fechaAux[1]), year=int(fechaAux[2]))
                 value = fechaModificada
-
             mfilter[attr] = value
 
     return mfilter
@@ -71,7 +70,8 @@ def pedidoF_add(request):
         if form.is_valid():
             pedido = form.save(commit=False)
             pedido.estado = 'Enviado'
-            request.session['pedidoFarmacia'] = {'nroPedido': 1, 'farmacia':{'id': pedido.farmacia.id, 'razonSocial': pedido.farmacia.razonSocial},
+            ultPedido = models.PedidoFarmacia.objects.latest("nroPedido")
+            request.session['pedidoFarmacia'] = {'nroPedido': ultPedido.nroPedido+1, 'farmacia':{'id': pedido.farmacia.id, 'razonSocial': pedido.farmacia.razonSocial},
                                                  'fecha': pedido.fecha.strftime('%d/%m/%Y')}
             return redirect('detalles_pedidoF')
     else:
@@ -162,23 +162,31 @@ def delete_detalle_pedido_farmacia(request, id_detalle):
     request.session['detalles'] = detalles
     return {'detalles': detalles}
 
-#https://github.com/incuna/django-wkhtmltopdf
+#https://github.com/incuna/django-wkhtmltopdf !!!!!!!!!!!!!!!
+
 @json_view
 @login_required(login_url='login')
 def registrar_pedido_farmacia(request):
     pedido = request.session['pedidoFarmacia']
     detalles = request.session['detalles']
+
     if detalles:
         farmacia = get_object_or_404(Farmacia, pk=pedido['farmacia']['id'])
         fecha = datetime.datetime.strptime(pedido['fecha'], '%d/%m/%Y').date()
-        p = models.PedidoFarmacia(farmacia=farmacia, fecha=fecha, estado='Enviado')
-        p.save()
-        for detalle in detalles:
-            medicamento = get_object_or_404(Medicamento, pk=detalle['medicamento']['id'])
-            d = models.DetallePedidoFarmacia(pedidoFarmacia=p, medicamento=medicamento, cantidad=detalle['cantidad'])
-            d.save()
-            utils.procesar_detalle(d)
-        utils.setearEstado(p)
-        return {'success': True}
+
+        if not(models.PedidoFarmacia.objects.filter(pk=pedido["nroPedido"]).exists()):
+            p = models.PedidoFarmacia(farmacia=farmacia, fecha=fecha, estado='Enviado')
+            p.save()
+
+            for detalle in detalles:
+                medicamento = get_object_or_404(Medicamento, pk=detalle['medicamento']['id'])
+                d = models.DetallePedidoFarmacia(pedidoFarmacia=p, medicamento=medicamento, cantidad=detalle['cantidad'])
+                d.save()
+
+            #FUNCION
+
+            return {'success': True}
+        else:
+            return {'success': False, 'mensaje-error': "El pedido ya Existe!"}
     else:
         return {'success': False, 'mensaje-error': "No se puede registrar un pedido sin detalles"}

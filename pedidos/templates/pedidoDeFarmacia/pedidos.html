@@ -28,11 +28,11 @@
 
 {%block filtro %}
     <label for="farmacia" >Buscar:</label>
-    <input class="filtro" id="farmacia" name="farmacia" value="{{filtros.farmacia}}" placeholder="Farmacia">
-    <input class="datepicker filtro" id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
+    <input  id="farmacia" name="farmacia" value="{{filtros.farmacia}}" placeholder="Farmacia">
+    <input class="datepicker"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
+    <input class="datepicker" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta">
     <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
-
-    <button class="btn btn-primary btn-sm" type="reset" value="Reset" id="btn-limpiar">Limpiar</button>
+    <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
 
 
 {% endblock %}
@@ -95,6 +95,11 @@
                 $("form input").val("");
                 e.stopPropagation();
             });
+
+
+
+
+
 
         })();
     </script>

@@ -9,7 +9,7 @@ def get_stock_total(lotes):
     return stockTotal
 
 
-def procesar_detalle(detallePedidoFarmacia):
+def procesar_detalle(detallePedidoFarmacia, remito):
     lotes = Lote.objects.filter(medicamento__id=detallePedidoFarmacia.medicamento.id).order_by('fechaVencimiento')
     stockTotal = get_stock_total(lotes)
     if stockTotal == 0:
@@ -17,7 +17,7 @@ def procesar_detalle(detallePedidoFarmacia):
         detallePedidoFarmacia.cantidadPendiente=detallePedidoFarmacia.cantidad
         detallePedidoFarmacia.save()
     else:
-        remito = models.Remito.objects.get(pedidoFarmacia__nroPedido=detallePedidoFarmacia.pedidoFarmacia.nroPedido)
+
 
         if stockTotal < detallePedidoFarmacia.cantidad:
             print "Stock insuficiente"
@@ -27,6 +27,7 @@ def procesar_detalle(detallePedidoFarmacia):
                 cantidadTotal += lote.stock
                 cantidadTomadaDeLote = lote.stock
                 lote.stock = 0
+
                 detalleRemito = models.DetalleRemito()
                 detalleRemito.remito = remito
                 detalleRemito.detallePedidoFarmacia = detallePedidoFarmacia
@@ -34,6 +35,7 @@ def procesar_detalle(detallePedidoFarmacia):
                 detalleRemito.cantidad = cantidadTomadaDeLote
 
                 detalleRemito.save()
+
                 lote.save()
 
             #Vuelvo a guardar el detalle del pedido con la cantidad pendiente
@@ -64,28 +66,51 @@ def procesar_detalle(detallePedidoFarmacia):
                 detalleRemito.cantidad = cantidadTomadaDeLote
 
                 detalleRemito.save()
+
                 lote.save()
 
                 i += 1
 
 
-def setearEstado(pedido):
+
+def procesarPedido(pedido):
 
     detallesPedido = models.DetallePedidoFarmacia.objects.filter(pedidoFarmacia__nroPedido = pedido.nroPedido)
-    remito = models.Remito.objects.get(pedidoFarmacia__nroPedido = pedido.nroPedido)
-    detalleRemito = models.DetalleRemito.objects.filter(remito__id = remito.id)
+
+    creaRemito = False
+
+    for detalle in detallesPedido:
+
+        lotes = Lote.objects.filter(medicamento__id=detalle.medicamento.id).order_by('fechaVencimiento')
+        stockTotal = get_stock_total(lotes)
+
+        if (stockTotal <> 0 ):
+
+            creaRemito = True
+            break
 
 
-    if (not(detalleRemito)):
-        pedido.estado = "Pendiente"
-        remito.delete()
-    else:
+    if(creaRemito):
+
+        remitoNuevo = models.Remito(pedidoFarmacia = pedido, fecha=pedido.fecha)
+        remitoNuevo.save()
 
         for detalle in detallesPedido:
-            if(detalle.cantidadPendiente <> 0):
+
+            procesar_detalle(detalle, remitoNuevo)
+
+    detalleRemito= models.DetalleRemito.filter(remito__id = remitoNuevo.id)
+
+    if (not(detalleRemito)):
+        pedido.estado= "Pendiente"
+    else:
+        for detalle in detallesPedido:
+            if(detalle.cantidadPendiente <>0):
                 pedido.estado = "Parcialmente Enviado"
                 break
 
     pedido.save()
+
+
 
 

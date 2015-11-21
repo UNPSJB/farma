@@ -78,13 +78,6 @@ class PedidoFarmacia(PedidoVenta):
         verbose_name_plural = "Pedidos de Farmacia"
 
 
-    def save(self, *args, **kwargs):
-        super(PedidoFarmacia, self).save(*args, **kwargs)
-        remito = Remito()
-        remito.pedidoFarmacia=self
-        remito.fecha=self.fecha
-        remito.save()
-
 
 #DETALLE PEDIDO DE FARMACIA
 
