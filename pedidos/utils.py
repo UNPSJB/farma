@@ -75,7 +75,7 @@ def procesar_detalle(detallePedidoFarmacia, remito):
 
 def procesarPedido(pedido):
 
-    detallesPedido = models.DetallePedidoFarmacia.objects.filter(pedidoFarmacia__nroPedido = pedido.nroPedido)
+    detallesPedido = models.DetallePedidDeFarmacia.objects.filter(pedidoFarmacia__nroPedido = pedido.nroPedido)
 
     creaRemito = False
 

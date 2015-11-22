@@ -18,18 +18,18 @@ class DetalleRemito(models.Model):
     def __str__(self):
         return str(self.id)
 
-class RemitoMedVencido(models.Model):
+class RemitoMedicamentosVencido(models.Model):
     numero = models.BigIntegerField()
     fecha = models.DateField()
-    #estado
+
     def __str__(self):
         return str(self.numero)
 
 
-class DetalleRemitoVencido(models.Model):
-    numeroRemito = models.ForeignKey('RemitoMedVencido', on_delete=models.CASCADE)
+class DetalleRemitoMedicamentosVencido(models.Model):
+    remito = models.ForeignKey('RemitoMedVencido', on_delete=models.CASCADE)
     cantidad = models.BigIntegerField()
-    #estado
+
 
     def __str__(self):
         return str(self.numero)
@@ -48,7 +48,7 @@ class PedidoVenta(models.Model):
 
 
 #CLASE ABSTRACTA DETALLE PEDIDO
-class DetallePedido(models.Model):
+class DetallePedidoVenta(models.Model):
     cantidad = models.PositiveIntegerField()
     medicamento = models.ForeignKey('medicamentos.Medicamento')
 
@@ -59,7 +59,8 @@ class DetallePedido(models.Model):
         return str(self.id)
 
 #PEDIDO DE FARMACIA
-class PedidoFarmacia(PedidoVenta):
+class PedidoDeFarmacia(PedidoVenta):
+
     FILTROS = ["farmacia", "desde", "hasta"]
     FILTERMAPPER = {
         'desde': "fecha__gte",
@@ -81,27 +82,13 @@ class PedidoFarmacia(PedidoVenta):
 
 #DETALLE PEDIDO DE FARMACIA
 
-class DetallePedidoFarmacia(DetallePedido):
+class DetallePedidDeFarmacia(DetallePedidoVenta):
     pedidoFarmacia = models.ForeignKey('PedidoFarmacia')
     cantidadPendiente =models.PositiveIntegerField(default= 0)
     estaPedido = models.BooleanField(default= False)
 
 
-    class Meta(DetallePedido.Meta):
+    class Meta(DetallePedidoVenta.Meta):
         verbose_name_plural = "Detalles de Pedidos de Farmacia"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

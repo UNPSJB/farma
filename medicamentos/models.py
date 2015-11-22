@@ -9,7 +9,7 @@ class Medicamento(models.Model):
     codigoBarras = models.CharField("Codigo de barras", max_length=15, unique=True, error_messages={'unique':" Este codigo de barras ya esta cargado!"}, help_text="Este es un valor numerico, el cual deberia ser la clave")
     stockMinimo = models.PositiveIntegerField("Stock minimo de reposicion",
                                       help_text="Este es el stock minimo en el cual el sistema alertara de que es necesario realizar un pedido")
-    precio = models.FloatField(help_text="Este es el precio de venta del medicamento")
+    precioDeVenta = models.FloatField(help_text="Este es el precio de venta del medicamento")
 
     def __str__(self):
         return "%s %s" % (self.nombreFantasia, self.presentacion)
@@ -59,14 +59,14 @@ class NombreFantasia(models.Model):
 
 class Lote(models.Model):
     FILTROS = ["numero__icontains"]
-    numero = models.PositiveIntegerField(unique=True, error_messages={'unique':" Este numero de lote ya esta cargado!"})
+    numeroLote = models.PositiveIntegerField(unique=True, error_messages={'unique':" Este numero de lote ya esta cargado!"})
     fechaVencimiento = models.DateField()
     stock = models.PositiveIntegerField()
-    precio = models.FloatField()
+    precioDeCompra = models.FloatField()
     medicamento = models.ForeignKey('Medicamento', on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s" % self.numero
+        return "%s" % self.numeroLote
 
 
 

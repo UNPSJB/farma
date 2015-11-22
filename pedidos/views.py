@@ -42,9 +42,9 @@ def remitos(request):
             return redirect('remitos')
     else:
         form = forms.RemitoForm()
-        filters = get_filtros(request.GET, models.RemitoMedVencido)
-        mfilters = dict(filter(lambda v: v[0] in models.RemitoMedVencido.FILTROS, filters.items()))
-        remitos = models.RemitoMedVencido.objects.filter(**mfilters)
+        filters = get_filtros(request.GET, models.RemitoMedicamentosVencido)
+        mfilters = dict(filter(lambda v: v[0] in models.RemitoMedicamentosVencido.FILTROS, filters.items()))
+        remitos = models.RemitoMedicamentosVencido.objects.filter(**mfilters)
     return render(request, "devMedicamentoVencidos.html",
         {"remitos": remitos,
          "filtros": filters,
@@ -53,8 +53,8 @@ def remitos(request):
 # ****** PEDIDOS DE FARMACIA ******
 @login_required(login_url='login')
 def pedidosDeFarmacia(request):
-    mfilters = get_filtros(request.GET, models.PedidoFarmacia)
-    pedidos = models.PedidoFarmacia.objects.filter(**mfilters)
+    mfilters = get_filtros(request.GET, models.PedidoDeFarmacia)
+    pedidos = models.PedidoDeFarmacia.objects.filter(**mfilters)
     return render(request, "pedidoDeFarmacia/pedidos.html", {"pedidos": pedidos, "filtros": request.GET})
 
 @login_required(login_url='login')
@@ -70,7 +70,7 @@ def pedidoF_add(request):
         if form.is_valid():
             pedido = form.save(commit=False)
             pedido.estado = 'Enviado'
-            ultPedido = models.PedidoFarmacia.objects.latest("nroPedido")
+            ultPedido = models.PedidoDeFarmacia.objects.latest("nroPedido")
             request.session['pedidoFarmacia'] = {'nroPedido': ultPedido.nroPedido+1, 'farmacia':{'id': pedido.farmacia.id, 'razonSocial': pedido.farmacia.razonSocial},
                                                  'fecha': pedido.fecha.strftime('%d/%m/%Y')}
             return redirect('detalles_pedidoF')
@@ -89,14 +89,14 @@ def detalles_pedidoF(request):
 
 @login_required(login_url='login')
 def ver_pedidoF(request, id_pedido):
-    pedido = get_object_or_404(models.PedidoFarmacia,pk=id_pedido)
-    detalles = models.DetallePedidoFarmacia.objects.filter(pedidoFarmacia=pedido)
+    pedido = get_object_or_404(models.PedidoDeFarmacia,pk=id_pedido)
+    detalles = models.DetallePedidDeFarmacia.objects.filter(pedidoFarmacia=pedido)
     return render(request, "pedidoDeFarmacia/ver-pedido.html",{"pedido": pedido, "detalles": detalles})
 
 
 @login_required(login_url='login')
 def deleteDetalle_pedidoF(request, id_pedido, id_detalle):
-    detalle = get_object_or_404(models.DetallePedidoFarmacia, pk=id_detalle)
+    detalle = get_object_or_404(models.DetallePedidDeFarmacia, pk=id_detalle)
     detalle.delete()
     return redirect('detalles_pedidoF', id_pedido)
 
@@ -136,7 +136,7 @@ def add_detalle_pedido_farmacia(request):
 @login_required(login_url='login')
 def update_detalle_pedido_farmacia(request, id_detalle):
     detalles = request.session['detalles']
-    detalle = models.DetallePedidoFarmacia(cantidad=detalles[int(id_detalle) - 1]['cantidad'])
+    detalle = models.DetallePedidDeFarmacia(cantidad=detalles[int(id_detalle) - 1]['cantidad'])
     if request.method == "POST":
         form = forms.UpdateDetallePedidoFarmaciaForm(request.POST, instance=detalle)
         if form.is_valid():
@@ -174,13 +174,13 @@ def registrar_pedido_farmacia(request):
         farmacia = get_object_or_404(Farmacia, pk=pedido['farmacia']['id'])
         fecha = datetime.datetime.strptime(pedido['fecha'], '%d/%m/%Y').date()
 
-        if not(models.PedidoFarmacia.objects.filter(pk=pedido["nroPedido"]).exists()):
-            p = models.PedidoFarmacia(farmacia=farmacia, fecha=fecha, estado='Enviado')
+        if not(models.PedidoDeFarmacia.objects.filter(pk=pedido["nroPedido"]).exists()):
+            p = models.PedidoDeFarmacia(farmacia=farmacia, fecha=fecha, estado='Enviado')
             p.save()
 
             for detalle in detalles:
                 medicamento = get_object_or_404(Medicamento, pk=detalle['medicamento']['id'])
-                d = models.DetallePedidoFarmacia(pedidoFarmacia=p, medicamento=medicamento, cantidad=detalle['cantidad'])
+                d = models.DetallePedidDeFarmacia(pedidoFarmacia=p, medicamento=medicamento, cantidad=detalle['cantidad'])
                 d.save()
 
             #FUNCION

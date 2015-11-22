@@ -19,7 +19,7 @@ class PedidoFarmaciaForm(forms.ModelForm):
         Field('fecha', placeholder='Fecha', css_class='datepicker'),
     )
     class Meta:
-        model = models.PedidoFarmacia
+        model = models.PedidoDeFarmacia
         fields = ["farmacia", "fecha"]
         widgets = {
             'farmacia': selectable.AutoCompleteSelectWidget(lookup_class=lookups.FarmaciaLookup),
@@ -39,7 +39,7 @@ class DetallePedidoFarmaciaForm(forms.ModelForm):
     )
 
     class Meta:
-        model = models.DetallePedidoFarmacia
+        model = models.DetallePedidDeFarmacia
         fields = ["medicamento", "cantidad"]
 
 class UpdateDetallePedidoFarmaciaForm(forms.ModelForm):
@@ -53,5 +53,5 @@ class UpdateDetallePedidoFarmaciaForm(forms.ModelForm):
     )
 
     class Meta:
-        model = models.DetallePedidoFarmacia
+        model = models.DetallePedidDeFarmacia
         fields = ["cantidad"]
