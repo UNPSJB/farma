@@ -39,7 +39,7 @@ class DetallePedidoFarmaciaForm(forms.ModelForm):
     )
 
     class Meta:
-        model = models.DetallePedidDeFarmacia
+        model = models.DetallePedidoDeFarmacia
         fields = ["medicamento", "cantidad"]
 
 class UpdateDetallePedidoFarmaciaForm(forms.ModelForm):
@@ -53,5 +53,5 @@ class UpdateDetallePedidoFarmaciaForm(forms.ModelForm):
     )
 
     class Meta:
-        model = models.DetallePedidDeFarmacia
+        model = models.DetallePedidoDeFarmacia
         fields = ["cantidad"]

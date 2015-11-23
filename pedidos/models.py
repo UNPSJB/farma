@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Remito(models.Model):
-    pedidoFarmacia = models.ForeignKey('PedidoFarmacia', on_delete=models.CASCADE)
+    pedidoFarmacia = models.ForeignKey('PedidoDeFarmacia', on_delete=models.CASCADE)
     fecha = models.DateField()
 
     def __str__(self):
@@ -12,7 +12,7 @@ class Remito(models.Model):
 class DetalleRemito(models.Model):
     remito = models.ForeignKey(Remito, on_delete=models.CASCADE)
     cantidad = models.BigIntegerField()
-    detallePedidoFarmacia = models.ForeignKey('DetallePedidoFarmacia')
+    detallePedidoFarmacia = models.ForeignKey('DetallePedidoDeFarmacia')
     lote = models.ForeignKey('medicamentos.Lote')
 
     def __str__(self):
@@ -27,7 +27,7 @@ class RemitoMedicamentosVencido(models.Model):
 
 
 class DetalleRemitoMedicamentosVencido(models.Model):
-    remito = models.ForeignKey('RemitoMedVencido', on_delete=models.CASCADE)
+    remito = models.ForeignKey('RemitoMedicamentosVencido', on_delete=models.CASCADE)
     cantidad = models.BigIntegerField()
 
 
@@ -77,13 +77,15 @@ class PedidoDeFarmacia(PedidoVenta):
 
     class Meta(PedidoVenta.Meta):
         verbose_name_plural = "Pedidos de Farmacia"
-
+        permissions = (
+            ("generar_reporte_farmacia", "Puede generar el reporte de pedidos a farmacia"),
+        )
 
 
 #DETALLE PEDIDO DE FARMACIA
 
-class DetallePedidDeFarmacia(DetallePedidoVenta):
-    pedidoFarmacia = models.ForeignKey('PedidoFarmacia')
+class DetallePedidoDeFarmacia(DetallePedidoVenta):
+    pedidoFarmacia = models.ForeignKey('PedidoDeFarmacia')
     cantidadPendiente =models.PositiveIntegerField(default= 0)
     estaPedido = models.BooleanField(default= False)
 

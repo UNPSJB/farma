@@ -89,7 +89,9 @@ def medicamento_add(request):
         "dosis_formset": dosis_formset,
     })
 
+#from django.contrib.auth import decorators as authd
 @login_required(login_url='login')
+#@authd.permission_required(perm="medicamentos.add_medicamento")  #codename del permiso
 def medicamento_update(request, id_medicamento):
     medicamento= get_object_or_404(models.Medicamento, pk=id_medicamento)
     if request.method == "POST":

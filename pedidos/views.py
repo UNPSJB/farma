@@ -4,7 +4,7 @@ from pedidos import forms, models, utils
 from organizaciones.models import Farmacia
 from django.contrib.auth.decorators import login_required
 from crispy_forms.utils import render_crispy_form
-from datetime import datetime
+from django.contrib.auth import decorators as authd
 from medicamentos.models import Medicamento
 import datetime
 import re
@@ -30,25 +30,6 @@ def get_filtros(get, modelo):
             mfilter[attr] = value
 
     return mfilter
-
-def remitos(request):
-    remitos = None
-    filters = None
-    if request.method == "POST":
-        form = forms.RemitoForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-            form.save()
-            return redirect('remitos')
-    else:
-        form = forms.RemitoForm()
-        filters = get_filtros(request.GET, models.RemitoMedicamentosVencido)
-        mfilters = dict(filter(lambda v: v[0] in models.RemitoMedicamentosVencido.FILTROS, filters.items()))
-        remitos = models.RemitoMedicamentosVencido.objects.filter(**mfilters)
-    return render(request, "devMedicamentoVencidos.html",
-        {"remitos": remitos,
-         "filtros": filters,
-         "form": form})
 
 # ****** PEDIDOS DE FARMACIA ******
 @login_required(login_url='login')
@@ -90,13 +71,13 @@ def detalles_pedidoF(request):
 @login_required(login_url='login')
 def ver_pedidoF(request, id_pedido):
     pedido = get_object_or_404(models.PedidoDeFarmacia,pk=id_pedido)
-    detalles = models.DetallePedidDeFarmacia.objects.filter(pedidoFarmacia=pedido)
+    detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoFarmacia=pedido)
     return render(request, "pedidoDeFarmacia/ver-pedido.html",{"pedido": pedido, "detalles": detalles})
 
 
 @login_required(login_url='login')
 def deleteDetalle_pedidoF(request, id_pedido, id_detalle):
-    detalle = get_object_or_404(models.DetallePedidDeFarmacia, pk=id_detalle)
+    detalle = get_object_or_404(models.DetallePedidoDeFarmacia, pk=id_detalle)
     detalle.delete()
     return redirect('detalles_pedidoF', id_pedido)
 
@@ -136,7 +117,7 @@ def add_detalle_pedido_farmacia(request):
 @login_required(login_url='login')
 def update_detalle_pedido_farmacia(request, id_detalle):
     detalles = request.session['detalles']
-    detalle = models.DetallePedidDeFarmacia(cantidad=detalles[int(id_detalle) - 1]['cantidad'])
+    detalle = models.DetallePedidoDeFarmacia(cantidad=detalles[int(id_detalle) - 1]['cantidad'])
     if request.method == "POST":
         form = forms.UpdateDetallePedidoFarmaciaForm(request.POST, instance=detalle)
         if form.is_valid():
@@ -164,8 +145,11 @@ def delete_detalle_pedido_farmacia(request, id_detalle):
 
 #https://github.com/incuna/django-wkhtmltopdf !!!!!!!!!!!!!!!
 
+
 @json_view
 @login_required(login_url='login')
+@authd.permission_required(perm="add_pedidodefarmacia")
+
 def registrar_pedido_farmacia(request):
     pedido = request.session['pedidoFarmacia']
     detalles = request.session['detalles']
@@ -180,7 +164,7 @@ def registrar_pedido_farmacia(request):
 
             for detalle in detalles:
                 medicamento = get_object_or_404(Medicamento, pk=detalle['medicamento']['id'])
-                d = models.DetallePedidDeFarmacia(pedidoFarmacia=p, medicamento=medicamento, cantidad=detalle['cantidad'])
+                d = models.DetallePedidoDeFarmacia(pedidoFarmacia=p, medicamento=medicamento, cantidad=detalle['cantidad'])
                 d.save()
 
             #FUNCION
