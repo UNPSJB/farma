@@ -51,8 +51,15 @@ def pedidoF_add(request):
         if form.is_valid():
             pedido = form.save(commit=False)
             pedido.estado = 'Enviado'
-            ultPedido = models.PedidoDeFarmacia.objects.latest("nroPedido")
-            request.session['pedidoFarmacia'] = {'nroPedido': ultPedido.nroPedido+1, 'farmacia':{'id': pedido.farmacia.id, 'razonSocial': pedido.farmacia.razonSocial},
+            cantPedidos= models.PedidoDeFarmacia.objects.count()
+
+            if (cantPedidos <>0):
+                ultPedido = models.PedidoDeFarmacia.objects.latest("nroPedido")
+                pedido.nroPedido=ultPedido.nroPedido+1
+            else:
+                pedido.nroPedido= 1
+
+            request.session['pedidoFarmacia'] = {'nroPedido': pedido.nroPedido, 'farmacia':{'id': pedido.farmacia.id, 'razonSocial': pedido.farmacia.razonSocial},
                                                  'fecha': pedido.fecha.strftime('%d/%m/%Y')}
             return redirect('detalles_pedidoF')
     else:
@@ -149,7 +156,7 @@ def delete_detalle_pedido_farmacia(request, id_detalle):
 @json_view
 @login_required(login_url='login')
 @authd.permission_required(perm="add_pedidodefarmacia")
-
+@authd.permission_required(perm="change_pedidodefarmacia")
 def registrar_pedido_farmacia(request):
     pedido = request.session['pedidoFarmacia']
     detalles = request.session['detalles']
@@ -167,7 +174,8 @@ def registrar_pedido_farmacia(request):
                 d = models.DetallePedidoDeFarmacia(pedidoFarmacia=p, medicamento=medicamento, cantidad=detalle['cantidad'])
                 d.save()
 
-            #FUNCION
+
+            utils.procesarPedido(p)
 
             return {'success': True}
         else:

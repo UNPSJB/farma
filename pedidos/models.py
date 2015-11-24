@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Remito(models.Model):
+
     pedidoFarmacia = models.ForeignKey('PedidoDeFarmacia', on_delete=models.CASCADE)
     fecha = models.DateField()
 
@@ -10,6 +11,7 @@ class Remito(models.Model):
         return str(self.id)
 
 class DetalleRemito(models.Model):
+
     remito = models.ForeignKey(Remito, on_delete=models.CASCADE)
     cantidad = models.BigIntegerField()
     detallePedidoFarmacia = models.ForeignKey('DetallePedidoDeFarmacia')

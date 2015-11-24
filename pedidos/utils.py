@@ -75,7 +75,7 @@ def procesar_detalle(detallePedidoFarmacia, remito):
 
 def procesarPedido(pedido):
 
-    detallesPedido = models.DetallePedidDeFarmacia.objects.filter(pedidoFarmacia__nroPedido = pedido.nroPedido)
+    detallesPedido = models.DetallePedidoDeFarmacia.objects.filter(pedidoFarmacia__nroPedido = pedido.nroPedido)
 
     creaRemito = False
 
@@ -83,9 +83,8 @@ def procesarPedido(pedido):
 
         lotes = Lote.objects.filter(medicamento__id=detalle.medicamento.id).order_by('fechaVencimiento')
         stockTotal = get_stock_total(lotes)
-
+        print stockTotal
         if (stockTotal <> 0 ):
-
             creaRemito = True
             break
 
@@ -99,15 +98,17 @@ def procesarPedido(pedido):
 
             procesar_detalle(detalle, remitoNuevo)
 
-    detalleRemito= models.DetalleRemito.filter(remito__id = remitoNuevo.id)
+        detallesRemito= models.DetalleRemito.objects.filter(remito__id = remitoNuevo.id)
 
-    if (not(detalleRemito)):
-        pedido.estado= "Pendiente"
+        if(detallesRemito):
+            for detalle in detallesPedido:
+                if(detalle.cantidadPendiente <>0):
+                    pedido.estado = "Parcialmente Enviado"
+                    break
+
     else:
-        for detalle in detallesPedido:
-            if(detalle.cantidadPendiente <>0):
-                pedido.estado = "Parcialmente Enviado"
-                break
+        pedido.estado= "Pendiente"
+
 
     pedido.save()
 
