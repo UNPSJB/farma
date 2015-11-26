@@ -64,31 +64,41 @@ urlpatterns = [
     url(r'^pedidosDeFarmacia/add/detalles-pedido/add/$', pviews.add_detalle_pedido_farmacia, name="add_detalle_pedido_farmacia"),
     url(r'^pedidosDeFarmacia/add/detalles-pedido/update/(?P<id_detalle>\d+)/$', pviews.update_detalle_pedido_farmacia, name="update_detalle_pedido_farmacia"),
     url(r'^pedidosDeFarmacia/add/detalles-pedido/delete/(?P<id_detalle>\d+)/$', pviews.delete_detalle_pedido_farmacia, name="delete_detalle_pedido_farmacia"),
-    url(r'^pedidosDeFarmacia/add/detalles-pedido/delete/(?P<id_detalle>\d+)/$', pviews.delete_detalle_pedido_farmacia, name="delete_detalle_pedido_farmacia"),
     url(r'^pedidosDeFarmacia/add/registrar-pedido/$', pviews.registrar_pedido_farmacia, name="registrar_pedido_farmacia"),
     url(r'^pedidosDeFarmacia/ver/(?P<id_pedido>\d+)/$', pviews.ver_pedidoF, name="ver_pedidoF"),
+
+    # ****** PEDIDOS DE CLINICA ******
+    url(r'^pedidosDeClinica/$', pviews.pedidosDeClinica, name="pedidosDeClinica"),
+    url(r'^pedidosDeClinica/add/$', pviews.pedido_de_clinica_add, name="pedido_de_clinica_add"),
+    url(r'^pedidosDeClinica/add/detalles-pedido/$', pviews.pedido_de_clinica_detalles, name="pedido_de_clinica_detalles"),
+    url(r'^pedidosDeClinica/add/detalles-pedido/add/$', pviews.add_detalle_pedido_de_clinica, name="add_detalle_pedido_de_clinica"),
+    url(r'^pedidosDeClinica/add/detalles-pedido/update/(?P<id_detalle>\d+)/$', pviews.update_detalle_pedido_de_clinica, name="update_detalle_pedido_de_clinica"),
+    url(r'^pedidosDeClinica/add/detalles-pedido/delete/(?P<id_detalle>\d+)/$', pviews.delete_detalle_pedido_de_clinica, name="delete_detalle_pedido_de_clinica"),
+    url(r'^pedidosDeClinica/add/registrar-pedido/$', pviews.registrar_pedido_de_clinica, name="registrar_pedido_de_clinica"),
+    url(r'^pedidosDeClinica/ver/(?P<id_pedido>\d+)/$', pviews.ver_pedido_de_clinica, name="ver_pedido_de_clinica"),
+
 
     # ****** FARMACIAS ******
     url(r'^farmacias/$',oviews.farmacias, name="farmacias"),
     url(r'^farmacias/add/$', oviews.farmacia_add, name="farmacia_add"),
     url(r'^farmacias/update/(?P<id_farmacia>\d+)/$', oviews.farmacia_update, name="farmacia_update"),
     url(r'^farmacias/delete/(?P<id_farmacia>\d+)/$', oviews.farmacia_delete, name="farmacia_delete"),
-    
-    
+
+
     # ****** CLINICAS ******
     url(r'^clinicas/$',oviews.clinicas, name="clinicas"),
     url(r'^clinicas/add/$', oviews.clinica_add, name="clinica_add"),
     url(r'^clinicas/update/(?P<id_clinica>\d+)/$', oviews.clinica_update, name="clinica_update"),
     url(r'^clinicas/delete/(?P<id_clinica>\d+)/$', oviews.clinica_delete, name="clinica_delete"),
-    
+
 
     # ****** LABORATORIOS ******
     url(r'^laboratorios/$',oviews.laboratorios, name="laboratorios"),
     url(r'^laboratorios/add/$', oviews.laboratorio_add, name="laboratorio_add"),
     url(r'^laboratorios/update/(?P<id_laboratorio>\d+)/$', oviews.laboratorio_update, name="laboratorio_update"),
     url(r'^laboratorios/delete/(?P<id_laboratorio>\d+)/$', oviews.laboratorio_delete, name="laboratorio_delete"),
-    
-    
+
+
     # ****** OTROS ******
     url(r'^obrasSociales/$',views.paginaEnConstruccion, name="paginaEnConstruccion"),
 

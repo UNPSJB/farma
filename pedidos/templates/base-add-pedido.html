@@ -27,19 +27,6 @@
                         </h3>
 					</div>
 					<div class="panel-body">
-						<!--<div class="row">-->
-							<!--<div class="col-md-8">-->
-								<!--<img class="img-resonsive" src="{% static 'images/logo-pedido.jpg' %}" alt="Logo">-->
-							<!--</div>-->
-							<!--<div class="col-xs-12 col-md-offset-1 col-md-3">-->
-								<!--{% block panel-body-pedido-datos %}-->
-									<!--<p>Nº pedido: <span>#1{{ nro_pedido }}</span></p>-->
-									<!--<br />-->
-									<!--<p>{{ fecha_pedido|date:"d/m/Y" }}</p>-->
-								<!--{% endblock %}-->
-							<!--</div>-->
-							<!--<div class="clearfix"></div>-->
-						<!--</div> &lt;!&ndash; end row &ndash;&gt;-->
 						<div class="form-cabezera">
 							{% block form-pedido %}
                                 {% crispy form %}
@@ -64,7 +51,7 @@
     <script>
          $(document).ready(function(){
             $("#btn-enviar-form").click(function(e){
-            $("#form-pedido").submit();
+                $("#form-pedido").submit();
             });
          });
     </script>

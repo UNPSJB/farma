@@ -1,7 +1,30 @@
 from django.db import models
 
-# Create your models here.
+#******************CLASES ABSTRACTAS******************#
 
+class PedidoVenta(models.Model):
+    FILTROS = "farmacia__razonSocial__icontains"
+    nroPedido = models.AutoField(primary_key=True)
+    fecha = models.DateField()
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return str(self.nroPedido)
+
+class DetallePedidoVenta(models.Model):
+    cantidad = models.PositiveIntegerField()
+    medicamento = models.ForeignKey('medicamentos.Medicamento')
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return str(self.id)
+
+
+#******************REMITOS Y DETALLES REMITOS******************#
 class Remito(models.Model):
 
     pedidoFarmacia = models.ForeignKey('PedidoDeFarmacia', on_delete=models.CASCADE)
@@ -13,7 +36,7 @@ class Remito(models.Model):
 class DetalleRemito(models.Model):
 
     remito = models.ForeignKey(Remito, on_delete=models.CASCADE)
-    cantidad = models.BigIntegerField()
+    cantidad = models.PositiveIntegerField()
     detallePedidoFarmacia = models.ForeignKey('DetallePedidoDeFarmacia')
     lote = models.ForeignKey('medicamentos.Lote')
 
@@ -26,41 +49,17 @@ class RemitoMedicamentosVencido(models.Model):
 
     def __str__(self):
         return str(self.numero)
-
-
 class DetalleRemitoMedicamentosVencido(models.Model):
     remito = models.ForeignKey('RemitoMedicamentosVencido', on_delete=models.CASCADE)
-    cantidad = models.BigIntegerField()
+    cantidad = models.PositiveIntegerField()
 
 
     def __str__(self):
         return str(self.numero)
 
-#CLASE ABSTRACTA PEDIDO VENTA
-class PedidoVenta(models.Model):
-    FILTROS = "farmacia__razonSocial__icontains"
-    nroPedido = models.AutoField(primary_key=True)
-    fecha = models.DateField(editable=True)
 
-    class Meta:
-        abstract = True
+#******************PEDIDO DE FARMACIA Y DETALLE PEDIDO DE FARMACIA******************#
 
-    def __str__(self):
-        return str(self.nroPedido)
-
-
-#CLASE ABSTRACTA DETALLE PEDIDO
-class DetallePedidoVenta(models.Model):
-    cantidad = models.PositiveIntegerField()
-    medicamento = models.ForeignKey('medicamentos.Medicamento')
-
-    class Meta:
-        abstract = True
-
-    def __str__(self):
-        return str(self.id)
-
-#PEDIDO DE FARMACIA
 class PedidoDeFarmacia(PedidoVenta):
 
     FILTROS = ["farmacia", "desde", "hasta"]
@@ -69,13 +68,8 @@ class PedidoDeFarmacia(PedidoVenta):
         'hasta': "fecha__lte",
         'farmacia': "farmacia__razonSocial__icontains"
     }
-    ESTADOS = (
-        ('Pendiente', 'Pendiente'),
-        ('Parcialmente enviado', 'Parcialmente enviado'),
-        ('Enviado', 'Enviado'),
-    )
     farmacia = models.ForeignKey('organizaciones.Farmacia')
-    estado = models.CharField(max_length=25, choices=ESTADOS)
+    estado = models.CharField(max_length=25, blank=True)
 
     class Meta(PedidoVenta.Meta):
         verbose_name_plural = "Pedidos de Farmacia"
@@ -83,11 +77,17 @@ class PedidoDeFarmacia(PedidoVenta):
             ("generar_reporte_farmacia", "Puede generar el reporte de pedidos a farmacia"),
         )
 
+    def to_json(self):
+        if self.farmacia:
+            return {'farmacia': {'id': self.farmacia.id,
+                                 'razonSocial': self.farmacia.razonSocial},
+                    'fecha': self.fecha.strftime('%d/%m/%Y')}
+        else:
+            return {}
 
-#DETALLE PEDIDO DE FARMACIA
 
 class DetallePedidoDeFarmacia(DetallePedidoVenta):
-    pedidoFarmacia = models.ForeignKey('PedidoDeFarmacia')
+    pedidoDeFarmacia = models.ForeignKey('PedidoDeFarmacia')
     cantidadPendiente =models.PositiveIntegerField(default= 0)
     estaPedido = models.BooleanField(default= False)
 
@@ -95,4 +95,62 @@ class DetallePedidoDeFarmacia(DetallePedidoVenta):
     class Meta(DetallePedidoVenta.Meta):
         verbose_name_plural = "Detalles de Pedidos de Farmacia"
 
+    def to_json(self):
+        #para evitar acceder a campos nulos
+        if self.medicamento:
+            return {'medicamento': {"id": self.medicamento.id,
+                                    "descripcion": self.medicamento.nombreFantasia.nombreF + " " +
+                                                   self.medicamento.presentacion.descripcion + " " +
+                                                   str(self.medicamento.presentacion.cantidad) + " " +
+                                                   self.medicamento.presentacion.unidadMedida },
+                    'cantidad': self.cantidad}
+        else:
+            return {}
 
+#******************PEDIDO DE CLINICA Y DETALLE PEDIDO DE CLINICA******************#
+
+class PedidoDeClinica(PedidoVenta):
+
+    FILTROS = ["clinica", "desde", "hasta"]
+    FILTERMAPPER = {
+        'desde': "fecha__gte",
+        'hasta': "fecha__lte",
+        'clinica': "clinica__razonSocial__icontains"
+    }
+    clinica = models.ForeignKey('organizaciones.Clinica')
+    obraSocial = models.CharField(max_length=80)
+    medicoAuditor = models.CharField(max_length=80)
+
+    class Meta(PedidoVenta.Meta):
+        verbose_name_plural = "Pedidos de Clinica"
+
+    def to_json(self):
+        if self.clinica:
+            return {'clinica': {'id': self.clinica.id,
+                                 'razonSocial': self.clinica.razonSocial},
+                    'fecha': self.fecha.strftime('%d/%m/%Y'),
+                    'obraSocial': self.obraSocial,
+                    'medicoAuditor': self.medicoAuditor}
+        else:
+            return {}
+
+class DetallePedidoDeClinica(DetallePedidoVenta):
+    pedidoDeClinica = models.ForeignKey('PedidoDeClinica')
+    cantidadPendiente =models.PositiveIntegerField(default= 0)
+    estaPedido = models.BooleanField(default= False)
+
+
+    class Meta(DetallePedidoVenta.Meta):
+        verbose_name_plural = "Detalles de Pedidos de Clinica"
+
+    def to_json(self):
+        #para evitar acceder a campos nulos
+        if self.medicamento:
+            return {'medicamento': {"id": self.medicamento.id,
+                                    "descripcion": self.medicamento.nombreFantasia.nombreF + " " +
+                                                   self.medicamento.presentacion.descripcion + " " +
+                                                   str(self.medicamento.presentacion.cantidad) + " " +
+                                                   self.medicamento.presentacion.unidadMedida },
+                    'cantidad': self.cantidad}
+        else:
+            return {}

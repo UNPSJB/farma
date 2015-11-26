@@ -1,10 +1,10 @@
 {% extends "base-presentacion-pedido.html" %}
 
-{% block title %}Ver Pedido De Farmacia{% endblock %}
+{% block title %}Ver Pedido De Clinica{% endblock %}
 
-{% block tipo-pedido %}Pedido de Farmacia{% endblock %}
+{% block tipo-pedido %}Pedido de Clinica{% endblock %}
 
-{% block nombre-organizacion %} {{ pedido.farmacia.razonSocial }} {% endblock %}
+{% block nombre-organizacion %} {{ pedido.clinica.razonSocial }} {% endblock %}
 
 {% block fecha-pedido %} {{ pedido.fecha }} {% endblock %}
 
