@@ -5,7 +5,14 @@ from selectable import forms as selectable
 from django.core.exceptions import ObjectDoesNotExist
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
+from django.utils.translation import ugettext_lazy as _
 import datetime
+
+#*******************************VALIDACION***************************************#
+def validarCantidad(cantidad):
+    if cantidad == 0:
+            raise forms.ValidationError('La cantidad debe ser mayor a cero')
+    return cantidad
 
 #*******************************PEDIDO DE FARMACIA*******************************#
 
@@ -42,6 +49,9 @@ class DetallePedidoDeFarmaciaForm(forms.ModelForm):
         model = models.DetallePedidoDeFarmacia
         fields = ["medicamento", "cantidad"]
 
+    def clean_cantidad(self):
+        return validarCantidad(self.cleaned_data['cantidad'])
+
 class UpdateDetallePedidoDeFarmaciaForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
@@ -55,6 +65,9 @@ class UpdateDetallePedidoDeFarmaciaForm(forms.ModelForm):
     class Meta:
         model = models.DetallePedidoDeFarmacia
         fields = ["cantidad"]
+
+    def clean_cantidad(self):
+        return validarCantidad(self.cleaned_data['cantidad'])
 
 #*******************************PEDIDO DE CLINICA*******************************#
 
@@ -74,9 +87,14 @@ class PedidoDeClinicaForm(forms.ModelForm):
     class Meta:
         model = models.PedidoDeClinica
         fields = ["clinica", "obraSocial", "medicoAuditor", "fecha"]
+        labels = {
+            'obraSocial': _('Obra Social'),
+            'medicoAuditor': _('Medico Auditor'),
+        }
         widgets = {
             'clinica': selectable.AutoCompleteSelectWidget(lookup_class=lookups.ClinicaLookup),
         }
+
 
 class DetallePedidoDeClinicaForm(forms.ModelForm):
     helper = FormHelper()
@@ -93,6 +111,9 @@ class DetallePedidoDeClinicaForm(forms.ModelForm):
         model = models.DetallePedidoDeClinica
         fields = ["medicamento", "cantidad"]
 
+    def clean_cantidad(self):
+        return validarCantidad(self.cleaned_data['cantidad'])
+
 class UpdateDetallePedidoDeClinicaForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
@@ -106,3 +127,6 @@ class UpdateDetallePedidoDeClinicaForm(forms.ModelForm):
     class Meta:
         model = models.DetallePedidoDeClinica
         fields = ["cantidad"]
+
+    def clean_cantidad(self):
+        return validarCantidad(self.cleaned_data['cantidad'])

@@ -55,7 +55,7 @@ def crear_detalle_json(detalle, renglon):
     d = detalle.to_json()
     d['renglon'] = renglon
     return d
-    
+
 # ******************************* PEDIDOS DE FARMACIA ******************************* #
 
 @login_required(login_url='login')
@@ -164,7 +164,7 @@ def registrar_pedido_farmacia(request):
                 medicamento = get_object_or_404(Medicamento, pk=detalle['medicamento']['id'])
                 d = models.DetallePedidoDeFarmacia(pedidoDeFarmacia=p, medicamento=medicamento, cantidad=detalle['cantidad'])
                 d.save()
-            utils.procesar_pedido(p)
+            utils.procesar_pedido_de_farmacia(p)
             return {'success': True}
         else:
             mensaje_error = "El pedido ya Existe!"
@@ -282,7 +282,7 @@ def registrar_pedido_de_clinica(request):
                 medicamento = get_object_or_404(Medicamento, pk=detalle['medicamento']['id'])
                 d = models.DetallePedidoDeClinica(pedidoDeClinica=p, medicamento=medicamento, cantidad=detalle['cantidad'])
                 d.save()
-            #utils.procesar_pedido(p)
+            utils.procesar_pedido_de_clinica(p)
             return {'success': True}
         else:
             mensaje_error = "El pedido ya Existe!"

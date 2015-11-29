@@ -363,6 +363,10 @@
                     $collapse.collapse('hide');
                 }, 3000);
             }
+
+            $("#modal-add-detalle").on("change", "select", function(e){
+                $("#collapse-add-detalle").collapse('hide');
+            });
         </script>
     {% endblock %}
 

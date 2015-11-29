@@ -28,9 +28,9 @@ def procesar_detalle(detalle, remito):
             if lote.stock:  # Solo uso lotes que no esten vacios
                 cantidadTomadaDeLote = lote.stock
                 lote.stock = 0
-                detalleRemito = models.DetalleRemito()
+                detalleRemito = models.DetalleRemitoPedidoDeFarmacia() if isinstance(remito, models.RemitoPedidoDeFarmacia) else models.DetalleRemitoPedidoDeClinica()
                 detalleRemito.remito = remito
-                detalleRemito.detallePedidoDeFarmacia = detalle
+                detalleRemito.set_detalle_pedido(detalle)
                 detalleRemito.lote = lote
                 detalleRemito.cantidad = cantidadTomadaDeLote
 
@@ -58,9 +58,9 @@ def procesar_detalle(detalle, remito):
                     cantidadTomadaDeLote = cantidadNecesaria
                     cantidadNecesaria = 0
 
-                detalleRemito = models.DetalleRemito()
+                detalleRemito = models.DetalleRemitoPedidoDeFarmacia() if isinstance(remito, models.RemitoPedidoDeFarmacia) else models.DetalleRemitoPedidoDeClinica()
                 detalleRemito.remito = remito
-                detalleRemito.detallePedidoDeFarmacia = detalle
+                detalleRemito.set_detalle_pedido(detalle)
                 detalleRemito.lote = lote
                 detalleRemito.cantidad = cantidadTomadaDeLote
                 detalleRemito.save()
@@ -71,23 +71,39 @@ def procesar_detalle(detalle, remito):
 
 
 def es_pendiente(pedido):
-    detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) #obtengo todos los detalles del pedido
+    detalles = pedido.get_detalles()
     for detalle in detalles:
         if get_stock_total(detalle.medicamento) > 0:
             return False
     return True
 
 
-def procesar_pedido(pedido):
+def procesar_pedido_de_farmacia(pedido):
+    detalles = pedido.get_detalles()
     if not es_pendiente(pedido):
-        detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) #obtengo todos los detalles del pedido
-        remito = models.Remito(pedidoDeFarmacia=pedido, fecha=pedido.fecha)
+        remito = models.RemitoPedidoDeFarmacia()
+        remito.fecha = pedido.fecha
+        remito.set_pedido(pedido)
         remito.save()
         esEnviado = True
         for detalle in detalles:
-            esEnviado = esEnviado and procesar_detalle(detalle, remito)
+            resp = procesar_detalle(detalle, remito)
+            esEnviado = esEnviado and resp
 
         pedido.estado = "Enviado" if esEnviado else "Parcialmente Enviado"
     else:
         pedido.estado = "Pendiente"
+        for detalle in detalles:
+            detalle.cantidadPendiente = detalle.cantidad
+            detalle.save()
     pedido.save()
+
+def procesar_pedido_de_clinica(pedido):
+    detalles = pedido.get_detalles()
+    if not es_pendiente(pedido):
+        remito = models.RemitoPedidoDeClinica()
+        remito.fecha = pedido.fecha
+        remito.set_pedido(pedido)
+        remito.save()
+        for detalle in detalles:
+            procesar_detalle(detalle, remito)
