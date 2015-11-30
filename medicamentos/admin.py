@@ -6,6 +6,8 @@ from .models import Formula
 from .models import Presentacion
 from .models import NombreFantasia
 from .models import Formula
+from .models import Lote
+from django.contrib.auth import models as auth_models
 
 class DosisTabularInline(admin.TabularInline):
     model = Dosis
@@ -20,3 +22,5 @@ admin.site.register(Dosis)
 admin.site.register(Formula)
 admin.site.register(Presentacion)
 admin.site.register(NombreFantasia)
+admin.site.register(Lote)
+admin.site.register(auth_models.Permission)

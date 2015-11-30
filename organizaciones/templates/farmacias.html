@@ -2,11 +2,11 @@
 {% load staticfiles %}
 
 {% block title %}
-	<title>Farmacias</title>
+	Farmacias
 {% endblock %}
 
 {% block panel-title-ABM %}
-    <h3 class="panel-title">Farmacias</h3>
+    Farmacias
 {% endblock %}
 
 {% block grid %}
@@ -38,6 +38,15 @@
             {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+
+{% block cantidad-elementos %}
+    {{ farmacias|length }}
+    {% if farmacias|length != 1%}
+        farmacias
+    {% else %}
+        farmacia
+    {% endif %}
 {% endblock %}
 
 {% block url-add %}{% url 'farmacia_add' %}{% endblock %}

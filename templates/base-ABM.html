@@ -18,15 +18,29 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="pull-left">
-                        {% block panel-title-ABM %}
-                        {% endblock %}
+                        <h3 class="panel-title">
+                            {% block panel-title-ABM %}
+                            {% endblock %}
+                        </h3>
+
                     </div>
                     <div class="btn-group btn-group-xs pull-right">
-                        <a class="btn btn-success" href="{% block url-add %} {% endblock %}" id="alta"><span class="glyphicon glyphicon-plus"></span>  Alta</a>
-                        {% block btn-modificacion %}
-                            <a class="btn btn-warning hidden" id="modificar"><span class="glyphicon glyphicon-pencil"></span>  Modificación</a>
+                        <a class="btn btn-success" href="{% block url-add %} {% endblock %}" id="alta">
+                            <span class="glyphicon glyphicon-plus"></span>  Alta
+                        </a>
+                        {% block btn-modificar %}
+                            <a class="btn btn-warning hidden" id="modificar">
+                                <span class="glyphicon glyphicon-edit"></span>  Modificación
+                            </a>
                         {% endblock %}
-                        <a class="btn btn-danger hidden" id="baja"><span class="glyphicon glyphicon-minus"></span>  Baja</a>
+                        {% block btn-baja %}
+                            <a class="btn btn-danger hidden" id="baja">
+                                <span class="glyphicon glyphicon-minus"></span>  Baja
+                            </a>
+                        {% endblock %}
+
+                        {% block more-buttons %}
+                        {% endblock %}
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -41,7 +55,11 @@
                     {% block grid %}
                     {% endblock %}
                 </div>
-                {% block panel-footer %}{% endblock %}
+                <div class="panel-footer">
+                    <span class="text-left text-info" style="font-family: 'sans, sans-serif'; font-size: 16px;">
+                        {% block cantidad-elementos %}{% endblock %}
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -71,19 +89,30 @@
     <!-- end modal ...-->
     {% endblock %}
 
+    <!-- Bloque para agregar mas contenido HTML -->
+    {% block more-content %}
+    {% endblock %}
+
 {% endblock %}
 
 {% block scripts %}
     <script src="{% static 'js/utils.js' %}"></script>
     <script>
     $(function() {
+        /* recupero todos los botones para poder mostrarlos y ocultarlos*/
+        var id_botones = [];
+        var $botones = $(".panel-heading a");
+        for(var i = 1; i < $botones.length; i++){
+            id_botones.push("#" + $botones[i].attributes.id.value);
+        }
+
         $(".filtro").change(function(e) {
             $(this).closest("form").submit();
         });
 
         $(".clickeable").click(function(e) {
             select_row_table(this);
-            ocultarElementos(["#modificar", "#baja"], false);
+            ocultarElementos(id_botones, false);
             e.stopPropagation();
         });
         
@@ -93,7 +122,7 @@
 
         function limpiar(e) {
             $("tr").removeClass("active");
-            ocultarElementos(["#modificar", "#baja"], true);
+            ocultarElementos(id_botones, true);
             id = null;
         }
 

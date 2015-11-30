@@ -2,11 +2,11 @@
 {% load staticfiles %}
 
 {% block title %}
-	<title>Monodrogas</title>
+	Monodrogas
 {% endblock %}
 
 {% block panel-title-ABM %}
-    <h3 class="panel-title">Monodrogas</h3>
+    Monodrogas
 {% endblock %}
 
 {% block grid %}
@@ -35,6 +35,15 @@
  <label for="nombre" >Buscar:</label>
  <input class="filtro" id="nombre" name="nombre" value="{{filtros.nombre}}" placeholder=" Nombre" autofocus>
 
+{% endblock %}
+
+{% block cantidad-elementos %}
+    {{ monodrogas|length }}
+    {% if monodrogas|length != 1%}
+        monodrogas
+    {% else %}
+        monodroga
+    {% endif %}
 {% endblock %}
 
 {% block modal-baja-title %}

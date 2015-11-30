@@ -1,0 +1,180 @@
+<<<<<<< HEAD
+{% extends "base-ABM.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	<title>Medicamentos</title>
+{% endblock %}
+
+
+{% block panel-title-ABM%}
+    <h3 class="panel-title">Medicamentos</h3>
+{% endblock %}
+
+{% block url-add %}{% url 'medicamento_add' %}{% endblock %}
+
+{% block filtro %}
+
+ <label for="codigoBarras" >Buscar:</label>
+ <input class="filtro" id="codigoBarras" name="codigoBarras" value="{{filtros.codigoBarras}}" placeholder=" Codigo Barra" autofocus>
+
+{% endblock %}
+
+
+{% block grid %}
+    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr class="info">
+            <th>Nombre de Fantasia</th>
+            <th>Codigo de Barras</th>
+            <th>Presentacion</th>
+            <th>Formula</th>
+            <th>Stock Minimo</th>
+            <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medicamento in medicamentos %}
+
+                <tr class="clickeable" data-id="{{ medicamento.id }}">
+
+                    <td>{{medicamento.nombreFantasia}}</td>
+                    <td>{{medicamento.codigoBarras}}</td>
+                    <td>{{medicamento.presentacion}}</td>
+                    <td>{{medicamento.formulas.all|join:", "}}</td>
+                    <td>{{medicamento.stockMinimo}}</td>
+                    <td>{{medicamento.precio}}</td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block modal-baja-title %}
+    <h4 class="modal-title">Eliminar Medicamento </h4>
+{% endblock %}
+
+{% block modal-baja-texto %}
+    <p> El medicamento seleccionado se eliminara permanentemente ¿Esta seguro?</p>
+{% endblock %}
+
+{% block more-scripts %}
+    <script>
+        $(document).ready(function(){
+            $("#baja").click(function(e) {
+                var id = get_selected_row();
+                if(id){
+                   crear_baja("/medicamentos/delete/", id);
+                }
+                e.stopPropagation();
+            });
+
+            $("#modificar").click(function(e){
+                var id = get_selected_row();
+                if(id){
+                    var url="/medicamentos/update/" + id +"/";
+                    $(this).attr("href", url);
+
+                }
+                e.stopPropagation();
+            });
+
+        });
+    </script>
+=======
+{% extends "base-ABM.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	Medicamentos
+{% endblock %}
+
+
+{% block panel-title-ABM%}
+    Medicamentos
+{% endblock %}
+
+{% block url-add %}{% url 'medicamento_add' %}{% endblock %}
+
+{% block filtro %}
+
+ <label for="codigoBarras" >Buscar:</label>
+ <input class="filtro" id="codigoBarras" name="codigoBarras" value="{{filtros.codigoBarras}}" placeholder=" Codigo Barra" autofocus>
+
+{% endblock %}
+
+
+{% block grid %}
+    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr class="info">
+            <th>Nombre de Fantasia</th>
+            <th>Codigo de Barras</th>
+            <th>Presentacion</th>
+            <th>Formula</th>
+            <th>Stock Minimo</th>
+            <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medicamento in medicamentos %}
+
+                <tr class="clickeable" data-id="{{ medicamento.id }}">
+
+                    <td>{{medicamento.nombreFantasia}}</td>
+                    <td>{{medicamento.codigoBarras}}</td>
+                    <td>{{medicamento.presentacion}}</td>
+                    <td>{{medicamento.formulas.all|join:", "}}</td>
+                    <td>{{medicamento.stockMinimo}}</td>
+                    <td>{{medicamento.precio}}</td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block cantidad-elementos %}
+    {{ medicamentos|length }}
+    {% if medicamentos|length != 1%}
+        medicamentos
+    {% else %}
+        medicamento
+    {% endif %}
+{% endblock %}
+
+{% block modal-baja-title %}
+    <h4 class="modal-title">Eliminar Medicamento </h4>
+{% endblock %}
+
+{% block modal-baja-texto %}
+    <p> El medicamento seleccionado se eliminara permanentemente ¿Esta seguro?</p>
+{% endblock %}
+
+{% block more-scripts %}
+    <script>
+        $(document).ready(function(){
+            $("#baja").click(function(e) {
+                var id = get_selected_row();
+                if(id){
+                   crear_baja("/medicamentos/delete/", id);
+                }
+                e.stopPropagation();
+            });
+
+            $("#modificar").click(function(e){
+                var id = get_selected_row();
+                if(id){
+                    var url="/medicamentos/update/" + id +"/";
+                    $(this).attr("href", url);
+
+                }
+                e.stopPropagation();
+            });
+
+        });
+    </script>
+>>>>>>> 2b7d4174aae3b92111078c7811665a9999d03d96
+{% endblock %}

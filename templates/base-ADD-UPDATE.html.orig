@@ -1,0 +1,87 @@
+<<<<<<< HEAD
+{% extends "base.html" %}
+{% block title %} {% endblock %}
+
+{% block content %}
+	<div style="margin: 30px 20px 40px 20px;">
+		<div class="container">
+			<div class="col-xs-12 col-md-offset-1 col-md-10">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						{% block panel-heading-add %} {% endblock %}
+					</div>
+					<form class="form-horizontal my-form" action="{% block url-form-action %} {% endblock %}" method="POST" > {% csrf_token %}
+						<div class="panel-body">
+								{% include "forms/form_snippet.html" %}
+						</div>
+						<div class="panel-footer">
+							{% block boton-form %} 
+								<button type="submit" id="btn-guardar-continuar" class="btn btn-success pull-right" style="margin-left:10px;" value="_continuar" name="_continuar">
+	                        		Guardar y Continuar
+	                        	</button>
+								<button type="submit" id="btn-guardar-volver" class="btn btn-primary pull-right" value="_volver" name="_volver">
+									Guardar y Volver
+								</button>
+							{% endblock%}
+							<div class="clearfix"></div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<nav>
+			<ul class="pager" style="margin-bottom: 40px;">
+				<li class="previous pull-right">
+					<a href="{% block url-previous %} {% endblock %}"><span aria-hidden="true">&larr;</span> 	Volver</a>
+	    		</li>
+	    	</ul>
+		</nav>
+	</div>
+	
+{% endblock %}
+=======
+{% extends "base.html" %}
+{% block title %} {% endblock %}
+
+{% block content %}
+	<div style="margin: 30px 20px 40px 20px;">
+		<div class="container">
+			<div class="col-xs-12 col-md-offset-1 col-md-10">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						{% block panel-heading-add %} {% endblock %}
+					</div>
+					<form class="form-horizontal my-form" action="{% block url-form-action %} {% endblock %}" method="POST" > {% csrf_token %}
+						<div class="panel-body">
+								{% include "forms/form_snippet.html" %}
+						</div>
+						<div class="panel-footer">
+							{% block boton-form %}
+								<button type="submit" id="btn-guardar-continuar" class="btn btn-success pull-right" style="margin-left:10px;" value="_continuar" name="_continuar">
+	                        		Guardar y Continuar
+	                        	</button>
+								<button type="submit" id="btn-guardar-volver" class="btn btn-primary pull-right" value="_volver" name="_volver">
+									Guardar y Volver
+								</button>
+							{% endblock%}
+							<div class="clearfix"></div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<nav>
+			<ul class="pager" style="margin-bottom: 40px;">
+				<li class="previous pull-right">
+					<a href="{% block url-previous %}{% endblock %}"><span aria-hidden="true">&larr;</span> 	Volver</a>
+	    		</li>
+	    	</ul>
+		</nav>
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock%}
+>>>>>>> 2b7d4174aae3b92111078c7811665a9999d03d96

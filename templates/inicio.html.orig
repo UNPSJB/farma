@@ -1,0 +1,29 @@
+<<<<<<< HEAD
+{%extends "base.html"%}
+{% load staticfiles %}
+
+{% block title %}
+<title>Farma S.R.L</title>
+{% endblock %}
+
+{% block content %}
+
+	{% include 'carousel.html' %}
+
+{% endblock %}
+
+=======
+{%extends "base.html"%}
+{% load staticfiles %}
+
+{% block title %}
+	Farma S.R.L
+{% endblock %}
+
+{% block content %}
+
+	{% include 'carousel.html' %}
+
+{% endblock %}
+
+>>>>>>> 2b7d4174aae3b92111078c7811665a9999d03d96

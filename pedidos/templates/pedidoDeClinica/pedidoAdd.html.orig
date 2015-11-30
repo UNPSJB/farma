@@ -1,0 +1,66 @@
+<<<<<<< HEAD:pedidos/templates/pedidoDeFarmacia.html
+{% extends "base-crear-pedido.html" %}
+{% load staticfiles %}
+
+{% block more-stylesheets %}
+    <link rel="stylesheet" href="{%  static 'css/custom-theme/jquery-ui-1.10.3.custom.css'  %}">
+    {{ form.media.css }}
+{% endblock %}
+
+{% block title %}
+	<title>Pedido De Farmacia</title>
+{% endblock %}
+
+{% block panel-title-pedido %}
+	Pedido de Farmacia
+{% endblock %}
+
+{% block form-action %}
+{% url 'pedidoDeFarmacia' %}
+{% endblock %}
+
+{% block more-scripts %}
+    {{ form.media.js }}
+    <script>
+        (function(){
+            $(".datepicker").datepicker({
+                changeDay: true,
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1990:2030",
+            });
+        })();
+    </script>
+{% endblock %}
+
+=======
+{% extends "base-add-pedido.html" %}
+{% load staticfiles %}
+
+{% block more-stylesheets %}
+    <link rel="stylesheet" href="{%  static 'css/custom-theme/jquery-ui-1.10.3.custom.css'  %}">
+    {{ form.media.css }}
+{% endblock %}
+
+{% block title %}
+	Alta Pedido De Farmacia
+{% endblock %}
+
+{% block panel-title-pedido %}
+	Pedido de Farmacia
+{% endblock %}
+
+{% block more-scripts %}
+    {{ form.media.js }}
+    <script>
+        (function(){
+            $(".datepicker").datepicker({
+                changeDay: true,
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1990:2030",
+            });
+        })();
+    </script>
+{% endblock %}
+>>>>>>> 2b7d4174aae3b92111078c7811665a9999d03d96:pedidos/templates/pedidoDeClinica/pedidoAdd.html

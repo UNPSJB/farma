@@ -1,0 +1,51 @@
+@import url("fonts.css");
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
+
+table tbody tr{
+	cursor: pointer;
+}
+
+/*Clases*/
+
+.circulo{
+    display: inline-block;
+    border-radius: 50%;
+    height: 1em;
+    margin-left: 5px;
+    margin-right: 5px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    width: 1em;
+}
+
+.circulo-amarillo{
+    background-color: yellow !important;
+}
+
+.circulo-rojo{
+    background-color: red !important;
+}
+
+.circulo-verde{
+    background-color: #5cb85c !important;
+}
+
+
+.panel-detalle{
+
+	margin-bottom: 25px;
+}
+
+.panel-cabezera{
+    margin-top: 30px;
+}
+
+.numero-pedido {
+    display: inline-block;
+}
+
+.numero-pedido .panel-body{
+    padding: 8px 10px;
+}

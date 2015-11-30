@@ -1,0 +1,99 @@
+{% extends "base-ABM.html"%}
+
+{% load staticfiles %}
+
+{% block title %}Pedidos de Farmacia{% endblock %}
+
+    {% block more-stylesheets %}
+        <link rel="stylesheet" href="{%  static 'css/custom-theme/jquery-ui-1.10.3.custom.css'  %}">
+    {% endblock %}
+
+
+{% block panel-title-ABM %}Pedidos de Farmacia{% endblock %}
+
+{% block url-add %}{% url 'pedidoF_add' %}{% endblock %}
+
+<!-- No necesito boton de baja -->
+{% block btn-baja %}{% endblock %}
+
+<!-- No necesito boton de baja -->
+{% block btn-modificar %}{% endblock %}
+
+{% block more-buttons %}
+    <a id="btn-ver" class="btn btn-info hidden" href="#" >
+        <span class="glyphicon glyphicon-eye-open"></span> Ver
+    </a>
+
+{% endblock %}
+
+{%block filtro %}
+    <label for="farmacia" >Buscar:</label>
+    <input  id="farmacia" name="farmacia" value="{{filtros.farmacia}}" placeholder="Farmacia">
+    <input class="datepicker"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
+    <input class="datepicker" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta">
+    <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
+    <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
+{% endblock %}
+
+{% block grid %}
+    <table class="table table-bordered">
+        <thead>
+            <tr class="info">
+                <th>Nº Pedido</th>
+                <th>Farmacia</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %}
+                <tr class="clickeable" data-id="{{ pedido.nroPedido }}">
+                    <td>{{ pedido.nroPedido }}</td>
+                    <td>{{ pedido.farmacia }}</td>
+                    <td>{{ pedido.fecha }}</td>
+                    <td>{{ pedido.estado }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block cantidad-elementos %}
+
+    {{ pedidos|length }}
+    {% if pedidos|length != 1%}
+        pedidos de farmacia
+    {% else %}
+        pedido de farmacia
+    {% endif %}
+
+{% endblock %}
+
+{% block more-scripts %}
+    <script>
+        (function(){
+
+            $("#btn-ver").click(function(e){
+                id = get_selected_row()
+                if(id){
+                    $(this).attr("href", "/pedidosDeFarmacia/ver/" + id + "/");
+                }
+
+                e.stopPropagation();
+            });
+
+            $(".datepicker").datepicker({
+                changeDay: true,
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1990:2030",
+            });
+
+            $("#btn-limpiar").click(function(e){
+                $("form input").val("");
+                e.stopPropagation();
+            });
+
+        })();
+    </script>
+{% endblock %}

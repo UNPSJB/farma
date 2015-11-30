@@ -2,11 +2,11 @@
 {% load staticfiles %}
 
 {% block title %}
-	<title>Presentaciones</title>
+	Presentaciones
 {% endblock %}
 
 {% block panel-title-ABM %}
-    <h3 class="panel-title">Forma de Presentacion</h3>
+    Forma de Presentacion
 {% endblock %}
 
 {% block grid %}
@@ -41,6 +41,15 @@
  <label for="descripcion" >Buscar:</label>
  <input class="filtro" id="descripcion" name="descripcion" value="{{filtros.descripcion}}" placeholder=" Descripcion" autofocus>
 
+{% endblock %}
+
+{% block cantidad-elementos %}
+    {{ presentaciones|length }}
+    {% if presentaciones|length != 1%}
+        formas de presentacion
+    {% else %}
+        forma de presentacion
+    {% endif %}
 {% endblock %}
 
 {% block modal-baja-title %}

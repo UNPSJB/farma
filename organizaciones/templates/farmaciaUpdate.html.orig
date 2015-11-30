@@ -1,0 +1,43 @@
+<<<<<<< HEAD
+{% extends "base-ADD-UPDATE.html" %}
+
+{% block title %}<title>Actualizar Farmacia</title>{% endblock %}
+
+
+					{% block panel-heading-add %}
+
+                        <h3 class="panel-title">Modificacion de Farmacia</h3>
+
+                    {% endblock %}
+
+                    {% block url-form-action %} {% url 'farmacia_update' id %}  {% endblock %}
+
+                    {% block boton-form %}
+
+                        <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+
+                    {% endblock%}
+
+					{% block url-previous %} {% url 'farmacias' %} {% endblock %}
+=======
+{% extends "base-ADD-UPDATE.html" %}
+
+{% block title %}Actualizar Farmacia{% endblock %}
+
+
+					{% block panel-heading-add %}
+
+                        <h3 class="panel-title">Modificacion de Farmacia</h3>
+
+                    {% endblock %}
+
+                    {% block url-form-action %} {% url 'farmacia_update' id %}  {% endblock %}
+
+                    {% block boton-form %}
+
+                        <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+
+                    {% endblock%}
+
+					{% block url-previous %} {% url 'farmacias' %} {% endblock %}
+>>>>>>> 2b7d4174aae3b92111078c7811665a9999d03d96

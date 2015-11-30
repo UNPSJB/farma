@@ -14,7 +14,7 @@
 								{% include "forms/form_snippet.html" %}
 						</div>
 						<div class="panel-footer">
-							{% block boton-form %} 
+							{% block boton-form %}
 								<button type="submit" id="btn-guardar-continuar" class="btn btn-success pull-right" style="margin-left:10px;" value="_continuar" name="_continuar">
 	                        		Guardar y Continuar
 	                        	</button>
@@ -31,10 +31,14 @@
 		<nav>
 			<ul class="pager" style="margin-bottom: 40px;">
 				<li class="previous pull-right">
-					<a href="{% block url-previous %} {% endblock %}"><span aria-hidden="true">&larr;</span> 	Volver</a>
+					<a href="{% block url-previous %}{% endblock %}"><span aria-hidden="true">&larr;</span> 	Volver</a>
 	    		</li>
 	    	</ul>
 		</nav>
 	</div>
-	
+
 {% endblock %}
+
+{% block scripts %}
+
+{% endblock%}

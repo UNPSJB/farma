@@ -1,0 +1,43 @@
+<<<<<<< HEAD
+{% extends "base-ADD-UPDATE.html" %}
+
+{% block title %}<title>Actualizar Clinica</title>{% endblock %}
+
+
+					{% block panel-heading-add %}
+
+                        <h3 class="panel-title">Modificacion de Clinica</h3>
+
+                    {% endblock %}
+
+                    {% block url-form-action %} {% url 'clinica_update' id %}  {% endblock %}
+
+                    {% block boton-form %}
+
+                        <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+
+                    {% endblock%}
+
+					{% block url-previous %} {% url 'clinicas' %} {% endblock %}
+=======
+{% extends "base-ADD-UPDATE.html" %}
+
+{% block title %}Actualizar Clinica{% endblock %}
+
+
+					{% block panel-heading-add %}
+
+                        <h3 class="panel-title">Modificacion de Clinica</h3>
+
+                    {% endblock %}
+
+                    {% block url-form-action %} {% url 'clinica_update' id %}  {% endblock %}
+
+                    {% block boton-form %}
+
+                        <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+
+                    {% endblock%}
+
+					{% block url-previous %} {% url 'clinicas' %} {% endblock %}
+>>>>>>> 2b7d4174aae3b92111078c7811665a9999d03d96

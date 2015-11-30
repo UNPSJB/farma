@@ -1,0 +1,18 @@
+<<<<<<< HEAD
+{% extends "base.html"%}
+{% load staticfiles %}
+{% block title%}<title>Página en Construcción</title>{% endblock%}
+{% block content %}
+	<div style="text-align: center;">
+		<img class="img-responsive" src="{% static 'images/paginaEnConstruccion.jpg'%}" width= 100%>
+	</div>
+=======
+{% extends "base.html"%}
+{% load staticfiles %}
+{% block title%}Página en Construcción{% endblock%}
+{% block content %}
+	<div style="text-align: center;">
+		<img class="img-responsive" src="{% static 'images/paginaEnConstruccion.jpg'%}" width= 100%>
+	</div>
+>>>>>>> 2b7d4174aae3b92111078c7811665a9999d03d96
+{% endblock %}
