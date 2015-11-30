@@ -1,0 +1,55 @@
+{% extends "base-ADD-UPDATE.html" %}
+{% load staticfiles bootstrap3 %}
+
+
+{% block content %}
+
+    <div class="panel panel-primary">
+        <table id="lab" class="table table-hover table-bordered" cellspacing="0" width="100%">
+            <thead>
+                <tr class="info">
+                    <th>
+                        <h4>
+                            Nombre de Laboratorio: {{form.instance.laboratorio}}  Numero de pedido: {{form.instance.numero}} Fecha: {{form.instance.fecha}}
+                        </h4>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+
+    </div>
+
+
+
+
+
+
+    {% block grid %}
+
+        <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
+
+
+            <thead>
+                <tr class="info">
+                <th>Renglon</th>
+                <th>Cantidad</th>
+                <th>Medicamento</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detalle in form.instance.detallepedidoalaboratorio_set.all %}
+                    <tr class="clickeable" data-id="{{ detalle.id }}">
+                        <td>{{detalle.renglon}}</td>
+                        <td>{{detalle.cantidad}}</td>
+                        <td>{{detalle.medicamento}}</td>
+                    </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% endblock %}
+
+{% endblock %}
+
+

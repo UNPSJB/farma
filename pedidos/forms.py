@@ -51,5 +51,20 @@ class DetallePedidoFarmaciaForm(forms.ModelForm):
 class PedidoLaboratorioForm(forms.ModelForm):
 
     class Meta:
-        model = models.PedidoAlaboratorio
+        model = models.PedidoAlaboratorio #models que corresponde al pedido a laboratorio
         fields = ["numero" , "fecha", "laboratorio"]
+
+class DetallePedidoLaboratorioForm(forms.ModelForm):
+
+    class Meta:
+        model = models.DetallePedidoAlaboratorio
+        fields = ["renglon" , "pedido", "cantidad" , "medicamento"]
+
+
+class PedLaboratorioVerRenglonesForm(PedidoLaboratorioForm):
+
+    def __init__(self, *args, **kwargs):
+        super(PedLaboratorioVerRenglonesForm,self).__init__(*args, **kwargs)
+        self.fields['numero'].widget.attrs['readonly'] = True
+        self.fields['fecha'].widget.attrs['readonly'] = True
+        self.fields['laboratorio'].widget.attrs['readonly'] = True

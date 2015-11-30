@@ -73,21 +73,55 @@ def deleteDetallesPedidoFarmacia(request, id_pedido, id_detalle):
     return redirect('detallesPedidoFarmacia', id_pedido)
 
 #@login_required(login_url='login')
-#def pedidoALaboratorio(request):
-#  pedidoALaboratorio = models.PedidoAlaboratorio
+#def ListPedidoALaboratorio(request):
+#  ListPedidoALaboratorio = models.PedidoAlaboratorio
 
- # return render(request, "pedidoALaboratorio.html")
+ # return render(request, "listadoPedidoALaboratorio.html")
+
+
+
+#===============================================PEDIDOS A LABORTORIO==================================================================
 
 @login_required(login_url='login')
-def pedidoALaboratorio(request):
+def PedidoLaboratorio_add(request):
+
     if request.method == "POST":
         pedidoALaboratorio_form = forms.PedidoLaboratorioForm(request.POST)
         if pedidoALaboratorio_form.is_valid():
+            nro=pedidoALaboratorio_form.cleaned_data['numero']
+
             pedidoALaboratorio_form.save()
+
+
+
             if '_volver' in request.POST:
-                return redirect('pedidoALaboratorio')
+                return redirect("/pedidoAlaboratorios/verRenglones/"+str(nro))
             else:
-                return redirect('pedidoALaboratorio')
+                return redirect("/pedidoAlaboratorios/verRenglones/"+str(nro))
     else:
         pedidoALaboratorio_form = forms.PedidoLaboratorioForm()
-    return render(request, "pedidoALaboratorio.html", {"pedidoALaboratorio_form": pedidoALaboratorio_form})
+    return render(request, 'pedidos_A_laboratorio/PedidoAlaboratorioAdd.html', {"pedidoALaboratorio_form": pedidoALaboratorio_form})
+
+
+@login_required(login_url='login')
+def ListPedidoALaboratorio(request):
+    filters = get_filtros(request.GET, models.PedidoAlaboratorio)
+    mfilters = dict(filter(lambda v: v[0] in models.PedidoAlaboratorio.FILTROS, filters.items()))
+    pedidosAlab = models.PedidoAlaboratorio.objects.filter(**mfilters)
+    return render(request, "pedidos_A_laboratorio/listadoPedidoALaboratorio.html", {"pedidosAlab": pedidosAlab, "filtros": filters})
+
+
+def pedidoAlaboratorios_verRenglones(request, numero):
+    pedidoALab = get_object_or_404(models.PedidoAlaboratorio, pk=numero)
+    if request.method == "POST":
+        form = forms.PedLaboratorioVerRenglonesForm(request.POST, instance=pedidoALab)
+        if form.is_valid():
+            form.save()
+            return redirect('c')
+    else:
+        form = forms.PedLaboratorioVerRenglonesForm(instance=pedidoALab)
+    return render(request, "pedidos_A_laboratorio/VerRenglonesPedidoLab.html", {'form': form, 'id': numero})
+
+#========================================FIN PEDIDOS A LABORATORIOS==================================================================
+
+

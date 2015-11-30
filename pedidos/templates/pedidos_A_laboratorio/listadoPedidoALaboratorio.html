@@ -1,0 +1,72 @@
+{% extends "base-pedidos.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	<title>Laboratorios</title>
+{% endblock %}
+
+{% block panel-title-ABM %}
+    <h3 class="panel-title">Listado Pedidos a Laboratorios</h3>
+{% endblock %}
+
+
+{% block grid %}
+    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr class="info">
+
+            <th>numero</th>
+            <th>Fecha</th>
+            <th>Laboratorio</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidosAlab %}
+
+                <tr class="clickeable" data-id="{{ pedido.numero }}">
+                <td>{{pedido.numero}}</td>
+                <td>{{pedido.fecha}}</td>
+                <td>{{pedido.laboratorio}}</td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block url-add %}{% url 'PedidoLaboratorio_add' %}{% endblock %}
+
+{% block filtro %}
+
+ <label for="numero" >Buscar:</label>
+ <input class="filtro" id="numero" name="numero" value="{{filtros.numero}}" placeholder="numero" autofocus>
+
+{% endblock %}
+
+
+{% block modal-baja-title %}
+    <h4 class="modal-title">Eliminar Laboratorio </h4>
+{% endblock %}
+
+{% block modal-baja-texto %}
+    <p> El laboratorio seleccionada se eliminara permanentemente ¿Esta seguro?</p>
+{% endblock %}
+
+{% block more-scripts %}
+    <script>
+        $(document).ready(function(){
+
+            $("#modificar").click(function(e){
+                var id = get_selected_row();
+                console.log(id)
+                if(id){
+                    var url = "/pedidoAlaboratorios/verRenglones/" + id +"/";
+                    $(this).attr("href", url);
+                }
+                e.stopPropagation();
+            });
+
+        });
+    </script>
+{% endblock %}

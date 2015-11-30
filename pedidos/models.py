@@ -66,6 +66,7 @@ class DetallePedidoFarmacia(DetallePedido):
 #PEDIDO A LABORATORIO
 
 class PedidoAlaboratorio(models.Model):
+    FILTROS = ["numero__icontains"]
     numero = models.PositiveIntegerField(primary_key=True)
     fecha = models.DateField()
     laboratorio = models.ForeignKey('organizaciones.Laboratorio')

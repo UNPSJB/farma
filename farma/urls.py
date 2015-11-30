@@ -49,15 +49,17 @@ urlpatterns = [
     url(r'^Presentacion/update/(?P<id_presentacion>\d+)/$', mviews.presentacion_update, name="presentacion_update"),
     url(r'^Presentacion/delete/(?P<id_presentacion>\d+)/$', mviews.presentacion_delete, name="presentacion_delete"),
 
-
     # ****** PEDIDOS ******
     url(r'^pedidoDeFarmacia/$', pviews.pedidoDeFarmacia, name="pedidoDeFarmacia"),
-    url(r'^pedidoALaboratorio/$', pviews.pedidoALaboratorio, name="pedidoALaboratorio"),
     url(r'^recepcionPedidoDeLaboratorio/$', views.recepcionPedidoDeLaboratorio, name="recepcionPedidoDeLaboratorio"),
     url(r'^pedidoDeClinica/$', views.pedidoDeClinica,name="pedidoDeClinica"),
     url(r'^devolucionMedicamentosVencidos/$', views.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
     url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos,name="recepcionReemplazoMedicamentos"),
 
+    # ****** PEDIDOS A LABORATORIO ******
+    url(r'^pedidoAlaboratorios/verRenglones/(?P<numero>\d+)/$', pviews.pedidoAlaboratorios_verRenglones, name="pedidoAlaboratorios_verRenglones"),
+    url(r'^ListPedidoALaboratorio/$', pviews.ListPedidoALaboratorio, name="ListPedidoALaboratorio"),
+    url(r'^pedidoAlaboratorios/add/$', pviews.PedidoLaboratorio_add, name="PedidoLaboratorio_add"),
 
     # ****** DETALLES DEL PEDIDO ******
     url(r'^pedidoDeFarmacia/(?P<id_pedido>\d+)/detalles/$', pviews.detallesPedidoFarmacia, name="detallesPedidoFarmacia"),
