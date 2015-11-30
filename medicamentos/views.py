@@ -91,7 +91,7 @@ def medicamento_add(request):
 
 @login_required(login_url='login')
 def medicamento_update(request, id_medicamento):
-    medicamento= get_object_or_404(models.Medicamento, pk=id_medicamento)
+    medicamento = get_object_or_404(models.Medicamento, pk=id_medicamento)
     if request.method == "POST":
         form = forms.MedicamentoModForm(request.POST, instance=medicamento)
         if form.is_valid():

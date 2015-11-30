@@ -40,10 +40,11 @@ INSTALLED_APPS = (
     'markupfield',
     'bootstrap3',
     'selectable',
+    'crispy_forms',#DESDE M
     'medicamentos',
     'organizaciones',
     'pedidos',
-    'django_bootstrap_dynamic_formsets'
+    'django_bootstrap_dynamic_formsets',
 
 )
 

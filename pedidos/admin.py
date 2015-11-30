@@ -1,8 +1,13 @@
 from django.contrib import admin
-from .models import RemitoMedVencido
-from .models import DetalleRemitoVencido
-from .models import PedidoFarmacia
-from .models import DetallePedidoFarmacia
+
+#=========================INICIO DESDE M 1==================
+from .models import RemitoMedicamentosVencido
+from .models import DetalleRemitoMedicamentosVencido
+from .models import PedidoDeFarmacia
+from .models import DetallePedidoDeFarmacia
+from .models import Remito
+from .models import DetalleRemito
+#=======================FIN DESDE M 1=======================
 from .models import PedidoAlaboratorio
 from .models import DetallePedidoAlaboratorio
 
@@ -13,10 +18,15 @@ class detallePedidoLabTabularInline(admin.TabularInline):
 class PedidoAlaboratorioAdmin(admin.ModelAdmin):
     inlines = [ detallePedidoLabTabularInline ]
 
+#=====================INICIO DESDE M========================
+admin.site.register(RemitoMedicamentosVencido)
+admin.site.register(DetalleRemitoMedicamentosVencido)
+admin.site.register(PedidoDeFarmacia)
+admin.site.register(DetallePedidoDeFarmacia)
+admin.site.register(Remito)
+admin.site.register(DetalleRemito)
+#===========================================================
 
-admin.site.register(RemitoMedVencido)
-admin.site.register(DetalleRemitoVencido)
-admin.site.register(PedidoFarmacia)
-admin.site.register(DetallePedidoFarmacia)
+
 admin.site.register(PedidoAlaboratorio, PedidoAlaboratorioAdmin)
 admin.site.register(DetallePedidoAlaboratorio)

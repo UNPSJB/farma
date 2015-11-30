@@ -102,9 +102,16 @@ class MedicamentoForm(forms.ModelForm):
 
     )
 
+    laboratorio = forms.ModelChoiceField(
+       required=True,
+       queryset=models.Laboratorio.objects.all(),
+       widget=RelatedFieldWidgetCanAdd(models.Laboratorio, related_url="laboratorio_add")
+
+    )
+
     class Meta:
         model = models.Medicamento
-        fields = ["nombreFantasia", "codigoBarras", "stockMinimo","presentacion", "precio"]
+        fields = ["nombreFantasia", "codigoBarras", "stockMinimo","presentacion", "precio", "laboratorio"]
 
 
 class MedicamentoModForm(forms.ModelForm):

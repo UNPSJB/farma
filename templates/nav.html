@@ -20,19 +20,25 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pedidos <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="{% url 'pedidoDeFarmacia' %}">Registrar Pedido de Farmacia</a></li>
-            <li><a href="{% url 'pedidoDeClinica' %}">Registrar Pedido de Clinica</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="{% url 'pedidoALaboratorio' %}">Realizar Pedido a Laboratorio</a></li>
-            <li><a href="{% url 'recepcionPedidoDeLaboratorio' %}">Registrar Recepcion de Pedido de Laboratorio</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="{% url 'devolucionMedicamentosVencidos' %}">Registrar Devolución de Medicamentos Vencidos</a></li>
-            <li><a href="{% url 'recepcionReemplazoMedicamentos' %}">Registrar Recepción de Medicamentos para Reemplazar Vencidos</a></li>
-          </ul>
-        </li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pedidos <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+
+
+              <li><a href="{% url 'pedidosDeFarmacia' %}">Pedidos de Farmacia</a></li>
+              <li><a href="{% url 'pedidoDeClinica' %}">Registrar Pedido de Clinica</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="{% url 'ListPedidoALaboratorio' %}">Realizar Pedido a Laboratorio</a></li>
+              <li><a href="{% url 'recepcionPedidoDeLaboratorio' %}">Registrar Recepcion de Pedido de Laboratorio</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="{% url 'devolucionMedicamentosVencidos' %}">Registrar Devolución de Medicamentos Vencidos</a></li>
+              <li><a href="{% url 'recepcionReemplazoMedicamentos' %}">Registrar Recepción de Medicamentos para Reemplazar Vencidos</a></li>
+
+
+            </ul>
+          </li>
+
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
@@ -44,17 +50,18 @@
             <li><a href="{% url 'paginaEnConstruccion' %}">Obras Sociales</a></li>
             <li><a href="{% url 'clinicas' %}">Clinicas</a></li>
           </ul>
-        
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Medicamentos <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="{% url 'medicamentos' %}">Medicamentos </a></li>
-            <li><a href="{% url 'monodrogas' %}">Monodrogas</a></li>
-            <li><a href="{% url 'presentacion' %}">Presentaciones</a></li>
-            <li><a href="{% url 'nombresFantasia' %}">Nombres Fantasia </a></li>
 
-          </ul>
-        </li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Medicamentos <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="{% url 'medicamentos' %}">Medicamentos </a></li>
+              <li><a href="{% url 'monodrogas' %}">Monodrogas</a></li>
+              <li><a href="{% url 'presentacion' %}">Presentaciones</a></li>
+              <li><a href="{% url 'nombresFantasia' %}">Nombres Fantasia </a></li>
+
+            </ul>
+          </li>
 
         <li><a href="{% url 'logout' %}" class="navbar-link">Salir</a></li>
 
