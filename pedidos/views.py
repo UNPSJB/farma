@@ -356,7 +356,7 @@ def pedidoAlaboratorios_RecepcionPedidoLab(request, id):#Vista "a la que le pega
     detalles=models.DetallePedidoAlaboratorio.objects.filter(pedido=pedidoALab.pk)#Se guarda en 'detalles' todos los (renglones) que
                                                                                   #conforman a un pedido a laboratorio determinado
                                                                                   #segun su id.
-    return render(request, "pedidos_A_laboratorio/VerRenglonesPedidoLab.html", {'nombreLab': pedidoALab.laboratorio.razonSocial, 'numeroPedido': pedidoALab.pk, 'fecha':pedidoALab.fecha, 'detalles': detalles})
+    return render(request, "pedidos_A_laboratorio/RegistrarRecepcionPedido.html", {'nombreLab': pedidoALab.laboratorio.razonSocial, 'numeroPedido': pedidoALab.pk, 'fecha':pedidoALab.fecha, 'detalles': detalles})
 
 #======================================================================================================================================
 
@@ -365,7 +365,7 @@ def pedidoAlaboratorios_RecepcionPedidoLab(request, id):#Vista "a la que le pega
 def verificarPedidosDeFarmacia(request, pkLaboratorio): #***********************************************************************
     pkLab = pkLaboratorio
     #Se obtienen todos los pedidos de farmacias pendientes o parcialmente enviados.
-    pendientesDeFarmacias = models.PedidoDeFarmacia.objects.filter( Q(estado = 'Pendiente')|Q(estado = 'Parcialmente enviado') )
+    pendientesDeFarmacias = models.PedidoDeFarmacia.objects.filter( Q(estado = 'Pendiente')|Q(estado = 'Parcialmente Enviado') )
 
     #Se ecorren todos los pedidos pendientes de las farmacias y vemos cada renglon(detalle) de estos pedidos para procesar cada uno de ellos.
     renglones = request.session.setdefault("renglones", [])
@@ -375,7 +375,7 @@ def verificarPedidosDeFarmacia(request, pkLaboratorio): #***********************
         print renglonesPedidoFarmacia
         for detPedFarm in renglonesPedidoFarmacia:
 
-            renglones.append({ "medicamento": detPedFarm.medicamento.pk, "nombre": detPedFarm.medicamento.nombreFantasia.nombreF,  "cantidad": detPedFarm.cantidad, "cantidadPendiente": detPedFarm.cantidad, "pk": detPedFarm.pk})
+            renglones.append({ "medicamento": detPedFarm.medicamento.pk, "nombre": detPedFarm.medicamento.nombreFantasia.nombreF,  "cantidad": detPedFarm.cantidadPendiente, "cantidadPendiente": detPedFarm.cantidadPendiente, "pk": detPedFarm.pk})
             request.session.save()
 
 
@@ -437,6 +437,68 @@ def pedidoAlaboratorios_agregarRenglones(request):
 
         detallePedidoLab_form = forms.DetallePedidoLaboratorioFormFactory(unLaboratorio.pk)()
         return render(request, "pedidos_A_laboratorio/AgregarRenglonesPedidoLab.html", {'id': numero, 'detalle': detallePedidoLab_form, 'renglones': renglones, 'nombreLab': nombreLab, 'nroPedido':nroPedido, 'hoy': hoy})
+
+
+
+#---AgregarLotes
+def pedidoAlaboratorios_agregarLotes(request):
+
+    if "idLab" in request.session:
+        numero=request.session["idLab"]#Obtiene de la sesion el id de un laboratorio que se habia guardado previamente.
+
+    unLaboratorio = get_object_or_404(omodels.Laboratorio, pk=numero)#Obtiene la instancia de un laboratorio en base a numero (su ID).
+    nombreLab=unLaboratorio.razonSocial#Obtiene el nombre ('Razon Social') de un laboratorio de la instancia previa ('unLaboratorio').
+
+    nroPedido= models.PedidoAlaboratorio.objects.count()+1 #El numero de pedido se obtiene contando todos las pedidos ya realizados
+                                                           #(que estan en la base de datos) y sumandole 1 ya que sera un nuevo numero
+                                                           #de pedido a laboratorio que se va a dar de alta.
+
+    hoy=datetime.datetime.now().strftime("%a, %d  de  %b del %Y")#En hoy se guarda la fecha actual (del sistema) con el formato
+                                                                 #seleccionado.
+
+    renglones = request.session.setdefault("renglones", [])
+    if request.method == "POST":
+
+        detallePedidoLab_form=forms.DetallePedidoLaboratorioFormFactory(unLaboratorio.pk)(request.POST)
+
+        if '_agregar' in request.POST :
+            if detallePedidoLab_form.is_valid():
+                detpedido = detallePedidoLab_form.save(commit=False)
+
+                renglones.append({ "medicamento": detpedido.medicamento.pk, "nombre": detpedido.medicamento.nombreFantasia.nombreF,  "cantidad": detpedido.cantidad, "cantidadPendiente": detpedido.cantidad, "pk":0})
+
+                request.session.save()
+                return render(request, "pedidos_A_laboratorio/AgregarRenglonesPedidoLab.html", {'id': numero, 'detalle': detallePedidoLab_form,  'renglones': renglones, 'nombreLab': nombreLab, 'nroPedido':nroPedido, 'hoy': hoy})
+        else:
+
+            pedidoALab=models.PedidoAlaboratorio(laboratorio=unLaboratorio)
+            pedidoALab.save()
+
+            for renglon in renglones:
+
+                medicamento=mmodels.Medicamento.objects.get(pk=renglon["medicamento"])
+                detallePed=models.DetallePedidoAlaboratorio(medicamento=medicamento, cantidad=renglon["cantidad"], pedido=pedidoALab, cantidadPendiente=renglon["cantidad"])
+
+                if renglon["pk"]>0:
+                    detallePedFarm=models.DetallePedidoDeFarmacia.objects.get(pk=renglon["pk"])
+                    detallePedFarm.estaPedido=True
+                    detallePedFarm.save()
+                    detallePed.detallePedidoFarmacia=detallePedFarm
+
+                detallePed.save()
+            del request.session["renglones"]
+            del request.session["idLab"]
+
+            return redirect("/pedidoAlaboratorios/verRenglones/"+str(pedidoALab.pk))
+
+    else:
+
+        verificarPedidosDeFarmacia(request, unLaboratorio.pk)#para procesar los pedidos de farmacia
+
+        detallePedidoLab_form = forms.DetallePedidoLaboratorioFormFactory(unLaboratorio.pk)()
+        return render(request, "pedidos_A_laboratorio/AgregarLotes.html", {'id': numero, 'detalle': detallePedidoLab_form, 'renglones': renglones, 'nombreLab': nombreLab, 'nroPedido':nroPedido, 'hoy': hoy})
+
+#---fin agregar lotes
 
 #========================================FIN PEDIDOS A LABORATORIOS==================================================================
 

@@ -1,27 +1,31 @@
-{% extends "base-ADD-UPDATE.html" %}
+{% extends "base-pedidos.html" %}
 {% load staticfiles bootstrap3 %}
 
 
-{% block content %}
+{% block title %}
+	Recepcion
+{% endblock %}
 
-    <div class="panel panel-primary">
-        <table id="lab" class="table table-hover table-bordered" cellspacing="0" width="100%">
-            <thead>
-                <tr class="info">
-                    <th>
-                        <h4>
-                            Nombre de Laboratorio: {{nombreLab}}  Numero de pedido: {{numeroPedido}} Fecha: {{fecha}}
-                        </h4>
-                    </th>
-                </tr>
-            </thead>
-        </table>
-
-    </div>
+{% block panel-title-ABM %}
+    <h3 class="panel-title">Registrar Recepcion Pedido a Laboratorio</h3><!--se sobreescribe el titulo de base-pedidos-->
+{% endblock %}
 
 
-    {% block grid %}
+{%block botonAlta%}
+{% endblock %}
 
+{%block botonVer%}
+
+   <a class="btn btn-warning hidden" id="modificar"><span class="glyphicon glyphicon-ok-circle"></span>Agregar Lotes</a>
+
+{%endblock%}
+
+
+{% block botonBaja%}
+{% endblock %}
+
+
+{% block grid %}
         <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
 
 
@@ -35,7 +39,7 @@
             </thead>
             <tbody>
                 {% for detalle in detalles %}
-                    <tr class="clickeable" data-id="{{ detalle.id }}">
+                    <tr class="clickeable" data-id="{{ detalle.renglon   }}">
                         <td>{{forloop.counter}}</td>
                         <td>{{detalle.cantidad}}</td>
                         <td>{{detalle.medicamento}}</td>
@@ -45,9 +49,29 @@
                 {% endfor %}
             </tbody>
         </table>
-
-    {% endblock %}
-
 {% endblock %}
 
+{% block modal-baja-title %}
+    <h4 class="modal-title">Eliminar Laboratorio </h4>
+{% endblock %}
 
+{% block more-scripts %}
+    <script>
+        $(document).ready(function(){
+
+            $("#modificar").click(function(e){ /*Modificar es el id del boton 'ver' de este template*/
+                var id = get_selected_row();
+
+                if(id){
+
+                    var url = "/pedidoAlaboratorios/agregarLotes/"; /*Al hacer click en una fila y presionar 'ver' se envia esta url         */
+                                                                              /*junto con el id de la fila (id de un pedido a laboratorio)             */
+                                                                              /*por lo que se direccionará a el template 'VerRenglonesPedidoLab.html'.  */
+                    $(this).attr("href", url);
+                }
+                e.stopPropagation();
+            });
+
+        });
+    </script>
+{% endblock %}

@@ -12,14 +12,22 @@
 {% endblock %}
 
 
-{% block url-add %}{% url 'PedidoLaboratorio_add' %}{% endblock %}<!--Se sobreescribe la url en el href del boton Alta de base-pedidos-->
+{%block botonAlta%}
+{% endblock %}
+
+{%block botonVer%}
+
+   <a class="btn btn-warning hidden" id="modificar"><span class="glyphicon glyphicon-ok-circle"></span>Registrar Recepcion</a>
+
+{%endblock%}
+
+
+{% block botonBaja%}
+{% endblock %}
+<!--{% block url-add %}{% url 'PedidoLaboratorio_add' %}{% endblock %}Se sobreescribe la url en el href del boton Alta de base-pedidos-->
                                                                   <!--con el fin de redireccionar hacia el template de las altas de   -->
                                                                   <!--pedidoas a laboratorios, en la url este valor es el name.       -->
 
-{% block filtro %}<!--Se sobreescribe el bloque filtro de base-pedidos que se envia mediante el metodo GET-->
-    <label for="numero" >Buscar:</label>
-    <input class="filtro" id="numero" name="numero" value="{{filtros.numero}}" placeholder="numero" autofocus>
-{% endblock %}
 
 
 {% block grid %}
@@ -62,7 +70,7 @@
                 var id = get_selected_row();
 
                 if(id){
-                    var url = "/pedidoAlaboratorios/verRenglones/" + id +"/"; /*Al hacer click en una fila y presionar 'ver' se envia esta url         */
+                    var url = "/pedidoAlaboratorios/registrarRecepcionPedido/" + id +"/"; /*Al hacer click en una fila y presionar 'ver' se envia esta url         */
                                                                               /*junto con el id de la fila (id de un pedido a laboratorio)             */
                                                                               /*por lo que se direccionará a el template 'VerRenglonesPedidoLab.html'.  */
                     $(this).attr("href", url);
