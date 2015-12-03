@@ -42,14 +42,6 @@
 {% block url-add %}{% url 'laboratorio_add' %}{% endblock %}
 
 
-{% block cantidad-elementos %}
-    {{ laboratorios|length }}
-    {% if laboratorios|length != 1%}
-        laboratorios
-    {% else %}
-        laboratorio
-    {% endif %}
-{% endblock %}
 
 {% block modal-baja-title %}
     <h4 class="modal-title">Eliminar Laboratorio </h4>

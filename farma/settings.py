@@ -31,23 +31,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    #aps django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #apps secundarias
     'markupfield',
     'bootstrap3',
     'selectable',
-    'crispy_forms',
-    'django_bootstrap_dynamic_formsets',
-    #apps del proyecto
+    'crispy_forms',#DESDE M
     'medicamentos',
     'organizaciones',
     'pedidos',
+    'django_bootstrap_dynamic_formsets',
 
 )
 
@@ -129,5 +126,3 @@ MARKUP_FIELD_TYPES = (
 )
 
 LOGIN_URL = '/admin/login'
-
-CRISPY_TEMPLATE_PACK = 'bootstrap3'

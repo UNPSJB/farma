@@ -25,5 +25,9 @@ class Clinica(Organizacion):
         return self.razonSocial
 
 class Laboratorio(Organizacion):
+
     def __str__(self):
         return self.razonSocial
+
+
+

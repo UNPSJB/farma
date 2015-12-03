@@ -50,14 +50,6 @@
     </table>
 {% endblock %}
 
-{% block cantidad-elementos %}
-    {{ medicamentos|length }}
-    {% if medicamentos|length != 1%}
-        medicamentos
-    {% else %}
-        medicamento
-    {% endif %}
-{% endblock %}
 
 {% block modal-baja-title %}
     <h4 class="modal-title">Eliminar Medicamento </h4>

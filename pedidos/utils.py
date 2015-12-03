@@ -30,6 +30,8 @@ def procesar_detalle(detalle, remito):
                 lote.stock = 0
                 detalleRemito = models.DetalleRemito()
                 detalleRemito.remito = remito
+                detalleRemito.set_detalle_pedido(detalle)
+                detalleRemito.lote = lote
                 detalleRemito.cantidad = cantidadTomadaDeLote
                 detalleRemito.detallePedidoDeFarmacia = detalle
                 detalleRemito.lote = lote

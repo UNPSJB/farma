@@ -1,0 +1,75 @@
+{% extends "base-pedidos.html" %}<!--este template hereda de base-pedidos.html-->
+{% load staticfiles %}
+
+<!--Template 'listadoPedidoALaboratorio.html' que despliega todos los pedidos a labortorios que fueron dados de alta-->
+
+{% block title %}
+	<title>Laboratorios </title>
+{% endblock %}
+
+{% block panel-title-ABM %}
+    <h3 class="panel-title">Listado Pedidos a Laboratorios</h3><!--se sobreescribe el titulo de base-pedidos-->
+{% endblock %}
+
+
+{% block url-add %}{% url 'PedidoLaboratorio_add' %}{% endblock %}<!--Se sobreescribe la url en el href del boton Alta de base-pedidos-->
+                                                                  <!--con el fin de redireccionar hacia el template de las altas de   -->
+                                                                  <!--pedidoas a laboratorios, en la url este valor es el name.       -->
+
+{% block filtro %}<!--Se sobreescribe el bloque filtro de base-pedidos que se envia mediante el metodo GET-->
+    <label for="numero" >Buscar:</label>
+    <input class="filtro" id="numero" name="numero" value="{{filtros.numero}}" placeholder="numero" autofocus>
+{% endblock %}
+
+
+{% block grid %}
+    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr class="info"> <!--encabezado del listado que tendra una tabla de tres columnas-->
+
+            <th>numero</th>
+            <th>Fecha</th>
+            <th>Laboratorio</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidosAlab %}<!--Se itera con un for en el objeto pedidosAlab de la vista -->
+                                           <!--'ListPedidoALaboratorio'.                                -->
+
+                <tr class="clickeable" data-id="{{ pedido.numero }}"><!--Aqui se despliegan todas las filas (detalles de     -->
+                                                                     <!--todos los pedidos que se hicieron a laboratorios)   -->
+                                                                     <!--cada fila de esta tabla es clickeable               -->
+                <td>{{pedido.numero}}</td>
+                <td>{{pedido.fecha}}</td>
+                <td>{{pedido.laboratorio}}</td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block modal-baja-title %}
+    <h4 class="modal-title">Eliminar Laboratorio </h4>
+{% endblock %}
+
+{% block more-scripts %}
+    <script>
+        $(document).ready(function(){
+
+            $("#modificar").click(function(e){ /*Modificar es el id del boton 'ver' de este template*/
+                var id = get_selected_row();
+
+                if(id){
+                    var url = "/pedidoAlaboratorios/verRenglones/" + id +"/"; /*Al hacer click en una fila y presionar 'ver' se envia esta url         */
+                                                                              /*junto con el id de la fila (id de un pedido a laboratorio)             */
+                                                                              /*por lo que se direccionará a el template 'VerRenglonesPedidoLab.html'.  */
+                    $(this).attr("href", url);
+                }
+                e.stopPropagation();
+            });
+
+        });
+    </script>
+{% endblock %}

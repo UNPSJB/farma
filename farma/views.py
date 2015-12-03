@@ -13,15 +13,7 @@ def get_order(get):
 def inicio(request):
     return render(request, "inicio.html")
 
-@login_required(login_url='login')
-def pedidoALaboratorio(request):
-  fecha = datetime.datetime.now()
-  return render(request, "pedidoALaboratorio.html", {'fecha_pedido': fecha})
 
-@login_required(login_url='login')
-def recepcionPedidoDeLaboratorio(request):
-  fecha = datetime.datetime.now()
-  return render(request, "recepcionPedidoDeLaboratorio.html", {'fecha_pedido': fecha})
 
 
 @login_required(login_url='login')

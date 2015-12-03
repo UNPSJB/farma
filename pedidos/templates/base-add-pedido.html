@@ -5,10 +5,22 @@
 
 {% block stylesheets %}
 	<style>
-		.panel-cabezera{
-            margin-top: 20px;
+		.panel-add-pedido{
+            margin-top: 40px;
             margin-bottom: 20px;
         }
+
+        .panel-add-pedido .panel-body{
+            padding: 0px;
+        }
+
+        .panel-add-pedido .panel-body .well-lg{
+            border-radius: 0px;
+        }
+        .panel-add-pedido .panel-body .well{
+            margin-bottom: 0px;
+        }
+
 	</style>
     {% block more-stylesheets %}{% endblock %}
 {% endblock %}
@@ -17,9 +29,8 @@
 {% endblock %}
 
 {% block content %}
-	<!-- Cabezera del pedido -->
-	<div class="container panel-cabezera">
-		<div class="col-xs-12 col-md-offset-2 col-md-8">
+    	<!-- Cabezera del pedido -->
+		<div class="col-xs-12 col-md-offset-2 col-md-8 panel-add-pedido">
 			<div class="panel panel-primary">
 					<div class="panel-heading">
                         <h3 class="panel-title">
@@ -27,23 +38,24 @@
                         </h3>
 					</div>
 					<div class="panel-body">
-						<div class="form-cabezera">
-							{% block form-pedido %}
-                                {% crispy form %}
-							{% endblock %}
-						</div>
+                        <div class="well well-lg">
+    						<div class="form-cabezera">
+    							{% block form-pedido %}
+                                    {% crispy form %}
+    							{% endblock %}
+    						</div>
+                        </div>
 					</div><!-- end panel-body -->
                 <div class="panel-footer">
                     <button id="btn-enviar-form" class="btn btn-success pull-right" type="submit">
                         Crear Pedido
                     </button>
                     <div class="clearfix"></div>
-                </div>
-					<!--<div class="panel-footer"></div>--> <!-- end panel-footer -->
+                </div><!--<div class="panel-footer"></div>--> <!-- end panel-footer -->
 			</div><!-- end panel -->
 		</div><!-- end col-md ... -->
-	</div><!-- end container ...-->
-	<!-- end cabezera del pedido-->
+    </div>
+    <!-- end container -->
 
 {% endblock %}
 

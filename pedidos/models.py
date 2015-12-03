@@ -43,6 +43,38 @@ class DetalleRemito(models.Model):
     def __str__(self):
         return str(self.id)
 
+    def set_detalle_pedido(self, detalle):
+        self.detallePedidoDeFarmacia = detalle
+
+#******************REMITO Y DETALLES REMITO DE PEDIDO DE CLINICA******************#
+
+class RemitoPedidoDeClinica(models.Model):
+
+    pedidoDeClinica = models.ForeignKey('PedidoDeClinica', on_delete=models.CASCADE)
+    fecha = models.DateField()
+
+    def __str__(self):
+        return str(self.id)
+
+    def set_pedido(self, pedido):
+        self.pedidoDeClinica = pedido
+
+class DetalleRemitoPedidoDeClinica(models.Model):
+
+    remito = models.ForeignKey('RemitoPedidoDeClinica', on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField()
+    detallePedidoDeClinica = models.ForeignKey('DetallePedidoDeClinica')
+    lote = models.ForeignKey('medicamentos.Lote')
+
+    def __str__(self):
+        return str(self.id)
+
+    def set_detalle_pedido(self, detalle):
+        self.detallePedidoDeClinica = detalle
+
+
+#******************REMITO Y DETALLES REMITO DE DEVOLUCION DE MEDICAMENTOS VENCIDOS******************#
+
 class RemitoMedicamentosVencido(models.Model):
     numero = models.BigIntegerField()
     fecha = models.DateField()
@@ -86,6 +118,12 @@ class PedidoDeFarmacia(PedidoVenta):
         else:
             return {}
 
+    def get_detalles(self):
+        response = []
+        if self.nroPedido:
+            response = DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=self)
+        return response
+
 
 class DetallePedidoDeFarmacia(DetallePedidoVenta):
     pedidoDeFarmacia = models.ForeignKey('PedidoDeFarmacia')
@@ -107,6 +145,9 @@ class DetallePedidoDeFarmacia(DetallePedidoVenta):
                     'cantidad': self.cantidad}
         else:
             return {}
+
+    def set_pedido(self, pedido):
+        self.pedidoDeFarmacia = pedido
 
 #******************PEDIDO DE CLINICA Y DETALLE PEDIDO DE CLINICA******************#
 
@@ -135,6 +176,12 @@ class PedidoDeClinica(PedidoVenta):
         else:
             return {}
 
+    def get_detalles(self):
+        response = []
+        if self.nroPedido:
+            response = DetallePedidoDeClinica.objects.filter(pedidoDeClinica=self)
+        return response
+
 class DetallePedidoDeClinica(DetallePedidoVenta):
     pedidoDeClinica = models.ForeignKey('PedidoDeClinica')
     cantidadPendiente =models.PositiveIntegerField(default= 0)
@@ -155,3 +202,35 @@ class DetallePedidoDeClinica(DetallePedidoVenta):
                     'cantidad': self.cantidad}
         else:
             return {}
+
+    def set_pedido(self, pedido):
+        self.pedidoDeClinica = pedido
+
+#================================================PEDIDO A LABORATORIO===================================================
+
+#PEDIDO A LABORATORIO
+
+class PedidoAlaboratorio(models.Model):
+    FILTROS = ["numero__icontains"]
+    numero = models.AutoField(primary_key=True)
+    fecha = models.DateField(auto_now_add=True)
+    laboratorio = models.ForeignKey('organizaciones.Laboratorio')
+
+    estado = models.CharField(max_length=25, blank=True, default="Pendiente")#cancelado, parcialmente recibido, pendiente, completo
+
+    def __str__(self):
+        return 'Laboratorio: %s - Fecha: %s - Nro Pedido: %s' % (self.laboratorio, self.fecha, self.numero)
+
+#DETALLE PEDIDO A LABORATORIO
+
+class DetallePedidoAlaboratorio(models.Model):
+    renglon = models.AutoField(primary_key=True)
+    pedido = models.ForeignKey('PedidoAlaboratorio', null=True)
+    cantidad = models.PositiveIntegerField()
+    cantidadPendiente=models.PositiveIntegerField()
+    medicamento = models.ForeignKey('medicamentos.Medicamento')
+    detallePedidoFarmacia = models.OneToOneField('DetallePedidoDeFarmacia', blank=True)
+
+    def __str__(self):
+        return ""
+#===============================================FIN PEDIDO A LABORATORIO================================================

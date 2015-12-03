@@ -44,15 +44,6 @@
 
 {% endblock %}
 
-{% block cantidad-elementos %}
-    {{ nombresFantasias|length }}
-    {% if nombresFantasias|length != 1%}
-        nombres fantasias
-    {% else %}
-        nombre fantasia
-    {% endif %}
-{% endblock %}
-
 {% block modal-baja-title %}
     <h4 class="modal-title">Eliminar Nombre Fantasia </h4>
 {% endblock %}
