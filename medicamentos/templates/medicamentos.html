@@ -14,9 +14,9 @@
 
 {% block filtro %}
 
- <label for="codigoBarras" >Buscar:</label>
- <input class="filtro" id="codigoBarras" name="codigoBarras" value="{{filtros.codigoBarras}}" placeholder=" Codigo Barra" autofocus>
-
+ <label for="nombreFantasia" >Buscar:</label>
+ <input class="filtro" id="nombreFantasia" name="nombreFantasia" value="{{filtros.nombreFantasia}}" placeholder="Nombre Fantasia" autofocus>
+ 
 {% endblock %}
 
 
@@ -42,7 +42,7 @@
                     <td>{{medicamento.presentacion}}</td>
                     <td>{{medicamento.formulas.all|join:", "}}</td>
                     <td>{{medicamento.stockMinimo}}</td>
-                    <td>{{medicamento.precio}}</td>
+                    <td>{{medicamento.precioDeVenta}}</td>
                 </tr>
 
             {% endfor %}

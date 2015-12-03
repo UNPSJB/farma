@@ -30,11 +30,12 @@ def procesar_detalle(detalle, remito):
                 lote.stock = 0
                 detalleRemito = models.DetalleRemito()
                 detalleRemito.remito = remito
+                detalleRemito.cantidad = cantidadTomadaDeLote
                 detalleRemito.detallePedidoDeFarmacia = detalle
                 detalleRemito.lote = lote
-                detalleRemito.cantidad = cantidadTomadaDeLote
 
                 detalleRemito.save()
+
                 lote.save()
 
         detalle.cantidadPendiente = detalle.cantidad-stockTotal
@@ -81,7 +82,7 @@ def es_pendiente(pedido):
 def procesar_pedido(pedido):
     if not es_pendiente(pedido):
         detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) #obtengo todos los detalles del pedido
-        remito = models.Remito(pedidoDeFarmacia=pedido, fecha=pedido.fecha)
+        remito = models.Remito(pedidoFarmacia=pedido, fecha=pedido.fecha)
         remito.save()
         esEnviado = True
         for detalle in detalles:

@@ -41,12 +41,6 @@
 
 {% block url-add %}{% url 'laboratorio_add' %}{% endblock %}
 
-{% block filtro %}
-
- <label for="razonSocial" >Buscar:</label>
- <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social" autofocus>
-
-{% endblock %}
 
 {% block cantidad-elementos %}
     {{ laboratorios|length }}

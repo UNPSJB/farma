@@ -43,13 +43,6 @@
 
 {% block url-add %}{% url 'clinica_add' %}{% endblock %}
 
-{% block filtro %}
-
- <label for="razonSocial" >Buscar:</label>
- <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social" autofocus>
-
-{% endblock %}
-
 {% block cantidad-elementos %}
     {{ clinicas|length }}
     {% if clinicas|length != 1%}

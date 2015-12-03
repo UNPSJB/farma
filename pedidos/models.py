@@ -37,7 +37,7 @@ class DetalleRemito(models.Model):
 
     remito = models.ForeignKey(Remito, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()
-    detallePedidoFarmacia = models.ForeignKey('DetallePedidoDeFarmacia')
+    detallePedidoDeFarmacia = models.ForeignKey('DetallePedidoDeFarmacia')
     lote = models.ForeignKey('medicamentos.Lote')
 
     def __str__(self):
@@ -62,11 +62,12 @@ class DetalleRemitoMedicamentosVencido(models.Model):
 
 class PedidoDeFarmacia(PedidoVenta):
 
-    FILTROS = ["farmacia", "desde", "hasta"]
+    FILTROS = ["farmacia", "desde", "hasta","estado"]
     FILTERMAPPER = {
         'desde': "fecha__gte",
         'hasta': "fecha__lte",
-        'farmacia': "farmacia__razonSocial__icontains"
+        'farmacia': "farmacia__razonSocial__icontains",
+        'estado': "estado__icontains"
     }
     farmacia = models.ForeignKey('organizaciones.Farmacia')
     estado = models.CharField(max_length=25, blank=True)
