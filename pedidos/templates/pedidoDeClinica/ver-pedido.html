@@ -1,0 +1,35 @@
+{% extends "base-presentacion-pedido.html" %}
+
+{% block title %}Ver Pedido De Clinica{% endblock %}
+
+{% block tipo-pedido %}Pedido de Clinica{% endblock %}
+
+{% block nombre-organizacion %} {{ pedido.clinica.razonSocial }} {% endblock %}
+
+{% block fecha-pedido %} {{ pedido.fecha }} {% endblock %}
+
+{% block nro-pedido %} {{ pedido.nroPedido }} {% endblock %}
+
+{% block grid %}
+    <table class="table table-condensed table-responsive" >
+        <thead>
+            <tr class="info" align="center">
+                <th>Medicamento</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+
+                {% for detalle in detalles %}
+                    <tr class="clickeable" data-id="{{ detalle.id }}">
+                        <td>{{ detalle.medicamento }}</td>
+                        <td>{{ detalle.cantidad }}</td>
+                    </tr>
+                {% endfor %}
+        </tbody>
+    </table><!-- end table -->
+{% endblock %}
+
+{% block modals-abm %}{% endblock %}
+
+{% block scripts-abm-detalles %}{% endblock %}

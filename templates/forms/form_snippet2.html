@@ -1,5 +1,5 @@
 
-{% for field in form %}
+{% for field in form.visible_fields %}
 	<div class="row">
 		<div class="col-sm-offset-3">
 			{{ field.errors }}

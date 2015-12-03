@@ -2,6 +2,7 @@
 {% load staticfiles bootstrap3 %}
 
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
@@ -11,7 +12,7 @@
     <link rel="stylesheet" href="{%  static 'css/base.css' %}">
 
     {% block stylesheets %}{% endblock %}
-    {% block title %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
     <div class="container-fluid contenedor-principal">

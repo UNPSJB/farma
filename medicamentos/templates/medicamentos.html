@@ -2,12 +2,12 @@
 {% load staticfiles %}
 
 {% block title %}
-	<title>Medicamentos</title>
+	Medicamentos
 {% endblock %}
 
 
 {% block panel-title-ABM%}
-    <h3 class="panel-title">Medicamentos</h3>
+    Medicamentos
 {% endblock %}
 
 {% block url-add %}{% url 'medicamento_add' %}{% endblock %}
@@ -42,7 +42,7 @@
                     <td>{{medicamento.presentacion}}</td>
                     <td>{{medicamento.formulas.all|join:", "}}</td>
                     <td>{{medicamento.stockMinimo}}</td>
-                    <td>{{medicamento.precio}}</td>
+                    <td>{{medicamento.precioDeVenta}}</td>
                 </tr>
 
             {% endfor %}

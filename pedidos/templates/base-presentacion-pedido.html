@@ -1,0 +1,375 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{% static 'css/pedidos-detalles.css' %}">
+    <style>
+        .jumbotron{
+            padding: 28px 30px;
+            max-height: 9.5em;
+        }
+        .jumbotron h3{
+            font-size: 28px;
+        }
+
+        .jumbotron p{
+            font-size: 18px;
+        }
+
+        .jumbotron, .panel{
+            font-family: 'Bree Serif', serif;
+        }
+
+        .panel-nro-pedido{
+            display: inline-block;
+            min-width: 7em;
+            text-align: center;
+        }
+
+        .panel-nro-pedido .panel-body{
+            padding: 8px 10px;
+        }
+    </style>
+    {% block more-stylesheets %}{% endblock %}
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+
+	<!-- Cabezera del pedido -->
+    <div class="jumbotron">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h3>{% block tipo-pedido %}{% endblock %} <small class="text-primary">{% block nombre-organizacion %}{% endblock %}</small></h3>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <p class="text-right"><span class="glyphicon glyphicon-calendar text-primary"></span> {% block fecha-pedido %}{% endblock %}</p>
+                    <div class="panel panel-default panel-nro-pedido pull-right">
+                        <div class="panel-body">
+                            <span> Numero: {% block nro-pedido %}{% endblock %}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+	<!-- Detalles del pedido -->
+	<div class="container panel-detalle">
+		<div class="col-xs-12 ">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+                    <h3 class="panel-title pull-left">Detalles del pedido</h3>
+                    <div class="pull-right">
+                        {% block panel-heading-right %}{% endblock %}
+                    </div>
+                    <div class="clearfix"></div>
+				</div>
+				<div class="panel-body">
+                    {% block grid %}
+                    {% endblock %}
+				</div><!-- end panel-body -->
+                {% block panel-footer %}{% endblock %}
+			</div><!-- end panel -->
+		</div><!-- end col-md ... -->
+	</div><!-- end container ... -->
+	<!-- end detalles del pedido -->
+
+    {% block modals-abm %}
+        <!-- Modal delete-detalle-modal-->
+        <div class="modal fade" id="modal-delete-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Eliminar Detalle</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>El detalle se eliminara permanentemente ¿esta seguro? </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <a href="#" id="btn-confirmar-baja-detalle" class="btn btn-danger">Confirmar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal add-detalle-modal-->
+        <div class="modal fade" id="modal-add-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Agregar Detalles al Pedido</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="collapse" id="collapse-add-detalle">
+                            <div role="alert">
+                                <span id="message-add-detalle"></span>
+                            </div>
+                        </div>
+                        <div id="form-add-detalle"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button id="btn-save-detalle" type="button" class="btn btn-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal modal-update-detalle--->
+        <div class="modal fade" id="modal-update-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Actualizar Detalle del Pedido</h4>
+                    </div>
+                    <div class="modal-body">
+                         <div class="collapse" id="collapse-error">
+                            <div class="alert alert-danger" role="alert">
+                                <span id="message-error"></span>
+                            </div>
+                        </div>
+                        <div id="form-update-detalle"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button id="btn-save-update-detalle" type="button" class="btn btn-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal modal-error-registrar-pedido -->
+        <div class="modal fade" id="modal-error-registrar-pedido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h3 class="modal-title">Registrar Pedido</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center text-danger"><span class="glyphicon glyphicon-exclamation-sign"></span>
+                        <span id="mensaje-error-registrar"></span>
+                        </p>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+                <!-- modal-content -->
+            </div>
+            <!-- end modal-dialog -->
+        </div>
+        <!-- end modal ...-->
+
+        <!-- Modal modal-registrar-pedido -->
+        <div class="modal fade" id="modal-registrar-pedido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h3 class="modal-title">Registrar Pedido</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center text-success"><span class="glyphicon glyphicon-ok"></span> El pedido fue registrado correctamente!</p>
+                        <p class="text-center"><strong>Desea generar el remito?</strong></p>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-success">Si</button>
+                    </div>
+                </div>
+                <!-- modal-content -->
+            </div>
+            <!-- end modal-dialog -->
+        </div>
+        <!-- end modal ...-->
+    {% endblock %}
+
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script src="{% static 'js/utils.js' %}"></script>
+    <script>
+        (function(){
+             $("tbody").on("click", ".clickeable", function(e) {
+                 select_row_table(this);
+                 e.stopPropagation();
+             });
+
+             $(document).keyup(function(e){
+                 if(e.keyCode == 27){
+                     $("tr").removeClass("active");
+                 }
+                 e.stopPropagation();
+             });
+
+             $(document).on("click", function(e){
+                 $("tr").removeClass("active");
+                 e.stopPropagation();
+             });
+         })();
+    </script>
+
+    {% block scripts-abm-detalles %}
+        <script src="{% static 'js/ajax.js' %}"></script>
+        <script>
+            function add_detalle_ajax(url){
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    success: function(data){
+                        if(data['success']){
+                            $("#form-add-detalle").replaceWith(data['form_html']);
+                            $("#modal-add-detalle").modal("show");
+                        }else{
+                            alert("Data = Error");
+                        }
+                    },
+                    error: function(err){
+                        alert("Fallo Ajax");
+                    },
+                });
+            }
+
+            function save_detalle_ajax(url){
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: $("#form-add-detalle").serialize(),
+                    async: false,
+                    success: function(data){
+                        if(data['success']){
+                            $("#form-add-detalle").replaceWith(data['form_html']);
+                            refresh_table(data['detalles']);
+                        }else{
+                            //Si no viene con el formulario, hubo error con el medicamento
+                            if(! data['form_html']){
+                                loadMessageAddDetalle("Este medicamento ya esta cargado en un detalle del actual pedido", "alert alert-danger")
+                            }else{
+                                $("#form-add-detalle").replaceWith(data['form_html']);
+                            }
+                        }
+                    },
+                    error: function(err){
+                        alert("Fallo Ajax");
+                    },
+                });
+            }
+
+            function update_detalle_ajax(url){
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    success: function(data){
+                        $("#form-update-detalle").replaceWith(data['form_html']);
+                        $("#modal-update-detalle").modal('show');
+                    },
+                    error: function(err){
+                        alert("Fallo Ajax");
+                    },
+                });
+            }
+
+            function save_update_ajax(url){
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    async: false,
+                    dataType: 'json',
+                    data: $("#form-update-detalle").serialize(),
+                    success: function(data){
+                        if(data['success']){
+                            refresh_table(data['detalles']);
+                            $("#modal-update-detalle").modal("hide");
+                        }else{
+                            $("#form-update-detalle").replaceWith(data['form_html']);
+                        }
+                    },
+                    error: function(error){
+                        alert("Fallo Ajax");
+                    },
+                });
+            }
+
+            function delete_detalle_ajax(url){
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    success: function(data){
+                        refresh_table(data['detalles']);
+                    },
+                    error: function(err){
+                        alert("Fallo Ajax");
+                    },
+                })
+            }
+
+            function registrar_pedido_ajax(url){
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    success: function(data){
+                        if(data['success']){
+                            $("#modal-registrar-pedido").modal('show');
+                        }else{
+                            $("#mensaje-error-registrar").text( data['mensaje-error']);
+                            $("#modal-error-registrar-pedido").modal('show');
+                        }
+                    },
+                    error: function(err){
+                        alert("Fallo Ajax");
+                    },
+                });
+            }
+
+            function refresh_table(detalles){
+                var $tbody = $("table tbody");
+                $tbody.children().remove();
+                for(var i = 0; i < detalles.length; i++){
+                    var row = "<tr class=\"clickeable\" data-id=" + detalles[i].renglon + "><td>" + detalles[i].medicamento.descripcion +
+                              "</td><td>" + detalles[i].cantidad + "</td></tr>";
+                    $tbody.append(row);
+                }
+            }
+
+
+            function loadMessageAddDetalle(msg, clases){
+                var $collapse = $("#collapse-add-detalle");
+                var $mensaje = $("#message-add-detalle");
+                $mensaje.text(msg);
+                $mensaje.closest("div").removeClass();
+                $mensaje.closest("div").addClass(clases);
+                $collapse.collapse('show');
+                setTimeout(function(){
+                    $collapse.collapse('hide');
+                }, 3000);
+            }
+
+            $("#modal-add-detalle").on("change", "select", function(e){
+                $("#collapse-add-detalle").collapse('hide');
+            });
+        </script>
+    {% endblock %}
+
+    {% block more-scripts%}{% endblock %}
+
+{% endblock %}

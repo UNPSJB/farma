@@ -1,27 +1,35 @@
-{% extends "pedidoDeFarmacia/base-presentacion-pedido.html" %}
+{% extends "base-presentacion-pedido.html" %}
 
 {% block title %}Ver Pedido De Farmacia{% endblock %}
 
-{% block more-scripts%}
-    <script>
-        (function(){
+{% block tipo-pedido %}Pedido de Farmacia{% endblock %}
 
-            /**************************** EVENTOS ****************************/
-            $(".clickeable").click(function(e) {
-                select_row_table(this);
-                e.stopPropagation();
-            });
+{% block nombre-organizacion %} {{ pedido.farmacia.razonSocial }} {% endblock %}
 
-            $(document).keyup(function(e){
-                if(e.keyCode == 27){
-                    $("tr").removeClass("active");
-                }
-            });
+{% block fecha-pedido %} {{ pedido.fecha }} {% endblock %}
 
-            $(document).on("click", function(e){
-                $("tr").removeClass("active");
-            });
+{% block nro-pedido %} {{ pedido.nroPedido }} {% endblock %}
 
-        })();
-    </script>
+{% block grid %}
+    <table class="table table-condensed table-responsive" >
+        <thead>
+            <tr class="info" align="center">
+                <th>Medicamento</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+
+                {% for detalle in detalles %}
+                    <tr class="clickeable" data-id="{{ detalle.id }}">
+                        <td>{{ detalle.medicamento }}</td>
+                        <td>{{ detalle.cantidad }}</td>
+                    </tr>
+                {% endfor %}
+        </tbody>
+    </table><!-- end table -->
 {% endblock %}
+
+{% block modals-abm %}{% endblock %}
+
+{% block scripts-abm-detalles %}{% endblock %}
