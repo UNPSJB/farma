@@ -1,0 +1,29 @@
+{% load staticfiles %}
+{% load staticfiles bootstrap3 %}
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{%  static 'css/base.css' %}">
+
+    {% block stylesheets %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    {% bootstrap_messages %}
+
+    {% include 'inicio/nav.html' %}
+    {% block content %}{% endblock %}
+    {% include 'inicio/footer.html' %}
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

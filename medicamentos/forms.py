@@ -10,9 +10,12 @@ from . import lookups
 from django.forms.formsets import BaseFormSet, formset_factory
 from selectable import forms as selectable
 from django.utils.translation import ugettext_lazy as _
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field
+from crispy_forms.bootstrap import StrictButton, FormActions
 
 
-class MonodrogaForm(forms.ModelForm):
+class MonodrogaFormGenerico(forms.ModelForm):
 
     class Meta:
         model = models.Monodroga
@@ -21,14 +24,41 @@ class MonodrogaForm(forms.ModelForm):
             'nombre': _('Nombre')
         }
 
-    def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
-        self.fields['nombre'].widget.attrs.update(
-            {'placeholder': 'Nombre monodroga', 'class': 'form-control'})
+class MonodrogaFormAdd(MonodrogaFormGenerico):
+
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.form_action = 'monodroga_add'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('nombre', placeholder='Nombre'),
+        FormActions(
+            StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-success pull-right"),
+            StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
+                        css_class="btn btn-primary pull-right"),
+        )
+    )  
+
+class MonodrogaFormUpdate(MonodrogaFormGenerico):
+    
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('nombre', placeholder='Nombre'),
+        FormActions(
+            StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
+        )
+    )  
 
      
 
-class NombreFantasiaForm(forms.ModelForm):
+class NombreFantasiaFormGenerico(forms.ModelForm):
 
     class Meta:
         model = models.NombreFantasia
@@ -37,12 +67,40 @@ class NombreFantasiaForm(forms.ModelForm):
             'nombreF': _('Nombre')
         }
 
-    def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
-        self.fields['nombreF'].widget.attrs.update(
-            {'placeholder': 'Nombre fantasia', 'class':'form-control'})
+class NombreFantasiaFormAdd(NombreFantasiaFormGenerico):
 
-class PresentacionForm(forms.ModelForm):
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.form_action = 'nombreFantasia_add'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('nombreF', placeholder='Nombre'),
+        FormActions(
+            StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-success pull-right"),
+            StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
+                        css_class="btn btn-primary pull-right"),
+        )
+    )  
+
+class NombreFantasiaFormUpdate(NombreFantasiaFormGenerico):
+
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('nombreF', placeholder='Nombre'),
+        FormActions(
+            StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
+        )
+    )  
+
+
+class PresentacionFormGenerico(forms.ModelForm):
 
     class Meta:
         model = models.Presentacion
@@ -53,16 +111,42 @@ class PresentacionForm(forms.ModelForm):
             'cantidad': _('Cantidad')
         }
 
-    def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
+class PresentacionFormAdd(PresentacionFormGenerico):
 
-        for field_name in self.fields:
-            field = self.fields.get(field_name)
-            if field:
-                field.widget.attrs.update({
-                    'placeholder': field.label,
-                    'class': 'form-control'
-                })
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.form_action = 'presentacion_add'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('descripcion', placeholder='Descripcion'),
+        Field('unidadMedida', placeholder='Unidad de Medida'),
+        Field('cantidad', placeholder='Cantidad'),
+        FormActions(
+            StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-success pull-right"),
+            StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
+                        css_class="btn btn-primary pull-right"),
+        )
+    ) 
+
+class PresentacionFormUpdate(PresentacionFormGenerico): 
+
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('descripcion', placeholder='Descripcion'),
+        Field('unidadMedida', placeholder='Unidad de Medida'),
+        Field('cantidad', placeholder='Cantidad'),
+        FormActions(
+            StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
+        )
+    )  
+
 
 
 class RelatedFieldWidgetCanAdd(widgets.Select):
@@ -91,7 +175,7 @@ class MedicamentoForm(forms.ModelForm):
        label = "Nombre Fantasia",
        required=True,
        queryset=models.NombreFantasia.objects.all(),
-       widget=RelatedFieldWidgetCanAdd(models.NombreFantasia, related_url="nombresFantasia_add")
+       widget=RelatedFieldWidgetCanAdd(models.NombreFantasia, related_url="nombreFantasia_add")
 
     )
 
@@ -113,12 +197,28 @@ class MedicamentoForm(forms.ModelForm):
         fields = ["nombreFantasia", "codigoBarras", "stockMinimo","presentacion", "precioDeVenta", "laboratorio"]
 
 
-class MedicamentoModForm(forms.ModelForm):
+class MedicamentoFormUpdate(forms.ModelForm):
 
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('stockMinimo', placeholder='Stock Minimo'),
+        Field('precioDeVenta', placeholder='Precio de Venta'),
+        FormActions(
+            StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
+        )
+    ) 
 
     class Meta:
         model = models.Medicamento
         fields = ["stockMinimo", "precioDeVenta"]
+        labels = {
+            'stockMinimo': _('Stock Minimo'),
+            'precioDeVenta': _('Precio de Venta'),
+        }
 
 
 class DosisForm(forms.ModelForm):

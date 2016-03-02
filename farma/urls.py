@@ -27,52 +27,95 @@ urlpatterns = [
     url(r'^login', views.login_user, name="login"),
     url(r'^logout', views.logout_user, name="logout"),
 
-    # ****** MEDICAMENTOS ******
+    # =============================================================================================== #
+    #                                       MEDICAMENTOS
+    # =============================================================================================== #
+    
+    # ***************************************** Monodroga *******************************************
     url(r'^monodrogas/$', mviews.monodrogas, name="monodrogas"),
     url(r'^monodrogas/add/$', mviews.monodroga_add, name="monodroga_add"),
     url(r'^monodrogas/update/(?P<id_monodroga>\d+)/$', mviews.monodroga_update, name="monodroga_update"),
     url(r'^monodrogas/delete/(?P<id_monodroga>\d+)/$', mviews.monodroga_delete, name="monodroga_delete"),
 
-    url(r'^medicamentos/$',mviews.medicamentos, name="medicamentos"),
-    url(r'^medicamentos/add/$', mviews.medicamento_add, name="medicamento_add"),
-    url(r'^medicamentos/delete/(?P<id_medicamento>\d+)/$', mviews.medicamento_delete, name="medicamento_delete"),
-    url(r'^medicamentos/update/(?P<id_medicamento>\d+)/$', mviews.medicamento_update, name="medicamento_update"),
-    #
-    # url(r'^altaMedicamento/$', views.altaMedicamento, name="altaMedicamento"),
+    # ************************************** Nombre Fantasia ****************************************
     url(r'^nombresFantasia/$', mviews.nombresFantasia, name="nombresFantasia"),
-    url(r'^nombresFantasia_add/$', mviews.nombresFantasia_add, name="nombresFantasia_add"),
-    url(r'^nombresFantasia/update/(?P<id_nombreFantasia>\d+)/$', mviews.nombresFantasia_update, name="nombresFantasia_update"),
-    url(r'^nombresFantasia/delete/(?P<id_nombreFantasia>\d+)/$', mviews.nombresFantasia_delete, name="nombresFantasia_delete"),
+    url(r'^nombresFantasia/add/$', mviews.nombresFantasia_add, name="nombreFantasia_add"),
+    url(r'^nombresFantasia/update/(?P<id_nombreFantasia>\d+)/$', mviews.nombresFantasia_update, name="nombreFantasia_update"),
+    url(r'^nombresFantasia/delete/(?P<id_nombreFantasia>\d+)/$', mviews.nombresFantasia_delete, name="nombreFantasia_delete"),
 
-    url(r'^Presentacion/$', mviews.presentacion, name="presentacion"),
-    url(r'^Presentacion_add/$', mviews.presentacion_add, name="presentacion_add"),
-    url(r'^Presentacion/update/(?P<id_presentacion>\d+)/$', mviews.presentacion_update, name="presentacion_update"),
-    url(r'^Presentacion/delete/(?P<id_presentacion>\d+)/$', mviews.presentacion_delete, name="presentacion_delete"),
 
-    #============================================inicio desde m====================================================
-     # ****** PEDIDOS DE FARMACIA ******
+    # *************************************** Presentacion ******************************************
+    url(r'^presentaciones/$', mviews.presentaciones, name="presentaciones"),
+    url(r'^presentaciones/add/$', mviews.presentacion_add, name="presentacion_add"),
+    url(r'^presentaciones/update/(?P<id_presentacion>\d+)/$', mviews.presentacion_update, name="presentacion_update"),
+    url(r'^presentaciones/delete/(?P<id_presentacion>\d+)/$', mviews.presentacion_delete, name="presentacion_delete"),
+
+        
+    # **************************************** Medicamento ******************************************
+    url(r'^medicamentos/$', mviews.medicamentos, name="medicamentos"),
+    url(r'^medicamentos/add/$', mviews.medicamento_add, name="medicamento_add"),
+    url(r'^medicamentos/update/(?P<id_medicamento>\d+)/$', mviews.medicamento_update, name="medicamento_update"),
+    url(r'^medicamentos/delete/(?P<id_medicamento>\d+)/$', mviews.medicamento_delete, name="medicamento_delete"),
+    
+    
+    # =============================================================================================== #
+    #                                       ORGANIZACIONES
+    # =============================================================================================== #
+
+
+    # ***************************************** Farmacia *******************************************
+    url(r'^farmacias/$', oviews.farmacias, name="farmacias"),
+    url(r'^farmacias/add/$', oviews.farmacia_add, name="farmacia_add"),
+    url(r'^farmacias/update/(?P<id_farmacia>\d+)/$', oviews.farmacia_update, name="farmacia_update"),
+    url(r'^farmacias/delete/(?P<id_farmacia>\d+)/$', oviews.farmacia_delete, name="farmacia_delete"),
+    
+    
+    # ***************************************** Clinica *******************************************
+    url(r'^clinicas/$',oviews.clinicas, name="clinicas"),
+    url(r'^clinicas/add/$', oviews.clinica_add, name="clinica_add"),
+    url(r'^clinicas/update/(?P<id_clinica>\d+)/$', oviews.clinica_update, name="clinica_update"),
+    url(r'^clinicas/delete/(?P<id_clinica>\d+)/$', oviews.clinica_delete, name="clinica_delete"),
+    
+
+    # *************************************** Laboratorio *****************************************
+    url(r'^laboratorios/$',oviews.laboratorios, name="laboratorios"),
+    url(r'^laboratorios/add/$', oviews.laboratorio_add, name="laboratorio_add"),
+    url(r'^laboratorios/update/(?P<id_laboratorio>\d+)/$', oviews.laboratorio_update, name="laboratorio_update"),
+    url(r'^laboratorios/delete/(?P<id_laboratorio>\d+)/$', oviews.laboratorio_delete, name="laboratorio_delete"),
+    
+    
+    # *************************************** Obra Social *****************************************
+    url(r'^obrasSociales/$',views.paginaEnConstruccion, name="paginaEnConstruccion"),
+    
+    
+    # =============================================================================================== #
+    #                                           PEDIDOS
+    # =============================================================================================== #
+
+
+    # ************************************** Pedido de Farmacia ***************************************
     url(r'^pedidosDeFarmacia/$', pviews.pedidosDeFarmacia, name="pedidosDeFarmacia"),
-    url(r'^pedidosDeFarmacia/add/$', pviews.pedidoF_add, name="pedidoF_add"),
-    url(r'^pedidosDeFarmacia/add/detalles-pedido/$', pviews.detalles_pedidoF, name="detalles_pedidoF"),
-    url(r'^pedidosDeFarmacia/add/detalles-pedido/add/$', pviews.add_detalle_pedido_farmacia, name="add_detalle_pedido_farmacia"),
-    url(r'^pedidosDeFarmacia/add/detalles-pedido/update/(?P<id_detalle>\d+)/$', pviews.update_detalle_pedido_farmacia, name="update_detalle_pedido_farmacia"),
-    url(r'^pedidosDeFarmacia/add/detalles-pedido/delete/(?P<id_detalle>\d+)/$', pviews.delete_detalle_pedido_farmacia, name="delete_detalle_pedido_farmacia"),
-    url(r'^pedidosDeFarmacia/add/registrar-pedido/$', pviews.registrar_pedido_farmacia, name="registrar_pedido_farmacia"),
-    url(r'^pedidosDeFarmacia/ver/(?P<id_pedido>\d+)/$', pviews.ver_pedidoF, name="ver_pedidoF"),
-
-    #============================================fin desde m=====================================================
-
+    url(r'^pedidosDeFarmacia/add/$', pviews.pedidoDeFarmacia_add, name="pedidoDeFarmacia_add"),  
+    url(r'^pedidosDeFarmacia/add/registrar-pedido/$', pviews.pedidoDeFarmacia_registrar, name="pedidoDeFarmacia_registrar"),
+    url(r'^pedidosDeFarmacia/ver/(?P<id_pedido>\d+)/$', pviews.pedidoDeFarmacia_ver, name="pedidoDeFarmacia_ver"),
+    url(r'^pedidosDeFarmacia/add/detalles/$', pviews.detallesPedidoDeFarmacia, name="detallesPedidoDeFarmacia"),
+    url(r'^pedidosDeFarmacia/add/detalles/add/$', pviews.detallePedidoDeFarmacia_add, name="detallePedidoDeFarmacia_add"),
+    url(r'^pedidosDeFarmacia/add/detalles/update/(?P<id_detalle>\d+)/$', pviews.detallePedidoDeFarmacia_update, name="detallePedidoDeFarmacia_update"),
+    url(r'^pedidosDeFarmacia/add/detalles/delete/(?P<id_detalle>\d+)/$', pviews.detallePedidoDeFarmacia_delete, name="detallePedidoDeFarmacia_delete"),
+    
 
 
-#====================================================INICIO CORRECTOS=======================================================0
+    # ************************************** Pedido de Clinica ***************************************
+    url(r'^pedidosDeClinica/$', pviews.pedidosDeClinica, name="pedidosDeClinica"),
+    url(r'^pedidosDeClinica/add/$', pviews.pedidoDeClinica_add, name="pedidoDeClinica_add"),
+    url(r'^pedidosDeClinica/add/detalles/$', pviews.detallesPedidoDeClinica, name="detallesPedidoDeClinica"),
+    url(r'^pedidosDeClinica/add/detalles/add/$', pviews.detallePedidoDeClinica_add, name="detallePedidoDeClinica_add"),
+    url(r'^pedidosDeClinica/add/detalles/update/(?P<id_detalle>\d+)/$', pviews.detallePedidoDeClinica_update, name="detallePedidoDeClinica_update"),
+    url(r'^pedidosDeClinica/add/detalles/delete/(?P<id_detalle>\d+)/$', pviews.detallePedidoDeClinica_delete, name="detallePedidoDeClinica_delete"),
+    url(r'^pedidosDeClinica/add/registrar-pedido/$', pviews.pedidoDeClinica_registrar, name="pedidoDeClinica_registrar"),
+    url(r'^pedidosDeClinica/ver/(?P<id_pedido>\d+)/$', pviews.pedidoDeClinica_ver, name="pedidoDeClinica_ver"),
 
-    # ****** PEDIDOS ******
-    #url(r'^pedidoDeFarmacia/$', pviews.pedidoDeFarmacia, name="pedidoDeFarmacia"),
-
-    url(r'^pedidoDeClinica/$', views.pedidoDeClinica,name="pedidoDeClinica"),
-    url(r'^devolucionMedicamentosVencidos/$', views.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
-    url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos,name="recepcionReemplazoMedicamentos"),
-
+    
     # ****** PEDIDOS A LABORATORIO ******
     url(r'^pedidoAlaboratorios/verRenglones/(?P<id>\d+)/$', pviews.pedidoAlaboratorios_verRenglones, name="pedidoAlaboratorios_verRenglones"),
     url(r'^pedidoAlaboratorios/agregarRenglones/$', pviews.pedidoAlaboratorios_agregarRenglones, name="pedidoAlaboratorios_agregarRenglones"),
@@ -81,42 +124,9 @@ urlpatterns = [
     url(r'^recepcionPedidoDeLaboratorio/$', pviews.recepcionPedidoDeLaboratorio, name="recepcionPedidoDeLaboratorio"),
     url(r'^pedidoAlaboratorios/registrarRecepcionPedido/(?P<id>\d+)/$', pviews.pedidoAlaboratorios_RecepcionPedidoLab, name="pedidoAlaboratorios_registrarRecepcionPedido"),
     url(r'^pedidoAlaboratorios/agregarLotes/$', pviews.pedidoAlaboratorios_agregarLotes, name="pedidoAlaboratorios_agregarLotes"),
-
-
-    # ****** PEDIDOS DE CLINICA ******
-    url(r'^pedidosDeClinica/$', pviews.pedidosDeClinica, name="pedidosDeClinica"),
-    url(r'^pedidosDeClinica/add/$', pviews.pedido_de_clinica_add, name="pedido_de_clinica_add"),
-    url(r'^pedidosDeClinica/add/detalles-pedido/$', pviews.pedido_de_clinica_detalles, name="pedido_de_clinica_detalles"),
-    url(r'^pedidosDeClinica/add/detalles-pedido/add/$', pviews.add_detalle_pedido_de_clinica, name="add_detalle_pedido_de_clinica"),
-    url(r'^pedidosDeClinica/add/detalles-pedido/update/(?P<id_detalle>\d+)/$', pviews.update_detalle_pedido_de_clinica, name="update_detalle_pedido_de_clinica"),
-    url(r'^pedidosDeClinica/add/detalles-pedido/delete/(?P<id_detalle>\d+)/$', pviews.delete_detalle_pedido_de_clinica, name="delete_detalle_pedido_de_clinica"),
-    url(r'^pedidosDeClinica/add/registrar-pedido/$', pviews.registrar_pedido_de_clinica, name="registrar_pedido_de_clinica"),
-    url(r'^pedidosDeClinica/ver/(?P<id_pedido>\d+)/$', pviews.ver_pedido_de_clinica, name="ver_pedido_de_clinica"),
-
-
-    # ****** FARMACIAS ******
-    url(r'^farmacias/$',oviews.farmacias, name="farmacias"),
-    url(r'^farmacias/add/$', oviews.farmacia_add, name="farmacia_add"),
-    url(r'^farmacias/update/(?P<id_farmacia>\d+)/$', oviews.farmacia_update, name="farmacia_update"),
-    url(r'^farmacias/delete/(?P<id_farmacia>\d+)/$', oviews.farmacia_delete, name="farmacia_delete"),
     
-    
-    # ****** CLINICAS ******
-    url(r'^clinicas/$',oviews.clinicas, name="clinicas"),
-    url(r'^clinicas/add/$', oviews.clinica_add, name="clinica_add"),
-    url(r'^clinicas/update/(?P<id_clinica>\d+)/$', oviews.clinica_update, name="clinica_update"),
-    url(r'^clinicas/delete/(?P<id_clinica>\d+)/$', oviews.clinica_delete, name="clinica_delete"),
-    
-
-    # ****** LABORATORIOS ******
-    url(r'^laboratorios/$',oviews.laboratorios, name="laboratorios"),
-    url(r'^laboratorios/add/$', oviews.laboratorio_add, name="laboratorio_add"),
-    url(r'^laboratorios/update/(?P<id_laboratorio>\d+)/$', oviews.laboratorio_update, name="laboratorio_update"),
-    url(r'^laboratorios/delete/(?P<id_laboratorio>\d+)/$', oviews.laboratorio_delete, name="laboratorio_delete"),
-    
-    
-    # ****** OTROS ******
-    url(r'^obrasSociales/$',views.paginaEnConstruccion, name="paginaEnConstruccion"),
-
+      # **************************************** Otros Pedidos ******************************************
+    url(r'^devolucionMedicamentosVencidos/$', views.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
+    url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos,name="recepcionReemplazoMedicamentos"),
 
 ]

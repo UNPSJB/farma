@@ -24,7 +24,7 @@ class PedidoDeFarmaciaForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'form-pedido'
-    helper.form_action = 'pedidoF_add'
+    helper.form_action = 'pedidoDeFarmacia_add'
     helper.label_class = 'col-md-3'
     helper.field_class = 'col-md-8'
     helper.layout = Layout(
@@ -79,7 +79,7 @@ class PedidoDeClinicaForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'form-pedido'
-    helper.form_action = 'pedido_de_clinica_add'
+    helper.form_action = 'pedidoDeClinica_add'
     helper.label_class = 'col-md-3'
     helper.field_class = 'col-md-8'
     helper.layout = Layout(

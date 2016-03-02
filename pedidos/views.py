@@ -1,5 +1,3 @@
-
-
 from django.db.models import Q # Herramienta que nos permite "darle de comer" expresiones con OR a los filter
 
 
@@ -74,7 +72,7 @@ def pedidosDeFarmacia(request):
     return render(request, "pedidoDeFarmacia/pedidos.html", {"pedidos": pedidos, "filtros": request.GET})
 
 @login_required(login_url='login')
-def pedidoF_add(request):
+def pedidoDeFarmacia_add(request):
     limpiar_sesion("pedidoDeFarmacia", "detallesPedidoDeFarmacia", request.session)
     if request.method == "POST":
         form = forms.PedidoDeFarmaciaForm(request.POST)
@@ -83,83 +81,24 @@ def pedidoF_add(request):
             pedido_json = pedido.to_json()
             pedido_json['nroPedido'] = get_next_nro_pedido(models.PedidoDeFarmacia)
             request.session['pedidoDeFarmacia'] = pedido_json
-            return redirect('detalles_pedidoF')
+            return redirect('detallesPedidoDeFarmacia')
     else:
            form = forms.PedidoDeFarmaciaForm()
     return render(request, "pedidoDeFarmacia/pedidoAdd.html", {"form": form})
 
-@login_required(login_url='login')
-def detalles_pedidoF(request):
-    #del request.session['detalles']
-    detalles = request.session.setdefault("detallesPedidoDeFarmacia", [])
-    pedido = request.session['pedidoDeFarmacia']
-    return render(request, "pedidoDeFarmacia/pedido-detalles.html", {'pedido': pedido, 'detalles': detalles})
 
 @login_required(login_url='login')
-def ver_pedidoF(request, id_pedido):
+def pedidoDeFarmacia_ver(request, id_pedido):
     pedido = get_object_or_404(models.PedidoDeFarmacia,pk=id_pedido)
     detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido)
-    return render(request, "pedidoDeFarmacia/ver-pedido.html",{"pedido": pedido, "detalles": detalles})
-
-@json_view
-@login_required(login_url='login')
-def add_detalle_pedido_farmacia(request):
-    success = True
-    form = forms.DetallePedidoDeFarmaciaForm(request.POST or None)
-    if request.method == 'POST':
-        if form.is_valid():
-            det = form.save(commit=False)
-            detalles = request.session['detallesPedidoDeFarmacia']
-            if not existe_medicamento_en_pedido(detalles, det.medicamento.id):
-                detalles.append(crear_detalle_json(det, len(detalles) + 1))
-                request.session['detallesPedidoDeFarmacia'] = detalles
-                form = forms.DetallePedidoDeFarmaciaForm() #Nuevo form para seguir dando de alta
-                form_html = render_crispy_form(form, context=RequestContext(request))
-                return {'success': success, 'form_html': form_html, 'detalles': detalles}
-            else:  # medicamento ya existe en el pedido
-                return {'success': False}
-        else:
-            success = False
-    form_html = render_crispy_form(form, context=RequestContext(request))
-    return {'success': success, 'form_html': form_html}
+    return render(request, "pedidoDeFarmacia/pedidoVer.html",{"pedido": pedido, "detalles": detalles})
 
 
-@json_view
-@login_required(login_url='login')
-def update_detalle_pedido_farmacia(request, id_detalle):
-    detalles = request.session['detallesPedidoDeFarmacia']
-    detalle = models.DetallePedidoDeFarmacia(cantidad=detalles[int(id_detalle) - 1]['cantidad'])
-    if request.method == "POST":
-        form = forms.UpdateDetallePedidoDeFarmaciaForm(request.POST, instance=detalle)
-        if form.is_valid():
-            det = form.save(commit=False)
-            detalles[int(id_detalle) - 1]['cantidad'] = det.cantidad
-            request.session['detallesPedidoDeFarmacia'] = detalles
-            return {'success': True, 'detalles': detalles}
-        else:
-            form_html = render_crispy_form(form, context=RequestContext(request))
-            return {'success': False, 'form_html': form_html}
-    else:
-        form = forms.UpdateDetallePedidoDeFarmaciaForm(instance=detalle)
-    form_html = render_crispy_form(form, context=RequestContext(request))
-    return {'form_html': form_html}
-
-@json_view
-@login_required(login_url='login')
-def delete_detalle_pedido_farmacia(request, id_detalle):
-    detalles = request.session['detallesPedidoDeFarmacia']
-    del detalles[int(id_detalle) - 1]
-    for i in range(0, len(detalles)):
-        detalles[i]['renglon'] = i + 1
-    request.session['detallesPedidoDeFarmacia'] = detalles
-    return {'detalles': detalles}
-
-#https://github.com/incuna/django-wkhtmltopdf !!!!!!!!!!!!!!!
 @json_view
 @login_required(login_url='login')
 @authd.permission_required(perm="add_pedidodefarmacia")
 @authd.permission_required(perm="change_pedidodefarmacia")
-def registrar_pedido_farmacia(request):
+def pedidoDeFarmacia_registrar(request):
     pedido = request.session['pedidoDeFarmacia']
     detalles = request.session['detallesPedidoDeFarmacia']
     mensaje_error = None
@@ -182,6 +121,69 @@ def registrar_pedido_farmacia(request):
     return {'success': False, 'mensaje-error': mensaje_error}
 
 
+
+@login_required(login_url='login')
+def detallesPedidoDeFarmacia(request):
+    #del request.session['detalles']
+    detalles = request.session.setdefault("detallesPedidoDeFarmacia", [])
+    pedido = request.session['pedidoDeFarmacia']
+    return render(request, "pedidoDeFarmacia/detallesPedido.html", {'pedido': pedido, 'detalles': detalles})
+
+
+@json_view
+@login_required(login_url='login')
+def detallePedidoDeFarmacia_add(request):
+    success = True
+    form = forms.DetallePedidoDeFarmaciaForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            det = form.save(commit=False)
+            detalles = request.session['detallesPedidoDeFarmacia']
+            if not existe_medicamento_en_pedido(detalles, det.medicamento.id):
+                detalles.append(crear_detalle_json(det, len(detalles) + 1))
+                request.session['detallesPedidoDeFarmacia'] = detalles
+                form = forms.DetallePedidoDeFarmaciaForm() #Nuevo form para seguir dando de alta
+                form_html = render_crispy_form(form, context=RequestContext(request))
+                return {'success': success, 'form_html': form_html, 'detalles': detalles}
+            else:  # medicamento ya existe en el pedido
+                return {'success': False}
+        else:
+            success = False
+    form_html = render_crispy_form(form, context=RequestContext(request))
+    return {'success': success, 'form_html': form_html}
+
+
+@json_view
+@login_required(login_url='login')
+def detallePedidoDeFarmacia_update(request, id_detalle):
+    detalles = request.session['detallesPedidoDeFarmacia']
+    detalle = models.DetallePedidoDeFarmacia(cantidad=detalles[int(id_detalle) - 1]['cantidad'])
+    if request.method == "POST":
+        form = forms.UpdateDetallePedidoDeFarmaciaForm(request.POST, instance=detalle)
+        if form.is_valid():
+            det = form.save(commit=False)
+            detalles[int(id_detalle) - 1]['cantidad'] = det.cantidad
+            request.session['detallesPedidoDeFarmacia'] = detalles
+            return {'success': True, 'detalles': detalles}
+        else:
+            form_html = render_crispy_form(form, context=RequestContext(request))
+            return {'success': False, 'form_html': form_html}
+    else:
+        form = forms.UpdateDetallePedidoDeFarmaciaForm(instance=detalle)
+    form_html = render_crispy_form(form, context=RequestContext(request))
+    return {'form_html': form_html}
+
+@json_view
+@login_required(login_url='login')
+def detallePedidoDeFarmacia_delete(request, id_detalle):
+    detalles = request.session['detallesPedidoDeFarmacia']
+    del detalles[int(id_detalle) - 1]
+    for i in range(0, len(detalles)):
+        detalles[i]['renglon'] = i + 1
+    request.session['detallesPedidoDeFarmacia'] = detalles
+    return {'detalles': detalles}
+
+
 # ******************************* PEDIDOS DE CLINICA ******************************* #
 
 @login_required(login_url='login')
@@ -191,7 +193,7 @@ def pedidosDeClinica(request):
     return render(request, "pedidoDeClinica/pedidos.html", {"pedidos": pedidos, "filtros": request.GET})
 
 @login_required(login_url='login')
-def pedido_de_clinica_add(request):
+def pedidoDeClinica_add(request):
     limpiar_sesion("pedidoDeClinica", "detallesPedidoDeClinica", request.session)
     if request.method == "POST":
         form = forms.PedidoDeClinicaForm(request.POST)
@@ -200,28 +202,56 @@ def pedido_de_clinica_add(request):
             pedido_json = pedido.to_json()
             pedido_json['nroPedido'] = get_next_nro_pedido(models.PedidoDeClinica)
             request.session["pedidoDeClinica"] = pedido_json
-            return redirect('pedido_de_clinica_detalles')
+            return redirect('detallesPedidoDeClinica')
     else:
            form = forms.PedidoDeClinicaForm()
     return render(request, "pedidoDeClinica/pedidoAdd.html", {"form": form})
 
 @login_required(login_url='login')
-def pedido_de_clinica_detalles(request):
+def pedidoDeClinica_ver(request, id_pedido):
+    pedido = get_object_or_404(models.PedidoDeClinica,pk=id_pedido)
+    detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica=pedido)
+    return render(request, "pedidoDeClinica/pedidoVer.html",{"pedido": pedido, "detalles": detalles})
+
+@json_view
+@login_required(login_url='login')
+def pedidoDeClinica_registrar(request):
+    pedido = request.session["pedidoDeClinica"]
+    detalles = request.session["detallesPedidoDeClinica"]
+    mensaje_error = None
+    if detalles:
+        clinica = get_object_or_404(Clinica, pk=pedido['clinica']['id'])
+        fecha = datetime.datetime.strptime(pedido['fecha'], '%d/%m/%Y').date()
+        obraSocial = pedido['obraSocial']
+        medicoAuditor = pedido['medicoAuditor']
+        if not(models.PedidoDeClinica.objects.filter(pk=pedido["nroPedido"]).exists()):
+            p = models.PedidoDeClinica(clinica=clinica, fecha=fecha, obraSocial=obraSocial, medicoAuditor=medicoAuditor)
+            p.save()
+            for detalle in detalles:
+                medicamento = get_object_or_404(Medicamento, pk=detalle['medicamento']['id'])
+                d = models.DetallePedidoDeClinica(pedidoDeClinica=p, medicamento=medicamento, cantidad=detalle['cantidad'])
+                d.save()
+            #utils.procesar_pedido_de_clinica(p)
+            return {'success': True}
+        else:
+            mensaje_error = "El pedido ya Existe!"
+    else:
+        mensaje_error = "No se puede registrar un pedido sin detalles"
+    return {'success': False, 'mensaje-error': mensaje_error}
+
+
+@login_required(login_url='login')
+def detallesPedidoDeClinica(request):
     #del request.session['detalles']
     detalles = request.session.setdefault("detallesPedidoDeClinica", [])
     pedido = request.session["pedidoDeClinica"]
     print request.session["pedidoDeClinica"]
-    return render(request, "pedidoDeClinica/pedido-detalles.html", {'pedido': pedido, 'detalles': detalles})
+    return render(request, "pedidoDeClinica/detallesPedido.html", {'pedido': pedido, 'detalles': detalles})
 
-@login_required(login_url='login')
-def ver_pedido_de_clinica(request, id_pedido):
-    pedido = get_object_or_404(models.PedidoDeClinica,pk=id_pedido)
-    detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica=pedido)
-    return render(request, "pedidoDeClinica/ver-pedido.html",{"pedido": pedido, "detalles": detalles})
 
 @json_view
 @login_required(login_url='login')
-def add_detalle_pedido_de_clinica(request):
+def detallePedidoDeClinica_add(request):
     success = True
     form = forms.DetallePedidoDeClinicaForm(request.POST or None)
     if request.method == 'POST':
@@ -244,7 +274,7 @@ def add_detalle_pedido_de_clinica(request):
 
 @json_view
 @login_required(login_url='login')
-def update_detalle_pedido_de_clinica(request, id_detalle):
+def detallePedidoDeClinica_update(request, id_detalle):
     detalles = request.session['detallesPedidoDeClinica']
     detalle = models.DetallePedidoDeClinica(cantidad=detalles[int(id_detalle) - 1]['cantidad'])
     if request.method == "POST":
@@ -264,7 +294,7 @@ def update_detalle_pedido_de_clinica(request, id_detalle):
 
 @json_view
 @login_required(login_url='login')
-def delete_detalle_pedido_de_clinica(request, id_detalle):
+def detallePedidoDeClinica_delete(request, id_detalle):
     detalles = request.session['detallesPedidoDeClinica']
     del detalles[int(id_detalle) - 1]
     for i in range(0, len(detalles)):
@@ -272,32 +302,6 @@ def delete_detalle_pedido_de_clinica(request, id_detalle):
     request.session['detallesPedidoDeClinica'] = detalles
     return {'detalles': detalles}
 
-#https://github.com/incuna/django-wkhtmltopdf !!!!!!!!!!!!!!!
-@json_view
-@login_required(login_url='login')
-def registrar_pedido_de_clinica(request):
-    pedido = request.session["pedidoDeClinica"]
-    detalles = request.session["detallesPedidoDeClinica"]
-    mensaje_error = None
-    if detalles:
-        clinica = get_object_or_404(Clinica, pk=pedido['clinica']['id'])
-        fecha = datetime.datetime.strptime(pedido['fecha'], '%d/%m/%Y').date()
-        obraSocial = pedido['obraSocial']
-        medicoAuditor = pedido['medicoAuditor']
-        if not(models.PedidoDeClinica.objects.filter(pk=pedido["nroPedido"]).exists()):
-            p = models.PedidoDeClinica(clinica=clinica, fecha=fecha, obraSocial=obraSocial, medicoAuditor=medicoAuditor)
-            p.save()
-            for detalle in detalles:
-                medicamento = get_object_or_404(Medicamento, pk=detalle['medicamento']['id'])
-                d = models.DetallePedidoDeClinica(pedidoDeClinica=p, medicamento=medicamento, cantidad=detalle['cantidad'])
-                d.save()
-            utils.procesar_pedido_de_clinica(p)
-            return {'success': True}
-        else:
-            mensaje_error = "El pedido ya Existe!"
-    else:
-        mensaje_error = "No se puede registrar un pedido sin detalles"
-    return {'success': False, 'mensaje-error': mensaje_error}
 
 #===============================================PEDIDOS A LABORATORIO==================================================================
 

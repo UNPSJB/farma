@@ -2,6 +2,9 @@
 from django import forms
 from organizaciones import models
 from django.utils.translation import ugettext_lazy as _
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field
+from crispy_forms.bootstrap import StrictButton, FormActions
 import re
 
 
@@ -30,25 +33,50 @@ class FarmaciaFormGenerico(forms.ModelForm):
 
 
 
-class FarmaciaForm(FarmaciaFormGenerico):
+class FarmaciaFormAdd(FarmaciaFormGenerico):
 
-    def __init__(self, *args, **kwargs):
-        super(FarmaciaForm, self).__init__(*args, **kwargs)
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.form_action = 'farmacia_add'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('razonSocial', placeholder='Razon Social'),
+        Field('cuit', placeholder='Cuit',),
+        Field('localidad', placeholder='Localidad'),
+        Field('direccion', placeholder='Direccion'),
+        Field('nombreEncargado', placeholder='Encargado'),
+        Field('telefono', placeholder='Telefono'),
+        Field('email', placeholder='Email'),
+        FormActions(
+            StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-success pull-right"),
+            StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
+                        css_class="btn btn-primary pull-right"),
+        )
+    )  
 
-        for field_name in self.fields:
-            field = self.fields.get(field_name)
-            if field:
-                field.widget.attrs.update({'placeholder': field.label, 'class': 'form-control'})
 
+class FarmaciaFormUpdate(FarmaciaFormGenerico):
 
-
-
-class FarmaciaFormUpdate(FarmaciaForm):
-
-    def __init__(self, *args, **kwargs):
-        super(FarmaciaFormUpdate,self).__init__(*args, **kwargs)
-        self.fields['razonSocial'].widget.attrs['readonly'] = True
-        self.fields['cuit'].widget.attrs['readonly'] = True
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('razonSocial', placeholder='Razon Social', readonly=True),
+        Field('cuit', placeholder='Cuit', readonly=True),
+        Field('localidad', placeholder='Localidad'),
+        Field('direccion', placeholder='Direccion'),
+        Field('nombreEncargado', placeholder='Encargado'),
+        Field('telefono', placeholder='Telefono'),
+        Field('email', placeholder='Email'),
+        FormActions(
+            StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
+        )
+    )  
 
 
 
@@ -74,22 +102,50 @@ class ClinicaFormGenerico(forms.ModelForm):
                 raise forms.ValidationError('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
 
-class ClinicaForm(ClinicaFormGenerico):
+class ClinicaFormAdd(ClinicaFormGenerico):
 
-    def __init__(self, *args, **kwargs):
-        super(ClinicaForm, self).__init__(*args, **kwargs)
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.form_action = 'clinica_add'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('razonSocial', placeholder='Razon Social'),
+        Field('cuit', placeholder='Cuit'),
+        Field('localidad', placeholder='Localidad'),
+        Field('direccion', placeholder='Direccion'),
+        Field('obraSocial', placeholder='Obra Social'),
+        Field('telefono', placeholder='Telefono'),
+        Field('email', placeholder='Email'),
+        FormActions(
+            StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-success pull-right"),
+            StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
+                        css_class="btn btn-primary pull-right"),
+        )
+    )  
 
-        for field_name in self.fields:
-            field = self.fields.get(field_name)
-            if field:
-                field.widget.attrs.update({'placeholder': field.label, 'class': 'form-control'})
+class ClinicaFormUpdate(ClinicaFormGenerico):
 
-class ClinicaFormUpdate(ClinicaForm):
-
-    def __init__(self, *args, **kwargs):
-        super(ClinicaFormUpdate,self).__init__(*args, **kwargs)
-        self.fields['razonSocial'].widget.attrs['readonly'] = True
-        self.fields['cuit'].widget.attrs['readonly'] = True
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('razonSocial', placeholder='Razon Social', readonly=True),
+        Field('cuit', placeholder='Cuit', readonly=True),
+        Field('localidad', placeholder='Localidad'),
+        Field('direccion', placeholder='Direccion'),
+        Field('obraSocial', placeholder='Obra Social'),
+        Field('telefono', placeholder='Telefono'),
+        Field('email', placeholder='Email'),
+        FormActions(
+            StrictButton('Guardar Cambios', type="submit", id="btn-guardar-continuar", 
+                        css_class="btn btn-primary pull-right"),
+        )
+    )  
     
 
 class LaboratorioFormGenerico(forms.ModelForm):
@@ -113,19 +169,45 @@ class LaboratorioFormGenerico(forms.ModelForm):
                 raise forms.ValidationError('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
 
-class LaboratorioForm(LaboratorioFormGenerico):
+class LaboratorioFormAdd(LaboratorioFormGenerico):
 
-    def __init__(self, *args, **kwargs):
-        super(LaboratorioForm, self).__init__(*args, **kwargs)
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.form_action = 'laboratorio_add'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('razonSocial', placeholder='Razon Social'),
+        Field('cuit', placeholder='Cuit'),
+        Field('localidad', placeholder='Localidad'),
+        Field('direccion', placeholder='Direccion'),
+        Field('telefono', placeholder='Telefono'),
+        Field('email', placeholder='Email'),
+        FormActions(
+            StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-success pull-right"),
+            StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
+                        css_class="btn btn-primary pull-right"),
+        )
+    ) 
 
-        for field_name in self.fields:
-            field = self.fields.get(field_name)
-            if field:
-                field.widget.attrs.update({'placeholder': field.label, 'class': 'form-control'})
+class LaboratorioFormUpdate(LaboratorioFormGenerico):
 
-class LaboratorioFormUpdate(LaboratorioForm):
-
-    def __init__(self, *args, **kwargs):
-        super(LaboratorioFormUpdate,self).__init__(*args, **kwargs)
-        self.fields['razonSocial'].widget.attrs['readonly'] = True
-        self.fields['cuit'].widget.attrs['readonly'] = True
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('razonSocial', placeholder='Razon Social', readonly=True),
+        Field('cuit', placeholder='Cuit', readonly=True),
+        Field('localidad', placeholder='Localidad'),
+        Field('direccion', placeholder='Direccion'),
+        Field('telefono', placeholder='Telefono'),
+        Field('email', placeholder='Email'),
+        FormActions(
+            StrictButton('Guardar Cambios', type="submit", id="btn-guardar-continuar", 
+                        css_class="btn btn-primary pull-right"),
+        )
+    )  

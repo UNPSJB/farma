@@ -11,7 +11,7 @@ def get_order(get):
 
 @login_required(login_url='login')
 def inicio(request):
-    return render(request, "inicio.html")
+    return render(request, "inicio/inicio.html")
 
 
 

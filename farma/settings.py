@@ -40,12 +40,11 @@ INSTALLED_APPS = (
     'markupfield',
     'bootstrap3',
     'selectable',
-    'crispy_forms',#DESDE M
+    'crispy_forms',
     'medicamentos',
     'organizaciones',
     'pedidos',
     'django_bootstrap_dynamic_formsets',
-
 )
 
 MIDDLEWARE_CLASSES = (
@@ -126,3 +125,6 @@ MARKUP_FIELD_TYPES = (
 )
 
 LOGIN_URL = '/admin/login'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+

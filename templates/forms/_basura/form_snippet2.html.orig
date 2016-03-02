@@ -1,0 +1,35 @@
+<<<<<<< HEAD
+
+{% for field in form %}
+	<div class="row">
+		<div class="col-sm-offset-3">
+			{{ field.errors }}
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-3" for="{{field.id_for_label}}">
+			{{ field.label }}{{ form.label_suffix }}
+		</label>
+		<div class="col-sm-8">
+			{{field}}
+		</div>
+	</div>
+{% endfor %}
+=======
+
+{% for field in form.visible_fields %}
+	<div class="row">
+		<div class="col-sm-offset-3">
+			{{ field.errors }}
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-3" for="{{field.id_for_label}}">
+			{{ field.label }}{{ form.label_suffix }}
+		</label>
+		<div class="col-sm-8">
+			{{field}}
+		</div>
+	</div>
+{% endfor %}
+>>>>>>> 3100dbcbeaaa404f1f7a87993e7c38d9bf088b32

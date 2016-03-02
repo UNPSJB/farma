@@ -1,17 +1,17 @@
-{% extends "base-ABM.html"%}
+{% extends "base/base-abm.html"%}
 
 {% load staticfiles %}
 
 {% block title %}Pedidos de Farmacia{% endblock %}
 
     {% block more-stylesheets %}
-        <link rel="stylesheet" href="{%  static 'css/custom-theme/jquery-ui-1.10.3.custom.css'  %}">
+         <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
     {% endblock %}
 
 
 {% block panel-title-ABM %}Pedidos de Farmacia{% endblock %}
 
-{% block url-add %}{% url 'pedidoF_add' %}{% endblock %}
+{% block url-add %}{% url 'pedidoDeFarmacia_add' %}{% endblock %}
 
 <!-- No necesito boton de baja -->
 {% block btn-baja %}{% endblock %}
@@ -81,7 +81,7 @@
     <script>
         (function(){
 
-            $("#btn-ver").click(function(e){
+            $("#btn-ver").on("click", function(e){
                 id = get_selected_row()
                 if(id){
                     $(this).attr("href", "/pedidosDeFarmacia/ver/" + id + "/");
@@ -97,7 +97,7 @@
                 yearRange: "1990:2030",
             });
 
-            $("#btn-limpiar").click(function(e){
+            $("#btn-limpiar").on("click", function(e){
                 $("form input").val("");
                 e.stopPropagation();
             });

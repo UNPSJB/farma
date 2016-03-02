@@ -58,7 +58,7 @@
     <script>
         $(document).ready(function(){
 
-            $("#modificar").click(function(e){ /*Modificar es el id del boton 'ver' de este template*/
+            $("#modificar").on("click", function(e){ /*Modificar es el id del boton 'ver' de este template*/
                 var id = get_selected_row();
 
                 if(id){

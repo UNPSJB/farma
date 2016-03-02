@@ -1,0 +1,85 @@
+{% extends "base/base-abm.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	Farmacias
+{% endblock %}
+
+{% block panel-title-ABM %}
+    Farmacias
+{% endblock %}
+
+{% block grid %}
+    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr class="info">
+            <th>Razón Social </th>
+            <th>Cuit</th>
+            <th>Localidad</th>
+            <th>Dirección</th>        
+            <th>Nombre Encargado</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for farmacia in farmacias %}
+
+                <tr class="clickeable" data-id="{{ farmacia.id }}">
+                <td>{{farmacia.razonSocial}}</td>
+                <td>{{farmacia.cuit}}</td>
+                <td>{{farmacia.localidad}}</td>
+                <td>{{farmacia.direccion}}</td>               
+                <td>{{farmacia.nombreEncargado}}</td>
+                <td>{{farmacia.telefono}}</td>
+                <td>{{farmacia.email}}</td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block cantidad-elementos %}
+    {{ farmacias|length }}
+    {% if farmacias|length != 1%}
+        farmacias
+    {% else %}
+        farmacia
+    {% endif %}
+{% endblock %}
+
+{% block url-add %}{% url 'farmacia_add' %}{% endblock %}
+
+
+
+
+{% block modal-baja-title %}
+    <h4 class="modal-title">Eliminar Farmacia </h4>
+{% endblock %}
+
+{% block modal-baja-texto %}
+    <p> La farmacia seleccionada se eliminara permanentemente ¿Esta seguro?</p>
+{% endblock %}
+
+{% block more-scripts %}
+    <script>
+        $("#baja").on("click", function(e) {
+            var id = get_selected_row();
+            if(id){
+                crear_baja("/farmacias/delete/", id);
+            }
+            e.stopPropagation();
+
+        });
+
+        $("#modificar").on("click", function(e){
+            var id = get_selected_row();
+            if(id){
+                var url = "/farmacias/update/" + id +"/";
+                $(this).attr("href", url);
+            }
+            e.stopPropagation();
+        });
+    </script>
+{% endblock %}

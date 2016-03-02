@@ -18,12 +18,12 @@ def farmacias(request):
     filters = get_filtros(request.GET, models.Farmacia)
     mfilters = dict(filter(lambda v: v[0] in models.Farmacia.FILTROS, filters.items()))
     farmacias = models.Farmacia.objects.filter(**mfilters)
-    return render(request, "farmacias.html", {"farmacias": farmacias, "filtros": filters})
+    return render(request, "farmacia/farmacias.html", {"farmacias": farmacias, "filtros": filters})
 
 @login_required(login_url='login')
 def farmacia_add(request):
     if request.method == "POST":
-        form = forms.FarmaciaForm(request.POST)
+        form = forms.FarmaciaFormAdd(request.POST)
         if form.is_valid():
             form.save()
             if '_volver' in request.POST:
@@ -31,8 +31,8 @@ def farmacia_add(request):
             else:
                 return redirect('farmacia_add')
     else:
-        form = forms.FarmaciaForm()
-    return render(request, "farmaciaAdd.html", {"form": form})
+        form = forms.FarmaciaFormAdd()
+    return render(request, "farmacia/farmaciaAdd.html", {"form": form})
     
 @login_required(login_url='login')
 def farmacia_update(request, id_farmacia):
@@ -46,7 +46,7 @@ def farmacia_update(request, id_farmacia):
             return redirect('farmacias')
     else:
         form = forms.FarmaciaFormUpdate(instance=farmacia)
-    return render(request, "farmaciaUpdate.html", {'form': form, 'id': id_farmacia})
+    return render(request, "farmacia/farmaciaUpdate.html", {'form': form, 'id': id_farmacia})
 
 @login_required(login_url='login')
 def farmacia_delete(request, id_farmacia):
@@ -61,12 +61,12 @@ def clinicas(request):
     filters = get_filtros(request.GET, models.Clinica)
     mfilters = dict(filter(lambda v: v[0] in models.Clinica.FILTROS, filters.items()))
     clinicas = models.Clinica.objects.filter(**mfilters)
-    return render(request, "clinicas.html",{"clinicas": clinicas, "filtros": filters})
+    return render(request, "clinica/clinicas.html",{"clinicas": clinicas, "filtros": filters})
 
 @login_required(login_url='login')
 def clinica_add(request):
     if request.method == "POST":
-        form = forms.ClinicaForm(request.POST)
+        form = forms.ClinicaFormAdd(request.POST)
         if form.is_valid():
             form.save()
             if '_volver' in request.POST:
@@ -74,8 +74,8 @@ def clinica_add(request):
             else:
                 return redirect('clinica_add')
     else:
-        form = forms.ClinicaForm()
-    return render(request, "clinicaAdd.html", {"form": form})
+        form = forms.ClinicaFormAdd()
+    return render(request, "clinica/clinicaAdd.html", {"form": form})
 
 @login_required(login_url='login')
 def clinica_update(request, id_clinica):
@@ -87,7 +87,7 @@ def clinica_update(request, id_clinica):
             return redirect('clinicas')
     else:
         form = forms.ClinicaFormUpdate(instance=clinica)
-    return render(request, "clinicaUpdate.html", {'form': form, 'id': id_clinica})
+    return render(request, "clinica/clinicaUpdate.html", {'form': form, 'id': id_clinica})
 
 @login_required(login_url='login')
 def clinica_delete(request, id_clinica):
@@ -103,12 +103,12 @@ def laboratorios(request):
     filters = get_filtros(request.GET, models.Laboratorio)
     mfilters = dict(filter(lambda v: v[0] in models.Laboratorio.FILTROS, filters.items()))
     laboratorios = models.Laboratorio.objects.filter(**mfilters)
-    return render(request, "laboratorios.html",{"laboratorios": laboratorios, "filtros": filters})
+    return render(request, "laboratorio/laboratorios.html",{"laboratorios": laboratorios, "filtros": filters})
 
 @login_required(login_url='login')
 def laboratorio_add(request):
     if request.method == "POST":
-        form = forms.LaboratorioForm(request.POST)
+        form = forms.LaboratorioFormAdd(request.POST)
         if form.is_valid():
             form.save()
             if '_volver' in request.POST:
@@ -116,8 +116,8 @@ def laboratorio_add(request):
             else:
                 return redirect('laboratorio_add')
     else:
-        form = forms.LaboratorioForm()
-    return render(request, "laboratorioAdd.html", {"form": form})
+        form = forms.LaboratorioFormAdd()
+    return render(request, "laboratorio/laboratorioAdd.html", {"form": form})
 
 @login_required(login_url='login')
 def laboratorio_update(request, id_laboratorio):
@@ -129,7 +129,7 @@ def laboratorio_update(request, id_laboratorio):
             return redirect('laboratorios')
     else:
         form = forms.LaboratorioFormUpdate(instance=laboratorio)
-    return render(request, "laboratorioUpdate.html", {'form': form, 'id': id_laboratorio})
+    return render(request, "laboratorio/laboratorioUpdate.html", {'form': form, 'id': id_laboratorio})
 
 @login_required(login_url='login')
 def laboratorio_delete(request, id_laboratorio):

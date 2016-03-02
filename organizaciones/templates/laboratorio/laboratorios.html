@@ -1,0 +1,74 @@
+{% extends "base/base-abm.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	Laboratorios
+{% endblock %}
+
+{% block panel-title-ABM %}
+    Laboratorios
+{% endblock %}
+
+
+{% block grid %}
+    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr class="info">
+            <th>Razón Social </th>
+            <th>Cuit</th>
+            <th>Localidad</th>
+            <th>Dirección</th>            
+            <th>Teléfono</th>
+            <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for laboratorio in laboratorios %}
+
+                <tr class="clickeable" data-id="{{ laboratorio.id }}">
+                <td>{{laboratorio.razonSocial}}</td>
+                <td>{{laboratorio.cuit}}</td>
+                <td>{{laboratorio.localidad}}</td>
+                <td>{{laboratorio.direccion}}</td>                
+                <td>{{laboratorio.telefono}}</td>
+                <td>{{laboratorio.email}}</td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block url-add %}{% url 'laboratorio_add' %}{% endblock %}
+
+
+
+{% block modal-baja-title %}
+    <h4 class="modal-title">Eliminar Laboratorio </h4>
+{% endblock %}
+
+{% block modal-baja-texto %}
+    <p> El laboratorio seleccionada se eliminara permanentemente ¿Esta seguro?</p>
+{% endblock %}
+
+{% block more-scripts %}
+    <script>
+        $("#baja").on("click", function(e) {
+            var id = get_selected_row();
+            if(id){
+               crear_baja("/laboratorios/delete/", id);
+            }
+            e.stopPropagation();
+        });
+
+        $("#modificar").on("click", function(e){
+            var id = get_selected_row();
+            if(id){
+                var url = "/laboratorios/update/" + id +"/";
+                $(this).attr("href", url);
+            }
+            e.stopPropagation();
+        });
+
+    </script>
+{% endblock %}

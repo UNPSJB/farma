@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block more-stylesheets %}
-    <link rel="stylesheet" href="{%  static 'css/custom-theme/jquery-ui-1.10.3.custom.css'  %}">
+    <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
     {{ form.media.css }}
 {% endblock %}
 
@@ -22,7 +22,7 @@
                 changeDay: true,
                 changeMonth: true,
                 changeYear: true,
-                yearRange: "1990:2030",
+                yearRange: "1990:2030"
             });
         })();
     </script>
