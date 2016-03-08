@@ -305,6 +305,8 @@ def detallePedidoDeClinica_delete(request, id_detalle):
 
 #===============================================PEDIDOS A LABORATORIO==================================================================
 
+
+@json_view
 @login_required(login_url='login')
 def PedidoLaboratorio_add(request):#metodo que crea un nuevo pedido a laboratorio
 
@@ -427,9 +429,10 @@ def pedidoAlaboratorios_agregarRenglones(request):
                     detallePedFarm=models.DetallePedidoDeFarmacia.objects.get(pk=renglon["pk"])
                     detallePedFarm.estaPedido=True
                     detallePedFarm.save()
-                    detallePed.detallePedidoFarmacia=detallePedFarm
 
-                detallePed.save()
+                    detallePed.detallePedidoFarmacia=detallePedFarm
+                    detallePed.save()
+
             del request.session["renglones"]
             del request.session["idLab"]
 

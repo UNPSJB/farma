@@ -229,7 +229,7 @@ class DetallePedidoAlaboratorio(models.Model):
     cantidad = models.PositiveIntegerField()
     cantidadPendiente=models.PositiveIntegerField()
     medicamento = models.ForeignKey('medicamentos.Medicamento')
-    detallePedidoFarmacia = models.OneToOneField('DetallePedidoDeFarmacia', blank=True)
+    detallePedidoFarmacia = models.OneToOneField('DetallePedidoDeFarmacia', blank = True)
 
     def __str__(self):
         return ""
