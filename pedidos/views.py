@@ -52,6 +52,14 @@ def get_next_nro_pedido(m, nombrePk):
         nro = 1
     return nro
 
+def get_next_nro_pedido_laboratorio(m, nombrePk): #FUNCION TEMPORAL!!!
+    nro = None
+    try:
+        nro = m.objects.latest(nombrePk).numero + 1
+    except m.DoesNotExist:
+        nro = 1
+    return nro
+
 def existe_medicamento_en_pedido(detalles, id_med):
     for detalle in detalles:
         if detalle['medicamento']['id'] == id_med: #no puede haber dos detalles con el mismo medicamento
@@ -398,7 +406,7 @@ def pedidoAlaboratorios_agregarRenglones(request):
     unLaboratorio = get_object_or_404(omodels.Laboratorio, pk=numero)#Obtiene la instancia de un laboratorio en base a numero (su ID).
     nombreLab=unLaboratorio.razonSocial#Obtiene el nombre ('Razon Social') de un laboratorio de la instancia previa ('unLaboratorio').
 
-    nroPedido = get_next_nro_pedido(models.PedidoAlaboratorio, "numero")
+    nroPedido = get_next_nro_pedido_laboratorio(models.PedidoAlaboratorio, "numero")
 
     hoy=datetime.datetime.now().strftime("%a, %d  de  %b del %Y")#En hoy se guarda la fecha actual (del sistema) con el formato
                                                                  #seleccionado.
