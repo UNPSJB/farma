@@ -369,20 +369,21 @@ def pedidoAlaboratorios_RecepcionPedidoLab(request, id):#Vista "a la que le pega
 #================================INICIO DE LOGICA DE PROCESAMIENTO DE PEDIDOS DE FARMACIAS PENDIENTES==================================
 
 def verificarPedidosDeFarmacia(request, pkLaboratorio): #***********************************************************************
-    pkLab = pkLaboratorio
-    #Se obtienen todos los pedidos de farmacias pendientes o parcialmente enviados.
-    pendientesDeFarmacias = models.PedidoDeFarmacia.objects.filter( Q(estado = 'Pendiente')|Q(estado = 'Parcialmente Enviado') )
 
-    #Se ecorren todos los pedidos pendientes de las farmacias y vemos cada renglon(detalle) de estos pedidos para procesar cada uno de ellos.
-    renglones = request.session.setdefault("renglones", [])
+        pkLab = pkLaboratorio
+        #Se obtienen todos los pedidos de farmacias pendientes o parcialmente enviados.
 
-    for pendientes in pendientesDeFarmacias:
-        renglonesPedidoFarmacia = models.DetallePedidoDeFarmacia.objects.filter( Q(pedidoDeFarmacia=pendientes.pk) & Q( estaPedido=False ) & Q( medicamento__laboratorio=pkLaboratorio ))
-        print renglonesPedidoFarmacia
-        for detPedFarm in renglonesPedidoFarmacia:
+        pendientesDeFarmacias = models.PedidoDeFarmacia.objects.filter( Q(estado = 'Pendiente')|Q(estado = 'Parcialmente Enviado') )
 
-            renglones.append({ "medicamento": detPedFarm.medicamento.pk, "nombre": detPedFarm.medicamento.nombreFantasia.nombreF,  "cantidad": detPedFarm.cantidadPendiente, "cantidadPendiente": detPedFarm.cantidadPendiente, "pk": detPedFarm.pk})
-            request.session.save()
+        #Se ecorren todos los pedidos pendientes de las farmacias y vemos cada renglon(detalle) de estos pedidos para procesar cada uno de ellos.
+        #renglones = request.session.setdefault("renglones", [])
+        renglones = request.session["renglones"]=[]
+        for pendientes in pendientesDeFarmacias:
+            renglonesPedidoFarmacia = models.DetallePedidoDeFarmacia.objects.filter( Q(pedidoDeFarmacia=pendientes.pk) & Q( estaPedido=False ) & Q( medicamento__laboratorio=pkLaboratorio ))
+
+            for detPedFarm in renglonesPedidoFarmacia:
+                renglones.append({ "medicamento": detPedFarm.medicamento.pk, "nombre": detPedFarm.medicamento.nombreFantasia.nombreF,  "cantidad": detPedFarm.cantidadPendiente, "cantidadPendiente": detPedFarm.cantidadPendiente, "pk": detPedFarm.pk})
+                request.session.save()
 
 
 #==============================================FIN LOGICA DE PROCESAMIENTO DE PEDIDOS PENDIENTES (FALTA )=======================================
@@ -417,6 +418,7 @@ def pedidoAlaboratorios_agregarRenglones(request):
                 return render(request, "pedidos_A_laboratorio/AgregarRenglonesPedidoLab.html", {'id': numero, 'detalle': detallePedidoLab_form,  'renglones': renglones, 'nombreLab': nombreLab, 'nroPedido':nroPedido, 'hoy': hoy})
         else:
 
+
             pedidoALab=models.PedidoAlaboratorio(laboratorio=unLaboratorio)
             pedidoALab.save()
 
@@ -441,9 +443,9 @@ def pedidoAlaboratorios_agregarRenglones(request):
     else:
 
         verificarPedidosDeFarmacia(request, unLaboratorio.pk)#para procesar los pedidos de farmacia
-
         detallePedidoLab_form = forms.DetallePedidoLaboratorioFormFactory(unLaboratorio.pk)()
-        return render(request, "pedidos_A_laboratorio/AgregarRenglonesPedidoLab.html", {'id': numero, 'detalle': detallePedidoLab_form, 'renglones': renglones, 'nombreLab': nombreLab, 'nroPedido':nroPedido, 'hoy': hoy})
+
+    return render(request, "pedidos_A_laboratorio/AgregarRenglonesPedidoLab.html", {'id': numero, 'detalle': detallePedidoLab_form, 'renglones': renglones, 'nombreLab': nombreLab, 'nroPedido':nroPedido, 'hoy': hoy})
 
 
 
