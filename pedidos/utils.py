@@ -82,8 +82,8 @@ def es_pendiente(pedido):
 
 
 def procesar_pedido(pedido):
+    detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) #obtengo todos los detalles del pedido
     if not es_pendiente(pedido):
-        detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) #obtengo todos los detalles del pedido
         remito = models.Remito(pedidoFarmacia=pedido, fecha=pedido.fecha)
         remito.save()
         esEnviado = True
@@ -93,4 +93,7 @@ def procesar_pedido(pedido):
         pedido.estado = "Enviado" if esEnviado else "Parcialmente Enviado"
     else:
         pedido.estado = "Pendiente"
+        for detalle in detalles:
+            detalle.cantidadPendiente = detalle.cantidad
+            detalle.save()
     pedido.save()
