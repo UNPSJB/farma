@@ -44,10 +44,10 @@ def limpiar_sesion(pedido, detalles, session):
     if detalles in session:
         del session[detalles]
 
-def get_next_nro_pedido(m):
+def get_next_nro_pedido(m, nombrePk):
     nro = None
     try:
-        nro = m.objects.latest("nroPedido").nroPedido + 1
+        nro = m.objects.latest(nombrePk).nroPedido + 1
     except m.DoesNotExist:
         nro = 1
     return nro
@@ -79,7 +79,7 @@ def pedidoDeFarmacia_add(request):
         if form.is_valid():
             pedido = form.save(commit=False)
             pedido_json = pedido.to_json()
-            pedido_json['nroPedido'] = get_next_nro_pedido(models.PedidoDeFarmacia)
+            pedido_json['nroPedido'] = get_next_nro_pedido(models.PedidoDeFarmacia, "nroPedido")
             request.session['pedidoDeFarmacia'] = pedido_json
             return redirect('detallesPedidoDeFarmacia')
     else:
@@ -200,7 +200,7 @@ def pedidoDeClinica_add(request):
         if form.is_valid():
             pedido = form.save(commit=False)
             pedido_json = pedido.to_json()
-            pedido_json['nroPedido'] = get_next_nro_pedido(models.PedidoDeClinica)
+            pedido_json['nroPedido'] = get_next_nro_pedido(models.PedidoDeClinica, "nroPedido")
             request.session["pedidoDeClinica"] = pedido_json
             return redirect('detallesPedidoDeClinica')
     else:
@@ -346,9 +346,12 @@ def pedidoAlaboratorios_verRenglones(request, id):#Vista "a la que le pega" la u
                                                   #por esta razon aparece el parametro id que es el identificador de un laboratorio.
     pedidoALab = get_object_or_404(models.PedidoAlaboratorio, pk=id)#Se guarda en 'pedidoAlab' un pedido a laboratorio determinado
                                                                     #accediendo a models con su identificador (ID de un laboratorio).
-    detalles=models.DetallePedidoAlaboratorio.objects.filter(pedido=pedidoALab.pk)#Se guarda en 'detalles' todos los (renglones) que
+
+    detalles=models.DetallePedidoAlaboratorio.objects.filter(pedido=pedidoALab.numero)#Se guarda en 'detalles' todos los (renglones) que
                                                                                   #conforman a un pedido a laboratorio determinado
+
                                                                                   #segun su id.
+
     return render(request, "pedidos_A_laboratorio/VerRenglonesPedidoLab.html", {'nombreLab': pedidoALab.laboratorio.razonSocial, 'numeroPedido': pedidoALab.pk, 'fecha':pedidoALab.fecha, 'detalles': detalles})
 
 #======================================================================================================================================
@@ -395,9 +398,7 @@ def pedidoAlaboratorios_agregarRenglones(request):
     unLaboratorio = get_object_or_404(omodels.Laboratorio, pk=numero)#Obtiene la instancia de un laboratorio en base a numero (su ID).
     nombreLab=unLaboratorio.razonSocial#Obtiene el nombre ('Razon Social') de un laboratorio de la instancia previa ('unLaboratorio').
 
-    nroPedido= models.PedidoAlaboratorio.objects.count()+1 #El numero de pedido se obtiene contando todos las pedidos ya realizados
-                                                           #(que estan en la base de datos) y sumandole 1 ya que sera un nuevo numero
-                                                           #de pedido a laboratorio que se va a dar de alta.
+    nroPedido = get_next_nro_pedido(models.PedidoAlaboratorio, "numero")
 
     hoy=datetime.datetime.now().strftime("%a, %d  de  %b del %Y")#En hoy se guarda la fecha actual (del sistema) con el formato
                                                                  #seleccionado.
