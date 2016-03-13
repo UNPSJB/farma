@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 #******************CLASES ABSTRACTAS******************#
 
@@ -142,7 +143,7 @@ class DetallePedidoDeFarmacia(DetallePedidoVenta):
                                                    self.medicamento.presentacion.descripcion + " " +
                                                    str(self.medicamento.presentacion.cantidad) + " " +
                                                    self.medicamento.presentacion.unidadMedida },
-                    'cantidad': self.cantidad}
+                    'cantidad': self.cantidad, 'cantidadPendiente': self.cantidadPendiente}
         else:
             return {}
 
@@ -219,7 +220,15 @@ class PedidoAlaboratorio(models.Model):
     estado = models.CharField(max_length=25, blank=True, default="Pendiente")#cancelado, parcialmente recibido, pendiente, completo
 
     def __str__(self):
-        return 'Laboratorio: %s - Fecha: %s - Nro Pedido: %s' % (self.laboratorio, self.fecha, self.numero)
+        return 'Pedido Nro %s - Laboratorio: %s' % (self.numero, self.laboratorio)
+    
+    def to_json(self):
+        if self.laboratorio:
+            return {'laboratorio': {'id': self.laboratorio.id,
+                                 'razonSocial': self.laboratorio.razonSocial},
+                    'fecha': datetime.datetime.now().strftime('%d/%m/%Y')}
+        else:
+            return {}
 
 #DETALLE PEDIDO A LABORATORIO
 
@@ -227,10 +236,21 @@ class DetallePedidoAlaboratorio(models.Model):
     renglon = models.AutoField(primary_key=True)
     pedido = models.ForeignKey('PedidoAlaboratorio', null=True)
     cantidad = models.PositiveIntegerField()
-    cantidadPendiente=models.PositiveIntegerField()
     medicamento = models.ForeignKey('medicamentos.Medicamento')
-    detallePedidoFarmacia = models.OneToOneField('DetallePedidoDeFarmacia', blank = True)
-
+    detallePedidoFarmacia = models.ForeignKey('DetallePedidoDeFarmacia', blank=True, null=True)
+    
     def __str__(self):
-        return ""
-#===============================================FIN PEDIDO A LABORATORIO================================================
+        return "Pedido Nro %s - Detalle %s"%(self.pedido.numero, self.renglon)
+    
+    def to_json(self):
+        #para evitar acceder a campos nulos
+        if self.medicamento:
+            return {'medicamento': {"id": self.medicamento.id,
+                                    "descripcion": self.medicamento.nombreFantasia.nombreF + " " +
+                                                   self.medicamento.presentacion.descripcion + " " +
+                                                   str(self.medicamento.presentacion.cantidad) + " " +
+                                                   self.medicamento.presentacion.unidadMedida },
+                    'cantidad': self.cantidad}
+                
+        else:
+            return {}

@@ -4,7 +4,7 @@
 <!--Template 'listadoPedidoALaboratorio.html' que despliega todos los pedidos a labortorios que fueron dados de alta-->
 
 {% block title %}
-	<title>Laboratorios </title>
+	Laboratorios
 {% endblock %}
 
 {% block panel-title-ABM %}
@@ -12,7 +12,7 @@
 {% endblock %}
 
 
-{% block url-add %}{% url 'PedidoLaboratorio_add' %}{% endblock %}<!--Se sobreescribe la url en el href del boton Alta de base-pedidos-->
+{% block url-add %}{% url 'pedidoAlaboratorio_add' %}{% endblock %}<!--Se sobreescribe la url en el href del boton Alta de base-pedidos-->
                                                                   <!--con el fin de redireccionar hacia el template de las altas de   -->
                                                                   <!--pedidoas a laboratorios, en la url este valor es el name.       -->
 
@@ -62,7 +62,7 @@
                 var id = get_selected_row();
 
                 if(id){
-                    var url = "/pedidoAlaboratorios/verRenglones/" + id +"/"; /*Al hacer click en una fila y presionar 'ver' se envia esta url         */
+                    var url = "/pedidosAlaboratorio/ver/" + id +"/"; /*Al hacer click en una fila y presionar 'ver' se envia esta url         */
                                                                               /*junto con el id de la fila (id de un pedido a laboratorio)             */
                                                                               /*por lo que se direccionará a el template 'VerRenglonesPedidoLab.html'.  */
                     $(this).attr("href", url);

@@ -116,11 +116,14 @@ urlpatterns = [
     url(r'^pedidosDeClinica/ver/(?P<id_pedido>\d+)/$', pviews.pedidoDeClinica_ver, name="pedidoDeClinica_ver"),
 
     
-    # ****** PEDIDOS A LABORATORIO ******
-    url(r'^pedidoAlaboratorios/verRenglones/(?P<id>\d+)/$', pviews.pedidoAlaboratorios_verRenglones, name="pedidoAlaboratorios_verRenglones"),
-    url(r'^pedidoAlaboratorios/agregarRenglones/$', pviews.pedidoAlaboratorios_agregarRenglones, name="pedidoAlaboratorios_agregarRenglones"),
-    url(r'^ListPedidoALaboratorio/$', pviews.ListPedidoALaboratorio, name="ListPedidoALaboratorio"),
-    url(r'^pedidoAlaboratorios/add/$', pviews.PedidoLaboratorio_add, name="PedidoLaboratorio_add"),
+    # ************************************** Pedido a Laboratorio ***************************************
+    url(r'^pedidosAlaboratorio/$', pviews.pedidosAlaboratorio, name="pedidosAlaboratorio"),
+    url(r'^pedidosAlaboratorio/add/$', pviews.pedidoAlaboratorio_add, name="pedidoAlaboratorio_add"),
+    url(r'^pedidosAlaboratorio/add/detalles/$', pviews.detallesPedidoAlaboratorio, name="detallesPedidoAlaboratorio"),
+    url(r'^pedidosAlaboratorio/add/detalles/add/$', pviews.detallePedidoAlaboratorio_add, name="detallePedidoAlaboratorio_add"),
+    url(r'^pedidosAlaboratorio/add/registrar-pedido/$', pviews.pedidoAlaboratorio_registrar, name="pedidoAlaboratorio_registrar"),  
+    url(r'^pedidosAlaboratorio/ver/(?P<id_pedido>\d+)/$', pviews.pedidoAlaboratorio_ver, name="pedidoAlaboratorio_ver"),
+    
     url(r'^recepcionPedidoDeLaboratorio/$', pviews.recepcionPedidoDeLaboratorio, name="recepcionPedidoDeLaboratorio"),
     url(r'^pedidoAlaboratorios/registrarRecepcionPedido/(?P<id>\d+)/$', pviews.pedidoAlaboratorios_RecepcionPedidoLab, name="pedidoAlaboratorios_registrarRecepcionPedido"),
     url(r'^pedidoAlaboratorios/agregarLotes/$', pviews.pedidoAlaboratorios_agregarLotes, name="pedidoAlaboratorios_agregarLotes"),
@@ -128,5 +131,14 @@ urlpatterns = [
       # **************************************** Otros Pedidos ******************************************
     url(r'^devolucionMedicamentosVencidos/$', views.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
     url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos,name="recepcionReemplazoMedicamentos"),
+    
+    
+    # URL'S VIEJAS DE PEDIDO A LABORATORIO
+    #    url(r'^pedidoAlaboratorios/verRenglones/(?P<id>\d+)/$', pviews.pedidoAlaboratorios_verRenglones, name="pedidoAlaboratorios_verRenglones"),
+    #    url(r'^pedidoAlaboratorios/agregarRenglones/$', pviews.pedidoAlaboratorios_agregarRenglones, name="pedidoAlaboratorios_agregarRenglones"),
+    #    url(r'^pedidoAlaboratorios/agregarRenglones/add$', pviews.detallePedidoAlaboratorio_add, name="detallePedidoAlaboratorio_add"),
+    #    url(r'^pedidoAlaboratorios/agregarRenglones/registrar-pedido/$', pviews.pedidoAlaboratorio_registrar, name="pedidoAlaboratorio_registrar"),
+    #    url(r'^ListPedidoAlaboratorio/$', pviews.ListPedidoALaboratorio, name="ListPedidoALaboratorio"),
+    #    url(r'^pedidoAlaboratorios/add/$', pviews.PedidoLaboratorio_add, name="PedidoLaboratorio_add"),
 
 ]

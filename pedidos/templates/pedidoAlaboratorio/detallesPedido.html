@@ -1,0 +1,80 @@
+{% extends "base-presentacion-pedido.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}Pedido de Laboratorio{% endblock %}
+
+{% block panel-heading-right %}
+    <div class="btn-group btn-group-xs">
+        <a id="btn-add-detalle" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>
+    </div>
+{% endblock %}
+
+{% block tipo-pedido %}Pedido A Laboratorio{% endblock %}
+
+{% block nombre-organizacion %} {{ pedido.laboratorio.razonSocial }} {% endblock %}
+
+{% block fecha-pedido %} {{ pedido.fecha }} {% endblock %}
+
+{% block nro-pedido %} {{ pedido.numero }} {% endblock %}
+
+{% block grid %}
+    <table class="table table-condensed table-responsive" >
+        <thead>
+            <tr class="info" align="center">
+                <th>Medicamento</th>
+                <th>Cantidad a pedir</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles %}
+                <tr class="clickeable">
+                    <!--<td>{{forloop.counter}}</td>-->
+                    <td>{{detalle.medicamento.descripcion}}</td>               
+                    <td>{{detalle.cantidad}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block panel-footer %}
+    <div class="panel-footer">
+        <div class="pull-right">
+            <button id="btn-registrar" class="btn btn-primary" type="submit">Registrar</button>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+{% endblock %}
+
+{% block more-scripts %}
+
+    <script>
+        (function(){
+            $('#modal-registrar-pedido').on('hidden.bs.modal', function(e){
+                window.location = "{% url 'pedidosAlaboratorio' %}";
+                e.stopPropagation();
+            })
+
+            /****************************** Botones Alta Detalle ***************************************/
+
+            $("#btn-add-detalle").on("click", function(e){
+                add_detalle_ajax("{% url 'detallePedidoAlaboratorio_add' %}");
+                e.stopPropagation();
+            });
+
+            $("#btn-save-detalle").on("click", function(e){
+                save_detalle_ajax("{% url 'detallePedidoAlaboratorio_add' %}");
+                e.stopPropagation()
+            });
+            
+            
+            $("#btn-registrar").on("click", function(e){
+                registrar_pedido_ajax("{% url 'pedidoAlaboratorio_registrar' %}");
+                e.stopPropagation();
+            });
+
+        })();
+    </script>
+
+{% endblock %}

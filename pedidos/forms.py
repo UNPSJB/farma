@@ -145,9 +145,18 @@ class PedidoLaboratorioForm(forms.ModelForm):
 
 
 
-def DetallePedidoLaboratorioFormFactory(laboratorio_id):
+def DetallePedidoAlaboratorioFormFactory(laboratorio_id):
 
-    class DetallePedidoLaboratorioForm(forms.ModelForm):
+    class DetallePedidoAlaboratorioForm(forms.ModelForm):
+        helper = FormHelper()
+        helper.form_class = 'form-horizontal'
+        helper.form_id = 'form-add-detalle'
+        helper.label_class = 'col-md-3'
+        helper.field_class = 'col-md-8'
+        helper.layout = Layout(
+            Field('medicamento', placeholder="Medicamento"),
+            Field('cantidad', placeholder='Cantidad'),
+        )
 
         medicamento = forms.ModelChoiceField(queryset=mmodels.Medicamento.objects.filter(laboratorio=laboratorio_id))
         class Meta:
@@ -161,7 +170,7 @@ def DetallePedidoLaboratorioFormFactory(laboratorio_id):
                 raise forms.ValidationError('Debe ingresar una cantidad a pedir')
             return cantidad
 
-    return DetallePedidoLaboratorioForm
+    return DetallePedidoAlaboratorioForm
 
 class PedLaboratorioVerRenglonesForm(PedidoLaboratorioForm):
 

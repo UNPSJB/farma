@@ -3,7 +3,7 @@
 
 
 {% block title %}
-	<title>Pedido a Laboratorio</title>
+	Pedido a Laboratorio
 {% endblock %}
 
 
@@ -32,7 +32,7 @@
 
                             {% csrf_token %}
 
-                            {% bootstrap_form pedidoALaboratorio_form layout='horizontal'%}
+                            {% bootstrap_form form layout='horizontal'%}
 
                             <div class="pull-right" style="margin-bottom: -10px;">
                                 <button type="submit" id="btn-guardar-continuar" class="btn btn-success pull-right" style="margin-left:10px;" value="_continuar" name="_continuar">
