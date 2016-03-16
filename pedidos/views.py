@@ -774,7 +774,7 @@ def recepcionPedidoDeLaboratorio(request):
   fecha = datetime.datetime.now()
   recibidos = models.PedidoAlaboratorio.objects.filter( Q(estado = 'Pendiente')|Q(estado = 'Parcialmente enviado') )
 
-  return render(request, "pedidos_A_laboratorio/recepcionPedidoDeLaboratorio.html", {'recibidos': recibidos,'fecha':fecha})
+  return render(request, "recepcionPedidoALaboratorio/RegistrarRecepcionPedido.html", {'recibidos': recibidos,'fecha':fecha})
 
 
 #======================================================================================================================================
