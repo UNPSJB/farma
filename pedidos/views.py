@@ -556,7 +556,7 @@ def pedidoAlaboratorio_registrar(request):
             p.save() #paso 9
             for detalle in detalles: #paso 10
                 medicamento = get_object_or_404(Medicamento, pk=detalle['medicamento']['id']) #paso 11
-                d = models.DetallePedidoAlaboratorio(pedido=p, medicamento=medicamento, cantidad=detalle['cantidad']) #paso 12
+                d = models.DetallePedidoAlaboratorio(pedido=p, medicamento=medicamento, cantidad=detalle['cantidad'], cantidadPendiente=detalle['cantidad']) #paso 12
                 if detalle['detallePedidoFarmacia'] != -1: #paso 13
                     detallePedidoFarmacia = get_object_or_404(models.DetallePedidoDeFarmacia, pk=detalle['detallePedidoFarmacia']) #paso 14
                     detallePedidoFarmacia.estaPedido = True #paso 15
@@ -771,10 +771,12 @@ def pedidoAlaboratorios_agregarLotes(request):
 
 @login_required(login_url='login')
 def recepcionPedidoDeLaboratorio(request):
+  mfilters = get_filtros(request.GET, models.PedidoAlaboratorio)
+  pedidos = models.PedidoAlaboratorio.objects.filter(**mfilters)
   fecha = datetime.datetime.now()
-  recibidos = models.PedidoAlaboratorio.objects.filter( Q(estado = 'Pendiente')|Q(estado = 'Parcialmente enviado') )
+  recibidos = pedidos.filter( Q(estado = 'Pendiente')|Q(estado = 'Parcialmente enviado') )
 
-  return render(request, "recepcionPedidoALaboratorio/RegistrarRecepcionPedido.html", {'recibidos': recibidos,'fecha':fecha})
+  return render(request, "recepcionPedidoALaboratorio/RegistrarRecepcionPedido.html", {'recibidos': recibidos,'fecha':fecha, "filtros": request.GET})
 
 
 #======================================================================================================================================
@@ -790,3 +792,7 @@ def pedidoAlaboratorios_RecepcionPedidoLab(request, id):#Vista "a la que le pega
                                                                                   #segun su id.
     return render(request, "pedidos_A_laboratorio/RegistrarRecepcionPedido.html", {'nombreLab': pedidoALab.laboratorio.razonSocial, 'numeroPedido': pedidoALab.pk, 'fecha':pedidoALab.fecha, 'detalles': detalles})
 #========================================FIN RECEPCION DE PEDIDO A LABORATORIO=======================================================
+def controlRecepcion(request, id_pedido):
+    pedidoALab = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
+    detalles=models.DetallePedidoAlaboratorio.objects.filter(pedido=pedidoALab.numero)
+    return render(request, "pedidoAlaboratorio/pedidoVer.html", {'nombreLab': pedidoALab.laboratorio.razonSocial, 'numeroPedido': pedidoALab.pk, 'fecha':pedidoALab.fecha, 'detalles': detalles})

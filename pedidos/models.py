@@ -212,7 +212,10 @@ class DetallePedidoDeClinica(DetallePedidoVenta):
 #PEDIDO A LABORATORIO
 
 class PedidoAlaboratorio(models.Model):
-    FILTROS = ["numero__icontains"]
+    FILTROS = ["laboratorio"]
+    FILTERMAPPER = {
+        'laboratorio': "laboratorio__razonSocial__icontains"
+    }
     numero = models.AutoField(primary_key=True)
     fecha = models.DateField(auto_now_add=True)
     laboratorio = models.ForeignKey('organizaciones.Laboratorio')
@@ -236,6 +239,7 @@ class DetallePedidoAlaboratorio(models.Model):
     renglon = models.AutoField(primary_key=True)
     pedido = models.ForeignKey('PedidoAlaboratorio', null=True)
     cantidad = models.PositiveIntegerField()
+    cantidadPendiente = models.PositiveIntegerField()
     medicamento = models.ForeignKey('medicamentos.Medicamento')
     detallePedidoFarmacia = models.ForeignKey('DetallePedidoDeFarmacia', blank=True, null=True)
     

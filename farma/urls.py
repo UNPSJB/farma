@@ -127,7 +127,8 @@ urlpatterns = [
     url(r'^recepcionPedidoDeLaboratorio/$', pviews.recepcionPedidoDeLaboratorio, name="recepcionPedidoDeLaboratorio"),
     url(r'^pedidoAlaboratorios/registrarRecepcionPedido/(?P<id>\d+)/$', pviews.pedidoAlaboratorios_RecepcionPedidoLab, name="pedidoAlaboratorios_registrarRecepcionPedido"),
     url(r'^pedidoAlaboratorios/agregarLotes/$', pviews.pedidoAlaboratorios_agregarLotes, name="pedidoAlaboratorios_agregarLotes"),
-    
+    url(r'^recepcionPedidoDeLaboratorio/controlRecepcion/(?P<id_pedido>\d+)/$', pviews.pedidoAlaboratorio_ver, name="controlRecepcion"),
+
       # **************************************** Otros Pedidos ******************************************
     url(r'^devolucionMedicamentosVencidos/$', views.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
     url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos,name="recepcionReemplazoMedicamentos"),
