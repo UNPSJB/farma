@@ -1,0 +1,90 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+{% block stylesheets %} 
+	<link rel="stylesheet" href="{% static 'css/table-farma.css' %}">
+	<style>
+		body{
+		    background-color: rgb(237,239,241);
+		}
+
+		.header {
+			background-color: rgb(19, 43, 60);
+			color: #D0D0D0;
+		}
+
+		.header h1{
+			margin: 0;
+			padding: 2rem 0;
+		}
+		
+		.table-farma__title span{
+			color: rgb(219, 119, 89);
+			font-size: 90%;
+		}
+
+		.u-no-margin{
+			margin: 0;
+		}
+
+		.u-margin-top-long{
+		    margin-top: 3rem;
+		}
+ 
+	</style>
+
+{% endblock %}
+
+{% block title %} Control Recepcion del Pedido a Laboratorio {% endblock %}
+
+{% block content %} 
+
+
+<div class="header">
+	<div class="container-fluid">
+		<h1> Control Recepcion Pedido A Laboratorio</h1>
+	</div>
+</div>
+
+<div class="container-fluid">
+	 <section class="container-table">
+            <div class="table-farma">
+                <div class="table-farma__header">
+                    <h4 class="table-farma__title u-no-margin">Pedido a laboratorio <span>{{pedido.laboratorio.razonSocial}}</span></h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table-farma__table">
+						<thead>
+							<tr>
+								<th>Renglón</th>
+								<th>Medicamento</th>
+								<th>Cantidad</th>
+								<th>Pendiente de entrega</th>
+								<th>Acusar recepción</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for detalle in detalles %} 
+								<tr data-id="{{ detalle.renglon }}">
+									<td>{{ forloop.counter }}</td>
+									<td>{{ detalle.medicamento }}</td>
+									<td>{{ detalle.cantidad }}</td>
+									<td>{{ detalle.cantidadPendiente }}</td>
+		                            <td class="action">
+		                                <a href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.numero detalle.renglon %}" class="table-farma__button text-center">
+		                                    <span class="glyphicon glyphicon-pencil"></span>
+		                                </a>
+		                            </td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %} {% endblock %}

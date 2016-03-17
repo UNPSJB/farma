@@ -1,3 +1,37 @@
 @import url("normalize.css");
 @import url("nav.css");
 @import url("footer.css");
+
+a{
+    text-decoration: none;
+}
+
+a:hover,
+a:focus{
+    text-decoration: none;
+}
+
+a:focus{
+    outline: none;
+}
+
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"]{
+    padding: 0;
+}
+
+button:active,
+input[type="button"]:active,
+input[type="reset"]:active,
+input[type="submit"]:active{
+    outline: 0;
+    border-style: solid;
+}
+
+ul, ol{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}

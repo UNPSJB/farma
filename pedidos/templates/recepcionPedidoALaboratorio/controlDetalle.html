@@ -1,0 +1,35 @@
+{% extends "base/base.html" %}
+
+{% block stylesheets %}
+<style>
+	body{
+	    background-color: rgb(237,239,241);
+	}
+
+	.header {
+		background-color: rgb(19, 43, 60);
+		color: #D0D0D0;
+	}
+
+	.header h1{
+		margin: 0;
+		padding: 2rem 0;
+	}
+</style>
+{% endblock %}
+
+{% block title %} Control Detalle {% endblock %}
+
+{% block content %} 
+<div class="header">
+	<div class="container-fluid">
+		<h1>Control Detalle Nº {{detalle.renglon}}</h1>
+	</div>
+</div>
+
+<div class="container-fluid">
+	<!-- Formulario -->
+</div>
+{% endblock %}
+
+{% block scripts %} {% endblock %}

@@ -71,7 +71,7 @@
                 var id = get_selected_row();
 
                 if(id){
-                    var url = "/recepcionPedidoDeLaboratorio/controlRecepcion/" + id +"/"; /*Al hacer click en una fila y presionar 'ver' se envia esta url         */
+                    var url = "/recepcionPedidoAlaboratorio/" + id +"/controlRecepcion/"; /*Al hacer click en una fila y presionar 'ver' se envia esta url         */
                                                                               /*junto con el id de la fila (id de un pedido a laboratorio)             */
                                                                               /*por lo que se direccionará a el template 'VerRenglonesPedidoLab.html'.  */
                     $(this).attr("href", url);

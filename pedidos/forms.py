@@ -182,4 +182,10 @@ class PedLaboratorioVerRenglonesForm(PedidoLaboratorioForm):
 
 #========================================================FIN FORMULARIOS DE PEDIDOS A LABORATORIOS======================================
 
+"""class ControlDetallePedidoAlaboratorioForm(forms.forms):
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'form-add-detalle'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'"""
 

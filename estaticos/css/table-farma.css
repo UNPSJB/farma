@@ -1,0 +1,123 @@
+@import url('animate.css');
+
+.container-table{
+    margin: 3rem 0;
+    position: relative;
+    background-color: rgb(237,239,241);
+}
+
+/*sombras*/
+.container-table:before,
+.container-table:after{
+    content: '';
+    position: absolute;
+    bottom: -0.2em;
+    height: 1.6rem;
+    width: 47%;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 0;
+    border-radius: 1.6rem;
+    box-shadow: 0 0 1rem 5px rgba(0, 0, 0 , 0.3); 
+    z-index: -1;
+}
+
+.container-table:before{
+    left: 3%;
+    -webkit-transform-origin: left bottom;
+            transform-origin: left bottom;
+    -webkit-transform: rotate(-1.5deg);
+            transform: rotate(-1.5deg);
+
+}
+
+.container-table:after{
+    right: 3%;
+    -webkit-transform-origin: right bottom;
+            transform-origin: right bottom;
+    -webkit-transform: rotate(1.5deg);
+            transform: rotate(1.5deg);
+
+}
+
+    .table-farma{
+        color: #D0D0D0;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+        .table-farma__header{
+            position: relative;
+            background-color: #132b3c;
+        }
+
+            .table-farma__title{
+                padding: 1rem;
+            }
+
+
+        .table-farma .table-responsive{
+            max-height: 35rem;
+            border: 0;
+            overflow-y: auto;
+        }
+
+            .table-farma__table{
+                width: 100%;
+                max-width: 100%;
+            }
+
+                .table-farma__table .clickeable{
+                    cursor: pointer;
+                }
+
+
+                .table-farma__table thead{
+                    background-color: #255576;
+                }
+
+                .table-farma__table tbody{
+                    color: #666;
+                }
+
+                .table-farma__table thead th,
+                .table-farma__table tbody td{
+                    padding: 0.6em 1em;
+                }
+
+                .table-farma__table tbody tr {
+                  background-color: #FFF;
+                }
+
+                .table-farma__table tbody tr:nth-child(odd) {
+                  background-color: #edf7f8;
+                }
+
+                .table-farma__table tr:not(:last-child) {
+                    border-bottom: 1px solid #CCC;
+                }
+                .table-farma__table td:not(:last-child) {
+                    border-right: 1px solid #CCC;
+                }
+
+                .table-farma__button{
+                    height: 100%;
+                    width: 100%;
+                    display: block;
+                    background-color: transparent;
+                    color: inherit;    
+                }
+
+                .table-farma__button:hover{ 
+                    -webkit-animation: tada 0.8s ease;
+                            animation: tada 0.8s ease;
+                }
+
+/** Media Queries
+ ---------------------------------------------------------*/
+
+@media (max-width: 767px){
+    
+    .table-farma .table-responsive{
+        margin: 0;
+    }
+}
