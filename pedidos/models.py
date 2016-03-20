@@ -247,14 +247,20 @@ class DetallePedidoAlaboratorio(models.Model):
         return "Pedido Nro %s - Detalle %s"%(self.pedido.numero, self.renglon)
     
     def to_json(self):
+        response = {}
+
+        #para evitar acceder a campos nulos
+        if self.renglon:
+            response['renglon'] = self.renglon
+
         #para evitar acceder a campos nulos
         if self.medicamento:
-            return {'medicamento': {"id": self.medicamento.id,
-                                    "descripcion": self.medicamento.nombreFantasia.nombreF + " " +
+            response['medicamento'] = {"id": self.medicamento.id,
+                                       "descripcion": self.medicamento.nombreFantasia.nombreF + " " +
                                                    self.medicamento.presentacion.descripcion + " " +
                                                    str(self.medicamento.presentacion.cantidad) + " " +
-                                                   self.medicamento.presentacion.unidadMedida },
-                    'cantidad': self.cantidad}
-                
-        else:
-            return {}
+                                                   self.medicamento.presentacion.unidadMedida }
+
+        response['cantidad'] = self.cantidad
+        response['cantidadPendiente'] = self.cantidadPendiente
+        return response

@@ -7,6 +7,7 @@ from medicamentos import models as mmodels
 from organizaciones import models as omodels
 
 # Create your views here.
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404, RequestContext
 from jsonview.decorators import json_view
 from pedidos import forms, models, utils
@@ -333,7 +334,7 @@ def get_detalles_a_pedir(pkLaboratorio):
     pedidos = models.PedidoDeFarmacia.objects.filter( Q(estado = 'Pendiente')|Q(estado = 'Parcialmente Enviado') )
     
     for pedido in pedidos:
-        detalles = models.DetallePedidoDeFarmacia.objects.filter( Q(pedidoDeFarmacia=pedido.pk) & Q( estaPedido=False ) & Q( medicamento__laboratorio=pkLaboratorio ))
+        detalles = models.DetallePedidoDeFarmacia.objects.filter( Q(pedidoDeFarmacia = pedido.pk) & Q( estaPedido = False ) & Q(cantidadPendiente__gt = 0)& Q( medicamento__laboratorio = pkLaboratorio ))
         
         for detalle in detalles:
             #creo el detalle del pedido a laboratorio asociado al detalle pedido de farmacia
@@ -407,7 +408,7 @@ Descripción:
 """
 def pedidoAlaboratorio_ver(request, id_pedido):
     pedidoALab = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
-    detalles=models.DetallePedidoAlaboratorio.objects.filter(pedido=pedidoALab.numero)
+    detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido=pedidoALab.numero)
     return render(request, "pedidoAlaboratorio/pedidoVer.html", {'nombreLab': pedidoALab.laboratorio.razonSocial, 'numeroPedido': pedidoALab.pk, 'fecha':pedidoALab.fecha, 'detalles': detalles})
 
 
@@ -788,20 +789,87 @@ def pedidoAlaboratorios_RecepcionPedidoLab(request, id):#Vista "a la que le pega
 
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio(request):
-  mfilters = get_filtros(request.GET, models.PedidoAlaboratorio)
-  pedidos = models.PedidoAlaboratorio.objects.filter(**mfilters)
-  fecha = datetime.datetime.now()
-  recibidos = pedidos.filter( Q(estado = 'Pendiente')|Q(estado = 'Parcialmente enviado') )
-  return render(request, "recepcionPedidoALaboratorio/pedidos.html", {'recibidos': recibidos,'fecha':fecha, "filtros": request.GET})
+    mfilters = get_filtros(request.GET, models.PedidoAlaboratorio)
+    pedidos = models.PedidoAlaboratorio.objects.filter(**mfilters)
+    fecha = datetime.datetime.now()
+    recibidos = pedidos.filter( Q(estado = 'Pendiente')|Q(estado = 'Parcialmente enviado') )
+    return render(request, "recepcionPedidoALaboratorio/pedidos.html", {'recibidos': recibidos,'fecha':fecha, "filtros": request.GET})
 
+def recepcionPedidoAlaboratorio_cargarPedido(request, id_pedido):
+    limpiar_sesion('', 'detallesRecepcionPedidoAlaboratorio', request.session)
+    cargar_detalles(id_pedido, request.session)
+    return redirect(reverse('recepcionPedidoAlaboratorio_controlPedido', args=[id_pedido]))
 
-def recepcionPedidoAlaboratorio_control(request, id_pedido):
+def recepcionPedidoAlaboratorio_controlPedido(request, id_pedido):
     pedido = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
-    detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido=pedido.numero)
+    detalles = request.session['detallesRecepcionPedidoAlaboratorio']['renglones']
+
+    print "\n\n\n\n\n", detalles, "\n\n\n\n\n"
+    #detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido=pedido.numero)
     return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles})
 
 def recepcionPedidoAlaboratorio_controlDetalle(request, id_pedido, id_detalle):
     pedido = get_object_or_404(models.PedidoAlaboratorio, pk = id_pedido)
     detalle = get_object_or_404(models.DetallePedidoAlaboratorio, pk = id_detalle)
-    return render(request, "recepcionPedidoALaboratorio/controlDetalle.html", {'pedido': pedido, 'detalle': detalle})
+    if request.method == 'POST':
+        form = forms.ControlDetallePedidoAlaboratorioForm(request.POST)
+        pos = request.session['detallesRecepcionPedidoAlaboratorio']['indices'][str(id_detalle)]
+        cantidadPendiente = request.session['detallesRecepcionPedidoAlaboratorio']['renglones'][pos]['cantidadPendiente']
+        if form.is_valid(detalle.medicamento, cantidadPendiente):
+            procesar_detalle_recepcion(request.session, detalle, form.clean())
+            if '_volver' in request.POST:
+                return redirect(reverse('recepcionPedidoAlaboratorio_controlPedido', args=[pedido.numero]))
+            else:
+                return redirect(reverse('recepcionPedidoAlaboratorio_controlDetalle', args=[pedido.numero, detalle.renglon]))
+    else:
+        form = forms.ControlDetallePedidoAlaboratorioForm()
+        form.helper.form_action = reverse('recepcionPedidoAlaboratorio_controlDetalle', args=[pedido.numero, detalle.renglon])
+    return render(request, "recepcionPedidoALaboratorio/controlDetalle.html", {'pedido': pedido, 'detalle': detalle, 'form': form})
 
+
+def recepcionPedidoAlaboratorio_registrar(request, id_pedido):
+    return redirect(reverse('recepcionPedidoAlaboratorio_controlPedido', args=[id_pedido]))
+
+
+
+def cargar_detalles(id_pedido, session):
+    detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido=id_pedido, cantidadPendiente__gt=0)
+    detalles_json = {}
+    detalles_json['actualizados'] = [] #detalles del pedido que son recibidos y necesitan actualizarse en la db
+    detalles_json['indices'] = {} #utilizado para buscar un detalle dentro de la lista renglones, es un 'mapeador'
+    detalles_json['renglones'] = [] #lista de renglones
+    for detalle in detalles:
+        det = detalle.to_json()
+        det['recibidos'] = [] #en recibidos se guarda info del lote, fechaVencimiento y cantidad del medicamento recibido
+        detalles_json['renglones'].append(det)
+        # el renglon con id x se encuentra en la posicion len(detalles_json['renglones']) - 1, en la lista de renglones
+        detalles_json['indices'][str(detalle.renglon)] = len(detalles_json['renglones'])  - 1
+    session['detallesRecepcionPedidoAlaboratorio'] = detalles_json
+    #print "\n\n\n\n", detalles_json, "\n\n\n\n"
+
+
+def procesar_detalle_recepcion(session, detalle, data):
+    """
+        detallesRecepcionPedidoAlaboratorio: es un diccionario con tres campos
+            1- actualizados -> lista que almacena los id de los detalles que fueron actualizados(acusaron recibo)
+            2- indices -> es utilizado como un 'mapeador' para saber la posición en la lista de renglones en donde
+                          se encuentra un detalle con id n
+            3- renglones -> lista de detalles del pedido a laboratorio
+    """
+    data['fechaVencimiento'] = data['fechaVencimiento'].strftime('%d/%m/%Y')
+
+    detalles = session['detallesRecepcionPedidoAlaboratorio']
+    pos = detalles['indices'][str(detalle.renglon)]
+    renglon = detalles['renglones'][pos]
+    
+    #recibidos es una lista donde se guarda info del lote, fechaVencimiento y cantidad del medicamento recibido
+    recibidos = renglon['recibidos']
+    recibidos.append(data)
+    renglon['recibidos'] = recibidos
+    renglon['cantidadPendiente'] -= data['cantidad']
+
+    detalles['renglones'][pos] = renglon
+    detalles['actualizados'].append(str(detalle.renglon)) # fue actualizado y necesita gurdarse en la db
+    session['detallesRecepcionPedidoAlaboratorio'] = detalles
+
+    

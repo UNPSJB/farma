@@ -6,6 +6,7 @@ from selectable import forms as selectable
 from django.core.exceptions import ObjectDoesNotExist
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
+from crispy_forms.bootstrap import StrictButton, FormActions
 from django.utils.translation import ugettext_lazy as _
 import datetime
 from . import lookups
@@ -182,10 +183,49 @@ class PedLaboratorioVerRenglonesForm(PedidoLaboratorioForm):
 
 #========================================================FIN FORMULARIOS DE PEDIDOS A LABORATORIOS======================================
 
-"""class ControlDetallePedidoAlaboratorioForm(forms.forms):
+class ControlDetallePedidoAlaboratorioForm(forms.Form):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'form-add-detalle'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'"""
+    #helper.label_class = 'col-md-3'
+    #helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('lote', placeholder="Lote"),
+        Field('fechaVencimiento', placeholder='Fecha de Vencimiento', css_class="datepicker"),
+        Field('cantidad', placeholder='Cantidad recibida'),     
+        FormActions(
+            StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-success pull-right"),
+            StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
+                        css_class="btn btn-primary pull-right"),
+        )
+    )
 
+    lote = forms.CharField(label='Lote', max_length=30)
+    fechaVencimiento = forms.DateField(label= 'Fecha de Vencimiento')
+    cantidad = forms.IntegerField(label='Cantidad Recibida', min_value=1)
+
+    def is_valid(self, medicamento, cantidadPendiente):
+        valid = super(ControlDetallePedidoAlaboratorioForm, self).is_valid()
+        if not valid:
+            return valid
+
+        lote = self.cleaned_data.get('lote')      
+        vencimiento = self.cleaned_data.get("fechaVencimiento")
+        cantidad = self.cleaned_data.get("cantidad")
+        try:
+            lote_db = mmodels.Lote.objects.get(pk=lote)
+            if lote_db.medicamento != medicamento:
+                self.add_error('lote', 'El lote ingresado no corresponde al medicamento de este detalle')
+                return False
+            if lote_db.fechaVencimiento != vencimiento:
+                self.add_error('fechaVencimiento', 'La fecha de vencimiento ingresada no coincide con la del lote seleccionado')
+                return False
+
+        except mmodels.Lote.DoesNotExist:
+            pass
+
+        if cantidad > cantidadPendiente:
+            self.add_error('cantidad', 'La cantidad ingresada supera la cantidad pendiente de este detalle')
+            return False
+        return True

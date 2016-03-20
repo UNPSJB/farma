@@ -126,8 +126,10 @@ urlpatterns = [
     
     # ************************************** Recepcion Pedido a Laboratorio ***************************************
     url(r'^recepcionPedidoAlaboratorio/$', pviews.recepcionPedidoAlaboratorio, name="recepcionPedidoAlaboratorio"),
-    url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlRecepcion/$', pviews.recepcionPedidoAlaboratorio_control, name="recepcionPedidoAlaboratorio_control"),
-    url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlRecepcion/detalle/(?P<id_detalle>\d+)/$', pviews.recepcionPedidoAlaboratorio_controlDetalle, name="recepcionPedidoAlaboratorio_controlDetalle"),
+    url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/cargarPedido/$', pviews.recepcionPedidoAlaboratorio_cargarPedido, name="recepcionPedidoAlaboratorio_cargarPedido"),
+    url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/$', pviews.recepcionPedidoAlaboratorio_controlPedido, name="recepcionPedidoAlaboratorio_controlPedido"),
+    url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/detalle/(?P<id_detalle>\d+)/$', pviews.recepcionPedidoAlaboratorio_controlDetalle, name="recepcionPedidoAlaboratorio_controlDetalle"),
+    url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/registrar/$', pviews.recepcionPedidoAlaboratorio_registrar, name="recepcionPedidoAlaboratorio_registrar"),
 
       # **************************************** Otros Pedidos ******************************************
     url(r'^devolucionMedicamentosVencidos/$', views.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
