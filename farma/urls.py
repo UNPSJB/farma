@@ -102,7 +102,7 @@ urlpatterns = [
     url(r'^pedidosDeFarmacia/add/detalles/add/$', pviews.detallePedidoDeFarmacia_add, name="detallePedidoDeFarmacia_add"),
     url(r'^pedidosDeFarmacia/add/detalles/update/(?P<id_detalle>\d+)/$', pviews.detallePedidoDeFarmacia_update, name="detallePedidoDeFarmacia_update"),
     url(r'^pedidosDeFarmacia/add/detalles/delete/(?P<id_detalle>\d+)/$', pviews.detallePedidoDeFarmacia_delete, name="detallePedidoDeFarmacia_delete"),
-    
+    url(r'^pedidosDeFarmacia/add/detalles/remitoPDF/$', pviews.remitoPDF.as_view(), name="remitoPDF"),
 
 
     # ************************************** Pedido de Clinica ***************************************
@@ -133,7 +133,9 @@ urlpatterns = [
     url(r'^devolucionMedicamentosVencidos/$', views.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
     url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos,name="recepcionReemplazoMedicamentos"),
     
-    
+      # **************************************** PDFs ******************************************
+
+
     # URL'S VIEJAS DE PEDIDO A LABORATORIO
     #    url(r'^pedidoAlaboratorios/verRenglones/(?P<id>\d+)/$', pviews.pedidoAlaboratorios_verRenglones, name="pedidoAlaboratorios_verRenglones"),
     #    url(r'^pedidoAlaboratorios/agregarRenglones/$', pviews.pedidoAlaboratorios_agregarRenglones, name="pedidoAlaboratorios_agregarRenglones"),

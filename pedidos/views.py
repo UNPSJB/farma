@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
+from easy_pdf.views import PDFTemplateView
 from django.db.models import Q # Herramienta que nos permite "darle de comer" expresiones con OR a los filter
-
 
 from medicamentos import models as mmodels
 from organizaciones import models as omodels
@@ -805,3 +805,12 @@ def recepcionPedidoAlaboratorio_controlDetalle(request, id_pedido, id_detalle):
     detalle = get_object_or_404(models.DetallePedidoAlaboratorio, pk = id_detalle)
     return render(request, "recepcionPedidoALaboratorio/controlDetalle.html", {'pedido': pedido, 'detalle': detalle})
 
+class remitoPDF(PDFTemplateView):
+    template_name = "remitopdf.html"
+
+    def get_context_data(self, **kwargs):
+        return super(remitoPDF, self).get_context_data(
+            pagesize="A4",
+            title="Remito",
+            **kwargs
+        )
