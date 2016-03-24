@@ -129,6 +129,7 @@ urlpatterns = [
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/cargarPedido/$', pviews.recepcionPedidoAlaboratorio_cargarPedido, name="recepcionPedidoAlaboratorio_cargarPedido"),
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/$', pviews.recepcionPedidoAlaboratorio_controlPedido, name="recepcionPedidoAlaboratorio_controlPedido"),
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/detalle/(?P<id_detalle>\d+)/$', pviews.recepcionPedidoAlaboratorio_controlDetalle, name="recepcionPedidoAlaboratorio_controlDetalle"),
+    url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/detalleConNuevoLote/(?P<id_detalle>\d+)/$', pviews.recepcionPedidoAlaboratorio_controlDetalleConNuevoLote, name="recepcionPedidoAlaboratorio_controlDetalleConNuevoLote"),
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/registrar/$', pviews.recepcionPedidoAlaboratorio_registrar, name="recepcionPedidoAlaboratorio_registrar"),
 
       # **************************************** Otros Pedidos ******************************************

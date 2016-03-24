@@ -48,6 +48,10 @@
 	.form{
 		overflow: hidden;
 	}
+
+	.ocultable {
+		display: none;
+	}
 </style>
 {% endblock %}
 
@@ -64,6 +68,14 @@
 		<div class="row">
 			<div class="col-md-offset-1 col-md-10">				
 				<div class="panel panel-form">
+					{% if btnNuevoLote %}
+						<a class="pull-right "href="{% url 'recepcionPedidoAlaboratorio_controlDetalleConNuevoLote' pedido.numero detalle.renglon %}">+ Nuevo Lote</a>
+					{% else %}
+						{% if existenLotes %}
+							<a class="pull-right "href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.numero detalle.renglon %}">- Sin Nuevo Lote</a>
+						{% endif %}
+					{% endif %}
+					<div class="clearfix"></div>
 					<!-- Formulario -->
 					{% crispy form %}
 				</div>

@@ -82,6 +82,7 @@ class RemitoMedicamentosVencido(models.Model):
 
     def __str__(self):
         return str(self.numero)
+        
 class DetalleRemitoMedicamentosVencido(models.Model):
     remito = models.ForeignKey('RemitoMedicamentosVencido', on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()

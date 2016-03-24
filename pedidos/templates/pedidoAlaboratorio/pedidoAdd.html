@@ -1,5 +1,6 @@
 {% extends "base-pedidos.html" %}
 {% load staticfiles bootstrap3 %}
+{% load crispy_forms_tags %}
 
 
 {% block title %}
@@ -25,23 +26,7 @@
                         <h3 class="panel-title">Crear nuevo pedido a Laboratorio</h3>
                     </div>
                     <div class="panel-body">
-                        {{ pedidoALaboratorio_form.errors }}
-                        {{ pedidoALaboratorio_form.non_field_errors }}
-
-                            <form class ="form-horizontal col-xs-12" method="post"><!--ESTE FORMULARIO SE ENVIA POR METODO POST--->
-
-                            {% csrf_token %}
-
-                            {% bootstrap_form form layout='horizontal'%}
-
-                            <div class="pull-right" style="margin-bottom: -10px;">
-                                <button type="submit" id="btn-guardar-continuar" class="btn btn-success pull-right" style="margin-left:10px;" value="_continuar" name="_continuar">
-	                        		{% bootstrap_icon "ok" %} Crear Pedido
-	                        	</button>
-								<div class="clearfix"></div>
-                            </div>
-
-                        </form>
+                        {% crispy form %}
                     </div>
                 </div>
             </div>

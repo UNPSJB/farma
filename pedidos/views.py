@@ -15,7 +15,7 @@ from organizaciones.models import Farmacia, Clinica, Laboratorio
 from django.contrib.auth.decorators import login_required
 from crispy_forms.utils import render_crispy_form
 from django.contrib.auth import decorators as authd
-from medicamentos.models import Medicamento
+from medicamentos.models import Medicamento, Lote
 import datetime
 import re
 
@@ -242,7 +242,7 @@ def pedidoDeClinica_registrar(request):
                 medicamento = get_object_or_404(Medicamento, pk=detalle['medicamento']['id'])
                 d = models.DetallePedidoDeClinica(pedidoDeClinica=p, medicamento=medicamento, cantidad=detalle['cantidad'])
                 d.save()
-            #utils.procesar_pedido_de_clinica(p)
+            utils.procesar_pedido_de_clinica(p)
             return {'success': True}
         else:
             mensaje_error = "El pedido ya Existe!"
@@ -290,7 +290,7 @@ def detallePedidoDeClinica_update(request, id_detalle):
     detalle = models.DetallePedidoDeClinica(cantidad=detalles[int(id_detalle) - 1]['cantidad'])
     if request.method == "POST":
         form = forms.UpdateDetallePedidoDeClinicaForm(request.POST, instance=detalle)
-        if form.is_valid():
+        if form.is_valid(detalles[int(id_detalle) - 1]['medicamento']['id']):
             det = form.save(commit=False)
             detalles[int(id_detalle) - 1]['cantidad'] = det.cantidad
             request.session['detallesPedidoDeClinica'] = detalles
@@ -787,89 +787,215 @@ def pedidoAlaboratorios_RecepcionPedidoLab(request, id):#Vista "a la que le pega
 """
 #========================================INICIO RECEPCION DE PEDIDO A LABORATORIO====================================================
 
-@login_required(login_url='login')
-def recepcionPedidoAlaboratorio(request):
-    mfilters = get_filtros(request.GET, models.PedidoAlaboratorio)
-    pedidos = models.PedidoAlaboratorio.objects.filter(**mfilters)
-    fecha = datetime.datetime.now()
-    recibidos = pedidos.filter( Q(estado = 'Pendiente')|Q(estado = 'Parcialmente enviado') )
-    return render(request, "recepcionPedidoALaboratorio/pedidos.html", {'recibidos': recibidos,'fecha':fecha, "filtros": request.GET})
+def medicamento_tiene_lotes(medicamento, lotesSesion):
+    if mmodels.Lote.objects.filter(medicamento=medicamento).count() > 0:
+        return True
+    for numeroLote, infoLote in lotesSesion.items():
+        if infoLote['medicamento'] == medicamento.id:
+            return True
+    return False
 
-def recepcionPedidoAlaboratorio_cargarPedido(request, id_pedido):
-    limpiar_sesion('', 'detallesRecepcionPedidoAlaboratorio', request.session)
-    cargar_detalles(id_pedido, request.session)
-    return redirect(reverse('recepcionPedidoAlaboratorio_controlPedido', args=[id_pedido]))
-
-def recepcionPedidoAlaboratorio_controlPedido(request, id_pedido):
-    pedido = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
-    detalles = request.session['detallesRecepcionPedidoAlaboratorio']['renglones']
-
-    print "\n\n\n\n\n", detalles, "\n\n\n\n\n"
-    #detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido=pedido.numero)
-    return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles})
-
-def recepcionPedidoAlaboratorio_controlDetalle(request, id_pedido, id_detalle):
-    pedido = get_object_or_404(models.PedidoAlaboratorio, pk = id_pedido)
-    detalle = get_object_or_404(models.DetallePedidoAlaboratorio, pk = id_detalle)
-    if request.method == 'POST':
-        form = forms.ControlDetallePedidoAlaboratorioForm(request.POST)
-        pos = request.session['detallesRecepcionPedidoAlaboratorio']['indices'][str(id_detalle)]
-        cantidadPendiente = request.session['detallesRecepcionPedidoAlaboratorio']['renglones'][pos]['cantidadPendiente']
-        if form.is_valid(detalle.medicamento, cantidadPendiente):
-            procesar_detalle_recepcion(request.session, detalle, form.clean())
-            if '_volver' in request.POST:
-                return redirect(reverse('recepcionPedidoAlaboratorio_controlPedido', args=[pedido.numero]))
-            else:
-                return redirect(reverse('recepcionPedidoAlaboratorio_controlDetalle', args=[pedido.numero, detalle.renglon]))
-    else:
-        form = forms.ControlDetallePedidoAlaboratorioForm()
-        form.helper.form_action = reverse('recepcionPedidoAlaboratorio_controlDetalle', args=[pedido.numero, detalle.renglon])
-    return render(request, "recepcionPedidoALaboratorio/controlDetalle.html", {'pedido': pedido, 'detalle': detalle, 'form': form})
-
-
-def recepcionPedidoAlaboratorio_registrar(request, id_pedido):
-    return redirect(reverse('recepcionPedidoAlaboratorio_controlPedido', args=[id_pedido]))
+def hay_cantidad_pendiente(detalles, id_detalle):
+    posDetalle = get_pos_detalle(detalles, id_detalle)
+    detalle = detalles[posDetalle]
+    return detalle['cantidadPendiente'] > 0
 
 
 
 def cargar_detalles(id_pedido, session):
     detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido=id_pedido, cantidadPendiente__gt=0)
-    detalles_json = {}
-    detalles_json['actualizados'] = [] #detalles del pedido que son recibidos y necesitan actualizarse en la db
-    detalles_json['indices'] = {} #utilizado para buscar un detalle dentro de la lista renglones, es un 'mapeador'
-    detalles_json['renglones'] = [] #lista de renglones
+    recepcionPedidoAlaboratorio = {}
+    recepcionPedidoAlaboratorio['nuevosLotes'] = {}
+    recepcionPedidoAlaboratorio['actualizarLotes'] = {}
+    recepcionPedidoAlaboratorio['detalles'] = []
+
     for detalle in detalles:
-        det = detalle.to_json()
-        det['recibidos'] = [] #en recibidos se guarda info del lote, fechaVencimiento y cantidad del medicamento recibido
-        detalles_json['renglones'].append(det)
-        # el renglon con id x se encuentra en la posicion len(detalles_json['renglones']) - 1, en la lista de renglones
-        detalles_json['indices'][str(detalle.renglon)] = len(detalles_json['renglones'])  - 1
-    session['detallesRecepcionPedidoAlaboratorio'] = detalles_json
-    #print "\n\n\n\n", detalles_json, "\n\n\n\n"
+        infoDetalle = detalle.to_json()
+        infoDetalle['actualizado'] = False #cuando se actualize el detalle este campo es True
+        recepcionPedidoAlaboratorio['detalles'].append(infoDetalle)
+
+    session['recepcionPedidoAlaboratorio'] = recepcionPedidoAlaboratorio
 
 
-def procesar_detalle_recepcion(session, detalle, data):
-    """
-        detallesRecepcionPedidoAlaboratorio: es un diccionario con tres campos
-            1- actualizados -> lista que almacena los id de los detalles que fueron actualizados(acusaron recibo)
-            2- indices -> es utilizado como un 'mapeador' para saber la posición en la lista de renglones en donde
-                          se encuentra un detalle con id n
-            3- renglones -> lista de detalles del pedido a laboratorio
-    """
-    data['fechaVencimiento'] = data['fechaVencimiento'].strftime('%d/%m/%Y')
+def get_pos_detalle(detalles, id_detalle):
+    i = 0
+    for detalle in detalles:
+        if detalle['renglon'] == id_detalle:
+            return i
+        i += 1
+    return -1
 
-    detalles = session['detallesRecepcionPedidoAlaboratorio']
-    pos = detalles['indices'][str(detalle.renglon)]
-    renglon = detalles['renglones'][pos]
+def guardar_recepcion_detalle(session, detalle, infoRecepcionDetalle):
+    recepcionPedidoAlaboratorio = session['recepcionPedidoAlaboratorio']
+    detalles = recepcionPedidoAlaboratorio['detalles']
+    posDetalle = get_pos_detalle(detalles, detalle.renglon)
+    infoDetalle = detalles[posDetalle]
+    numeroLote = str(infoRecepcionDetalle['lote'])
+    if numeroLote in recepcionPedidoAlaboratorio['nuevosLotes']:
+        lote = recepcionPedidoAlaboratorio['nuevosLotes'][numeroLote]
+        lote['stock'] += infoRecepcionDetalle['cantidad']
+        recepcionPedidoAlaboratorio['nuevosLotes'][numeroLote] = lote # guardo cambios
+    else:
+        if numeroLote in recepcionPedidoAlaboratorio['actualizarLotes']:
+            lote = recepcionPedidoAlaboratorio['actualizarLotes'][numeroLote]
+            lote += infoRecepcionDetalle['cantidad']
+            recepcionPedidoAlaboratorio['actualizarLotes'][numeroLote] = lote # guardo cambios
+        else:
+            recepcionPedidoAlaboratorio['actualizarLotes'][numeroLote] = infoRecepcionDetalle['cantidad']
+
+    infoDetalle['cantidadPendiente'] -= infoRecepcionDetalle['cantidad']
+    infoDetalle['actualizado'] = True
     
-    #recibidos es una lista donde se guarda info del lote, fechaVencimiento y cantidad del medicamento recibido
-    recibidos = renglon['recibidos']
-    recibidos.append(data)
-    renglon['recibidos'] = recibidos
-    renglon['cantidadPendiente'] -= data['cantidad']
+    detalles[posDetalle] = infoDetalle # guardo cambios
+    recepcionPedidoAlaboratorio['detalles'] = detalles # guardo cambios
 
-    detalles['renglones'][pos] = renglon
-    detalles['actualizados'].append(str(detalle.renglon)) # fue actualizado y necesita gurdarse en la db
-    session['detallesRecepcionPedidoAlaboratorio'] = detalles
+    session['recepcionPedidoAlaboratorio'] = recepcionPedidoAlaboratorio # guardo todos los cambios
 
-    
+def guardar_recepcion_detalle_con_nuevo_lote(session, detalle, infoRecepcionDetalle):
+    recepcionPedidoAlaboratorio = session['recepcionPedidoAlaboratorio']
+    detalles = recepcionPedidoAlaboratorio['detalles']
+    posDetalle = get_pos_detalle(detalles, detalle.renglon)
+    infoDetalle = detalles[posDetalle]
+
+    numeroLote = infoRecepcionDetalle['lote']
+    nuevoLote = {
+        'fechaVencimiento': infoRecepcionDetalle['fechaVencimiento'].strftime('%d/%m/%Y'),
+        'precio': infoRecepcionDetalle['precio'],
+        'stock': infoRecepcionDetalle['cantidad'],
+        'medicamento': detalle.medicamento.id
+    }  
+
+    recepcionPedidoAlaboratorio['nuevosLotes'][numeroLote] = nuevoLote
+
+    infoDetalle['cantidadPendiente'] -= infoRecepcionDetalle['cantidad']
+    infoDetalle['actualizado'] = True
+    detalles[posDetalle] = infoDetalle
+
+    recepcionPedidoAlaboratorio['detalles'] = detalles
+
+    session['recepcionPedidoAlaboratorio'] = recepcionPedidoAlaboratorio
+
+def crear_nuevos_lotes(nuevosLotes):
+    for numeroLote, info in nuevosLotes.items():
+        lote = Lote()
+        lote.numero = numeroLote
+        lote.fechaVencimiento = datetime.datetime.strptime(info['fechaVencimiento'], '%d/%m/%Y').date()
+        lote.precio = info['precio']
+        lote.stock = info['stock']
+        lote.medicamento = get_object_or_404(Medicamento, pk=info['medicamento'])
+        lote.save()        
+
+def actualizar_lotes(lotes):
+    for numeroLote, cantidadRecibida in lotes.items():
+        lote = get_object_or_404(Lote, numero=numeroLote)
+        lote.stock += cantidadRecibida
+        lote.save()
+
+def actualizar_pedido(pedido, detalles):
+    recepcionDelPedidoCompleta = True
+    for detalle in detalles:
+        if detalle['actualizado']:
+            detalleDb = get_object_or_404(models.DetallePedidoAlaboratorio, pk=detalle['renglon'])
+            detalleDb.cantidadPendiente = detalle['cantidadPendiente']
+            if detalleDb.cantidadPendiente > 0:
+                recepcionDelPedidoCompleta = False # xq hay al menos un detalle que aún falta satisfacer
+            detalleDb.save()
+        else:
+            recepcionDelPedidoCompleta = False # xq hay al menos un detalle que no acusó ningún tipo de recibo
+
+    if recepcionDelPedidoCompleta:
+        pedido.estado = "Completo"
+    else:
+        pedido.estado = "Parcialmente Recibido"
+    pedido.save()
+
+
+@login_required(login_url='login')
+def recepcionPedidoAlaboratorio(request):
+    mfilters = get_filtros(request.GET, models.PedidoAlaboratorio)
+    pedidos = models.PedidoAlaboratorio.objects.filter(**mfilters)
+    fecha = datetime.datetime.now()
+    recibidos = pedidos.filter( Q(estado = 'Pendiente')|Q(estado = 'Parcialmente Recibido') )
+    return render(request, "recepcionPedidoALaboratorio/pedidos.html", {'recibidos': recibidos,'fecha':fecha, "filtros": request.GET})
+
+@login_required(login_url='login')
+def recepcionPedidoAlaboratorio_cargarPedido(request, id_pedido):
+    limpiar_sesion('recepcionPedidoAlaboratorio', '', request.session)
+    cargar_detalles(id_pedido, request.session)
+    return redirect('recepcionPedidoAlaboratorio_controlPedido', id_pedido)
+
+@login_required(login_url='login')
+def recepcionPedidoAlaboratorio_controlPedido(request, id_pedido):
+    pedido = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
+    detalles = request.session['recepcionPedidoAlaboratorio']['detalles']
+
+    return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles})
+
+@login_required(login_url='login')
+def recepcionPedidoAlaboratorio_controlDetalle(request, id_pedido, id_detalle):
+    if hay_cantidad_pendiente(request.session['recepcionPedidoAlaboratorio']['detalles'], id_detalle):
+        pedido = get_object_or_404(models.PedidoAlaboratorio, pk = id_pedido)
+        detalle = get_object_or_404(models.DetallePedidoAlaboratorio, pk = id_detalle)
+        lotesEnSesion = request.session['recepcionPedidoAlaboratorio']['nuevosLotes']
+        if request.method == 'POST':
+            form = forms.ControlDetallePedidoAlaboratorioFormFactory(detalle.medicamento.id, lotesEnSesion)(request.POST)
+            posDetalle = get_pos_detalle(request.session['recepcionPedidoAlaboratorio']['detalles'], detalle.renglon)
+            infoDetalle = request.session['recepcionPedidoAlaboratorio']['detalles'][posDetalle]
+            if form.is_valid(infoDetalle['cantidadPendiente']):
+                guardar_recepcion_detalle(request.session, detalle, form.clean())
+                if '_volver' in request.POST:
+                    return redirect('recepcionPedidoAlaboratorio_controlPedido', pedido.numero)
+                else:
+                    return redirect('recepcionPedidoAlaboratorio_controlDetalle', pedido.numero, detalle.renglon)
+        else:
+            if not medicamento_tiene_lotes(detalle.medicamento, request.session['recepcionPedidoAlaboratorio']['nuevosLotes']):
+                return redirect('recepcionPedidoAlaboratorio_controlDetalleConNuevoLote', pedido.numero, detalle.renglon)
+            form = forms.ControlDetallePedidoAlaboratorioFormFactory(detalle.medicamento.id, lotesEnSesion)()
+            form.helper.form_action = reverse('recepcionPedidoAlaboratorio_controlDetalle', args=[pedido.numero, detalle.renglon])
+        return render(request, "recepcionPedidoALaboratorio/controlDetalle.html", {'btnNuevoLote': True, 'pedido': pedido, 'detalle': detalle, 'form': form})
+    else:
+        return redirect('recepcionPedidoAlaboratorio_controlPedido', id_pedido)
+
+@login_required(login_url='login')
+def recepcionPedidoAlaboratorio_controlDetalleConNuevoLote(request, id_pedido, id_detalle):
+    if hay_cantidad_pendiente(request.session['recepcionPedidoAlaboratorio']['detalles'], id_detalle):
+        pedido = get_object_or_404(models.PedidoAlaboratorio, pk = id_pedido)
+        detalle = get_object_or_404(models.DetallePedidoAlaboratorio, pk = id_detalle)
+        if request.method == 'POST':
+            form = forms.ControlDetalleConNuevoLotePedidoAlaboratorioForm(request.POST)
+            posDetalle = get_pos_detalle(request.session['recepcionPedidoAlaboratorio']['detalles'], detalle.renglon)
+            infoDetalle = request.session['recepcionPedidoAlaboratorio']['detalles'][posDetalle]
+            if form.is_valid(infoDetalle['cantidadPendiente'], request.session['recepcionPedidoAlaboratorio']['nuevosLotes']):
+                guardar_recepcion_detalle_con_nuevo_lote(request.session, detalle, form.clean())
+                if '_volver' in request.POST:
+                    return redirect('recepcionPedidoAlaboratorio_controlPedido', pedido.numero)
+                else:
+                    return redirect('recepcionPedidoAlaboratorio_controlDetalleConNuevoLote', pedido.numero, detalle.renglon)
+        else:       
+            form = forms.ControlDetalleConNuevoLotePedidoAlaboratorioForm()
+            form.helper.form_action = reverse('recepcionPedidoAlaboratorio_controlDetalleConNuevoLote', args=[pedido.numero, detalle.renglon])
+
+        existenLotes = False
+        if medicamento_tiene_lotes(detalle.medicamento, request.session['recepcionPedidoAlaboratorio']['nuevosLotes']):
+            existenLotes = True
+        return render(request, "recepcionPedidoALaboratorio/controlDetalle.html", {'btnNuevoLote': False, 'existenLotes': existenLotes, 'pedido': pedido, 'detalle': detalle, 'form': form})
+    else:
+        return redirect('recepcionPedidoAlaboratorio_controlPedido', id_pedido)
+
+
+
+@login_required(login_url='login')
+def recepcionPedidoAlaboratorio_registrar(request, id_pedido):
+    pedido = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)   
+    nuevosLotes = request.session['recepcionPedidoAlaboratorio']['nuevosLotes']
+    actualizarLotes = request.session['recepcionPedidoAlaboratorio']['actualizarLotes']
+    detalles = request.session['recepcionPedidoAlaboratorio']['detalles']
+    if len(nuevosLotes) > 0 or len(actualizarLotes) > 0:
+        crear_nuevos_lotes(nuevosLotes)
+        actualizar_lotes(actualizarLotes)
+        actualizar_pedido(pedido, detalles)
+        #return redirect('recepcionPedidoAlaboratorio')
+        return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles, 'modalSuccess': True})
+
+
+    return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles, 'modalError': True})
