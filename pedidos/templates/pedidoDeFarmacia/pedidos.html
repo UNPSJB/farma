@@ -78,6 +78,7 @@
 {% endblock %}
 
 {% block more-scripts %}
+    <script src="{% static 'js/datepicker.js' %}"></script>
     <script>
         (function(){
 
@@ -88,13 +89,6 @@
                 }
 
                 e.stopPropagation();
-            });
-
-            $(".datepicker").datepicker({
-                changeDay: true,
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "1990:2030",
             });
 
             $("#btn-limpiar").on("click", function(e){

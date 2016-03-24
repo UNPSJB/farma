@@ -97,3 +97,24 @@ def procesar_pedido(pedido):
             detalle.cantidadPendiente = detalle.cantidad
             detalle.save()
     pedido.save()
+
+def procesar_pedido_de_clinica(pedido):
+    detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica=pedido.nroPedido) #obtengo todos los detalles del pedido
+    for detalle in detalles:
+        lotes = Lote.objects.filter(medicamento=detalle.medicamento).order_by('fechaVencimiento')
+        cantidadNecesaria = detalle.cantidad
+        i = 0
+        while cantidadNecesaria > 0:
+            lote = lotes[i]
+            if lote.stock:  # Solo uso lotes que no esten vacios
+                if lote.stock < cantidadNecesaria:  # el lote no tiene toda la cantidad que necesito
+                    cantidadNecesaria -= lote.stock
+                    lote.stock = 0
+                else:
+                    lote.stock = lote.stock - cantidadNecesaria
+                    cantidadNecesaria = 0
+                lote.save()
+                i += 1
+
+  
+ 

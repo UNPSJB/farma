@@ -15,15 +15,6 @@
 {% endblock %}
 
 {% block more-scripts %}
+    <script src="{% static 'js/datepicker.js' %}"></script>
     {{ form.media.js }}
-    <script>
-        (function(){
-            $(".datepicker").datepicker({
-                changeDay: true,
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "1990:2030"
-            });
-        })();
-    </script>
 {% endblock %}
