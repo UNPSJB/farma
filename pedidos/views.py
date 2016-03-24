@@ -808,9 +808,11 @@ def recepcionPedidoAlaboratorio_controlDetalle(request, id_pedido, id_detalle):
 class remitoPDF(PDFTemplateView):
     template_name = "remitopdf.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, id_pedido):
+        remito = models.Remito.objects.filter(pedidoFarmacia__pk=id_pedido).latest("id")
+        detallesRemito = models.DetalleRemito.objects.filter(remito=remito)
         return super(remitoPDF, self).get_context_data(
             pagesize="A4",
-            title="Remito",
-            **kwargs
+            remito= remito,
+            detallesRemito = detallesRemito
         )

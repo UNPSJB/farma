@@ -102,7 +102,7 @@ urlpatterns = [
     url(r'^pedidosDeFarmacia/add/detalles/add/$', pviews.detallePedidoDeFarmacia_add, name="detallePedidoDeFarmacia_add"),
     url(r'^pedidosDeFarmacia/add/detalles/update/(?P<id_detalle>\d+)/$', pviews.detallePedidoDeFarmacia_update, name="detallePedidoDeFarmacia_update"),
     url(r'^pedidosDeFarmacia/add/detalles/delete/(?P<id_detalle>\d+)/$', pviews.detallePedidoDeFarmacia_delete, name="detallePedidoDeFarmacia_delete"),
-    url(r'^pedidosDeFarmacia/add/detalles/remitoPDF/$', pviews.remitoPDF.as_view(), name="remitoPDF"),
+    url(r'^pedidosDeFarmacia/add/detalles/remitoPDF/(?P<id_pedido>\d+)/$', pviews.remitoPDF.as_view(), name="remitoPDF"),
 
 
     # ************************************** Pedido de Clinica ***************************************
