@@ -631,6 +631,37 @@ def recepcionPedidoAlaboratorio_registrar(request, id_pedido):
 
     return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles, 'modalError': True})
 
+@login_required(login_url='login')
+def devolucionMedicamentosVencidos(request):
+
+    if request.method =='POST':
+        form = forms.DevolucionMedicamentosForm(request.POST)
+        if form.is_valid():
+            formLaboratorio= form.cleaned_data.get('laboratorio')
+            return redirect('devolucionMedicamentosVencidos_detalle', formLaboratorio.id)
+    else:
+        form = forms.DevolucionMedicamentosForm()
+    return render(request, "devolucionMedicamentosVencidos/devolucionMedicamentosVencidos.html", {'form':form})
+
+
+@login_required(login_url='login')
+def devolucionMedicamentosVencidos_detalle(request, id_laboratorio):
+
+    laboratorio = get_object_or_404(omodels.Laboratorio, pk=id_laboratorio)
+
+    medicamentos = Medicamento.objects.filter(laboratorio = laboratorio) # todos los medicamentos
+
+    lista = []
+
+    for m in medicamentos:
+        lista.append(m.pk)
+
+    lt =datetime.date.today() + datetime.timedelta(weeks=26) # fecha vencimiento.(limite)
+    lotes = Lote.objects.filter(fechaVencimiento__lte = lt, medicamento__pk__in = lista)
+
+
+    return render(request,"devolucionMedicamentosVencidos/devolucionMedicamentosVencidos_detalle.html", {'lotes':lotes, 'laboratorio':laboratorio} )
+
 class remitoPDF(PDFTemplateView):
     template_name = "remitopdf.html"
 

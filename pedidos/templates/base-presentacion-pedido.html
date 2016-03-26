@@ -75,26 +75,6 @@
         </div>
     </div>
 
-	<div class="container panel-detalle">
-		<div class="col-xs-12 ">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-                    <h3 class="panel-title pull-left">Detalles del pedido</h3>
-                    <div class="pull-right">
-                        {% block panel-heading-right %}{% endblock %}
-                    </div>
-                    <div class="clearfix"></div>
-				</div>
-				<div class="panel-body">
-                    {% block grid2 %}
-                    {% endblock %}
-				</div><!-- end panel-body -->
-                {% block panel-footer %}{% endblock %}
-			</div><!-- end panel -->
-		</div><!-- end col-md ... -->
-	</div><!-- end container ... -->
-	<!-- end detalles del pedido -->
-
     {% block modals-abm %}
         <!-- Modal delete-detalle-modal-->
         <div class="modal fade" id="modal-delete-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -205,7 +185,7 @@
                     <div class="modal-footer text-center">
                         {% block modal-footer %}
                             <button type="button" class="btn btn-default btn-generar-remito" data-dismiss="modal">No</button>
-                            <a id="btn-pdf" href="{% url 'remitoPDF' pedido.nroPedido %}" target="_blank" class="btn btn-success btn-generar-remito">Si</a>
+                            <a id="btn-pdf" href="{% block url-pdf %}{% url 'remitoPDF' pedido.nroPedido %}{% endblock %}" target="_blank" class="btn btn-success btn-generar-remito">Si</a>
                             <button type="button" class="btn btn-default btn-sin-remito" data-dismiss="modal">Ok</button>
                         {% endblock %}
                     </div>
