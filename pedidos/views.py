@@ -657,10 +657,35 @@ def devolucionMedicamentosVencidos_detalle(request, id_laboratorio):
         lista.append(m.pk)
 
     lt =datetime.date.today() + datetime.timedelta(weeks=26) # fecha vencimiento.(limite)
-    lotes = Lote.objects.filter(fechaVencimiento__lte = lt, medicamento__pk__in = lista)
+    lotes = Lote.objects.filter(fechaVencimiento__lte = lt, medicamento__pk__in = lista, stock__gt=0)
 
 
     return render(request,"devolucionMedicamentosVencidos/devolucionMedicamentosVencidos_detalle.html", {'lotes':lotes, 'laboratorio':laboratorio} )
+
+
+@login_required(login_url='login')
+def devolucionMedicamentosVencidos_registrar(request, id_laboratorio):
+
+    laboratorio = get_object_or_404(omodels.Laboratorio, pk=id_laboratorio)
+
+    medicamentos = Medicamento.objects.filter(laboratorio = laboratorio) # todos los medicamentos
+
+    lista = []
+
+    for m in medicamentos:
+        lista.append(m.pk)
+
+    lt =datetime.date.today() + datetime.timedelta(weeks=26) # fecha vencimiento.(limite)
+
+    lotes = Lote.objects.filter(fechaVencimiento__lte = lt, medicamento__pk__in = lista, stock__gt=0)
+
+    for l in lotes:
+        l.stock=0
+        l.save()
+
+    return redirect("inicio")
+
+
 
 class remitoPDF(PDFTemplateView):
     template_name = "remitopdf.html"

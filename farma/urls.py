@@ -135,6 +135,8 @@ urlpatterns = [
       # **************************************** Otros Pedidos ******************************************
     url(r'^devolucionMedicamentosVencidos/$', pviews.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
     url(r'^devolucionMedicamentosVencidos/detalles/(?P<id_laboratorio>\d+)/$', pviews.devolucionMedicamentosVencidos_detalle,name="devolucionMedicamentosVencidos_detalle"),
+    url(r'^devolucionMedicamentosVencidos/detalles/(?P<id_laboratorio>\d+)/registar/$', pviews.devolucionMedicamentosVencidos_registrar,name="devolucionMedicamentosVencidos_registrar"),
+
     url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos,name="recepcionReemplazoMedicamentos"),
     
       # **************************************** PDFs ******************************************
