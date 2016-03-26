@@ -45,6 +45,8 @@ INSTALLED_APPS = (
     'organizaciones',
     'pedidos',
     'django_bootstrap_dynamic_formsets',
+    'easy_pdf',
+    'reportlab',
 )
 
 MIDDLEWARE_CLASSES = (

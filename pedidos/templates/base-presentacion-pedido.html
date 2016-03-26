@@ -37,7 +37,6 @@
 {% endblock %}
 
 {% block content %}
-
 	<!-- Cabezera del pedido -->
     <div class="jumbotron">
         <div class="container-fluid">
@@ -53,15 +52,29 @@
                             <span> Numero: {% block nro-pedido %}{% endblock %}</span>
                         </div>
                     </div>
-
                 </div>
             {% endblock %}
             </div>
         </div>
     </div>
 
-
 	<!-- Detalles del pedido -->
+
+    <div class="container panel-detalle">
+        <div class="col-xs-12 ">
+            <ul class="nav nav-tabs">
+              <li class="active"><a data-toggle="tab" href="#detalles-pedido">Detalles del pedido</a></li>
+              {% block more-tabs %}{% endblock %}
+            </ul>
+            <div class="tab-content">
+                <div id="detalles-pedido" class="tab-pane fade in active">
+                    {% block grid %}{% endblock %}
+                </div>
+                {% block more-content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
 	<div class="container panel-detalle">
 		<div class="col-xs-12 ">
 			<div class="panel panel-default">
@@ -73,7 +86,7 @@
                     <div class="clearfix"></div>
 				</div>
 				<div class="panel-body">
-                    {% block grid %}
+                    {% block grid2 %}
                     {% endblock %}
 				</div><!-- end panel-body -->
                 {% block panel-footer %}{% endblock %}
@@ -183,11 +196,18 @@
                     </div>
                     <div class="modal-body">
                         <p class="text-center text-success"><span class="glyphicon glyphicon-ok"></span> El pedido fue registrado correctamente!</p>
-                        <p class="text-center"><strong>Desea generar el remito?</strong></p>
+                        {% block modal-body-extra %}
+                            <div id="generar-remito">
+                                <p class="text-center"><strong>Desea generar el remito?</strong></p>
+                            </div>
+                        {% endblock %}
                     </div>
                     <div class="modal-footer text-center">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                        <button type="button" class="btn btn-success">Si</button>
+                        {% block modal-footer %}
+                            <button type="button" class="btn btn-default btn-generar-remito" data-dismiss="modal">No</button>
+                            <a id="btn-pdf" href="{% url 'remitoPDF' pedido.nroPedido %}" target="_blank" class="btn btn-success btn-generar-remito">Si</a>
+                            <button type="button" class="btn btn-default btn-sin-remito" data-dismiss="modal">Ok</button>
+                        {% endblock %}
                     </div>
                 </div>
                 <!-- modal-content -->
@@ -196,12 +216,9 @@
         </div>
         <!-- end modal ...-->
     {% endblock %}
-
-
 {% endblock %}
 
 {% block scripts %}
-
     <script src="{% static 'js/utils.js' %}"></script>
     <script>
         (function(){
@@ -329,7 +346,14 @@
                     dataType: 'json',
                     success: function(data){
                         if(data['success']){
-                            $("#modal-registrar-pedido").modal('show');
+                            var modal=$("#modal-registrar-pedido");
+                            if (data['existeRemito']){
+                                modal.find('.btn-sin-remito').addClass("hidden");
+                            }else{
+                                modal.find('#generar-remito').addClass("hidden");
+                                modal.find('.btn-generar-remito').addClass("hidden");
+                            }
+                            modal.modal('show');
                         }else{
                             $("#mensaje-error-registrar").text( data['mensaje-error']);
                             $("#modal-error-registrar-pedido").modal('show');
@@ -366,6 +390,10 @@
 
             $("#modal-add-detalle").on("change", "select", function(e){
                 $("#collapse-add-detalle").collapse('hide');
+            });
+
+            $("#btn-pdf").on("click", function(e){
+                $("#modal-registrar-pedido").modal('hide');
             });
         </script>
     {% endblock %}
