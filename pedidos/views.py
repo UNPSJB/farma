@@ -124,7 +124,8 @@ def pedidoDeFarmacia_registrar(request):
                 d = models.DetallePedidoDeFarmacia(pedidoDeFarmacia=p, medicamento=medicamento, cantidad=detalle['cantidad'])
                 d.save()
             utils.procesar_pedido(p)
-            return {'success': True}
+            existeRemito = p.estado != "Pendiente"
+            return {'success': True, 'existeRemito': existeRemito}
         else:
             mensaje_error = "El pedido ya Existe!"
     else:
@@ -242,7 +243,8 @@ def pedidoDeClinica_registrar(request):
                 d = models.DetallePedidoDeClinica(pedidoDeClinica=p, medicamento=medicamento, cantidad=detalle['cantidad'])
                 d.save()
             utils.procesar_pedido_de_clinica(p)
-            return {'success': True}
+            existeRemito = p.estado != "Pendiente"
+            return {'success': True, 'existeRemito': existeRemito}
         else:
             mensaje_error = "El pedido ya Existe!"
     else:

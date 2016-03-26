@@ -173,6 +173,7 @@
         </div>
         <!-- end modal ...-->
 
+
         <!-- Modal modal-registrar-pedido -->
         <div class="modal fade" id="modal-registrar-pedido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog modal-sm" role="document">
@@ -183,11 +184,18 @@
                     </div>
                     <div class="modal-body">
                         <p class="text-center text-success"><span class="glyphicon glyphicon-ok"></span> El pedido fue registrado correctamente!</p>
-                        <p class="text-center"><strong>Desea generar el remito?</strong></p>
+                        {% block modal-body-extra %}
+                            <div id="generar-remito">
+                                <p class="text-center"><strong>Desea generar el remito?</strong></p>
+                            </div>
+                        {% endblock %}
                     </div>
                     <div class="modal-footer text-center">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                        <a id="btn-pdf" href="{% url 'remitoPDF' pedido.nroPedido %}" target="_blank" class="btn btn-success">Si</a>
+                        {% block modal-footer %}
+                            <button type="button" class="btn btn-default btn-generar-remito" data-dismiss="modal">No</button>
+                            <a id="btn-pdf" href="{% url 'remitoPDF' pedido.nroPedido %}" target="_blank" class="btn btn-success btn-generar-remito">Si</a>
+                            <button type="button" class="btn btn-default btn-sin-remito" data-dismiss="modal">Ok</button>
+                        {% endblock %}
                     </div>
                 </div>
                 <!-- modal-content -->
@@ -329,7 +337,14 @@
                     dataType: 'json',
                     success: function(data){
                         if(data['success']){
-                            $("#modal-registrar-pedido").modal('show');
+                            var modal=$("#modal-registrar-pedido");
+                            if (data['existeRemito']){
+                                modal.find('.btn-sin-remito').addClass("hidden");
+                            }else{
+                                modal.find('#generar-remito').addClass("hidden");
+                                modal.find('.btn-generar-remito').addClass("hidden");
+                            }
+                            modal.modal('show');
                         }else{
                             $("#mensaje-error-registrar").text( data['mensaje-error']);
                             $("#modal-error-registrar-pedido").modal('show');

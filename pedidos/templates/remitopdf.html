@@ -1,11 +1,10 @@
 {% extends "easy_pdf/base.html" %}
 {% load staticfiles %}
-{% load staticfiles bootstrap3 %}
 
 {% block content %}
-    <html lang="en">
+    <html lang="es">
       <head>
-        <title>Remito N°: {{ remito.id }}</title>
+        <title>Pedido N°: {{ remito.id }}</title>
         <style>
         .clearfix:after {
           content: "";
@@ -13,138 +12,86 @@
           clear: both;
         }
 
-        a {
-          color: #5D6975;
-          text-decoration: underline;
-        }
-
-        body {
-          position: relative;
-          width: 21cm;
-          height: 29.7cm;
-          margin: 0 auto;
-          color: #001028;
-          background: #FFFFFF;
-          font-family: Arial, sans-serif;
-          font-size: 12px;
-          font-family: Arial;
-        }
-
-        header {
-          padding: 10px 0;
-          margin-bottom: 30px;
-        }
-
-        #logo {
-          text-align: center;
-          margin-bottom: 10px;
-        }
-
         h1 {
           border-top: 1px solid  #5D6975;
           border-bottom: 1px solid  #5D6975;
           color: #5D6975;
           font-size: 2.4em;
-          line-height: 1.4em;
+          line-height: 1.0em;
           font-weight: normal;
           text-align: center;
           margin: 0 0 20px 0;
+          padding: 5px 0 0 0;
         }
 
-        #project {
-          float: left;
+        tr {
+          padding: 2px 0 0 2px;
         }
 
-        #project span {
-          color: #5D6975;
-          text-align: right;
-          width: 52px;
-          margin-right: 10px;
-          display: inline-block;
-          font-size: 0.8em;
-        }
-
-        #company {
+        #drogueria {
           float: right;
           text-align: right;
         }
 
-        #project div,
-        #company div {
-          white-space: nowrap;
+        #cliente {
+          float: left;
         }
 
-        table {
+        #items {
+          clear: both;
           width: 100%;
-          border-collapse: collapse;
-          border-spacing: 0;
-          margin-bottom: 20px;
+          margin: 30px 0 0 0;
+          border: 1px
+          solid black;
         }
 
-        table tr:nth-child(2n-1) td {
-          background: #F5F5F5;
+        #items th {
+          background: #eee;
         }
 
-        table th,
-        table td {
+        #items textarea {
+          width: 80px;
+          height: 0px;
+        }
+
+        #items tr.col-items td {
+          border: 0;
+        }
+
+        #items td.nombre-med {
+          width: 500px;
+        }
+
+        #items td.cant-med {
+          width: 100px;
           text-align: center;
         }
 
-        table th {
-          padding: 5px 20px;
-          color: #5D6975;
-          border-bottom: 1px solid #C1CED9;
-          white-space: nowrap;
-          font-weight: normal;
+        #items td.nombre-med textarea, #items td.cant-med textarea {
+          width: 100%;
         }
 
-        table .service,
-        table .desc {
-          text-align: left;
-        }
-
-        table td {
-          padding: 20px;
-        }
-
-        table td.service,
-        table td.desc {
-          vertical-align: top;
-        }
-
-        table td.unit,
-        table td.qty,
-        table td.total {
-          font-size: 1.2em;
-        }
-
-        table td.grand {
-          border-top: 1px solid #5D6975;
-        }
-
-        #notices .notice {
-          color: #5D6975;
-          font-size: 1.2em;
-        }
         </style>
       </head>
       <body>
         <header class="clearfix">
           <h1>Remito</h1>
-          <div id="company" class="clearfix">
+          <div class="logo-farma" style="margin-bottom: 20px;">
+            <img class="img-responsive" src="{% static 'images/logo_farma.jpg'%}">
+          </div>
+          <div id="drogueria" class="clearfix">
             <div>Drogueria Farma</div>
             <div>455 Foggy Heights</div>
             <div>Telefono</div>
-            <div><a href="mailto:company@example.com">company@example.com</a></div>
           </div>
-          <div id="project">
+          <div id="cliente">
             <div><span>Cliente:</span> {{ remito.pedidoFarmacia.farmacia.razonSocial }}</div>
             <div><span>Direccion:</span> {{ remito.pedidoFarmacia.farmacia.direccion }}</div>
             <div><span>Fecha</span> {{ remito.fecha }} </div>
           </div>
         </header>
         <main>
-          <table class="table table-condensed table-responsive" >
+          <table id="items" class="table table-condensed table-responsive" >
             <thead>
               <tr class="info" align="center">
                   <th>Medicamento</th>
@@ -153,9 +100,9 @@
             </thead>
             <tbody>
               {% for detalle in detallesRemito %}
-                <tr>
-                  <td>{{ detalle.detallePedidoDeFarmacia.medicamento }}</td>
-                  <td>{{ detalle.cantidad }}</td>
+                <tr class="col-items">
+                  <td class="nombre-med">{{ detalle.detallePedidoDeFarmacia.medicamento }}</td>
+                  <td class="cant-med">{{ detalle.cantidad }}</td>
                 </tr>
               {% endfor %}
             </tbody>

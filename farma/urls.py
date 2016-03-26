@@ -137,14 +137,4 @@ urlpatterns = [
     url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos,name="recepcionReemplazoMedicamentos"),
     
       # **************************************** PDFs ******************************************
-
-
-    # URL'S VIEJAS DE PEDIDO A LABORATORIO
-    #    url(r'^pedidoAlaboratorios/verRenglones/(?P<id>\d+)/$', pviews.pedidoAlaboratorios_verRenglones, name="pedidoAlaboratorios_verRenglones"),
-    #    url(r'^pedidoAlaboratorios/agregarRenglones/$', pviews.pedidoAlaboratorios_agregarRenglones, name="pedidoAlaboratorios_agregarRenglones"),
-    #    url(r'^pedidoAlaboratorios/agregarRenglones/add$', pviews.detallePedidoAlaboratorio_add, name="detallePedidoAlaboratorio_add"),
-    #    url(r'^pedidoAlaboratorios/agregarRenglones/registrar-pedido/$', pviews.pedidoAlaboratorio_registrar, name="pedidoAlaboratorio_registrar"),
-    #    url(r'^ListPedidoAlaboratorio/$', pviews.ListPedidoALaboratorio, name="ListPedidoALaboratorio"),
-    #    url(r'^pedidoAlaboratorios/add/$', pviews.PedidoLaboratorio_add, name="PedidoLaboratorio_add"),
-
 ]
