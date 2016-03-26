@@ -10,49 +10,52 @@
 
 {% block nro-pedido %} {{ pedido.nroPedido }} {% endblock %}
 
-{% block more-tabs %}
-    <li><a data-toggle="tab" href="#remitos-pedido">Remitos del pedido</a></li>
-{% endblock %}
-
-{% block grid %}
-    <table class="table table-condensed table-responsive" >
-        <thead>
-            <tr class="info" align="center">
-                <th>Medicamento</th>
-                <th>Cantidad</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for detalle in detalles %}
-                <tr class="clickeable" data-id="{{ detalle.id }}">
-                    <td>{{ detalle.medicamento }}</td>
-                    <td>{{ detalle.cantidad }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table><!-- end table -->
-{% endblock %}
-
-{% block more-content %}
-    <div id="remitos-pedido" class="tab-pane fade">
-        <table class="table table-condensed table-responsive" >
-            <thead>
-                <tr class="info" align="center">
-                    <th>Numero</th>
-                    <th>Fecha</th>
-                    <th>Descargar</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for remito in remitos %}
-                    <tr class="clickeable" data-id="{{ detalle.id }}">
-                        <td>{{ remito.id }}</td>
-                        <td>{{ remito.fecha }}</td>
-                        <td></td>
+{% block panel-detalles %}
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#detalles-pedido">Detalles del pedido</a></li>
+      <li><a data-toggle="tab" href="#remitos-pedido">Remitos del pedido</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="detalles-pedido" class="tab-pane fade in active">
+            <table class="table table-condensed table-responsive" >
+                <thead>
+                    <tr class="info" align="center">
+                        <th>Medicamento</th>
+                        <th>Cantidad</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for detalle in detalles %}
+                        <tr class="clickeable" data-id="{{ detalle.id }}">
+                            <td>{{ detalle.medicamento }}</td>
+                            <td>{{ detalle.cantidad }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="remitos-pedido" class="tab-pane fade">
+            <table class="table table-condensed table-responsive" >
+                <thead>
+                    <tr class="info" align="center">
+                        <th>Numero</th>
+                        <th>Fecha</th>
+                        <th>Descargar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for remito in remitos %}
+                        <tr class="clickeable" data-id="{{ detalle.id }}">
+                            <td>{{ remito.id }}</td>
+                            <td>{{ remito.fecha }}</td>
+                            <td>
+                                <a class="btn btn-info btn-xs" id="remito"><span class="glyphicon glyphicon-floppy-disk"></span></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}
 

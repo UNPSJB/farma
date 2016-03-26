@@ -62,16 +62,22 @@
 
     <div class="container panel-detalle">
         <div class="col-xs-12 ">
-            <ul class="nav nav-tabs">
-              <li class="active"><a data-toggle="tab" href="#detalles-pedido">Detalles del pedido</a></li>
-              {% block more-tabs %}{% endblock %}
-            </ul>
-            <div class="tab-content">
-                <div id="detalles-pedido" class="tab-pane fade in active">
-                    {% block grid %}{% endblock %}
-                </div>
-                {% block more-content %}{% endblock %}
-            </div>
+            {% block panel-detalles %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title pull-left">Detalles del pedido</h3>
+                        <div class="pull-right">
+                            {% block panel-heading-right %}{% endblock %}
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-body">
+                        {% block grid %}
+                        {% endblock %}
+                    </div><!-- end panel-body -->
+                    {% block panel-footer %}{% endblock %}
+                </div><!-- end panel -->
+            {% endblock %}
         </div>
     </div>
 
