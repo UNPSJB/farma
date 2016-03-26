@@ -102,7 +102,8 @@ def pedidoDeFarmacia_add(request):
 def pedidoDeFarmacia_ver(request, id_pedido):
     pedido = get_object_or_404(models.PedidoDeFarmacia,pk=id_pedido)
     detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido)
-    return render(request, "pedidoDeFarmacia/pedidoVer.html",{"pedido": pedido, "detalles": detalles})
+    remitos = models.Remito.objects.filter(pedidoFarmacia__pk=id_pedido)
+    return render(request, "pedidoDeFarmacia/pedidoVer.html",{"pedido": pedido, "detalles": detalles, "remitos": remitos})
 
 
 @json_view

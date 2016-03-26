@@ -10,6 +10,10 @@
 
 {% block nro-pedido %} {{ pedido.nroPedido }} {% endblock %}
 
+{% block more-tabs %}
+    <li><a data-toggle="tab" href="#remitos-pedido">Remitos del pedido</a></li>
+{% endblock %}
+
 {% block grid %}
     <table class="table table-condensed table-responsive" >
         <thead>
@@ -19,15 +23,35 @@
             </tr>
         </thead>
         <tbody>
-
-                {% for detalle in detalles %}
-                    <tr class="clickeable" data-id="{{ detalle.id }}">
-                        <td>{{ detalle.medicamento }}</td>
-                        <td>{{ detalle.cantidad }}</td>
-                    </tr>
-                {% endfor %}
+            {% for detalle in detalles %}
+                <tr class="clickeable" data-id="{{ detalle.id }}">
+                    <td>{{ detalle.medicamento }}</td>
+                    <td>{{ detalle.cantidad }}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table><!-- end table -->
+{% endblock %}
+
+{% block more-content %}
+    <div id="remitos-pedido" class="tab-pane fade">
+        <table class="table table-condensed table-responsive" >
+            <thead>
+                <tr class="info" align="center">
+                    <th>Numero</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for remito in remitos %}
+                    <tr class="clickeable" data-id="{{ detalle.id }}">
+                        <td>{{ remito.id }}</td>
+                        <td>{{ remito.fecha }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
 
 {% block modals-abm %}{% endblock %}

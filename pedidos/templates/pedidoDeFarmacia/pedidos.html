@@ -16,14 +16,13 @@
 <!-- No necesito boton de baja -->
 {% block btn-baja %}{% endblock %}
 
-<!-- No necesito boton de baja -->
+<!-- No necesito boton modificar -->
 {% block btn-modificar %}{% endblock %}
 
 {% block more-buttons %}
     <a id="btn-ver" class="btn btn-info hidden" href="#" >
         <span class="glyphicon glyphicon-eye-open"></span> Ver
     </a>
-
 {% endblock %}
 
 {%block filtro %}
@@ -81,13 +80,11 @@
     <script src="{% static 'js/datepicker.js' %}"></script>
     <script>
         (function(){
-
             $("#btn-ver").on("click", function(e){
                 id = get_selected_row()
                 if(id){
                     $(this).attr("href", "/pedidosDeFarmacia/ver/" + id + "/");
                 }
-
                 e.stopPropagation();
             });
 

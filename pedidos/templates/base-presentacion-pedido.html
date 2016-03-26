@@ -37,7 +37,6 @@
 {% endblock %}
 
 {% block content %}
-
 	<!-- Cabezera del pedido -->
     <div class="jumbotron">
         <div class="container-fluid">
@@ -53,14 +52,27 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
 
-
 	<!-- Detalles del pedido -->
+
+    <div class="container panel-detalle">
+        <div class="col-xs-12 ">
+            <ul class="nav nav-tabs">
+              <li class="active"><a data-toggle="tab" href="#detalles-pedido">Detalles del pedido</a></li>
+              {% block more-tabs %}{% endblock %}
+            </ul>
+            <div class="tab-content">
+                <div id="detalles-pedido" class="tab-pane fade in active">
+                    {% block grid %}{% endblock %}
+                </div>
+                {% block more-content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
 	<div class="container panel-detalle">
 		<div class="col-xs-12 ">
 			<div class="panel panel-default">
@@ -72,7 +84,7 @@
                     <div class="clearfix"></div>
 				</div>
 				<div class="panel-body">
-                    {% block grid %}
+                    {% block grid2 %}
                     {% endblock %}
 				</div><!-- end panel-body -->
                 {% block panel-footer %}{% endblock %}
@@ -100,7 +112,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- Modal add-detalle-modal-->
         <div class="modal fade" id="modal-add-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -173,7 +184,6 @@
         </div>
         <!-- end modal ...-->
 
-
         <!-- Modal modal-registrar-pedido -->
         <div class="modal fade" id="modal-registrar-pedido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog modal-sm" role="document">
@@ -204,12 +214,9 @@
         </div>
         <!-- end modal ...-->
     {% endblock %}
-
-
 {% endblock %}
 
 {% block scripts %}
-
     <script src="{% static 'js/utils.js' %}"></script>
     <script>
         (function(){
