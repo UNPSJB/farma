@@ -345,3 +345,29 @@ class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
             return False
 
         return True
+
+
+    #------------------------------------------------
+
+class DevolucionMedicamentosForm(forms.Form):
+
+        helper = FormHelper()
+        helper.form_class = 'form'
+        helper.form_id = 'form-add-detalle'
+        helper.layout = Layout(
+            Field('laboratorio', placeholder="Laboratorio"),
+            FormActions(
+                StrictButton('Confirmar', type="submit", name="_confirmar", value="_confirmar", id="btn-confirmar",
+                            css_class="btn btn-success pull-right"),
+            )
+        )
+
+        laboratorio=forms.ModelChoiceField(queryset=omodels.Laboratorio.objects.none())
+
+        class Meta:
+            model = models.PedidoAlaboratorio #models que corresponde al pedido a laboratorio
+            fields = ["laboratorio"]
+
+        def __init__(self, *args, **kwargs):
+            super(DevolucionMedicamentosForm, self).__init__(*args, **kwargs)
+            self.fields['laboratorio'].queryset = get_laboratorios_con_medicamentos()

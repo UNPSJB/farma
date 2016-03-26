@@ -157,6 +157,7 @@ def medicamento_add(request):
         dosis_formset = forms.DosisFormSet(request.POST)
         if medicamento_form.is_valid() and dosis_formset.is_valid():
             medicamento = medicamento_form.save()
+
             for dosis_form in dosis_formset:
                 dosis = dosis_form.save(commit=False)
                 dosis.medicamento = medicamento

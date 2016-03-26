@@ -133,7 +133,8 @@ urlpatterns = [
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/registrar/$', pviews.recepcionPedidoAlaboratorio_registrar, name="recepcionPedidoAlaboratorio_registrar"),
 
       # **************************************** Otros Pedidos ******************************************
-    url(r'^devolucionMedicamentosVencidos/$', views.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
+    url(r'^devolucionMedicamentosVencidos/$', pviews.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
+    url(r'^devolucionMedicamentosVencidos/detalles/(?P<id_laboratorio>\d+)/$', pviews.devolucionMedicamentosVencidos_detalle,name="devolucionMedicamentosVencidos_detalle"),
     url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos,name="recepcionReemplazoMedicamentos"),
     
     
