@@ -74,7 +74,6 @@
         </div>
     </div>
 
-
     {% block modal-baja %}
     <!-- Modal modal-baja -->
     <div class="modal fade" id="modal-baja" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -130,7 +129,6 @@
 
            /*************EVENTOS***************/
 
-
             $(document).on("click", limpiar);
 
             $(document).on("keyup", function(e){
@@ -144,18 +142,15 @@
                 e.stopPropagation();
             });
 
-
             $(".clickeable").on("click", function(e) {
                 select_row_table(this);
                 ocultarElementos(id_botones, false);
                 e.stopPropagation();
             });
 
-
             $(".filtro").on("change", function(e) {
                 $(this).closest("form").submit();
             });
-
 
             $("#selectEstado").on("change", function() {
                 $("#btn-filtrar").click();

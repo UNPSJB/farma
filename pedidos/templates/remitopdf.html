@@ -1,0 +1,113 @@
+{% extends "easy_pdf/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <html lang="es">
+      <head>
+        <title>Pedido N°: {{ remito.id }}</title>
+        <style>
+        .clearfix:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+
+        h1 {
+          border-top: 1px solid  #5D6975;
+          border-bottom: 1px solid  #5D6975;
+          color: #5D6975;
+          font-size: 2.4em;
+          line-height: 1.0em;
+          font-weight: normal;
+          text-align: center;
+          margin: 0 0 20px 0;
+          padding: 5px 0 0 0;
+        }
+
+        tr {
+          padding: 2px 0 0 2px;
+        }
+
+        #drogueria {
+          float: right;
+          text-align: right;
+        }
+
+        #cliente {
+          float: left;
+        }
+
+        #items {
+          clear: both;
+          width: 100%;
+          margin: 30px 0 0 0;
+          border: 1px
+          solid black;
+        }
+
+        #items th {
+          background: #eee;
+        }
+
+        #items textarea {
+          width: 80px;
+          height: 0px;
+        }
+
+        #items tr.col-items td {
+          border: 0;
+        }
+
+        #items td.nombre-med {
+          width: 500px;
+        }
+
+        #items td.cant-med {
+          width: 100px;
+          text-align: center;
+        }
+
+        #items td.nombre-med textarea, #items td.cant-med textarea {
+          width: 100%;
+        }
+
+        </style>
+      </head>
+      <body>
+        <header class="clearfix">
+          <h1>Remito</h1>
+          <div class="logo-farma" style="margin-bottom: 20px;">
+            <img class="img-responsive" src="{% static 'images/logo_farma.jpg'%}">
+          </div>
+          <div id="drogueria" class="clearfix">
+            <div>Drogueria Farma</div>
+            <div>455 Foggy Heights</div>
+            <div>Telefono</div>
+          </div>
+          <div id="cliente">
+            <div><span>Cliente:</span> {{ remito.pedidoFarmacia.farmacia.razonSocial }}</div>
+            <div><span>Direccion:</span> {{ remito.pedidoFarmacia.farmacia.direccion }}</div>
+            <div><span>Fecha</span> {{ remito.fecha }} </div>
+          </div>
+        </header>
+        <main>
+          <table id="items" class="table table-condensed table-responsive" >
+            <thead>
+              <tr class="info" align="center">
+                  <th>Medicamento</th>
+                  <th>Cantidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for detalle in detallesRemito %}
+                <tr class="col-items">
+                  <td class="nombre-med">{{ detalle.detallePedidoDeFarmacia.medicamento }}</td>
+                  <td class="cant-med">{{ detalle.cantidad }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </main>
+      </body>
+    </html>
+{% endblock %}

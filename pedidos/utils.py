@@ -71,15 +71,12 @@ def procesar_detalle(detalle, remito):
             i += 1
         return True
 
-
-
 def es_pendiente(pedido):
     detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) #obtengo todos los detalles del pedido
     for detalle in detalles:
         if get_stock_total(detalle.medicamento) > 0:
             return False
     return True
-
 
 def procesar_pedido(pedido):
     detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) #obtengo todos los detalles del pedido
@@ -115,6 +112,3 @@ def procesar_pedido_de_clinica(pedido):
                     cantidadNecesaria = 0
                 lote.save()
                 i += 1
-
-  
- 
