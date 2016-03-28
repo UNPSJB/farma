@@ -186,3 +186,9 @@ def medicamento_update(request, id_medicamento):
         form = forms.MedicamentoFormUpdate(instance=medicamento)
     return render(request, "medicamento/medicamentoUpdate.html", {'form': form, 'id': id_medicamento})
 
+def medicamento_verLotes(request, id_medicamento):
+    medicamento= get_object_or_404(models.Medicamento, pk=id_medicamento)
+    lotes =models.Lote.objects.filter(medicamento__pk = id_medicamento)
+
+    return render(request, "medicamento/verLotes.html", {'lotes':lotes,'medicamento':medicamento})
+

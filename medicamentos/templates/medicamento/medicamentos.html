@@ -12,6 +12,14 @@
 
 {% block url-add %}{% url 'medicamento_add' %}{% endblock %}
 
+{% block more-buttons %}
+
+    <a class="btn btn-info hidden" id="verLote">
+        <span class="glyphicon glyphicon-folder-open"></span> Ver Lotes
+    </a>
+
+{% endblock %}
+
 {% block filtro %}
 
  <label for="nombreFantasia" >Buscar:</label>
@@ -78,6 +86,17 @@
             }
             e.stopPropagation();
         });
+
+        $("#verLote").on("click", function(e) {
+                var id = get_selected_row();
+                if(id){
+                   var url="/medicamentos/verLotes/" + id +"/";
+                    $(this).attr("href", url);
+                }
+                e.stopPropagation();
+            });
+
+
 
     </script>
 {% endblock %}
