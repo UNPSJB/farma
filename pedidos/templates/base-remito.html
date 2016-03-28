@@ -76,36 +76,20 @@
       <body>
         <header class="clearfix">
           <h1>Remito</h1>
-          <div class="logo-farma" style="margin-bottom: 20px;">
-            <img class="img-responsive" src="{% static 'images/logo_farma.jpg'%}">
-          </div>
           <div id="drogueria" class="clearfix">
             <div>Drogueria Farma</div>
             <div>455 Foggy Heights</div>
             <div>Telefono</div>
           </div>
           <div id="cliente">
-            <div><span>Cliente:</span> {{ remito.pedidoFarmacia.farmacia.razonSocial }}</div>
-            <div><span>Direccion:</span> {{ remito.pedidoFarmacia.farmacia.direccion }}</div>
-            <div><span>Fecha</span> {{ remito.fecha }} </div>
+            <div>{% block cliente %}{% endblock %}</div>
+            <div>{% block direccion %}{% endblock %}</div>
+            <div>Fecha: {{ remito.fecha }}</div>
           </div>
         </header>
         <main>
-          <table id="items" class="table table-condensed table-responsive" >
-            <thead>
-              <tr class="info" align="center">
-                  <th>Medicamento</th>
-                  <th>Cantidad</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for detalle in detallesRemito %}
-                <tr class="col-items">
-                  <td class="nombre-med">{{ detalle.detallePedidoDeFarmacia.medicamento }}</td>
-                  <td class="cant-med">{{ detalle.cantidad }}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
+          <table id="items" class="table table-condensed table-responsive">
+            {% block grid %}{% endblock %}
           </table>
         </main>
       </body>
