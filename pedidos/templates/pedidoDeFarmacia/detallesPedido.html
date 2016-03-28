@@ -39,6 +39,8 @@
     </table>
 {% endblock %}
 
+{% block url-pdf %}{% url 'remitoFarmacia' pedido.nroPedido %}{% endblock %}
+
 {% block panel-footer %}
     <div class="panel-footer">
         <div class="pull-right">

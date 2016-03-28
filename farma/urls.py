@@ -1,18 +1,3 @@
-"""organizandor URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.8/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Add an import:  from blog import urls as blog_urls
-    2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
-"""
 from django.conf.urls import include, url
 from django.contrib import admin
 from . import views
@@ -103,7 +88,7 @@ urlpatterns = [
     url(r'^pedidosDeFarmacia/add/detalles/add/$', pviews.detallePedidoDeFarmacia_add, name="detallePedidoDeFarmacia_add"),
     url(r'^pedidosDeFarmacia/add/detalles/update/(?P<id_detalle>\d+)/$', pviews.detallePedidoDeFarmacia_update, name="detallePedidoDeFarmacia_update"),
     url(r'^pedidosDeFarmacia/add/detalles/delete/(?P<id_detalle>\d+)/$', pviews.detallePedidoDeFarmacia_delete, name="detallePedidoDeFarmacia_delete"),
-    url(r'^pedidosDeFarmacia/add/detalles/remitoPDF/(?P<id_pedido>\d+)/$', pviews.remitoPDF.as_view(), name="remitoPDF"),
+    url(r'^pedidosDeFarmacia/remitoFarmacia/(?P<id_pedido>\d+)/$', pviews.remitoFarmacia.as_view(), name="remitoFarmacia"),
 
 
     # ************************************** Pedido de Clinica ***************************************

@@ -195,6 +195,17 @@ def detallePedidoDeFarmacia_delete(request, id_detalle):
     request.session['detallesPedidoDeFarmacia'] = detalles
     return {'detalles': detalles}
 
+class remitoFarmacia(PDFTemplateView):
+    template_name = "pedidoDeFarmacia/remitoFarmacia.html"
+
+    def get_context_data(self, id_pedido):
+        remito = models.Remito.objects.filter(pedidoFarmacia__pk=id_pedido).latest("id")
+        detallesRemito = models.DetalleRemito.objects.filter(remito=remito)
+        return super(remitoFarmacia, self).get_context_data(
+            pagesize="A4",
+            remito= remito,
+            detallesRemito = detallesRemito
+        )
 
 # ******************************* PEDIDOS DE CLINICA ******************************* #
 
@@ -563,7 +574,6 @@ def recepcionPedidoAlaboratorio_cargarPedido(request, id_pedido):
 def recepcionPedidoAlaboratorio_controlPedido(request, id_pedido):
     pedido = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
     detalles = request.session['recepcionPedidoAlaboratorio']['detalles']
-
     return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles})
 
 @login_required(login_url='login')
@@ -684,17 +694,3 @@ def devolucionMedicamentosVencidos_registrar(request, id_laboratorio):
         l.save()
 
     return redirect("inicio")
-
-
-
-class remitoPDF(PDFTemplateView):
-    template_name = "remitopdf.html"
-
-    def get_context_data(self, id_pedido):
-        remito = models.Remito.objects.filter(pedidoFarmacia__pk=id_pedido).latest("id")
-        detallesRemito = models.DetalleRemito.objects.filter(remito=remito)
-        return super(remitoPDF, self).get_context_data(
-            pagesize="A4",
-            remito= remito,
-            detallesRemito = detallesRemito
-        )
