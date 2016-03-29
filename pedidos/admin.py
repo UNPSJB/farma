@@ -1,16 +1,16 @@
 from django.contrib import admin
 
 #=========================INICIO DESDE M 1==================
-from .models import RemitoMedicamentosVencido
+from .models import RemitoMedicamentosVencidos
 from .models import DetalleRemitoMedicamentosVencido
 from .models import PedidoDeFarmacia
 from .models import DetallePedidoDeFarmacia
-from .models import Remito
-from .models import DetalleRemito
+from .models import RemitoDeFarmacia
+from .models import DetalleRemitoDeFarmacia
 from .models import PedidoDeClinica
 from .models import DetallePedidoDeClinica
-from .models import RemitoPedidoDeClinica
-from .models import DetalleRemitoPedidoDeClinica
+from .models import RemitoDeClinica
+from .models import DetalleRemitoDeClinica
 
 #=======================FIN DESDE M 1=======================
 from .models import PedidoAlaboratorio
@@ -27,14 +27,14 @@ class PedidoAlaboratorioAdmin(admin.ModelAdmin):
 
 admin.site.register(PedidoAlaboratorio, PedidoAlaboratorioAdmin)
 admin.site.register(DetallePedidoAlaboratorio)
-admin.site.register(RemitoMedicamentosVencido)
+admin.site.register(RemitoMedicamentosVencidos)
 admin.site.register(DetalleRemitoMedicamentosVencido)
 admin.site.register(PedidoDeFarmacia)
 admin.site.register(DetallePedidoDeFarmacia)
-admin.site.register(Remito)
-admin.site.register(DetalleRemito)
+admin.site.register(RemitoDeFarmacia)
+admin.site.register(DetalleRemitoDeFarmacia)
 #********PEDIDO Y REMITO DE CLINICA********#
 admin.site.register(PedidoDeClinica)
 admin.site.register(DetallePedidoDeClinica)
-admin.site.register(RemitoPedidoDeClinica)
-admin.site.register(DetalleRemitoPedidoDeClinica)
+admin.site.register(RemitoDeClinica)
+admin.site.register(DetalleRemitoDeClinica)

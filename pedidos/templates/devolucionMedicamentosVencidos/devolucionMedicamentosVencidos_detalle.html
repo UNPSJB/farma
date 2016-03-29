@@ -43,7 +43,7 @@
 {% block panel-footer %}
     <div class="panel-footer">
         <div class="pull-right">
-            <a id="btn-registrar" href= {% url "devolucionMedicamentosVencidos_registrar" laboratorio.id %} class="btn btn-primary">Registrar</a>
+            <a id="btn-registrar" href="{% url 'devolucionMedicamentosVencidos_registrar' laboratorio.id %}" class="btn btn-primary">Registrar</a>
         </div>
         <div class="clearfix"></div>
     </div>

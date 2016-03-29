@@ -102,7 +102,7 @@ def pedidoDeFarmacia_add(request):
 def pedidoDeFarmacia_ver(request, id_pedido):
     pedido = get_object_or_404(models.PedidoDeFarmacia,pk=id_pedido)
     detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido)
-    remitos = models.Remito.objects.filter(pedidoFarmacia__pk=id_pedido)
+    remitos = models.RemitoDeFarmacia.objects.filter(pedidoFarmacia__pk=id_pedido)
     return render(request, "pedidoDeFarmacia/pedidoVer.html",{"pedido": pedido, "detalles": detalles, "remitos": remitos})
 
 
@@ -199,8 +199,8 @@ class remitoFarmacia(PDFTemplateView):
     template_name = "pedidoDeFarmacia/remitoFarmacia.html"
 
     def get_context_data(self, id_pedido):
-        remito = models.Remito.objects.filter(pedidoFarmacia__pk=id_pedido).latest("id")
-        detallesRemito = models.DetalleRemito.objects.filter(remito=remito)
+        remito = models.RemitoDeFarmacia.objects.filter(pedidoFarmacia__pk=id_pedido).latest("id")
+        detallesRemito = models.DetalleRemitoDeFarmacia.objects.filter(remito=remito)
         return super(remitoFarmacia, self).get_context_data(
             pagesize="A4",
             remito= remito,
@@ -658,9 +658,7 @@ def devolucionMedicamentosVencidos(request):
 def devolucionMedicamentosVencidos_detalle(request, id_laboratorio):
 
     laboratorio = get_object_or_404(omodels.Laboratorio, pk=id_laboratorio)
-
     medicamentos = Medicamento.objects.filter(laboratorio = laboratorio) # todos los medicamentos
-
     lista = []
 
     for m in medicamentos:
@@ -677,16 +675,13 @@ def devolucionMedicamentosVencidos_detalle(request, id_laboratorio):
 def devolucionMedicamentosVencidos_registrar(request, id_laboratorio):
 
     laboratorio = get_object_or_404(omodels.Laboratorio, pk=id_laboratorio)
-
     medicamentos = Medicamento.objects.filter(laboratorio = laboratorio) # todos los medicamentos
-
     lista = []
 
     for m in medicamentos:
         lista.append(m.pk)
 
     lt =datetime.date.today() + datetime.timedelta(weeks=26) # fecha vencimiento.(limite)
-
     lotes = Lote.objects.filter(fechaVencimiento__lte = lt, medicamento__pk__in = lista, stock__gt=0)
 
     for l in lotes:
