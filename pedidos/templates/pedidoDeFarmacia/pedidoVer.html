@@ -78,26 +78,37 @@
     </div>
 {% endblock %}
 
-<div class="modal fade" id="modal-generar-remito" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title">Generar remito</h3>
-            </div>
-            <div class="modal-body">
-                <p class="text-center text-success"><span class="glyphicon glyphicon-ok"></span>¿Desea generar el remito?</p>
-            </div>
-            <div class="modal-footer text-center">
-                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                <a id="btn-pdf" href="{% block url-pdf %}{% url 'remitoPDF' pedido.nroPedido %}{% endblock %}" target="_blank" class="btn btn-success">Si</a>
+{% block modals-abm %}
+    <div class="modal fade" id="modal-generar-remito" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title">Generar remito</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center text-success">¿Desea generar el remito?</p>
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <a id="btn-pdf" href="{% block url-pdf %}{% url 'remitoFarmacia' pedido.nroPedido %}{% endblock %}" target="_blank" class="btn btn-success">Si</a>
+                </div>
             </div>
         </div>
-        <!-- modal-content -->
     </div>
-    <!-- end modal-dialog -->
-</div>
+{% endblock %}
 
-{% block modals-abm %}{% endblock %}
+{% block more-scripts %}
+    <script>
+        $("#btn-generar").on("click", function(e){
+            $("#modal-generar-remito").modal('show');
+            e.stopPropagation();
+        });
+
+        $("#btn-pdf").on("click", function(e){
+            $("#modal-generar-pedido").modal('hide');
+        });
+    </script>
+{% endblock %}
 
 {% block scripts-abm-detalles %}{% endblock %}

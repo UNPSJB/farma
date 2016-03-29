@@ -31,9 +31,7 @@
 			pointer-events: none;
 			opacity: 0.5;
 		}
- 
 	</style>
-
 {% endblock %}
 
 {% block title %} Control Recepcion del Pedido a Laboratorio {% endblock %}
@@ -47,50 +45,87 @@
 	</div>
 </div>
 
-<div class="container-fluid">
-	 <section class="container-table">
-            <div class="table-farma">
-                <div class="table-farma__header">
-                    <h4 class="table-farma__title u-no-margin">Pedido a laboratorio <span>{{pedido.laboratorio.razonSocial}}</span></h4>
-                </div>
-                <div class="table-responsive">
-                    <table class="table-farma__table">
-						<thead>
-							<tr>
-								<th>Renglón</th>
-								<th>Medicamento</th>
-								<th>Cantidad</th>
-								<th>Pendiente de entrega</th>
-								<th>Acusar recepción</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for detalle in detalles %}
-								<tr class="" data-id="{{ detalle.renglon }}">
-									<td>{{ forloop.counter }}</td>
-									<td>{{ detalle.medicamento.descripcion }}</td>
-									<td>{{ detalle.cantidad }}</td>
-									<td>{{ detalle.cantidadPendiente }}</td>
-		                            <td class="action">
-
-										{% if detalle.cantidadPendiente == 0 %}
-			                                <a href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.numero detalle.renglon %}" class="table-farma__button text-center disabled" role="button">
-			                                    <span class="glyphicon glyphicon-pencil"></span>
-			                                </a>
-			                            {% else %}
-			                            	<a href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.numero detalle.renglon %}" class="table-farma__button text-center">
-			                                    <span class="glyphicon glyphicon-pencil"></span>
-			                                </a>
-			                            {% endif %}
-		                            </td>
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+<div class="container panel-detalle">
+	<div class="col-xs-12 ">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title pull-left">Detalles del pedido</h3>
+				<div class="pull-right">
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="panel-body">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<ul class="nav nav-pills">
+						<li class="active"><a data-toggle="pill" href="#detalles-pedido">Detalles del pedido</a></li>
+						<li><a data-toggle="pill" href="#remitos-pedido">Remitos del pedido</a></li>
+						</ul>
+					</div>
+					<div class="panel-body">
+						<div class="tab-content">
+							<div id="detalles-pedido" class="tab-pane fade in active">
+								<table class="table table-condensed table-responsive" >
+									<thead>
+										<tr>
+											<th>Renglón</th>
+											<th>Medicamento</th>
+											<th>Cantidad</th>
+											<th>Pendiente de entrega</th>
+											<th>Acusar recepción</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for detalle in detalles %}
+											<tr class="" data-id="{{ detalle.renglon }}">
+												<td>{{ forloop.counter }}</td>
+												<td>{{ detalle.medicamento.descripcion }}</td>
+												<td>{{ detalle.cantidad }}</td>
+												<td>{{ detalle.cantidadPendiente }}</td>
+												<td class="action">
+													{% if detalle.cantidadPendiente == 0 %}
+														<a href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.numero detalle.renglon %}" class="table-farma__button text-center disabled" role="button">
+															<span class="glyphicon glyphicon-pencil"></span>
+														</a>
+													{% else %}
+														<a href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.numero detalle.renglon %}" class="table-farma__button text-center">
+															<span class="glyphicon glyphicon-pencil"></span>
+														</a>
+													{% endif %}
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+								<a href="{% url 'recepcionPedidoAlaboratorio_registrar' pedido.numero %}" class="btn btn-primary pull-right">Registrar</a>
+							</div>
+							<div id="remitos-pedido" class="tab-pane fade">
+								<table class="table table-condensed table-responsive" >
+									<thead>
+										<tr class="info" align="center">
+											<th>Numero</th>
+											<th>Fecha</th>
+											<th>Descargar</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for remito in remitos %}
+											<tr class="clickeable" data-id="{{ remito.id }}">
+												<td>{{ remito.id }}</td>
+												<td>{{ remito.fecha }}</td>
+												<td>
+													<a class="btn btn-info btn-xs" id="btn-generar"><span class="glyphicon glyphicon-floppy-disk"></span></a>
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-		</section>
-		<a href="{% url 'recepcionPedidoAlaboratorio_registrar' pedido.numero %}" class="btn btn-primary pull-right">Registrar</a>
+		</div>
 	</div>
 </div>
 
