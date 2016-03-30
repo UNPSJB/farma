@@ -2,8 +2,6 @@ from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.forms import widgets
 from django.conf import settings
-
-
 from django import forms
 from . import models
 from . import lookups
@@ -14,9 +12,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
 from crispy_forms.bootstrap import StrictButton, FormActions
 
-
 class MonodrogaFormGenerico(forms.ModelForm):
-
     class Meta:
         model = models.Monodroga
         fields = ["nombre"]
@@ -25,7 +21,6 @@ class MonodrogaFormGenerico(forms.ModelForm):
         }
 
 class MonodrogaFormAdd(MonodrogaFormGenerico):
-
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -43,7 +38,6 @@ class MonodrogaFormAdd(MonodrogaFormGenerico):
     )  
 
 class MonodrogaFormUpdate(MonodrogaFormGenerico):
-    
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -56,10 +50,7 @@ class MonodrogaFormUpdate(MonodrogaFormGenerico):
         )
     )  
 
-     
-
 class NombreFantasiaFormGenerico(forms.ModelForm):
-
     class Meta:
         model = models.NombreFantasia
         fields = ["nombreF"]
@@ -68,7 +59,6 @@ class NombreFantasiaFormGenerico(forms.ModelForm):
         }
 
 class NombreFantasiaFormAdd(NombreFantasiaFormGenerico):
-
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -86,7 +76,6 @@ class NombreFantasiaFormAdd(NombreFantasiaFormGenerico):
     )  
 
 class NombreFantasiaFormUpdate(NombreFantasiaFormGenerico):
-
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -99,9 +88,7 @@ class NombreFantasiaFormUpdate(NombreFantasiaFormGenerico):
         )
     )  
 
-
 class PresentacionFormGenerico(forms.ModelForm):
-
     class Meta:
         model = models.Presentacion
         fields = ["descripcion" , "unidadMedida", "cantidad"]
@@ -112,7 +99,6 @@ class PresentacionFormGenerico(forms.ModelForm):
         }
 
 class PresentacionFormAdd(PresentacionFormGenerico):
-
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -131,8 +117,7 @@ class PresentacionFormAdd(PresentacionFormGenerico):
         )
     ) 
 
-class PresentacionFormUpdate(PresentacionFormGenerico): 
-
+class PresentacionFormUpdate(PresentacionFormGenerico):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -147,19 +132,14 @@ class PresentacionFormUpdate(PresentacionFormGenerico):
         )
     )  
 
-
-
 class RelatedFieldWidgetCanAdd(widgets.Select):
-
     def __init__(self, related_model, related_url=None, *args, **kw):
-
         super(RelatedFieldWidgetCanAdd, self).__init__(*args, **kw)
 
         if not related_url:
             rel_to = related_model
             info = (rel_to._meta.app_label, rel_to._meta.object_name.lower())
             related_url = 'admin:%s_%s_add' % info
-
         self.related_url = related_url
 
     def render(self, name, value, *args, **kwargs):
@@ -198,7 +178,6 @@ class MedicamentoForm(forms.ModelForm):
 
 
 class MedicamentoFormUpdate(forms.ModelForm):
-
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -220,7 +199,6 @@ class MedicamentoFormUpdate(forms.ModelForm):
             'precioDeVenta': _('Precio de Venta'),
         }
 
-
 class DosisForm(forms.ModelForm):
     class Meta:
         model = models.Dosis
@@ -241,4 +219,5 @@ class DosisFormSetBase(BaseFormSet):
             formula.add(mono)
             print(formula)
         return ret
+
 DosisFormSet = formset_factory(DosisForm, formset=DosisFormSetBase, extra=1)

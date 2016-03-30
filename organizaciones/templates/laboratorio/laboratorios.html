@@ -9,7 +9,6 @@
     Laboratorios
 {% endblock %}
 
-
 {% block grid %}
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
@@ -33,15 +32,21 @@
                 <td>{{laboratorio.telefono}}</td>
                 <td>{{laboratorio.email}}</td>
                 </tr>
-
             {% endfor %}
         </tbody>
     </table>
 {% endblock %}
 
+{% block cantidad-elementos %}
+    {{ laboratorios|length }}
+    {% if laboratorios|length != 1 %}
+        laboratorios
+    {% else %}
+        laboratorio
+    {% endif %}
+{% endblock %}
+
 {% block url-add %}{% url 'laboratorio_add' %}{% endblock %}
-
-
 
 {% block modal-baja-title %}
     <h4 class="modal-title">Eliminar Laboratorio </h4>
@@ -69,6 +74,5 @@
             }
             e.stopPropagation();
         });
-
     </script>
 {% endblock %}

@@ -1,5 +1,4 @@
-from django.shortcuts import render, render_to_response, redirect
-from django.template import RequestContext
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import *
@@ -12,9 +11,6 @@ def get_order(get):
 @login_required(login_url='login')
 def inicio(request):
     return render(request, "inicio/inicio.html")
-
-
-
 
 @login_required(login_url='login')
 def pedidoDeClinica(request):

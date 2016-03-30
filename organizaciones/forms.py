@@ -7,9 +7,7 @@ from crispy_forms.layout import Layout, Field
 from crispy_forms.bootstrap import StrictButton, FormActions
 import re
 
-
 class FarmaciaFormGenerico(forms.ModelForm):
-
     class Meta:
         model = models.Farmacia
         fields = ["razonSocial","cuit","localidad", "direccion","nombreEncargado","telefono","email"]
@@ -23,7 +21,6 @@ class FarmaciaFormGenerico(forms.ModelForm):
             'email': _('Email'),
         }
 
-
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
         if cuit:
@@ -31,10 +28,7 @@ class FarmaciaFormGenerico(forms.ModelForm):
                 raise forms.ValidationError('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
 
-
-
 class FarmaciaFormAdd(FarmaciaFormGenerico):
-
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -57,9 +51,7 @@ class FarmaciaFormAdd(FarmaciaFormGenerico):
         )
     )  
 
-
 class FarmaciaFormUpdate(FarmaciaFormGenerico):
-
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -78,10 +70,7 @@ class FarmaciaFormUpdate(FarmaciaFormGenerico):
         )
     )  
 
-
-
 class ClinicaFormGenerico(forms.ModelForm):
-
     class Meta:
         model = models.Clinica
         fields = ["razonSocial","cuit","localidad", "direccion","obraSocial","telefono","email"]
@@ -103,7 +92,6 @@ class ClinicaFormGenerico(forms.ModelForm):
         return cuit
 
 class ClinicaFormAdd(ClinicaFormGenerico):
-
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -127,7 +115,6 @@ class ClinicaFormAdd(ClinicaFormGenerico):
     )  
 
 class ClinicaFormUpdate(ClinicaFormGenerico):
-
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -146,10 +133,8 @@ class ClinicaFormUpdate(ClinicaFormGenerico):
                         css_class="btn btn-primary pull-right"),
         )
     )  
-    
 
 class LaboratorioFormGenerico(forms.ModelForm):
-
     class Meta:
         model = models.Laboratorio
         fields = ["razonSocial", "cuit","localidad","direccion","telefono","email"]
@@ -170,7 +155,6 @@ class LaboratorioFormGenerico(forms.ModelForm):
         return cuit
 
 class LaboratorioFormAdd(LaboratorioFormGenerico):
-
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -193,7 +177,6 @@ class LaboratorioFormAdd(LaboratorioFormGenerico):
     ) 
 
 class LaboratorioFormUpdate(LaboratorioFormGenerico):
-
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'

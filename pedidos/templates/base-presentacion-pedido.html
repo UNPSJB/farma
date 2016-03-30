@@ -44,22 +44,21 @@
                 <div class="col-sm-12 col-md-6">
                     <h3>{% block tipo-pedido %}{% endblock %} <small class="text-primary">{% block nombre-organizacion %}{% endblock %}</small></h3>
                 </div>
-             {% block etiqueta-Numero-Y-fecha %}
-                <div class="col-sm-12 col-md-6">
-                    <p class="text-right"><span class="glyphicon glyphicon-calendar text-primary"></span> {% block fecha-pedido %}{% endblock %}</p>
-                    <div class="panel panel-default panel-nro-pedido pull-right">
-                        <div class="panel-body">
-                            <span> Numero: {% block nro-pedido %}{% endblock %}</span>
+                {% block etiqueta-Numero-Y-fecha %}
+                    <div class="col-sm-12 col-md-6">
+                        <p class="text-right"><span class="glyphicon glyphicon-calendar text-primary"></span> {% block fecha-pedido %}{% endblock %}</p>
+                        <div class="panel panel-default panel-nro-pedido pull-right">
+                            <div class="panel-body">
+                                <span>Numero: {% block nro-pedido %}{% endblock %}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endblock %}
+                {% endblock %}
             </div>
         </div>
     </div>
 
 	<!-- Detalles del pedido -->
-
     <div class="container panel-detalle">
         <div class="col-xs-12 ">
             {% block panel-detalles %}
@@ -74,9 +73,9 @@
                     <div class="panel-body">
                         {% block grid %}
                         {% endblock %}
-                    </div><!-- end panel-body -->
+                    </div>
                     {% block panel-footer %}{% endblock %}
-                </div><!-- end panel -->
+                </div>
             {% endblock %}
         </div>
     </div>
@@ -166,11 +165,8 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
-                <!-- modal-content -->
             </div>
-            <!-- end modal-dialog -->
         </div>
-        <!-- end modal ...-->
 
         <!-- Modal modal-registrar-pedido -->
         <div class="modal fade" id="modal-registrar-pedido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -191,16 +187,13 @@
                     <div class="modal-footer text-center">
                         {% block modal-footer %}
                             <button type="button" class="btn btn-default btn-generar-remito" data-dismiss="modal">No</button>
-                            <a id="btn-pdf" href="{% block url-pdf %}{% url 'remitoPDF' pedido.nroPedido %}{% endblock %}" target="_blank" class="btn btn-success btn-generar-remito">Si</a>
+                            <a id="btn-pdf" href="{% block url-pdf %}{% endblock %}" target="_blank" class="btn btn-success btn-generar-remito">Si</a>
                             <button type="button" class="btn btn-default btn-sin-remito" data-dismiss="modal">Ok</button>
                         {% endblock %}
                     </div>
                 </div>
-                <!-- modal-content -->
             </div>
-            <!-- end modal-dialog -->
         </div>
-        <!-- end modal ...-->
     {% endblock %}
 {% endblock %}
 

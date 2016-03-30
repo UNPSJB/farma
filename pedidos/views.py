@@ -1,12 +1,9 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 from easy_pdf.views import PDFTemplateView
-from django.db.models import Q # Herramienta que nos permite "darle de comer" expresiones con OR a los filter
-
+from django.db.models import Q
 from medicamentos import models as mmodels
 from organizaciones import models as omodels
-
-# Create your views here.
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404, RequestContext
 from jsonview.decorators import json_view
@@ -19,18 +16,14 @@ from medicamentos.models import Medicamento, Lote
 import datetime
 import re
 
-# Create your views here.
-
 def get_filtros(get, modelo):
     mfilter = {}
     for filtro in modelo.FILTROS:
         if filtro in get and get[filtro]:
             attr = filtro
             value = get[filtro]
-
             if hasattr(modelo, "FILTERMAPPER") and filtro in modelo.FILTERMAPPER:
                 attr = modelo.FILTERMAPPER[filtro]
-
             if value.isdigit():
                 value = int(value)
             elif re.match(r"^[0-9]{2}/[0-9]{2}/[0-9]{4}$", value):
@@ -38,7 +31,6 @@ def get_filtros(get, modelo):
                 fechaModificada =datetime.date(month=int(fechaAux[0]),day=int(fechaAux[1]), year=int(fechaAux[2]))
                 value = fechaModificada
             mfilter[attr] = value
-
     return mfilter
 
 def limpiar_sesion(pedido, detalles, session):
@@ -97,14 +89,12 @@ def pedidoDeFarmacia_add(request):
            form = forms.PedidoDeFarmaciaForm()
     return render(request, "pedidoDeFarmacia/pedidoAdd.html", {"form": form})
 
-
 @login_required(login_url='login')
 def pedidoDeFarmacia_ver(request, id_pedido):
     pedido = get_object_or_404(models.PedidoDeFarmacia,pk=id_pedido)
     detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido)
     remitos = models.RemitoDeFarmacia.objects.filter(pedidoFarmacia__pk=id_pedido)
     return render(request, "pedidoDeFarmacia/pedidoVer.html",{"pedido": pedido, "detalles": detalles, "remitos": remitos})
-
 
 @json_view
 @login_required(login_url='login')
@@ -133,14 +123,12 @@ def pedidoDeFarmacia_registrar(request):
         mensaje_error = "No se puede registrar un pedido sin detalles"
     return {'success': False, 'mensaje-error': mensaje_error}
 
-
 @login_required(login_url='login')
 def detallesPedidoDeFarmacia(request):
     #del request.session['detalles']
     detalles = request.session.setdefault("detallesPedidoDeFarmacia", [])
     pedido = request.session['pedidoDeFarmacia']
     return render(request, "pedidoDeFarmacia/detallesPedido.html", {'pedido': pedido, 'detalles': detalles})
-
 
 @json_view
 @login_required(login_url='login')
@@ -163,7 +151,6 @@ def detallePedidoDeFarmacia_add(request):
             success = False
     form_html = render_crispy_form(form, context=RequestContext(request))
     return {'success': success, 'form_html': form_html}
-
 
 @json_view
 @login_required(login_url='login')
@@ -195,13 +182,13 @@ def detallePedidoDeFarmacia_delete(request, id_detalle):
     request.session['detallesPedidoDeFarmacia'] = detalles
     return {'detalles': detalles}
 
-class remitoFarmacia(PDFTemplateView):
-    template_name = "pedidoDeFarmacia/remitoFarmacia.html"
+class remitoDeFarmacia(PDFTemplateView):
+    template_name = "pedidoDeFarmacia/remitoDeFarmacia.html"
 
     def get_context_data(self, id_pedido):
         remito = models.RemitoDeFarmacia.objects.filter(pedidoFarmacia__pk=id_pedido).latest("id")
         detallesRemito = models.DetalleRemitoDeFarmacia.objects.filter(remito=remito)
-        return super(remitoFarmacia, self).get_context_data(
+        return super(remitoDeFarmacia, self).get_context_data(
             pagesize="A4",
             remito= remito,
             detallesRemito = detallesRemito
@@ -234,7 +221,8 @@ def pedidoDeClinica_add(request):
 def pedidoDeClinica_ver(request, id_pedido):
     pedido = get_object_or_404(models.PedidoDeClinica,pk=id_pedido)
     detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica=pedido)
-    return render(request, "pedidoDeClinica/pedidoVer.html",{"pedido": pedido, "detalles": detalles})
+    remitos = models.RemitoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
+    return render(request, "pedidoDeClinica/pedidoVer.html",{"pedido": pedido, "detalles": detalles, "remitos":remitos})
 
 @json_view
 @login_required(login_url='login')
@@ -255,14 +243,13 @@ def pedidoDeClinica_registrar(request):
                 d = models.DetallePedidoDeClinica(pedidoDeClinica=p, medicamento=medicamento, cantidad=detalle['cantidad'])
                 d.save()
             utils.procesar_pedido_de_clinica(p)
-            existeRemito = p.estado != "Pendiente"
+            existeRemito = True
             return {'success': True, 'existeRemito': existeRemito}
         else:
             mensaje_error = "El pedido ya Existe!"
     else:
         mensaje_error = "No se puede registrar un pedido sin detalles"
     return {'success': False, 'mensaje-error': mensaje_error}
-
 
 @login_required(login_url='login')
 def detallesPedidoDeClinica(request):
@@ -271,7 +258,6 @@ def detallesPedidoDeClinica(request):
     pedido = request.session["pedidoDeClinica"]
     print request.session["pedidoDeClinica"]
     return render(request, "pedidoDeClinica/detallesPedido.html", {'pedido': pedido, 'detalles': detalles})
-
 
 @json_view
 @login_required(login_url='login')
@@ -294,7 +280,6 @@ def detallePedidoDeClinica_add(request):
             success = False
     form_html = render_crispy_form(form, context=RequestContext(request))
     return {'success': success, 'form_html': form_html}
-
 
 @json_view
 @login_required(login_url='login')
@@ -326,6 +311,17 @@ def detallePedidoDeClinica_delete(request, id_detalle):
     request.session['detallesPedidoDeClinica'] = detalles
     return {'detalles': detalles}
 
+class remitoDeClinica(PDFTemplateView):
+    template_name = "pedidoDeClinica/remitoDeClinica.html"
+
+    def get_context_data(self, id_pedido):
+        remito = models.RemitoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido).latest("id")
+        detallesRemito = models.DetalleRemitoDeClinica.objects.filter(remito=remito)
+        return super(remitoDeClinica, self).get_context_data(
+            pagesize="A4",
+            remito= remito,
+            detallesRemito = detallesRemito
+        )
 
 #=================VISTAS DE PEDIDO A LABORATORIO NUEVAS=================#
 
@@ -351,8 +347,8 @@ def get_detalles_a_pedir(pkLaboratorio):
 def pedidosAlaboratorio(request):
     filters = get_filtros(request.GET, models.PedidoAlaboratorio)
     mfilters = dict(filter(lambda v: v[0] in models.PedidoAlaboratorio.FILTROS, filters.items()))
-    pedidosAlab = models.PedidoAlaboratorio.objects.filter(**mfilters)
-    return render(request, "pedidoAlaboratorio/pedidos.html", {"pedidosAlab": pedidosAlab, "filtros": filters})
+    pedidos = models.PedidoAlaboratorio.objects.filter(**mfilters)
+    return render(request, "pedidoAlaboratorio/pedidos.html", {"pedidos": pedidos, "filtros": filters})
 
 @login_required(login_url='login')
 def pedidoAlaboratorio_add(request):
@@ -371,9 +367,9 @@ def pedidoAlaboratorio_add(request):
     return render(request, 'pedidoAlaboratorio/pedidoAdd.html', {'form': form})
 
 def pedidoAlaboratorio_ver(request, id_pedido):
-    pedidoALab = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
-    detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido=pedidoALab.numero)
-    return render(request, "pedidoAlaboratorio/pedidoVer.html", {'nombreLab': pedidoALab.laboratorio.razonSocial, 'numeroPedido': pedidoALab.pk, 'fecha':pedidoALab.fecha, 'detalles': detalles})
+    pedido = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
+    detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido=pedido.numero)
+    return render(request, "pedidoAlaboratorio/pedidoVer.html", {'pedido': pedido, 'detalles': detalles})
 
 def detallesPedidoAlaboratorio(request):
     pedido = request.session['pedidoAlaboratorio']
@@ -669,7 +665,6 @@ def devolucionMedicamentosVencidos_detalle(request, id_laboratorio):
 
 
     return render(request,"devolucionMedicamentosVencidos/devolucionMedicamentosVencidos_detalle.html", {'lotes':lotes, 'laboratorio':laboratorio} )
-
 
 @login_required(login_url='login')
 def devolucionMedicamentosVencidos_registrar(request, id_laboratorio):

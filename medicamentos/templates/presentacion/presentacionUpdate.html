@@ -2,19 +2,14 @@
 
 {% block title %}Actualizar Presentacion{% endblock %}
 
+{% block panel-heading-add %}
+    <h3 class="panel-title">Modificacion de Presentacion</h3>
+{% endblock %}
 
-					{% block panel-heading-add %}
+{% block url-form-action %}{% url 'presentacion_update' id %}{% endblock %}
 
-                        <h3 class="panel-title">Modificacion de Presentacion</h3>
+{% block boton-form %}
+    <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+{% endblock%}
 
-                    {% endblock %}
-
-                    {% block url-form-action %} {% url 'presentacion_update' id %}  {% endblock %}
-
-                    {% block boton-form %}
-
-                        <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
-
-                    {% endblock%}
-
-					{% block url-previous %} {% url 'presentaciones' %} {% endblock %}
+{% block url-previous %}{% url 'presentaciones' %}{% endblock %}

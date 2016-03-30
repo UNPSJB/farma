@@ -91,7 +91,7 @@
                 </div>
                 <div class="modal-footer text-center">
                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                    <a id="btn-pdf" href="{% block url-pdf %}{% url 'remitoFarmacia' pedido.nroPedido %}{% endblock %}" target="_blank" class="btn btn-success">Si</a>
+                    <a id="btn-pdf" href="{% block url-pdf %}{% url 'remitoDeFarmacia' pedido.nroPedido %}{% endblock %}" target="_blank" class="btn btn-success">Si</a>
                 </div>
             </div>
         </div>
@@ -106,7 +106,7 @@
         });
 
         $("#btn-pdf").on("click", function(e){
-            $("#modal-generar-pedido").modal('hide');
+            $("#modal-generar-remito").modal('hide');
         });
     </script>
 {% endblock %}

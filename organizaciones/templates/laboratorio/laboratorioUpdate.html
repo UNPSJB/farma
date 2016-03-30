@@ -2,19 +2,14 @@
 
 {% block title %}Actualizar Laboratorio{% endblock %}
 
+{% block panel-heading-add %}
+    <h3 class="panel-title">Modificacion de Laboratorio</h3>
+{% endblock %}
 
-					{% block panel-heading-add %}
+{% block url-form-action %}{% url 'laboratorio_update' id %}{% endblock %}
 
-                        <h3 class="panel-title">Modificacion de Laboratorio</h3>
+{% block boton-form %
+    <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+{% endblock%}
 
-                    {% endblock %}
-
-                    {% block url-form-action %} {% url 'laboratorio_update' id %}  {% endblock %}
-
-                    {% block boton-form %}
-
-                        <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
-
-                    {% endblock%}
-
-					{% block url-previous %} {% url 'laboratorios' %} {% endblock %}
+{% block url-previous %}{% url 'laboratorios' %}{% endblock %}

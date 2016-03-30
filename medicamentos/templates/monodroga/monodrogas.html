@@ -31,10 +31,8 @@
 {% block url-add %}{% url 'monodroga_add' %}{% endblock %}
 
 {% block filtro %}
-
- <label for="nombre" >Buscar:</label>
- <input class="filtro" id="nombre" name="nombre" value="{{filtros.nombre}}" placeholder=" Nombre" autofocus>
-
+    <label for="nombre" >Buscar:</label>
+    <input class="filtro" id="nombre" name="nombre" value="{{filtros.nombre}}" placeholder=" Nombre" autofocus>
 {% endblock %}
 
 {% block cantidad-elementos %}
@@ -55,7 +53,6 @@
 {% endblock %}
 
 {% block more-scripts %}
-
     <script>
         $("#baja").on("click", function(e) {
             var id = get_selected_row();
@@ -74,6 +71,5 @@
             }
             e.stopPropagation();
         });
-
     </script>
 {% endblock %}

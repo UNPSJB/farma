@@ -42,7 +42,7 @@
 
 {% block cantidad-elementos %}
     {{ farmacias|length }}
-    {% if farmacias|length != 1%}
+    {% if farmacias|length != 1 %}
         farmacias
     {% else %}
         farmacia
@@ -50,9 +50,6 @@
 {% endblock %}
 
 {% block url-add %}{% url 'farmacia_add' %}{% endblock %}
-
-
-
 
 {% block modal-baja-title %}
     <h4 class="modal-title">Eliminar Farmacia </h4>
@@ -70,7 +67,6 @@
                 crear_baja("/farmacias/delete/", id);
             }
             e.stopPropagation();
-
         });
 
         $("#modificar").on("click", function(e){

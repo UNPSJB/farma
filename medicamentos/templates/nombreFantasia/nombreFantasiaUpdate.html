@@ -2,19 +2,14 @@
 
 {% block title %}Actualizar Nombre de Fantasia{% endblock %}
 
+{% block panel-heading-add %}
+    <h3 class="panel-title">Modificacion de Nombre Fantasia</h3>
+{% endblock %}
 
-					{% block panel-heading-add %}
+{% block url-form-action %}{% url 'nombreFantasia_update' id %}{% endblock %}
 
-                        <h3 class="panel-title">Modificacion de Nombre Fantasia</h3>
+{% block boton-form %}
+    <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+{% endblock%}
 
-                    {% endblock %}
-
-                    {% block url-form-action %} {% url 'nombreFantasia_update' id %}  {% endblock %}
-
-                    {% block boton-form %}
-
-                        <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
-
-                    {% endblock%}
-
-					{% block url-previous %} {% url 'nombresFantasia' %} {% endblock %}
+{% block url-previous %}{% url 'nombresFantasia' %}{% endblock %}

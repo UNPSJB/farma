@@ -2,96 +2,93 @@
 {% load staticfiles %}
 
 {% block content %}
-    <html lang="es">
-      <head>
-        <title>Pedido N°: {{ remito.id }}</title>
+    <head>
+        <title>Remito N°: {{ remito.id }}</title>
         <style>
-        .clearfix:after {
-          content: "";
-          display: table;
-          clear: both;
-        }
+            .clearfix:after {
+              content: "";
+              display: table;
+              clear: both;
+            }
 
-        h1 {
-          border-top: 1px solid  #5D6975;
-          border-bottom: 1px solid  #5D6975;
-          color: #5D6975;
-          font-size: 2.4em;
-          line-height: 1.0em;
-          font-weight: normal;
-          text-align: center;
-          margin: 0 0 20px 0;
-          padding: 5px 0 0 0;
-        }
+            h1 {
+              border-top: 1px solid  #5D6975;
+              border-bottom: 1px solid  #5D6975;
+              color: #5D6975;
+              font-size: 2.4em;
+              line-height: 1.0em;
+              font-weight: normal;
+              text-align: center;
+              margin: 0 0 20px 0;
+              padding: 5px 0 0 0;
+            }
 
-        tr {
-          padding: 2px 0 0 2px;
-        }
+            tr {
+              padding: 2px 0 0 2px;
+            }
 
-        #drogueria {
-          float: right;
-          text-align: right;
-        }
+            #drogueria {
+              float: right;
+              text-align: right;
+            }
 
-        #cliente {
-          float: left;
-        }
+            #cliente {
+              float: left;
+            }
 
-        #items {
-          clear: both;
-          width: 100%;
-          margin: 30px 0 0 0;
-          border: 1px
-          solid black;
-        }
+            #items {
+              clear: both;
+              width: 100%;
+              margin: 30px 0 0 0;
+              border: 1px
+              solid black;
+            }
 
-        #items th {
-          background: #eee;
-        }
+            #items th {
+              background: #eee;
+            }
 
-        #items textarea {
-          width: 80px;
-          height: 0px;
-        }
+            #items textarea {
+              width: 80px;
+              height: 0px;
+            }
 
-        #items tr.col-items td {
-          border: 0;
-        }
+            #items tr.col-items td {
+              border: 0;
+            }
 
-        #items td.nombre-med {
-          width: 500px;
-        }
+            #items td.nombre-med {
+              width: 500px;
+            }
 
-        #items td.cant-med {
-          width: 100px;
-          text-align: center;
-        }
+            #items td.cant-med {
+              width: 100px;
+              text-align: center;
+            }
 
-        #items td.nombre-med textarea, #items td.cant-med textarea {
-          width: 100%;
-        }
-
+            #items td.nombre-med textarea, #items td.cant-med textarea {
+              width: 100%;
+            }
         </style>
-      </head>
-      <body>
+    </head>
+    <body>
         <header class="clearfix">
-          <h1>RemitoDeFarmacia</h1>
-          <div id="drogueria" class="clearfix">
-            <div>Drogueria Farma</div>
-            <div>455 Foggy Heights</div>
-            <div>Telefono</div>
-          </div>
-          <div id="cliente">
-            <div>{% block cliente %}{% endblock %}</div>
-            <div>{% block direccion %}{% endblock %}</div>
-            <div>Fecha: {{ remito.fecha }}</div>
-          </div>
+            <h1>Remito</h1>
+            <div id="drogueria" class="clearfix">
+                <div>Drogueria Farma</div>
+                <div>455 Foggy Heights</div>
+                <div>Telefono</div>
+            </div>
+            <div id="cliente">
+                <div>{% block cliente %}{% endblock %}</div>
+                <div>{% block direccion %}{% endblock %}</div>
+                <div>Fecha: {{ remito.fecha }}</div>
+            </div>
         </header>
         <main>
-          <table id="items" class="table table-condensed table-responsive">
-            {% block grid %}{% endblock %}
-          </table>
+            <table id="items" class="table table-condensed table-responsive">
+                {% block grid %}{% endblock %}
+            </table>
         </main>
-      </body>
-    </html>
+    </body>
 {% endblock %}

@@ -17,23 +17,27 @@
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr class="info">
-            <th>Nombre Fantasia </th>
-
+                <th>Nombre Fantasia </th>
             </tr>
         </thead>
         <tbody>
-            {% for nombreFantasia in nombresFantasias %}
-
+            {% for nombreFantasia in nombresFantasia %}
                 <tr class="clickeable" data-id="{{ nombreFantasia.id }}">
-                <td>{{nombreFantasia.nombreF}}</td>
-
+                    <td>{{nombreFantasia.nombreF}}</td>
                 </tr>
-
             {% endfor %}
         </tbody>
     </table>
 {% endblock %}
 
+{% block cantidad-elementos %}
+    {{ nombresFantasia|length }}
+    {% if nombresFantasia|length != 1 %}
+        nombres fantasia
+    {% else %}
+        nombre fantasia
+    {% endif %}
+{% endblock %}
 
 {% block url-add %}{% url 'nombreFantasia_add' %}{% endblock %}
 
@@ -53,7 +57,6 @@
 {% endblock %}
 
 {% block more-scripts %}
-
     <script>
         $("#baja").on("click", function(e) {
             var id = get_selected_row();
