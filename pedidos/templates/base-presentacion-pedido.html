@@ -187,7 +187,7 @@
                     <div class="modal-footer text-center">
                         {% block modal-footer %}
                             <button type="button" class="btn btn-default btn-generar-remito" data-dismiss="modal">No</button>
-                            <a id="btn-pdf" href="{% block url-pdf %}{% endblock %}" target="_blank" class="btn btn-success btn-generar-remito">Si</a>
+                            <a id="btn-pdf" target="_blank" class="btn btn-success btn-generar-remito">Si</a>
                             <button type="button" class="btn btn-default btn-sin-remito" data-dismiss="modal">Ok</button>
                         {% endblock %}
                     </div>
@@ -327,6 +327,7 @@
                         if(data['success']){
                             var modal=$("#modal-registrar-pedido");
                             if (data['existeRemito']){
+                                $("#btn-pdf").attr("href",{% block url-remito %}{% endblock %})
                                 modal.find('.btn-sin-remito').addClass("hidden");
                             }else{
                                 modal.find('#generar-remito').addClass("hidden");

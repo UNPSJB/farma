@@ -27,7 +27,7 @@
               padding: 2px 0 0 2px;
             }
 
-            #drogueria {
+            #vendedor {
               float: right;
               text-align: right;
             }
@@ -74,10 +74,12 @@
     <body>
         <header class="clearfix">
             <h1>Remito</h1>
-            <div id="drogueria" class="clearfix">
-                <div>Drogueria Farma</div>
-                <div>455 Foggy Heights</div>
-                <div>Telefono</div>
+            <div id="vendedor" class="clearfix">
+                {% block vendedor %}
+                    <div>Drogueria Farma</div>
+                    <div>455 Foggy Heights</div>
+                    <div>Telefono</div>
+                {% endblock %}
             </div>
             <div id="cliente">
                 <div>{% block cliente %}{% endblock %}</div>

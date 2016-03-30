@@ -116,7 +116,11 @@ def pedidoDeFarmacia_registrar(request):
                 d.save()
             utils.procesar_pedido(p)
             existeRemito = p.estado != "Pendiente"
-            return {'success': True, 'existeRemito': existeRemito}
+            if existeRemito:
+                nroRemito = models.RemitoDeFarmacia.objects.get(pedidoFarmacia__pk=p.pk)
+                return {'success': True, 'existeRemito': True, 'nroRemito': nroRemito.id}
+            else:
+                return {'success': True, 'existeRemito': False}
         else:
             mensaje_error = "El pedido ya Existe!"
     else:
@@ -125,7 +129,6 @@ def pedidoDeFarmacia_registrar(request):
 
 @login_required(login_url='login')
 def detallesPedidoDeFarmacia(request):
-    #del request.session['detalles']
     detalles = request.session.setdefault("detallesPedidoDeFarmacia", [])
     pedido = request.session['pedidoDeFarmacia']
     return render(request, "pedidoDeFarmacia/detallesPedido.html", {'pedido': pedido, 'detalles': detalles})
@@ -185,8 +188,8 @@ def detallePedidoDeFarmacia_delete(request, id_detalle):
 class remitoDeFarmacia(PDFTemplateView):
     template_name = "pedidoDeFarmacia/remitoDeFarmacia.html"
 
-    def get_context_data(self, id_pedido):
-        remito = models.RemitoDeFarmacia.objects.filter(pedidoFarmacia__pk=id_pedido).latest("id")
+    def get_context_data(self, id_remito):
+        remito = models.RemitoDeFarmacia.objects.get(id=id_remito)
         detallesRemito = models.DetalleRemitoDeFarmacia.objects.filter(remito=remito)
         return super(remitoDeFarmacia, self).get_context_data(
             pagesize="A4",
@@ -243,8 +246,8 @@ def pedidoDeClinica_registrar(request):
                 d = models.DetallePedidoDeClinica(pedidoDeClinica=p, medicamento=medicamento, cantidad=detalle['cantidad'])
                 d.save()
             utils.procesar_pedido_de_clinica(p)
-            existeRemito = True
-            return {'success': True, 'existeRemito': existeRemito}
+            nroRemito = models.RemitoDeClinica.objects.get(pedidoDeClinica__pk=p.pk)
+            return {'success': True, 'existeRemito': True, 'nroRemito': nroRemito.id}
         else:
             mensaje_error = "El pedido ya Existe!"
     else:
@@ -314,8 +317,8 @@ def detallePedidoDeClinica_delete(request, id_detalle):
 class remitoDeClinica(PDFTemplateView):
     template_name = "pedidoDeClinica/remitoDeClinica.html"
 
-    def get_context_data(self, id_pedido):
-        remito = models.RemitoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido).latest("id")
+    def get_context_data(self, id_remito):
+        remito = models.RemitoDeClinica.objects.get(id=id_remito)
         detallesRemito = models.DetalleRemitoDeClinica.objects.filter(remito=remito)
         return super(remitoDeClinica, self).get_context_data(
             pagesize="A4",
@@ -636,6 +639,18 @@ def recepcionPedidoAlaboratorio_registrar(request, id_pedido):
         return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles, 'modalSuccess': True})
 
     return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles, 'modalError': True})
+
+class remitoDeLaboratorio(PDFTemplateView):
+    template_name = "recepcionPedidoALaboratorio/remitoDeLaboratorio.html"
+
+    def get_context_data(self, id_pedido):
+        remito = models.RemitoLaboratorio.objects.filter(pedidoAlaboratorio__pk=id_pedido).latest("id")
+        detallesRemito = models.DetalleRemitoLaboratorio.objects.filter(remito=remito)
+        return super(remitoDeLaboratorio, self).get_context_data(
+            pagesize="A4",
+            remito= remito,
+            detallesRemito = detallesRemito
+        )
 
 @login_required(login_url='login')
 def devolucionMedicamentosVencidos(request):
