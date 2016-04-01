@@ -3,7 +3,7 @@
 {% load bootstrap3 %}
 
 {% block stylesheets %}
-	<link rel="stylesheet" href="{% static 'css/base-abm.css' %}">
+	<link rel="stylesheet" href="{% static 'css/base-ABM.css' %}">
     {% block more-stylesheets %}
     {% endblock %}
 {% endblock %}
@@ -12,7 +12,6 @@
 {% endblock %}
 
 {% block content %}
-
     <div class="container-fluid panel-grid">
         <div class="col-xs-12 {% block ancho-panel %}{% endblock %}">
             <div class="panel panel-primary">
@@ -22,7 +21,6 @@
                             {% block panel-title-ABM %}
                             {% endblock %}
                         </h3>
-
                     </div>
                     <div class="btn-group btn-group-xs pull-right">
                         <a class="btn btn-success" href="{% block url-add %} {% endblock %}" id="alta">
@@ -38,7 +36,6 @@
                                 <span class="glyphicon glyphicon-minus"></span>  Baja
                             </a>
                         {% endblock %}
-
                         {% block more-buttons %}
                         {% endblock %}
                     </div>
@@ -48,17 +45,12 @@
                     {% block form-busqueda %}
                         <form method="GET" class="form-inline pull-right">
                             <div class="form-group">
-
                                 {%block filtro %}
-
-                                <label for="razonSocial" >Buscar:</label>
-                                <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social" autofocus>
-
-                                <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
-                                <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
-
+                                    <label for="razonSocial" >Buscar:</label>
+                                    <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social" autofocus>
+                                    <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
+                                    <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
                                 {% endblock %}
-
                             </div>
                         </form>
                     {% endblock %}
@@ -75,7 +67,6 @@
     </div>
 
     {% block modal-baja %}
-    <!-- Modal modal-baja -->
     <div class="modal fade" id="modal-baja" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -91,24 +82,18 @@
                     <a class="btn btn-primary confirmar">Confirmar</a>
                 </div>
             </div>
-            <!-- modal-content -->
         </div>
-        <!-- end modal-dialog -->
     </div>
-    <!-- end modal ...-->
     {% endblock %}
-
     <!-- Bloque para agregar mas contenido HTML -->
     {% block more-content %}
     {% endblock %}
-
 {% endblock %}
 
 {% block scripts %}
     <script src="{% static 'js/utils.js' %}"></script>
     <script>
         $(function() {
-
             var id_botones = [],
                 load = function(){
                     var $botones = $(".panel-heading a");
@@ -160,8 +145,6 @@
                 $("form input").val("");
                 e.stopPropagation();
             });
-
-
         });
     </script>
     {% block more-scripts %}{% endblock %}

@@ -39,6 +39,8 @@
     </table>
 {% endblock %}
 
+{% block url-remito %}"/pedidosDeFarmacia/remitoDeFarmacia/"+data['nroRemito']+"/"{% endblock %}
+
 {% block panel-footer %}
     <div class="panel-footer">
         <div class="pull-right">
@@ -49,7 +51,6 @@
 {% endblock %}
 
 {% block more-scripts %}
-
     <script>
         (function(){
             $('#modal-registrar-pedido').on('hidden.bs.modal', function(e){
@@ -112,8 +113,6 @@
                 registrar_pedido_ajax("{% url 'pedidoDeClinica_registrar' %}");
                 e.stopPropagation();
             });
-
         })();
     </script>
-
 {% endblock %}

@@ -66,7 +66,7 @@
                                     <td>{{ remito.id }}</td>
                                     <td>{{ remito.fecha }}</td>
                                     <td>
-                                        <a class="btn btn-info btn-xs" id="btn-generar"><span class="glyphicon glyphicon-floppy-disk"></span></a>
+                                        <a data-remito="{{ remito.id }}" class="btn btn-info btn-xs" id="btn-generar"><span class="glyphicon glyphicon-floppy-disk"></span></a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -91,7 +91,7 @@
                 </div>
                 <div class="modal-footer text-center">
                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                    <a id="btn-pdf" href="{% block url-pdf %}{% url 'remitoFarmacia' pedido.nroPedido %}{% endblock %}" target="_blank" class="btn btn-success">Si</a>
+                    <a id="btn-pdf" target="_blank" class="btn btn-success">Si</a>
                 </div>
             </div>
         </div>
@@ -101,12 +101,14 @@
 {% block more-scripts %}
     <script>
         $("#btn-generar").on("click", function(e){
+            nroRemito = $(this).data("remito");
+            $("#btn-pdf").attr("href","/pedidosDeFarmacia/remitoDeFarmacia/"+nroRemito+"/");
             $("#modal-generar-remito").modal('show');
             e.stopPropagation();
         });
 
         $("#btn-pdf").on("click", function(e){
-            $("#modal-generar-pedido").modal('hide');
+            $("#modal-generar-remito").modal('hide');
         });
     </script>
 {% endblock %}

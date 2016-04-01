@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from . import forms
 from django.contrib.auth.decorators import login_required
-# Create your views here.
 
 def get_filtros(get, modelo):
     mfilter = {}
@@ -57,8 +56,8 @@ def monodroga_delete(request, id_monodroga):
 def nombresFantasia(request):
     filters = get_filtros(request.GET, models.NombreFantasia)
     mfilters = dict(filter(lambda v: v[0] in models.NombreFantasia.FILTROS, filters.items()))
-    nombresFantasias = models.NombreFantasia.objects.filter(**mfilters)
-    return render(request, "nombreFantasia/nombresFantasia.html",{"nombresFantasias": nombresFantasias, "filtros": filters})
+    nombresFantasia = models.NombreFantasia.objects.filter(**mfilters)
+    return render(request, "nombreFantasia/nombresFantasia.html",{"nombresFantasia": nombresFantasia, "filtros": filters})
 
 @login_required(login_url='login')
 def nombresFantasia_add(request):

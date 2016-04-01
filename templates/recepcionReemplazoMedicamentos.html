@@ -1,10 +1,13 @@
-{% extends "base-pedidos.html" %}
+{% extends "base/base-abm.html" %}
+{% load staticfiles %}
 
 {% block title %}Recepción de medicamentos para reemplazar por vencidos{% endblock %}
 
-{% block panel-title-pedido %} 
+{% block panel-title-ABM %}
 	<h3 class="panel-title">Recepción de medicamentos para reemplazar por vencidos</h3> 
 {% endblock %}
+
+{% block btn-modificar %}{% endblock %}
 
 {% block form-pedido %}
 	<form class="form-horizontal">

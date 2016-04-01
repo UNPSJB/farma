@@ -1,22 +1,18 @@
 {% extends "base/base-abm.html"%}
-
 {% load staticfiles %}
 
 {% block title %}Pedidos de Farmacia{% endblock %}
 
-    {% block more-stylesheets %}
-         <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
-    {% endblock %}
-
+{% block more-stylesheets %}
+     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
+{% endblock %}
 
 {% block panel-title-ABM %}Pedidos de Farmacia{% endblock %}
 
 {% block url-add %}{% url 'pedidoDeFarmacia_add' %}{% endblock %}
 
-<!-- No necesito boton de baja -->
 {% block btn-baja %}{% endblock %}
 
-<!-- No necesito boton modificar -->
 {% block btn-modificar %}{% endblock %}
 
 {% block more-buttons %}
@@ -66,14 +62,12 @@
 {% endblock %}
 
 {% block cantidad-elementos %}
-
     {{ pedidos|length }}
     {% if pedidos|length != 1%}
         pedidos de farmacia
     {% else %}
         pedido de farmacia
     {% endif %}
-
 {% endblock %}
 
 {% block more-scripts %}
@@ -96,7 +90,6 @@
             $("#selectEstado").on('change',function() {
                 $("#btn-filtrar").click();
             });
-
         })();
     </script>
 {% endblock %}

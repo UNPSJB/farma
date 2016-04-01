@@ -1,14 +1,10 @@
 # -*- encoding: utf-8 -*-
 from django import forms
-from . import models
-from pedidos import models, lookups, utils
-from selectable import forms as selectable
-from django.core.exceptions import ObjectDoesNotExist
+from pedidos import models, utils
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, Div
+from crispy_forms.layout import Layout, Field
 from crispy_forms.bootstrap import StrictButton, FormActions
 from django.utils.translation import ugettext_lazy as _
-import datetime
 from . import lookups
 from selectable import forms as selectable
 from medicamentos import models as mmodels
@@ -58,7 +54,6 @@ class DetallePedidoDeFarmaciaForm(forms.ModelForm):
     def clean_cantidad(self):
         return validarCantidad(self.cleaned_data['cantidad'])
 
-
 class UpdateDetallePedidoDeFarmaciaForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
@@ -102,7 +97,6 @@ class PedidoDeClinicaForm(forms.ModelForm):
             'clinica': selectable.AutoCompleteSelectWidget(lookup_class=lookups.ClinicaLookup),
         }
 
-
 def get_medicamentos_con_stock():
     medicamentos_con_stock = []
     medicamentos = mmodels.Medicamento.objects.all()
@@ -139,7 +133,6 @@ class DetallePedidoDeClinicaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DetallePedidoDeClinicaForm, self).__init__(*args, **kwargs)
         self.fields['medicamento'].queryset = get_medicamentos_con_stock()
-
 
     def clean_cantidad(self):
         return validarCantidad(self.cleaned_data['cantidad'])
@@ -218,10 +211,7 @@ class PedidoLaboratorioForm(forms.ModelForm):
         super(PedidoLaboratorioForm, self).__init__(*args, **kwargs)
         self.fields['laboratorio'].queryset = get_laboratorios_con_medicamentos()
 
-
-
 def DetallePedidoAlaboratorioFormFactory(laboratorio_id):
-
     class DetallePedidoAlaboratorioForm(forms.ModelForm):
         helper = FormHelper()
         helper.form_class = 'form-horizontal'
@@ -244,11 +234,9 @@ def DetallePedidoAlaboratorioFormFactory(laboratorio_id):
             if not cantidad:
                 raise forms.ValidationError('Debe ingresar una cantidad a pedir')
             return cantidad
-
     return DetallePedidoAlaboratorioForm
 
 class PedLaboratorioVerRenglonesForm(PedidoLaboratorioForm):
-
     def __init__(self, *args, **kwargs):
         super(PedLaboratorioVerRenglonesForm,self).__init__(*args, **kwargs)
         self.fields['numero'].widget.attrs['readonly'] = True
@@ -268,9 +256,7 @@ def get_lotes(id_medicamento, lotesEnSesion):
             listaLotes.append((key, str(key)))
     return listaLotes
 
-
 def ControlDetallePedidoAlaboratorioFormFactory(id_medicamento, lotesEnSesion):
-
     class ControlDetallePedidoAlaboratorioForm(forms.Form):
         helper = FormHelper()
         helper.form_class = 'form'
@@ -305,7 +291,6 @@ def ControlDetallePedidoAlaboratorioFormFactory(id_medicamento, lotesEnSesion):
                 choices=get_lotes(id_medicamento, lotesEnSesion))
 
     return ControlDetallePedidoAlaboratorioForm
-
 
 class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
     helper = FormHelper()
@@ -346,11 +331,9 @@ class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
 
         return True
 
-
     #------------------------------------------------
 
 class DevolucionMedicamentosForm(forms.Form):
-
         helper = FormHelper()
         helper.form_class = 'form'
         helper.form_id = 'form-add-detalle'

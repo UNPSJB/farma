@@ -1,5 +1,4 @@
 {% extends "base/base-abm.html"%}
-
 {% load staticfiles %}
 
 {% block title %}Pedidos de Clinica{% endblock %}
@@ -8,22 +7,18 @@
          <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
     {% endblock %}
 
-
 {% block panel-title-ABM %}Pedidos de Clinica{% endblock %}
 
 {% block url-add %}{% url 'pedidoDeClinica_add' %}{% endblock %}
 
-<!-- No necesito boton de baja -->
 {% block btn-baja %}{% endblock %}
 
-<!-- No necesito boton de baja -->
 {% block btn-modificar %}{% endblock %}
 
 {% block more-buttons %}
     <a id="btn-ver" class="btn btn-info hidden" href="#" >
         <span class="glyphicon glyphicon-eye-open"></span> Ver
     </a>
-
 {% endblock %}
 
 {%block filtro %}
@@ -61,21 +56,18 @@
 {% endblock %}
 
 {% block cantidad-elementos %}
-
     {{ pedidos|length }}
     {% if pedidos|length != 1 %}
         pedidos de clinica
     {% else %}
         pedido de clinica
     {% endif %}
-
 {% endblock %}
 
 {% block more-scripts %}
     <script src="{% static 'js/datepicker.js' %}"></script>
     <script>
         (function(){
-
             $("#btn-ver").on("click", function(e){
                 id = get_selected_row()
                 if(id){
@@ -89,7 +81,6 @@
                 $("form input").val("");
                 e.stopPropagation();
             });
-
         })();
     </script>
 {% endblock %}

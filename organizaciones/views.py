@@ -95,7 +95,6 @@ def clinica_delete(request, id_clinica):
     clinica.delete()
     return redirect('clinicas')
 
-
 # ******* LABORATORIOS ******
 
 @login_required(login_url='login')

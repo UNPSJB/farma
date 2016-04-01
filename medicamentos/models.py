@@ -2,7 +2,6 @@
 from django.db import models
 from organizaciones.models import Laboratorio
 
-
 class Medicamento(models.Model):
     FILTROS = ["nombreFantasia__nombreF__icontains"]
     formulas = models.ManyToManyField('Monodroga',  through='Dosis')
@@ -16,7 +15,6 @@ class Medicamento(models.Model):
 
     def __str__(self):
         return "%s %s" % (self.nombreFantasia, self.presentacion)
-
 
 class Presentacion(models.Model):
     FILTROS = ["descripcion__icontains"]
@@ -38,7 +36,6 @@ class Monodroga(models.Model):
     def __str__(self):
         return "%s" % self.nombre
 
-
 class Dosis(models.Model):
     UNIDADES = (
         (1, "ml"),
@@ -58,7 +55,6 @@ class NombreFantasia(models.Model):
 
     def __str__(self):
         return "%s" % self.nombreF
-
 
 class Lote(models.Model):
     FILTROS = ["numero__icontains"]

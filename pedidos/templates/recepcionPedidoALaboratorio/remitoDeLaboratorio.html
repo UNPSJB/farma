@@ -1,0 +1,24 @@
+{% extends "base-remito.html" %}
+
+{% block vendedor %}
+{% endblock %}
+
+{% block cliente %}Cliente: Drogueria Farma{% endblock %}
+{% block direccion %}Direccion: {% endblock %}
+
+{% block grid %}
+    <thead>
+       <tr class="info" align="center">
+          <th>Medicamento</th>
+          <th>Cantidad</th>
+       </tr>
+    </thead>
+    <tbody>
+       {% for detalle in detallesRemito %}
+          <tr class="col-items">
+             <td class="nombre-med">{{ detalle.detallePedidoALaboratorio.medicamento }}</td>
+             <td class="cant-med">{{ detalle.cantidad }}</td>
+          </tr>
+       {% endfor %}
+    </tbody>
+{% endblock %}

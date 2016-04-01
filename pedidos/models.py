@@ -24,10 +24,8 @@ class DetallePedidoVenta(models.Model):
     def __str__(self):
         return str(self.id)
 
-
 #******************REMITOS Y DETALLES REMITOS DE FARMACIA******************#
 class RemitoDeFarmacia(models.Model):
-
     pedidoFarmacia = models.ForeignKey('PedidoDeFarmacia', on_delete=models.CASCADE)
     fecha = models.DateField()
 
@@ -35,7 +33,6 @@ class RemitoDeFarmacia(models.Model):
         return str(self.id)
 
 class DetalleRemitoDeFarmacia(models.Model):
-
     remito = models.ForeignKey(RemitoDeFarmacia, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()
     detallePedidoDeFarmacia = models.ForeignKey('DetallePedidoDeFarmacia')
@@ -50,7 +47,6 @@ class DetalleRemitoDeFarmacia(models.Model):
 #******************REMITO Y DETALLES REMITO DE PEDIDO DE CLINICA******************#
 
 class RemitoDeClinica(models.Model):
-
     pedidoDeClinica = models.ForeignKey('PedidoDeClinica', on_delete=models.CASCADE)
     fecha = models.DateField()
 
@@ -61,7 +57,6 @@ class RemitoDeClinica(models.Model):
         self.pedidoDeClinica = pedido
 
 class DetalleRemitoDeClinica(models.Model):
-
     remito = models.ForeignKey('RemitoDeClinica', on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()
     detallePedidoDeClinica = models.ForeignKey('DetallePedidoDeClinica')
@@ -118,7 +113,6 @@ class DetalleRemitoLaboratorio(models.Model):
 #******************PEDIDO DE FARMACIA Y DETALLE PEDIDO DE FARMACIA******************#
 
 class PedidoDeFarmacia(PedidoVenta):
-
     FILTROS = ["farmacia", "desde", "hasta","estado"]
     FILTERMAPPER = {
         'desde': "fecha__gte",
@@ -149,12 +143,10 @@ class PedidoDeFarmacia(PedidoVenta):
             response = DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=self)
         return response
 
-
 class DetallePedidoDeFarmacia(DetallePedidoVenta):
     pedidoDeFarmacia = models.ForeignKey('PedidoDeFarmacia')
     cantidadPendiente =models.PositiveIntegerField(default= 0)
     estaPedido = models.BooleanField(default= False)
-
 
     class Meta(DetallePedidoVenta.Meta):
         verbose_name_plural = "Detalles de Pedidos de Farmacia"
@@ -177,7 +169,6 @@ class DetallePedidoDeFarmacia(DetallePedidoVenta):
 #******************PEDIDO DE CLINICA Y DETALLE PEDIDO DE CLINICA******************#
 
 class PedidoDeClinica(PedidoVenta):
-
     FILTROS = ["clinica", "desde", "hasta"]
     FILTERMAPPER = {
         'desde': "fecha__gte",
@@ -211,7 +202,6 @@ class DetallePedidoDeClinica(DetallePedidoVenta):
     pedidoDeClinica = models.ForeignKey('PedidoDeClinica')
     cantidadPendiente =models.PositiveIntegerField(default= 0)
     estaPedido = models.BooleanField(default= False)
-
 
     class Meta(DetallePedidoVenta.Meta):
         verbose_name_plural = "Detalles de Pedidos de Clinica"
@@ -284,7 +274,6 @@ class DetallePedidoAlaboratorio(models.Model):
                                                    self.medicamento.presentacion.descripcion + " " +
                                                    str(self.medicamento.presentacion.cantidad) + " " +
                                                    self.medicamento.presentacion.unidadMedida }
-
         response['cantidad'] = self.cantidad
         response['cantidadPendiente'] = self.cantidadPendiente
         return response

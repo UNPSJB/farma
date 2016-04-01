@@ -54,7 +54,6 @@
 {% endblock %}
 
 {% block more-scripts %}
-
     <script>
         (function(){
             $('#modal-registrar-pedido').on('hidden.bs.modal', function(e){
@@ -73,14 +72,11 @@
                 save_detalle_ajax("{% url 'detallePedidoAlaboratorio_add' %}");
                 e.stopPropagation()
             });
-            
-            
+
             $("#btn-registrar").on("click", function(e){
                 registrar_pedido_ajax("{% url 'pedidoAlaboratorio_registrar' %}");
                 e.stopPropagation();
             });
-
         })();
     </script>
-
 {% endblock %}

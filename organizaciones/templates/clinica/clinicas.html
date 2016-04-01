@@ -1,5 +1,4 @@
 {% extends "base/base-abm.html" %}
-
 {% load staticfiles %}
 
 {% block title %}
@@ -25,7 +24,6 @@
         </thead>
         <tbody>
             {% for clinica in clinicas %}
-
                 <tr class="clickeable" data-id="{{ clinica.id }}">
                 <td>{{clinica.razonSocial}}</td>
                 <td>{{clinica.cuit}}</td>
@@ -45,13 +43,12 @@
 
 {% block cantidad-elementos %}
     {{ clinicas|length }}
-    {% if clinicas|length != 1%}
+    {% if clinicas|length != 1 %}
         clinicas
     {% else %}
         clinica
     {% endif %}
 {% endblock %}
-
 
 {% block modal-baja-title %}
     <h4 class="modal-title">Eliminar Clínica </h4>

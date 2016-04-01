@@ -8,7 +8,6 @@ def get_stock_total(medicamento):
         stockTotal += lote.stock
     return stockTotal
 
-
 """ Funcion que procesa el detalle del pedido de farmacia recibido por parametro.
 Se encarga de crear o no, el o los correspondientes detalles en el remito y asociarlos
 al detalle del pedido(recibido por parametro).
@@ -35,9 +34,7 @@ def procesar_detalle(detalle, remito):
                 detalleRemito.cantidad = cantidadTomadaDeLote
                 detalleRemito.detallePedidoDeFarmacia = detalle
                 detalleRemito.lote = lote
-
                 detalleRemito.save()
-
                 lote.save()
 
         detalle.cantidadPendiente = detalle.cantidad-stockTotal
@@ -95,20 +92,37 @@ def procesar_pedido(pedido):
             detalle.save()
     pedido.save()
 
+def procesar_detalle_de_clinica(detalle,remito):
+    lotes = Lote.objects.filter(medicamento__id=detalle.medicamento.id).order_by('fechaVencimiento')
+    detalle.cantidadPendiente = 0  # porque hay stock suficiente para el medicamento del detalle
+    detalle.save()  # actualizo cantidad pendiente antes calculada
+    cantidadNecesaria = detalle.cantidad
+    i = 0
+    while cantidadNecesaria > 0:
+        lote = lotes[i]
+        if lote.stock:  # Solo uso lotes que no esten vacios
+            cantidadTomadaDeLote = 0
+            if lote.stock < cantidadNecesaria:  # el lote no tiene toda la cantidad que necesito
+                cantidadNecesaria -= lote.stock
+                cantidadTomadaDeLote = lote.stock
+                lote.stock = 0
+            else:
+                lote.stock = lote.stock - cantidadNecesaria
+                cantidadTomadaDeLote = cantidadNecesaria
+                cantidadNecesaria = 0
+
+            detalleRemito = models.DetalleRemitoDeClinica()
+            detalleRemito.remito = remito
+            detalleRemito.detallePedidoDeClinica = detalle
+            detalleRemito.lote = lote
+            detalleRemito.cantidad = cantidadTomadaDeLote
+            detalleRemito.save()
+            lote.save()  # actualizo el stock del lote
+        i += 1
+
 def procesar_pedido_de_clinica(pedido):
     detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica=pedido.nroPedido) #obtengo todos los detalles del pedido
+    remito = models.RemitoDeClinica(pedidoDeClinica=pedido, fecha=pedido.fecha)
+    remito.save()
     for detalle in detalles:
-        lotes = Lote.objects.filter(medicamento=detalle.medicamento).order_by('fechaVencimiento')
-        cantidadNecesaria = detalle.cantidad
-        i = 0
-        while cantidadNecesaria > 0:
-            lote = lotes[i]
-            if lote.stock:  # Solo uso lotes que no esten vacios
-                if lote.stock < cantidadNecesaria:  # el lote no tiene toda la cantidad que necesito
-                    cantidadNecesaria -= lote.stock
-                    lote.stock = 0
-                else:
-                    lote.stock = lote.stock - cantidadNecesaria
-                    cantidadNecesaria = 0
-                lote.save()
-                i += 1
+        procesar_detalle_de_clinica(detalle, remito)
