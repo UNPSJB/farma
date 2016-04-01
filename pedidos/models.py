@@ -88,9 +88,31 @@ class DetalleRemitoMedicamentosVencido(models.Model):
     remito = models.ForeignKey('RemitoMedicamentosVencidos', on_delete=models.CASCADE)
     lote = models.ForeignKey('medicamentos.Lote')
     cantidad = models.PositiveIntegerField()
+    detalleRemitoLaboratorio = models.ForeignKey('DetalleRemitoLaboratorio')
 
     def __str__(self):
         return str(self.numero)
+
+
+#******************REMITO Y DETALLES REMITO DE LABORATORIO******************#
+
+class RemitoLaboratorio(models.Model):
+    nroRemito = models.BigIntegerField(primary_key= True)
+    fecha = models.DateField()
+    laboratorio = models.ForeignKey('organizaciones.Laboratorio')
+    pedidoLaboratorio = models.ForeignKey('PedidoAlaboratorio')
+
+    def __str__(self):
+        return str(self.nroRemito)
+
+class DetalleRemitoLaboratorio(models.Model):
+    remito = models.ForeignKey('RemitoLaboratorio', on_delete=models.CASCADE)
+    lote = models.ForeignKey('medicamentos.Lote')
+    detallePedidoLaboratorio = models.ForeignKey('DetallePedidoAlaboratorio')
+    cantidad = models.PositiveIntegerField()
+
+    def __str__(self):
+        return str(self.id)
 
 
 #******************PEDIDO DE FARMACIA Y DETALLE PEDIDO DE FARMACIA******************#

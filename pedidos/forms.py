@@ -371,3 +371,18 @@ class DevolucionMedicamentosForm(forms.Form):
         def __init__(self, *args, **kwargs):
             super(DevolucionMedicamentosForm, self).__init__(*args, **kwargs)
             self.fields['laboratorio'].queryset = get_laboratorios_con_medicamentos()
+
+
+
+class RegistrarRecepcionForm(forms.Form):
+    helper = FormHelper()
+    helper.form_class = 'form'
+    helper.layout = Layout(
+        Field('nroRemito', placeholder="Nro de Remito"),
+        Field('fechaRemito', placeholder='Fecha Remito', css_class='datepicker'),
+        FormActions(
+            StrictButton('Continuar', type="submit", css_class="btn btn-success pull-right"),
+        )
+    )
+    nroRemito = forms.IntegerField(min_value=1)
+    fechaRemito = forms.DateField(label= 'Fecha de Remito' )

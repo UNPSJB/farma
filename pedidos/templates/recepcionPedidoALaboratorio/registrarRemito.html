@@ -1,0 +1,22 @@
+{% extends "base-add-pedido.html" %}
+{% load staticfiles %}
+
+{% block more-stylesheets %}
+     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
+    {{ form.media.css }}
+{% endblock %}
+
+{% block title %}
+	Alta Remito
+{% endblock %}
+
+{% block panel-title-pedido %}
+	Registrar Recepcion
+{% endblock %}
+
+{%block footer%}{% endblock %}
+
+{% block more-scripts %}
+    <script src="{% static 'js/datepicker.js' %}"></script>
+    {{ form.media.js }}
+{% endblock %}

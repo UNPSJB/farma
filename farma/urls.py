@@ -112,12 +112,13 @@ urlpatterns = [
     
     # ************************************** Recepcion Pedido a Laboratorio ***************************************
     url(r'^recepcionPedidoAlaboratorio/$', pviews.recepcionPedidoAlaboratorio, name="recepcionPedidoAlaboratorio"),
+    url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/registrar/$',pviews.recepcionPedidoAlaboratorio_registrarRecepcion, name="recepcionPedidoAlaboratorio_registrarRecepcion"),
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/cargarPedido/$', pviews.recepcionPedidoAlaboratorio_cargarPedido, name="recepcionPedidoAlaboratorio_cargarPedido"),
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/$', pviews.recepcionPedidoAlaboratorio_controlPedido, name="recepcionPedidoAlaboratorio_controlPedido"),
-    url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/detalle/(?P<id_detalle>\d+)/$', pviews.recepcionPedidoAlaboratorio_controlDetalle, name="recepcionPedidoAlaboratorio_controlDetalle"),
+        url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/detalle/(?P<id_detalle>\d+)/$', pviews.recepcionPedidoAlaboratorio_controlDetalle, name="recepcionPedidoAlaboratorio_controlDetalle"),
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/detalleConNuevoLote/(?P<id_detalle>\d+)/$', pviews.recepcionPedidoAlaboratorio_controlDetalleConNuevoLote, name="recepcionPedidoAlaboratorio_controlDetalleConNuevoLote"),
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/registrar/$', pviews.recepcionPedidoAlaboratorio_registrar, name="recepcionPedidoAlaboratorio_registrar"),
-
+    # recordatorio: cambiar vistar en registrar
       # **************************************** Otros Pedidos ******************************************
     url(r'^devolucionMedicamentosVencidos/$', pviews.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
     url(r'^devolucionMedicamentosVencidos/detalles/(?P<id_laboratorio>\d+)/$', pviews.devolucionMedicamentosVencidos_detalle,name="devolucionMedicamentosVencidos_detalle"),

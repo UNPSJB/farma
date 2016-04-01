@@ -474,10 +474,15 @@ def get_pos_detalle(detalles, id_detalle):
 
 def guardar_recepcion_detalle(session, detalle, infoRecepcionDetalle):
     recepcionPedidoAlaboratorio = session['recepcionPedidoAlaboratorio']
+    detallesRemitoRecepcion= session['remitoRecepcion']['detalles']
     detalles = recepcionPedidoAlaboratorio['detalles']
     posDetalle = get_pos_detalle(detalles, detalle.renglon)
     infoDetalle = detalles[posDetalle]
     numeroLote = str(infoRecepcionDetalle['lote'])
+    #informacion del detalle de remito
+    detallesRemitoRecepcion.append({'detallePedidoLaboratorio':detalle.pk,'lote':numeroLote,'cantidad':infoRecepcionDetalle['cantidad']})
+    session['remitoRecepcion']['detalles']=detallesRemitoRecepcion
+
     if numeroLote in recepcionPedidoAlaboratorio['nuevosLotes']:
         lote = recepcionPedidoAlaboratorio['nuevosLotes'][numeroLote]
         lote['stock'] += infoRecepcionDetalle['cantidad']
@@ -501,6 +506,7 @@ def guardar_recepcion_detalle(session, detalle, infoRecepcionDetalle):
 def guardar_recepcion_detalle_con_nuevo_lote(session, detalle, infoRecepcionDetalle):
     recepcionPedidoAlaboratorio = session['recepcionPedidoAlaboratorio']
     detalles = recepcionPedidoAlaboratorio['detalles']
+    detallesRemitoRecepcion = session['remitoRecepcion']['detalles']
     posDetalle = get_pos_detalle(detalles, detalle.renglon)
     infoDetalle = detalles[posDetalle]
 
@@ -521,6 +527,10 @@ def guardar_recepcion_detalle_con_nuevo_lote(session, detalle, infoRecepcionDeta
     recepcionPedidoAlaboratorio['detalles'] = detalles
 
     session['recepcionPedidoAlaboratorio'] = recepcionPedidoAlaboratorio
+
+    detallesRemitoRecepcion.append({'detallePedidoLaboratorio': detalle.pk, 'lote': numeroLote, 'cantidad': infoRecepcionDetalle['cantidad']})
+    session['remitoRecepcion']['detalles'] = detallesRemitoRecepcion
+
 
 def crear_nuevos_lotes(nuevosLotes):
     for numeroLote, info in nuevosLotes.items():
@@ -566,15 +576,39 @@ def recepcionPedidoAlaboratorio(request):
 
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_cargarPedido(request, id_pedido):
-    limpiar_sesion('recepcionPedidoAlaboratorio', '', request.session)
+    limpiar_sesion('recepcionPedidoAlaboratorio', 'remitoRecepcion', request.session)
     cargar_detalles(id_pedido, request.session)
-    return redirect('recepcionPedidoAlaboratorio_controlPedido', id_pedido)
+    request.session['remitoRecepcion'] = {'remito':{}, 'detalles':[]}
+    return redirect('recepcionPedidoAlaboratorio_registrarRecepcion', id_pedido)
 
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_controlPedido(request, id_pedido):
     pedido = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
     detalles = request.session['recepcionPedidoAlaboratorio']['detalles']
+
+    print request.session['remitoRecepcion']
+
+
     return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles})
+
+@login_required(login_url='login')
+def recepcionPedidoAlaboratorio_registrarRecepcion(request, id_pedido):
+    if request.method == 'POST':
+        form = forms.RegistrarRecepcionForm(request.POST)
+        if form.is_valid():
+            nroRemito = form.cleaned_data['nroRemito']
+            fecha = form.cleaned_data['fechaRemito']
+            fecha = fecha.strftime('%d/%m/%Y')
+            info = {'remito':{'nroRemito':nroRemito, 'fecha':fecha},'detalles':[]}
+            request.session['remitoRecepcion'] = info
+
+            return redirect('recepcionPedidoAlaboratorio_controlPedido', id_pedido)
+    else:
+        form=forms.RegistrarRecepcionForm()
+        form.helper.form_action = reverse('recepcionPedidoAlaboratorio_registrarRecepcion', args=[id_pedido])
+
+    return render(request, "recepcionPedidoALaboratorio/registrarRemito.html", {'form': form})
+
 
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_controlDetalle(request, id_pedido, id_detalle):
@@ -626,17 +660,50 @@ def recepcionPedidoAlaboratorio_controlDetalleConNuevoLote(request, id_pedido, i
     else:
         return redirect('recepcionPedidoAlaboratorio_controlPedido', id_pedido)
 
+
+def procesar_recepcion(sesion, pedido):
+
+    remitoSesion = sesion['remitoRecepcion']['remito']
+    detalleRemitoSesion = sesion['remitoRecepcion']['detalles']
+    nuevosLotes = sesion['recepcionPedidoAlaboratorio']['nuevosLotes']
+    actualizarLotes = sesion['recepcionPedidoAlaboratorio']['actualizarLotes']
+    detalles = sesion['recepcionPedidoAlaboratorio']['detalles']
+
+    crear_nuevos_lotes(nuevosLotes)
+    actualizar_lotes(actualizarLotes)
+    actualizar_pedido(pedido, detalles)
+
+    remito = models.RemitoLaboratorio()
+    remito.nroRemito = remitoSesion['nroRemito']
+    remito.fecha= datetime.datetime.strptime(remitoSesion['fecha'], '%d/%m/%Y').date()
+    remito.laboratorio = pedido.laboratorio
+    remito.pedidoLaboratorio = pedido
+    remito.save()
+
+    for detalle in detalleRemitoSesion:
+
+        detalleRemito = models.DetalleRemitoLaboratorio()
+        detalleRemito.remito = remito
+        detalleRemito.cantidad = detalle['cantidad']
+        detalleRemito.lote  = get_object_or_404(mmodels.Lote, pk= detalle['lote'])
+        detalleRemito.detallePedidoLaboratorio = get_object_or_404(models.DetallePedidoAlaboratorio, pk= detalle['detallePedidoLaboratorio'])
+        detalleRemito.save()
+
+
+
+
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_registrar(request, id_pedido):
-    pedido = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)   
+    pedido = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
+    detalles = request.session['recepcionPedidoAlaboratorio']['detalles']
     nuevosLotes = request.session['recepcionPedidoAlaboratorio']['nuevosLotes']
     actualizarLotes = request.session['recepcionPedidoAlaboratorio']['actualizarLotes']
-    detalles = request.session['recepcionPedidoAlaboratorio']['detalles']
+
+
     if len(nuevosLotes) > 0 or len(actualizarLotes) > 0:
-        crear_nuevos_lotes(nuevosLotes)
-        actualizar_lotes(actualizarLotes)
-        actualizar_pedido(pedido, detalles)
-        #return redirect('recepcionPedidoAlaboratorio')
+
+        procesar_recepcion(request.session,pedido)
+
         return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles, 'modalSuccess': True})
 
     return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles, 'modalError': True})

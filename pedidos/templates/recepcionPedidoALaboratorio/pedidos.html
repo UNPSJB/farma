@@ -16,7 +16,7 @@
 
 {%block botonVer%}
 
-   <a class="btn btn-warning hidden" id="modificar"><span class="glyphicon glyphicon-ok-circle"></span>Ver Pedido</a>
+   <a class="btn btn-warning hidden" id="modificar"><span class="glyphicon glyphicon-ok-circle"></span>Regitrar recepcion</a>
 
 {%endblock%}
 
@@ -71,9 +71,9 @@
                 var id = get_selected_row();
 
                 if(id){
-                    var url = "/recepcionPedidoAlaboratorio/" + id +"/cargarPedido/"; /*Al hacer click en una fila y presionar 'ver' se envia esta url         */
-                                                                              /*junto con el id de la fila (id de un pedido a laboratorio)             */
-                                                                              /*por lo que se direccionará a el template 'VerRenglonesPedidoLab.html'.  */
+                    var url = "/recepcionPedidoAlaboratorio/" + id +"/cargarPedido/";
+
+
                     $(this).attr("href", url);
                 }
                 e.stopPropagation();

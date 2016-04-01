@@ -11,6 +11,9 @@ from .models import PedidoDeClinica
 from .models import DetallePedidoDeClinica
 from .models import RemitoDeClinica
 from .models import DetalleRemitoDeClinica
+from .models import RemitoLaboratorio
+from .models import DetalleRemitoLaboratorio
+
 
 #=======================FIN DESDE M 1=======================
 from .models import PedidoAlaboratorio
@@ -38,3 +41,5 @@ admin.site.register(PedidoDeClinica)
 admin.site.register(DetallePedidoDeClinica)
 admin.site.register(RemitoDeClinica)
 admin.site.register(DetalleRemitoDeClinica)
+admin.site.register(RemitoLaboratorio)
+admin.site.register(DetalleRemitoLaboratorio)
