@@ -472,6 +472,7 @@ def get_pos_detalle(detalles, id_detalle):
     return -1
 
 def guardar_recepcion_detalle(session, detalle, infoRecepcionDetalle):
+
     recepcionPedidoAlaboratorio = session['recepcionPedidoAlaboratorio']
     detallesRemitoRecepcion= session['remitoRecepcion']['detalles']
     detalles = recepcionPedidoAlaboratorio['detalles']
@@ -503,6 +504,7 @@ def guardar_recepcion_detalle(session, detalle, infoRecepcionDetalle):
     session['recepcionPedidoAlaboratorio'] = recepcionPedidoAlaboratorio # guardo todos los cambios
 
 def guardar_recepcion_detalle_con_nuevo_lote(session, detalle, infoRecepcionDetalle):
+
     recepcionPedidoAlaboratorio = session['recepcionPedidoAlaboratorio']
     detalles = recepcionPedidoAlaboratorio['detalles']
     detallesRemitoRecepcion = session['remitoRecepcion']['detalles']
@@ -529,7 +531,6 @@ def guardar_recepcion_detalle_con_nuevo_lote(session, detalle, infoRecepcionDeta
 
     detallesRemitoRecepcion.append({'detallePedidoLaboratorio': detalle.pk, 'lote': numeroLote, 'cantidad': infoRecepcionDetalle['cantidad']})
     session['remitoRecepcion']['detalles'] = detallesRemitoRecepcion
-
 
 def crear_nuevos_lotes(nuevosLotes):
     for numeroLote, info in nuevosLotes.items():
@@ -577,17 +578,14 @@ def recepcionPedidoAlaboratorio(request):
 def recepcionPedidoAlaboratorio_cargarPedido(request, id_pedido):
     limpiar_sesion('recepcionPedidoAlaboratorio', 'remitoRecepcion', request.session)
     cargar_detalles(id_pedido, request.session)
-    request.session['remitoRecepcion'] = {'remito':{}, 'detalles':[]}
+    info = {'remito':{}, 'detalles':[]}
+    request.session['remitoRecepcion'] = info
     return redirect('recepcionPedidoAlaboratorio_registrarRecepcion', id_pedido)
 
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_controlPedido(request, id_pedido):
     pedido = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
     detalles = request.session['recepcionPedidoAlaboratorio']['detalles']
-
-    print request.session['remitoRecepcion']
-
-
     return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles})
 
 @login_required(login_url='login')
@@ -607,7 +605,6 @@ def recepcionPedidoAlaboratorio_registrarRecepcion(request, id_pedido):
         form.helper.form_action = reverse('recepcionPedidoAlaboratorio_registrarRecepcion', args=[id_pedido])
 
     return render(request, "recepcionPedidoALaboratorio/registrarRemito.html", {'form': form})
-
 
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_controlDetalle(request, id_pedido, id_detalle):
@@ -659,6 +656,32 @@ def recepcionPedidoAlaboratorio_controlDetalleConNuevoLote(request, id_pedido, i
     else:
         return redirect('recepcionPedidoAlaboratorio_controlPedido', id_pedido)
 
+def crear_remitos_farmacia(remitoLab):
+
+    detalles = models.DetalleRemitoLaboratorio.objects.filter(remito=remitoLab)
+
+    remitosDeFarmacia = {}
+    for detalle in detalles:
+        detallePedidoFarmacia = detalle.detallePedidoLaboratorio.detallePedidoFarmacia
+        if detallePedidoFarmacia:
+            detallesRemito = remitosDeFarmacia.setdefault(detallePedidoFarmacia.pedidoDeFarmacia.nroPedido, [])
+            detallesRemito.append(detalle)
+            #detallesRemito[detallePedidoFarmacia.pedidoDeFarmacia.nroPedido] = detallesRemito
+    for pkPedido, detallesIn in remitosDeFarmacia.items():
+        remitoFarmacia = models.RemitoDeFarmacia()
+        remitoFarmacia.pedidoFarmacia = models.PedidoDeFarmacia.objects.get(pk=pkPedido)
+        remitoFarmacia.fecha = remitoLab.fecha
+        remitoFarmacia.save()
+        for detalle in detallesIn:
+            detalleRemitoFarmacia = models.DetalleRemitoDeFarmacia()
+            detalleRemitoFarmacia.cantidad = detalle.cantidad
+            detalleRemitoFarmacia.lote = detalle.lote
+            detalleRemitoFarmacia.detallePedidoDeFarmacia = detalle.detallePedidoLaboratorio.detallePedidoFarmacia
+            detalleRemitoFarmacia.remito = remitoFarmacia
+            detalleRemitoFarmacia.save()
+
+    print  remitosDeFarmacia
+
 
 def procesar_recepcion(sesion, pedido):
 
@@ -684,12 +707,11 @@ def procesar_recepcion(sesion, pedido):
         detalleRemito = models.DetalleRemitoLaboratorio()
         detalleRemito.remito = remito
         detalleRemito.cantidad = detalle['cantidad']
-        detalleRemito.lote  = get_object_or_404(mmodels.Lote, pk= detalle['lote'])
+        detalleRemito.lote  = get_object_or_404(mmodels.Lote, numero= detalle['lote'])
         detalleRemito.detallePedidoLaboratorio = get_object_or_404(models.DetallePedidoAlaboratorio, pk= detalle['detallePedidoLaboratorio'])
         detalleRemito.save()
 
-
-
+    crear_remitos_farmacia(remito)
 
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_registrar(request, id_pedido):
@@ -700,9 +722,8 @@ def recepcionPedidoAlaboratorio_registrar(request, id_pedido):
 
 
     if len(nuevosLotes) > 0 or len(actualizarLotes) > 0:
-
         procesar_recepcion(request.session,pedido)
-
+        print "paso el procesar"
         return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles, 'modalSuccess': True})
 
     return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles, 'modalError': True})
@@ -730,7 +751,6 @@ def devolucionMedicamentosVencidos(request):
     else:
         form = forms.DevolucionMedicamentosForm()
     return render(request, "devolucionMedicamentosVencidos/devolucionMedicamentosVencidos.html", {'form':form})
-
 
 @login_required(login_url='login')
 def devolucionMedicamentosVencidos_detalle(request, id_laboratorio):

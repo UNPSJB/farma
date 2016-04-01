@@ -369,3 +369,9 @@ class RegistrarRecepcionForm(forms.Form):
     )
     nroRemito = forms.IntegerField(min_value=1)
     fechaRemito = forms.DateField(label= 'Fecha de Remito' )
+
+    def clean_nroRemito(self):
+        nroRemito = self.cleaned_data['nroRemito']
+        if nroRemito and models.RemitoLaboratorio.objects.filter(pk=nroRemito).exists():
+            raise forms.ValidationError('El número de remito ya existe')
+        return nroRemito

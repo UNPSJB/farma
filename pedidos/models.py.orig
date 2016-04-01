@@ -88,11 +88,12 @@ class DetalleRemitoMedicamentosVencido(models.Model):
     def __str__(self):
         return str(self.numero)
 
+<<<<<<< HEAD
 
 #******************REMITO Y DETALLES REMITO DE LABORATORIO******************#
 
 class RemitoLaboratorio(models.Model):
-    nroRemito = models.BigIntegerField(primary_key= True, unique = True)
+    nroRemito = models.BigIntegerField(primary_key= True)
     fecha = models.DateField()
     laboratorio = models.ForeignKey('organizaciones.Laboratorio')
     pedidoLaboratorio = models.ForeignKey('PedidoAlaboratorio')
@@ -110,6 +111,8 @@ class DetalleRemitoLaboratorio(models.Model):
         return str(self.id)
 
 
+=======
+>>>>>>> 2fd98c05763f91408cdf0d0cfe183766c06f3ea1
 #******************PEDIDO DE FARMACIA Y DETALLE PEDIDO DE FARMACIA******************#
 
 class PedidoDeFarmacia(PedidoVenta):
@@ -256,7 +259,7 @@ class DetallePedidoAlaboratorio(models.Model):
     cantidadPendiente = models.PositiveIntegerField()
     medicamento = models.ForeignKey('medicamentos.Medicamento')
     detallePedidoFarmacia = models.ForeignKey('DetallePedidoDeFarmacia', blank=True, null=True)
-
+    
     def __str__(self):
         return "Pedido Nro %s - Detalle %s"%(self.pedido.numero, self.renglon)
     
