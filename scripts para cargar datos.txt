@@ -1,0 +1,174 @@
+/*Farmacias*/
+
+INSERT INTO organizaciones_farmacia VALUES ( 1, 'Nueva Molina',  '30-45879153-4', 'Trelew',  'Belgrano Norte 152', ' ', ' ', ' ');
+
+INSERT INTO organizaciones_farmacia VALUES ( 2, 'La Botica',  '30-42589634-8', 'Trelew',  'Maipú 683', ' ', ' ', ' ');
+
+INSERT INTO organizaciones_farmacia VALUES ( 3, 'Crisol',  '30-36741596-1', 'Rawson', 'Conesa 236', ' ', ' ', ' ');
+
+INSERT INTO organizaciones_farmacia VALUES ( 4, 'Farmanort',  '30-23654123-3', 'Trelew',  'Cambrin 668', ' ', ' ', ' ');
+
+INSERT INTO organizaciones_farmacia VALUES ( 5, 'Economed',  '30-45879153-8', 'Puerto Madryn',  '9 De Julio 160', ' ', ' ', ' ');
+
+
+/*Clinicas*/
+
+INSERT INTO organizaciones_clinica VALUES ( 1, 'Medica del Valle',  '30-25879459-5', 'Trelew', 'Pellegrini 631', ' ', ' ', 'SEROS ');
+
+INSERT INTO organizaciones_clinica VALUES ( 2, 'Uno Salud',  '30-15897456-6', 'Comodoro Rivadavia ', 'Av H Yrigoyen 675 ', ' ', ' ', 'SEROS ');
+
+INSERT INTO organizaciones_clinica VALUES ( 3, 'San Miguel',  '30-23659412-1', 'Trelew', 'T A Edison 898', ' ', ' ', 'SEROS ');
+
+INSERT INTO organizaciones_clinica VALUES ( 4, 'Los Alerces',  '30-35478687-9', 'Esquel', 'Antartida Argentina 586', ' ', ' ', 'SEROS ');
+
+INSERT INTO organizaciones_clinica VALUES ( 5, 'Maria S Sanchez',  '30-16735913-7', 'Puerto Madryn', 'Av J A Roca 2644', ' ', ' ', 'SEROS ');
+
+
+/*Laboratorios*/
+
+INSERT INTO organizaciones_laboratorio VALUES (1, 'Bayer Consumer', '30-50381106-1', 'Munro', 'Ricardo Gutierrez 3652', '', '4762-7000');
+
+INSERT INTO organizaciones_laboratorio VALUES (2, 'Bago', '30-51602484-0', 'Capital Federal', 'Bernardo de Irigoyen 248','','4344-2000');
+
+INSERT INTO organizaciones_laboratorio VALUES (3, 'Roemmers', '30-50093812-5', 'Olivos', 'Fray Justo Sarmiento 2350','','4346-9700');
+
+INSERT INTO organizaciones_laboratorio VALUES (4, 'Elea', '30-50057148-5', 'Capital Federal', 'Sanabria 2353 Piso 1', '', '4379-4300');
+
+INSERT INTO organizaciones_laboratorio VALUES (5, 'Boehringer Ingelheim', '30-53562115-9', 'Capital Federal', 'Av. Del Libertador 7208', '', '4704-8600');
+
+INSERT INTO organizaciones_laboratorio VALUES (6, 'Pfizer', '30-50351851-8', 'San Isidro', 'Colectora Panamericana 1804 1°P Sector B', '', '4788-7000');
+
+
+/*Monodrogas*/
+
+INSERT INTO medicamentos_monodroga VALUES (1, 'Ibuprofeno');
+
+INSERT INTO medicamentos_monodroga VALUES (2, 'Amoxicilina');
+
+INSERT INTO medicamentos_monodroga VALUES (3, 'Diclofenac sodico');
+
+INSERT INTO medicamentos_monodroga VALUES (4, 'Acido Acetilsalicilico');
+
+INSERT INTO medicamentos_monodroga VALUES (5, 'Difenhidramina clorhidrato');
+
+INSERT INTO medicamentos_monodroga VALUES (6, 'Hioscina Butilbromuro');
+
+INSERT INTO medicamentos_monodroga VALUES (7, 'Cafeina');
+
+INSERT INTO medicamentos_monodroga VALUES (8, 'Oxido de Zinc');
+
+INSERT INTO medicamentos_monodroga VALUES (9, 'Loratadina');
+
+INSERT INTO medicamentos_monodroga VALUES (10, 'Pseudoefedrina sulfato');
+
+INSERT INTO medicamentos_monodroga VALUES (11, 'Diclofenac');
+
+
+/*Presentaciones*/
+
+
+INSERT INTO medicamentos_presentacion VALUES (1, 'Envase', 10, 'Capsulas Blandas');
+
+INSERT INTO medicamentos_presentacion VALUES (2, 'Envase', 14, 'Comprimidos Recubiertos');
+
+INSERT INTO medicamentos_presentacion VALUES (3, 'Envase', 20, 'Capsulas Blandas');
+
+INSERT INTO medicamentos_presentacion VALUES (4, 'Envase', 100, 'Comprimidos');
+
+INSERT INTO medicamentos_presentacion VALUES (5, 'Envase', 30, 'Capsulas');
+
+INSERT INTO medicamentos_presentacion VALUES (6, 'Envase', 3, 'Ampollas');
+
+INSERT INTO medicamentos_presentacion VALUES (7, 'Envase', 100, 'Comprimidos');
+
+INSERT INTO medicamentos_presentacion VALUES (8, 'Envase', 70, 'g');
+
+INSERT INTO medicamentos_presentacion VALUES (9, 'Envase', 50, 'Comprimidos');
+
+INSERT INTO medicamentos_presentacion VALUES (10, 'Envase', 60, 'mg');
+
+INSERT INTO medicamentos_presentacion VALUES (11, 'Envase', 10, 'Comprimidos Masticables');
+
+
+/*Nombres Fantasia*/
+
+
+INSERT INTO medicamentos_nombrefantasia VALUES (1, 'Actron 600 Rapida Accion');
+
+INSERT INTO medicamentos_nombrefantasia VALUES (2, 'Amoxidal Duo');
+
+INSERT INTO medicamentos_nombrefantasia VALUES (3, 'Anaflex');
+
+INSERT INTO medicamentos_nombrefantasia VALUES (4, 'Bayaspirina');
+
+INSERT INTO medicamentos_nombrefantasia VALUES (5, 'Benadryl');
+
+INSERT INTO medicamentos_nombrefantasia VALUES (6, 'Buscapina Inyectable');
+
+INSERT INTO medicamentos_nombrefantasia VALUES (7, 'Cafiaspirina');
+
+INSERT INTO medicamentos_nombrefantasia VALUES (8, 'Caladryl');
+
+INSERT INTO medicamentos_nombrefantasia VALUES (9, 'Ibupirac 600');
+
+INSERT INTO medicamentos_nombrefantasia VALUES (10, 'Decidex Plus Solucion');
+
+INSERT INTO medicamentos_nombrefantasia VALUES (11, 'Dioxaflex');
+
+
+/*Medicamentos*/
+
+
+INSERT INTO medicamentos_medicamento VALUES (1, 1, 1, 18674582, 1, 50, 110);
+
+INSERT INTO medicamentos_medicamento VALUES (2, 2, 2, 368521369, 3, 80, 120);
+
+INSERT INTO medicamentos_medicamento VALUES (3, 3, 3, 15976584, 2, 100, 150);
+
+INSERT INTO medicamentos_medicamento VALUES (4, 4, 4, 23589746, 1, 40, 50);
+
+INSERT INTO medicamentos_medicamento VALUES (5, 5, 5, 45873691, 4, 150, 85);
+
+INSERT INTO medicamentos_medicamento VALUES (6, 6, 6, 95123657, 5, 120, 90);
+
+INSERT INTO medicamentos_medicamento VALUES (7, 7, 7, 78563125, 1, 100, 210);
+
+INSERT INTO medicamentos_medicamento VALUES (8, 8, 8, 85823647, 4, 80, 45);
+
+INSERT INTO medicamentos_medicamento VALUES (9, 9, 9, 63251478, 6, 80, 68);
+
+INSERT INTO medicamentos_medicamento VALUES (10, 10, 10, 59632574, 3, 30, 75);
+
+INSERT INTO medicamentos_medicamento VALUES (11, 11, 11, 19198585, 2, 40, 82);
+
+
+/*Medicamento-Dosis*/
+
+
+INSERT INTO medicamentos_dosis VALUES (1, 1, 1, 2, 600);
+
+INSERT INTO medicamentos_dosis VALUES (2, 2, 2, 2, 875);
+
+INSERT INTO medicamentos_dosis VALUES (3, 3, 3, 2, 25);
+
+INSERT INTO medicamentos_dosis VALUES (4, 4, 4, 2, 500);
+
+INSERT INTO medicamentos_dosis VALUES (5, 5, 5, 2, 50);
+
+INSERT INTO medicamentos_dosis VALUES (6, 6, 6, 2, 20);
+
+INSERT INTO medicamentos_dosis VALUES (7, 7, 4, 2, 500);
+
+INSERT INTO medicamentos_dosis VALUES (8, 7, 7, 2, 40);
+
+INSERT INTO medicamentos_dosis VALUES (9, 8, 5, 3, 1);
+
+INSERT INTO medicamentos_dosis VALUES (10, 8, 8, 3, 8);
+
+INSERT INTO medicamentos_dosis VALUES (11, 9, 1, 2, 600);
+
+INSERT INTO medicamentos_dosis VALUES (12, 10, 9, 2, 100);
+
+INSERT INTO medicamentos_dosis VALUES (13, 10, 10, 2, 1200);
+
+INSERT INTO medicamentos_dosis VALUES (14, 11, 11, 2, 75);
