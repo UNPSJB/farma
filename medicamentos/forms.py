@@ -12,6 +12,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
 from crispy_forms.bootstrap import StrictButton, FormActions
 
+
 class MonodrogaFormGenerico(forms.ModelForm):
     class Meta:
         model = models.Monodroga
@@ -19,6 +20,7 @@ class MonodrogaFormGenerico(forms.ModelForm):
         labels = {
             'nombre': _('Nombre')
         }
+
 
 class MonodrogaFormAdd(MonodrogaFormGenerico):
     helper = FormHelper()
@@ -37,6 +39,7 @@ class MonodrogaFormAdd(MonodrogaFormGenerico):
         )
     )  
 
+
 class MonodrogaFormUpdate(MonodrogaFormGenerico):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
@@ -50,6 +53,7 @@ class MonodrogaFormUpdate(MonodrogaFormGenerico):
         )
     )  
 
+
 class NombreFantasiaFormGenerico(forms.ModelForm):
     class Meta:
         model = models.NombreFantasia
@@ -57,6 +61,7 @@ class NombreFantasiaFormGenerico(forms.ModelForm):
         labels = {
             'nombreF': _('Nombre')
         }
+
 
 class NombreFantasiaFormAdd(NombreFantasiaFormGenerico):
     helper = FormHelper()
@@ -75,6 +80,7 @@ class NombreFantasiaFormAdd(NombreFantasiaFormGenerico):
         )
     )  
 
+
 class NombreFantasiaFormUpdate(NombreFantasiaFormGenerico):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
@@ -88,6 +94,7 @@ class NombreFantasiaFormUpdate(NombreFantasiaFormGenerico):
         )
     )  
 
+
 class PresentacionFormGenerico(forms.ModelForm):
     class Meta:
         model = models.Presentacion
@@ -97,6 +104,7 @@ class PresentacionFormGenerico(forms.ModelForm):
             'unidadMedida': _('Unidad Medida'),
             'cantidad': _('Cantidad')
         }
+
 
 class PresentacionFormAdd(PresentacionFormGenerico):
     helper = FormHelper()
@@ -117,6 +125,7 @@ class PresentacionFormAdd(PresentacionFormGenerico):
         )
     ) 
 
+
 class PresentacionFormUpdate(PresentacionFormGenerico):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
@@ -132,10 +141,10 @@ class PresentacionFormUpdate(PresentacionFormGenerico):
         )
     )  
 
+
 class RelatedFieldWidgetCanAdd(widgets.Select):
     def __init__(self, related_model, related_url=None, *args, **kw):
         super(RelatedFieldWidgetCanAdd, self).__init__(*args, **kw)
-
         if not related_url:
             rel_to = related_model
             info = (rel_to._meta.app_label, rel_to._meta.object_name.lower())
@@ -150,9 +159,10 @@ class RelatedFieldWidgetCanAdd(widgets.Select):
         output.append(u'<img src="%sadmin/img/icon_addlink.gif" width="15" height="15" align="right" margin-top="10px" alt="%s"/></a>' % (settings.STATIC_URL, ('Add Another')))
         return mark_safe(u''.join(output))
 
+
 class MedicamentoForm(forms.ModelForm):
     nombreFantasia = forms.ModelChoiceField(
-       label = "Nombre Fantasia",
+       label="Nombre Fantasia",
        required=True,
        queryset=models.NombreFantasia.objects.all(),
        widget=RelatedFieldWidgetCanAdd(models.NombreFantasia, related_url="nombreFantasia_add")
@@ -172,6 +182,7 @@ class MedicamentoForm(forms.ModelForm):
        widget=RelatedFieldWidgetCanAdd(models.Laboratorio, related_url="laboratorio_add")
 
     )
+
     class Meta:
         model = models.Medicamento
         fields = ["nombreFantasia", "codigoBarras", "stockMinimo","presentacion", "precioDeVenta", "laboratorio"]
@@ -199,6 +210,7 @@ class MedicamentoFormUpdate(forms.ModelForm):
             'precioDeVenta': _('Precio de Venta'),
         }
 
+
 class DosisForm(forms.ModelForm):
     class Meta:
         model = models.Dosis
@@ -207,10 +219,11 @@ class DosisForm(forms.ModelForm):
             'monodroga': selectable.AutoCompleteSelectWidget(lookup_class=lookups.MonodrogaLookup),
         }
 
+
 class DosisFormSetBase(BaseFormSet):
     def is_valid(self):
         ret = super(DosisFormSetBase, self).is_valid()
-        formula=set()
+        formula = set()
         for form in self.forms:
             mono = form.cleaned_data["monodroga"].pk
             if mono in formula:

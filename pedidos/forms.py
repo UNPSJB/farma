@@ -10,13 +10,16 @@ from selectable import forms as selectable
 from medicamentos import models as mmodels
 from organizaciones import models as omodels
 
-#*******************************VALIDACION***************************************#
+
+# *******************************VALIDACION***************************************#
+
 def validarCantidad(cantidad):
     if cantidad == 0:
             raise forms.ValidationError('La cantidad debe ser mayor a cero')
     return cantidad
 
-#*******************************PEDIDO DE FARMACIA*******************************#
+
+# *******************************PEDIDO DE FARMACIA*******************************#
 
 class PedidoDeFarmaciaForm(forms.ModelForm):
     helper = FormHelper()
@@ -29,12 +32,14 @@ class PedidoDeFarmaciaForm(forms.ModelForm):
         Field('farmacia', placeholder='Farmacia'),
         Field('fecha', placeholder='Fecha', css_class='datepicker')
     )
+
     class Meta:
         model = models.PedidoDeFarmacia
         fields = ["farmacia", "fecha"]
         widgets = {
             'farmacia': selectable.AutoCompleteSelectWidget(lookup_class=lookups.FarmaciaLookup),
         }
+
 
 class DetallePedidoDeFarmaciaForm(forms.ModelForm):
     helper = FormHelper()
@@ -54,6 +59,7 @@ class DetallePedidoDeFarmaciaForm(forms.ModelForm):
     def clean_cantidad(self):
         return validarCantidad(self.cleaned_data['cantidad'])
 
+
 class UpdateDetallePedidoDeFarmaciaForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
@@ -71,7 +77,8 @@ class UpdateDetallePedidoDeFarmaciaForm(forms.ModelForm):
     def clean_cantidad(self):
         return validarCantidad(self.cleaned_data['cantidad'])
 
-#*******************************PEDIDO DE CLINICA*******************************#
+
+# *******************************PEDIDO DE CLINICA*******************************#
 
 class PedidoDeClinicaForm(forms.ModelForm):
     helper = FormHelper()
@@ -86,6 +93,7 @@ class PedidoDeClinicaForm(forms.ModelForm):
         Field('medicoAuditor', placeholder='Medico Auditor'),
         Field('fecha', placeholder='Fecha', css_class='datepicker'),
     )
+
     class Meta:
         model = models.PedidoDeClinica
         fields = ["clinica", "obraSocial", "medicoAuditor", "fecha"]
@@ -96,6 +104,7 @@ class PedidoDeClinicaForm(forms.ModelForm):
         widgets = {
             'clinica': selectable.AutoCompleteSelectWidget(lookup_class=lookups.ClinicaLookup),
         }
+
 
 def get_medicamentos_con_stock():
     medicamentos_con_stock = []
@@ -108,10 +117,10 @@ def get_medicamentos_con_stock():
                 if lote.stock > 0:
                     hayStock = True
                     break
-
             if hayStock:
                 medicamentos_con_stock.append(medicamento.id)
     return mmodels.Medicamento.objects.filter(pk__in=medicamentos_con_stock)
+
 
 class DetallePedidoDeClinicaForm(forms.ModelForm):
     helper = FormHelper()
@@ -150,6 +159,7 @@ class DetallePedidoDeClinicaForm(forms.ModelForm):
             return False
         return True
 
+
 class UpdateDetallePedidoDeClinicaForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
@@ -179,7 +189,9 @@ class UpdateDetallePedidoDeClinicaForm(forms.ModelForm):
             return False
         return True
 
-#========================================INICIO FORMULARIOS PEDIDOS A LABORATORIOS========================================================
+# ===================================== INICIO FORMULARIOS PEDIDOS A LABORATORIOS =====================================
+
+
 def get_laboratorios_con_medicamentos():
     laboratorios_con_medicamentos = []
     laboratorios = omodels.Laboratorio.objects.all()
@@ -188,6 +200,7 @@ def get_laboratorios_con_medicamentos():
             laboratorios_con_medicamentos.append(laboratorio.id)
 
     return omodels.Laboratorio.objects.filter(pk__in=laboratorios_con_medicamentos)
+
 
 class PedidoLaboratorioForm(forms.ModelForm):
     helper = FormHelper()
@@ -201,15 +214,16 @@ class PedidoLaboratorioForm(forms.ModelForm):
                 )
     )
 
-    laboratorio=forms.ModelChoiceField(queryset=omodels.Laboratorio.objects.none())
+    laboratorio = forms.ModelChoiceField(queryset=omodels.Laboratorio.objects.none())
 
     class Meta:
-        model = models.PedidoAlaboratorio #models que corresponde al pedido a laboratorio
-        fields = ["laboratorio"]#campos del pedido a laboratorio (la fecha se obtiene del sistema y el numero es autogenerado)
+        model = models.PedidoAlaboratorio
+        fields = ["laboratorio"]
 
     def __init__(self, *args, **kwargs):
         super(PedidoLaboratorioForm, self).__init__(*args, **kwargs)
         self.fields['laboratorio'].queryset = get_laboratorios_con_medicamentos()
+
 
 def DetallePedidoAlaboratorioFormFactory(laboratorio_id):
     class DetallePedidoAlaboratorioForm(forms.ModelForm):
@@ -224,6 +238,7 @@ def DetallePedidoAlaboratorioFormFactory(laboratorio_id):
         )
 
         medicamento = forms.ModelChoiceField(queryset=mmodels.Medicamento.objects.filter(laboratorio=laboratorio_id))
+
         class Meta:
             model = models.DetallePedidoAlaboratorio
             fields = ["renglon" ,  "cantidad" , "medicamento"]
@@ -236,6 +251,7 @@ def DetallePedidoAlaboratorioFormFactory(laboratorio_id):
             return cantidad
     return DetallePedidoAlaboratorioForm
 
+
 class PedLaboratorioVerRenglonesForm(PedidoLaboratorioForm):
     def __init__(self, *args, **kwargs):
         super(PedLaboratorioVerRenglonesForm,self).__init__(*args, **kwargs)
@@ -243,7 +259,8 @@ class PedLaboratorioVerRenglonesForm(PedidoLaboratorioForm):
         self.fields['fecha'].widget.attrs['readonly'] = True
         self.fields['laboratorio'].widget.attrs['readonly'] = True
 
-#========================================================FIN FORMULARIOS DE PEDIDOS A LABORATORIOS======================================
+
+# ===================================== FIN FORMULARIOS DE PEDIDOS A LABORATORIOS =====================================
 
 def get_lotes(id_medicamento, lotesEnSesion):
     listaLotes = []
@@ -251,10 +268,11 @@ def get_lotes(id_medicamento, lotesEnSesion):
     for lote in lotesDb:
         listaLotes.append((lote.numero, str(lote.numero)))
 
-    for key,value in lotesEnSesion.items():
+    for key, value in lotesEnSesion.items():
         if value['medicamento'] == id_medicamento:
             listaLotes.append((key, str(key)))
     return listaLotes
+
 
 def ControlDetallePedidoAlaboratorioFormFactory(id_medicamento, lotesEnSesion):
     class ControlDetallePedidoAlaboratorioForm(forms.Form):
@@ -292,6 +310,7 @@ def ControlDetallePedidoAlaboratorioFormFactory(id_medicamento, lotesEnSesion):
 
     return ControlDetallePedidoAlaboratorioForm
 
+
 class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
     helper = FormHelper()
     helper.form_class = 'form'
@@ -308,6 +327,7 @@ class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
                         css_class="btn btn-primary pull-right"),
         )
     )
+
     lote = forms.CharField(label='Lote', max_length=30)
     fechaVencimiento = forms.DateField(label= 'Fecha de Vencimiento')
     precio = forms.FloatField(label= 'Precio', min_value=1)
@@ -331,7 +351,6 @@ class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
 
         return True
 
-    #------------------------------------------------
 
 class DevolucionMedicamentosForm(forms.Form):
         helper = FormHelper()
@@ -345,16 +364,15 @@ class DevolucionMedicamentosForm(forms.Form):
             )
         )
 
-        laboratorio=forms.ModelChoiceField(queryset=omodels.Laboratorio.objects.none())
+        laboratorio = forms.ModelChoiceField(queryset=omodels.Laboratorio.objects.none())
 
         class Meta:
-            model = models.PedidoAlaboratorio #models que corresponde al pedido a laboratorio
+            model = models.PedidoAlaboratorio
             fields = ["laboratorio"]
 
         def __init__(self, *args, **kwargs):
             super(DevolucionMedicamentosForm, self).__init__(*args, **kwargs)
             self.fields['laboratorio'].queryset = get_laboratorios_con_medicamentos()
-
 
 
 class RegistrarRecepcionForm(forms.Form):
@@ -368,7 +386,7 @@ class RegistrarRecepcionForm(forms.Form):
         )
     )
     nroRemito = forms.IntegerField(min_value=1)
-    fechaRemito = forms.DateField(label= 'Fecha de Remito' )
+    fechaRemito = forms.DateField(label='Fecha de Remito')
 
     def clean_nroRemito(self):
         nroRemito = self.cleaned_data['nroRemito']

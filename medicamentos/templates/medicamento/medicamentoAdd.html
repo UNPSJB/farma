@@ -43,7 +43,6 @@
                             {% csrf_token %}
                             {% bootstrap_form medicamento_form %}
                             <label class="control-label">Formula</label>
-                            <!--{{ dosis_formset.errors }}-->
                             {{ dosis_formset.non_form_errors }}
                             {% bootstrap_dynamic_formset dosis_formset can_order=True can_delete=True layout='inline'  %}
                             <div class="pull-right" style="margin-bottom: -10px;">

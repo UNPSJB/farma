@@ -7,10 +7,11 @@ from crispy_forms.layout import Layout, Field
 from crispy_forms.bootstrap import StrictButton, FormActions
 import re
 
+
 class FarmaciaFormGenerico(forms.ModelForm):
     class Meta:
         model = models.Farmacia
-        fields = ["razonSocial","cuit","localidad", "direccion","nombreEncargado","telefono","email"]
+        fields = ["razonSocial", "cuit", "localidad", "direccion", "nombreEncargado", "telefono", "email"]
         labels = {
             'razonSocial': _('Razon Social'),
             'cuit': _('Cuit'),
@@ -27,6 +28,7 @@ class FarmaciaFormGenerico(forms.ModelForm):
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
                 raise forms.ValidationError('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
+
 
 class FarmaciaFormAdd(FarmaciaFormGenerico):
     helper = FormHelper()
@@ -51,6 +53,7 @@ class FarmaciaFormAdd(FarmaciaFormGenerico):
         )
     )  
 
+
 class FarmaciaFormUpdate(FarmaciaFormGenerico):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
@@ -70,10 +73,11 @@ class FarmaciaFormUpdate(FarmaciaFormGenerico):
         )
     )  
 
+
 class ClinicaFormGenerico(forms.ModelForm):
     class Meta:
         model = models.Clinica
-        fields = ["razonSocial","cuit","localidad", "direccion","obraSocial","telefono","email"]
+        fields = ["razonSocial", "cuit", "localidad", "direccion", "obraSocial", "telefono", "email"]
         labels = {
             'razonSocial': _('Razon Social'),
             'cuit': _('Cuit'),
@@ -90,6 +94,7 @@ class ClinicaFormGenerico(forms.ModelForm):
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
                 raise forms.ValidationError('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
+
 
 class ClinicaFormAdd(ClinicaFormGenerico):
     helper = FormHelper()
@@ -114,6 +119,7 @@ class ClinicaFormAdd(ClinicaFormGenerico):
         )
     )  
 
+
 class ClinicaFormUpdate(ClinicaFormGenerico):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
@@ -134,10 +140,11 @@ class ClinicaFormUpdate(ClinicaFormGenerico):
         )
     )  
 
+
 class LaboratorioFormGenerico(forms.ModelForm):
     class Meta:
         model = models.Laboratorio
-        fields = ["razonSocial", "cuit","localidad","direccion","telefono","email"]
+        fields = ["razonSocial", "cuit", "localidad", "direccion", "telefono", "email"]
         labels = {
             'razonSocial': _('Razon Social'),
             'cuit': _('Cuit'),
@@ -153,6 +160,7 @@ class LaboratorioFormGenerico(forms.ModelForm):
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
                 raise forms.ValidationError('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
+
 
 class LaboratorioFormAdd(LaboratorioFormGenerico):
     helper = FormHelper()
@@ -175,6 +183,7 @@ class LaboratorioFormAdd(LaboratorioFormGenerico):
                         css_class="btn btn-primary pull-right"),
         )
     ) 
+
 
 class LaboratorioFormUpdate(LaboratorioFormGenerico):
     helper = FormHelper()
