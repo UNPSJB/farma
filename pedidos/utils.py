@@ -1,7 +1,6 @@
 from pedidos import models
 from medicamentos.models import Lote
 
-
 def get_stock_total(medicamento):
     lotes = Lote.objects.filter(medicamento__id=medicamento.id)
     stockTotal = 0
@@ -19,7 +18,6 @@ POS: * Retorna True si hubo suficiente stock para satisfacer la cantidad del med
        solicitada en el detalle.
      * detalle del pedido y lotes utilizados estan actualizados.
      * Cero o mas detalles de remito creados. """
-
 
 def procesar_detalle(detalle, remito):
     stockTotal = get_stock_total(detalle.medicamento)
@@ -70,14 +68,12 @@ def procesar_detalle(detalle, remito):
             i += 1
         return True
 
-
 def es_pendiente(pedido):
     detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) #obtengo todos los detalles del pedido
     for detalle in detalles:
         if get_stock_total(detalle.medicamento) > 0:
             return False
     return True
-
 
 def procesar_pedido(pedido):
     detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) #obtengo todos los detalles del pedido
@@ -87,6 +83,7 @@ def procesar_pedido(pedido):
         esEnviado = True
         for detalle in detalles:
             esEnviado = esEnviado and procesar_detalle(detalle, remito)
+
         pedido.estado = "Enviado" if esEnviado else "Parcialmente Enviado"
     else:
         pedido.estado = "Pendiente"
@@ -95,8 +92,7 @@ def procesar_pedido(pedido):
             detalle.save()
     pedido.save()
 
-
-def procesar_detalle_de_clinica(detalle,remito):
+def procesar_detalle_de_clinica(detalle, remito):
     lotes = Lote.objects.filter(medicamento__id=detalle.medicamento.id).order_by('fechaVencimiento')
     detalle.cantidadPendiente = 0  # porque hay stock suficiente para el medicamento del detalle
     detalle.save()  # actualizo cantidad pendiente antes calculada
@@ -123,7 +119,6 @@ def procesar_detalle_de_clinica(detalle,remito):
             detalleRemito.save()
             lote.save()  # actualizo el stock del lote
         i += 1
-
 
 def procesar_pedido_de_clinica(pedido):
     detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica=pedido.nroPedido) #obtengo todos los detalles del pedido
