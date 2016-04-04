@@ -66,7 +66,7 @@
                                     <td>{{ remito.id }}</td>
                                     <td>{{ remito.fecha }}</td>
                                     <td>
-                                        <a data-remito="{{ remito.id }}" class="btn btn-info btn-xs" id="btn-generar"><span class="glyphicon glyphicon-floppy-disk"></span></a>
+                                        <a data-remito="{{ remito.id }}" class="btn btn-info btn-xs btn-generar"><span class="glyphicon glyphicon-floppy-disk"></span></a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -100,7 +100,7 @@
 
 {% block more-scripts %}
     <script>
-        $("#btn-generar").on("click", function(e){
+        $(".btn-generar").on("click", function(e){
             nroRemito = $(this).data("remito");
             $("#btn-pdf").attr("href","/pedidosDeFarmacia/remitoDeFarmacia/"+nroRemito+"/");
             $("#modal-generar-remito").modal('show');
