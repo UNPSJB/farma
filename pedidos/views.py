@@ -396,7 +396,8 @@ def pedidoAlaboratorio_add(request):
 def pedidoAlaboratorio_ver(request, id_pedido):
     pedido = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
     detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido=pedido.numero)
-    return render(request, "pedidoAlaboratorio/pedidoVer.html", {'pedido': pedido, 'detalles': detalles})
+    remitos = models.RemitoLaboratorio.objects.filter(pedidoLaboratorio=pedido)
+    return render(request, "pedidoAlaboratorio/pedidoVer.html", {'pedido': pedido, 'detalles': detalles, 'remitos': remitos})
 
 
 def detallesPedidoAlaboratorio(request):
@@ -509,7 +510,6 @@ def guardar_recepcion_detalle(session, detalle, infoRecepcionDetalle):
     posDetalle = get_pos_detalle(detalles, detalle.renglon)
     infoDetalle = detalles[posDetalle]
     numeroLote = str(infoRecepcionDetalle['lote'])
-    #informacion del detalle de remito
     detallesRemitoRecepcion.append({'detallePedidoLaboratorio':detalle.pk, 'lote': numeroLote, 'cantidad': infoRecepcionDetalle['cantidad']})
     session['remitoRecepcion']['detalles'] = detallesRemitoRecepcion
 

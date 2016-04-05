@@ -15,9 +15,7 @@
 {% endblock %}
 
 {%block botonVer%}
-
-   <a class="btn btn-warning hidden" id="modificar"><span class="glyphicon glyphicon-ok-circle"></span>Regitrar recepcion</a>
-
+   <a class="btn btn-warning hidden" id="modificar"><span class="glyphicon glyphicon-ok-circle"></span>  Registrar recepcion</a>
 {%endblock%}
 
 
@@ -26,37 +24,31 @@
 {%block filtro %}
     <label for="Laboratorio" >Buscar:</label>
     <input  id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" placeholder="laboratorio">
-
-
-
     <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
     <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
 {% endblock %}
 
 {% block grid %}
-        <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
-
-
-            <thead>
-                <tr class="info">
+    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr class="info">
                 <th>Renglon</th>
                 <th>Fecha</th>
                 <th>Laboratorio</th>
                 <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recibido in recibidos %}
+                <tr class="clickeable" data-id="{{ recibido.numero }}">
+                    <td>{{forloop.counter}}</td>
+                    <td>{{recibido.fecha}}</td>
+                    <td>{{recibido.laboratorio.razonSocial}}</td>
+                    <td>{{recibido.estado}}</td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for recibido in recibidos %}
-                    <tr class="clickeable" data-id="{{ recibido.numero   }}">
-                        <td>{{forloop.counter}}</td>
-                        <td>{{recibido.fecha}}</td>
-                        <td>{{recibido.laboratorio.razonSocial}}</td>
-                        <td>{{recibido.estado}}</td>
-                    </tr>
-
-                {% endfor %}
-            </tbody>
-        </table>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
 
 {% block modal-baja-title %}
@@ -66,19 +58,14 @@
 {% block more-scripts %}
     <script>
         $(document).ready(function(){
-
             $("#modificar").on("click", function(e){ /*Modificar es el id del boton 'ver' de este template*/
                 var id = get_selected_row();
-
                 if(id){
                     var url = "/recepcionPedidoAlaboratorio/" + id +"/cargarPedido/";
-
-
                     $(this).attr("href", url);
                 }
                 e.stopPropagation();
             });
-
         });
     </script>
 {% endblock %}

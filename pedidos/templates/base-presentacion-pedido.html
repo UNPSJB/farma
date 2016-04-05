@@ -29,6 +29,15 @@
         .panel-nro-pedido .panel-body{
             padding: 8px 10px;
         }
+
+        tr {
+            font-size: 16px;
+        }
+
+        ul {
+            font-size: 16px;
+            font-weight: bold;
+        }
     </style>
     {% block more-stylesheets %}{% endblock %}
 {% endblock %}
@@ -37,11 +46,10 @@
 {% endblock %}
 
 {% block content %}
-	<!-- Cabezera del pedido -->
     <div class="jumbotron">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 {% block jumbotron-style %}col-md-6{% endblock %}">
                     <h3>{% block tipo-pedido %}{% endblock %} <small class="text-primary">{% block nombre-organizacion %}{% endblock %}</small></h3>
                 </div>
                 {% block etiqueta-Numero-Y-fecha %}
@@ -57,8 +65,6 @@
             </div>
         </div>
     </div>
-
-	<!-- Detalles del pedido -->
     <div class="container panel-detalle">
         <div class="col-xs-12 ">
             {% block panel-detalles %}

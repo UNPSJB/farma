@@ -1,20 +1,9 @@
-{% extends "base/base.html" %}
+{% extends "base-presentacion-pedido.html" %}
 {% load staticfiles %}
 
-{% block stylesheets %}
+{% block more-stylesheets %}
     <link rel="stylesheet" href="{% static 'css/jquery-ui.custom.min.css' %}">
     <style>
-        .header {
-            background-color: rgb(19, 43, 60);
-            color: #D0D0D0;
-        }
-
-        .header h1 {
-            display: inline-block;
-            margin: 0;
-            padding: 2rem 0;
-        }
-
         .btn-volver {
             position: absolute;
             bottom: 0; right: 15px;
@@ -31,21 +20,10 @@
             color: #FFF;
         }
 
-        .panel-form {
-            margin-top: 3rem;
-            padding: 2rem;
-            background-color: rgb(237,239,241);
-            border: 1px solid #DDD;
-        }
-
         .container-btn-volver {
             position: relative;
             margin-top: 4rem;
             margin-bottom: 2rem;
-        }
-
-        .form{
-            overflow: hidden;
         }
 
         .ocultable {
@@ -54,53 +32,49 @@
     </style>
 {% endblock %}
 
-{% block title %} Lotes {% endblock %}
+{% block title %}Lotes{% endblock %}
 
-{% block content %}
-	<div class="header">
-		<div class="container-fluid">
-			<h1>Lotes del medicamento: {{ medicamento.nombreFantasia }}</h1>
-		</div>
-	</div>
+{% block tipo-pedido %}Lotes del medicamento{% endblock %}
 
-	<div class="container-fluid container-reference">
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">
-				<div class="panel panel-form">
-					<div class="clearfix"></div>
-					<!-- Formulario -->
-                    <table class = "table" >
+{% block nombre-organizacion %} {{ medicamento.nombreFantasia }} {{ medicamento.presentacion }} {% endblock %}
 
-                        <thead>
+{% block etiqueta-Numero-Y-fecha %}{% endblock %}
+
+{% block jumbotron-style %}{% endblock %}
+
+{% block panel-detalles %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Lotes</h3>
+        </div>
+        <div class="panel-body">
+            <div class="tab-pane fade in active">
+                <table class="table table-condensed table-responsive">
+                    <thead>
+                        <tr class="info">
+                            <th>Lote</th>
+                            <th>Fecha Vencimiento</th>
+                            <th>Stock</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lote in lotes %}
                             <tr>
-                                <th>Lote</th>
-                                <th>Fecha Vencimiento</th>
-                                <th>Stock</th>
-                                <th>Precio</th>
+                                <td>{{ lote.numero }}</td>
+                                <td>{{ lote.fechaVencimiento }}</td>
+                                <td>{{ lote.stock }}</td>
+                                <td>{{ lote.precio }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {% for lote in lotes %}
-                                <tr>
-                                    <td>{{ lote.numero }}</td>
-                                    <td>{{ lote.fechaVencimiento }}</td>
-                                    <td>{{ lote.stock }}</td>
-                                    <td>{{ lote.precio }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-
-                    </table>
-
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10 container-btn-volver">
-				<a class="btn-volver" href="{% url 'medicamentos' %}"><span aria-hidden="true">&larr; Volver</span> </a>
-			</div>
-		</div>
-	</div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-offset-1 col-md-10 container-btn-volver">
+            <a class="btn-volver" href="{% url 'medicamentos' %}"><span aria-hidden="true">&larr; Volver</span> </a>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}

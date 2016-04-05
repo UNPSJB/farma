@@ -1,18 +1,5 @@
 {% extends "base-presentacion-pedido.html" %}
 
-{% block more-stylesheets %}
-    <style>
-        ul {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        tr {
-            font-size: 16px;
-        }
-    </style>
-{% endblock %}
-
 {% block title %}Ver Pedido De Farmacia{% endblock %}
 
 {% block tipo-pedido %}Pedido de Farmacia{% endblock %}
@@ -43,7 +30,7 @@
                         </thead>
                         <tbody>
                             {% for detalle in detalles %}
-                                <tr class="clickeable" data-id="{{ detalle.id }}">
+                                <tr>
                                     <td>{{ detalle.medicamento }}</td>
                                     <td>{{ detalle.cantidad }}</td>
                                 </tr>
@@ -63,7 +50,7 @@
                         <tbody>
                             {% for remito in remitos %}
                                 <tr class="clickeable" data-id="{{ remito.id }}">
-                                    <td>{{ remito.id }}</td>
+                                    <td>{{ remito.nroRemito }}</td>
                                     <td>{{ remito.fecha }}</td>
                                     <td>
                                         <a data-remito="{{ remito.id }}" class="btn btn-info btn-xs btn-generar"><span class="glyphicon glyphicon-floppy-disk"></span></a>
