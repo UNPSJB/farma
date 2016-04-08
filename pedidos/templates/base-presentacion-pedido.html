@@ -87,13 +87,12 @@
     </div>
 
     {% block modals-abm %}
-        <!-- Modal delete-detalle-modal-->
         <div class="modal fade" id="modal-delete-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Eliminar Detalle</h4>
+                        <h4 class="modal-title">Eliminar Detalle</h4>
                     </div>
                     <div class="modal-body">
                         <p>El detalle se eliminara permanentemente ¿esta seguro? </p>
@@ -106,13 +105,12 @@
             </div>
         </div>
 
-        <!-- Modal add-detalle-modal-->
         <div class="modal fade" id="modal-add-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Agregar Detalles al Pedido</h4>
+                        <h4 class="modal-title">Agregar Detalles al Pedido</h4>
                     </div>
                     <div class="modal-body">
                         <div class="collapse" id="collapse-add-detalle">
@@ -130,13 +128,12 @@
             </div>
         </div>
 
-        <!-- Modal modal-update-detalle--->
         <div class="modal fade" id="modal-update-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Actualizar Detalle del Pedido</h4>
+                        <h4 class="modal-title">Actualizar Detalle del Pedido</h4>
                     </div>
                     <div class="modal-body">
                          <div class="collapse" id="collapse-error">
@@ -154,7 +151,6 @@
             </div>
         </div>
 
-        <!-- Modal modal-error-registrar-pedido -->
         <div class="modal fade" id="modal-error-registrar-pedido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
@@ -174,16 +170,15 @@
             </div>
         </div>
 
-        <!-- Modal modal-registrar-pedido -->
         <div class="modal fade" id="modal-registrar-pedido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h3 class="modal-title">Registrar Pedido</h3>
+                        <h3 class="modal-title">{% block modal-header %}Registrar Pedido{% endblock %}</h3>
                     </div>
                     <div class="modal-body">
-                        <p class="text-center text-success"><span class="glyphicon glyphicon-ok"></span> El pedido fue registrado correctamente!</p>
+                        <p class="text-center text-success"><span class="glyphicon glyphicon-ok"></span> {% block modal-body %}El pedido fue registrado correctamente{% endblock %}</p>
                         {% block modal-body-extra %}
                             <div id="generar-remito">
                                 <p class="text-center"><strong>¿Desea generar el remito?</strong></p>

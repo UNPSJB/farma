@@ -196,7 +196,7 @@ def get_laboratorios_con_medicamentos():
     laboratorios_con_medicamentos = []
     laboratorios = omodels.Laboratorio.objects.all()
     for laboratorio in laboratorios:
-        if mmodels.Medicamento.objects.filter(laboratorio = laboratorio).count() > 0:
+        if mmodels.Medicamento.objects.filter(laboratorio=laboratorio).count() > 0:
             laboratorios_con_medicamentos.append(laboratorio.id)
 
     return omodels.Laboratorio.objects.filter(pk__in=laboratorios_con_medicamentos)
@@ -352,12 +352,13 @@ class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
         return True
 
 
-class DevolucionMedicamentosForm(forms.Form):
+class DevolucionMedicamentosForm(forms.ModelForm):
         helper = FormHelper()
         helper.form_class = 'form'
         helper.form_id = 'form-add-detalle'
         helper.layout = Layout(
             Field('laboratorio', placeholder="Laboratorio"),
+            Field('fecha', placeholder='Fecha', css_class='datepicker'),
             FormActions(
                 StrictButton('Confirmar', type="submit", name="_confirmar", value="_confirmar", id="btn-confirmar",
                             css_class="btn btn-success pull-right"),
@@ -365,10 +366,11 @@ class DevolucionMedicamentosForm(forms.Form):
         )
 
         laboratorio = forms.ModelChoiceField(queryset=omodels.Laboratorio.objects.none())
+        fecha = forms.DateField(label='Fecha de Remito')
 
         class Meta:
             model = models.PedidoAlaboratorio
-            fields = ["laboratorio"]
+            fields = ["laboratorio", "fecha"]
 
         def __init__(self, *args, **kwargs):
             super(DevolucionMedicamentosForm, self).__init__(*args, **kwargs)

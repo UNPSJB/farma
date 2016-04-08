@@ -2,20 +2,15 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
-{% block title %}Devolucion de medicamentos{% endblock %}
+{% block title %}Devolucion de medicamentos vencidos{% endblock %}
 
-{% block panel-heading-right %}
-{% endblock %}
-
-{% block tipo-pedido %} Devolucion de medicamentos {% endblock %}
+{% block tipo-pedido %}Devolucion de medicamentos vencidos{% endblock %}
 
 {% block nombre-organizacion %} {{ laboratorio.razonSocial }} {% endblock %}
 
-{% block fecha-pedido %} {% endblock %}
+{% block fecha-pedido %} {{ fecha }} {% endblock %}
 
-{% block etiqueta-Numero-Y-fecha %}{% endblock %}
-
-{% block nro-pedido %}{% endblock %}
+{% block nro-pedido %} {{ numero }} {% endblock %}
 
 {% block grid %}
     <table class="table table-condensed table-responsive" >
@@ -29,7 +24,7 @@
         </thead>
         <tbody>
             {% for lote in lotes%}
-                <tr class="clickeable">
+                <tr>
                     <td>{{ lote.numero}}</td>
                     <td>{{ lote.medicamento}}</td>
                     <td>{{ lote.fechaVencimiento }}</td>
@@ -43,11 +38,49 @@
 {% block panel-footer %}
     <div class="panel-footer">
         <div class="pull-right">
-            <a id="btn-registrar" href="{% url 'devolucionMedicamentosVencidos_registrar' laboratorio.id %}" class="btn btn-primary">Registrar</a>
+            <a id="btn-registrar" href="{% url 'devolucionMedicamentosVencidos_registrar' laboratorioId %}" class="btn btn-primary" type="submit">Registrar</a>
         </div>
         <div class="clearfix"></div>
     </div>
 {% endblock %}
 
-{% block url-pdf %}#{% endblock %}
+{% block modals-abm %}
+    <div class="modal fade" id="modal-registrar-devolucion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title">Regitsrar devolucion</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center text-success"><span class="glyphicon glyphicon-ok"></span> La devolucion se registro correctamente</p>
+                    <div id="generar-remito">
+                        <p class="text-center"><strong>¿Desea generar el remito?</strong></p>
+                    </div>
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <a id="btn-pdf" href="{% url 'remitoDevolucion' numero %}" target="_blank" class="btn btn-success">Si</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block more-scripts %}
+    <script>
+        {% if abrirModal %}
+            $("#modal-registrar-devolucion").modal('show');
+         {% endif %}
+
+        $("#btn-pdf").on("click", function(e){
+            $("#modal-registrar-devolucion").modal('hide');
+        });
+
+        $('#modal-registrar-devolucion').on('hidden.bs.modal', function(e){
+            window.location = "{% url 'inicio' %}";
+            e.stopPropagation();
+        })
+    </script>
+{% endblock %}
 

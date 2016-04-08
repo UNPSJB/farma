@@ -353,12 +353,12 @@ class remitoDeClinica(PDFTemplateView):
 
 def get_detalles_a_pedir(pkLaboratorio):
     detalles_a_pedir = []
-    pedidos = models.PedidoDeFarmacia.objects.filter( Q(estado='Pendiente')|Q(estado='Parcialmente Enviado'))
+    pedidos = models.PedidoDeFarmacia.objects.filter(Q(estado='Pendiente') | Q(estado='Parcialmente Enviado'))
     
     for pedido in pedidos:
         detalles = models.DetallePedidoDeFarmacia.objects.filter(Q(pedidoDeFarmacia=pedido.pk) & Q(estaPedido=False) & Q(cantidadPendiente__gt=0) & Q(medicamento__laboratorio=pkLaboratorio))
         for detalle in detalles:
-            #creo el detalle del pedido a laboratorio asociado al detalle pedido de farmacia
+            # creo el detalle del pedido a laboratorio asociado al detalle pedido de farmacia
             detallePedidoAlaboratorio = models.DetallePedidoAlaboratorio()
             detallePedidoAlaboratorio.medicamento = detalle.medicamento
             detallePedidoAlaboratorio.cantidad = detalle.cantidadPendiente 
@@ -393,13 +393,15 @@ def pedidoAlaboratorio_add(request):
     return render(request, 'pedidoAlaboratorio/pedidoAdd.html', {'form': form})
 
 
+@login_required(login_url='login')
 def pedidoAlaboratorio_ver(request, id_pedido):
     pedido = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
-    detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido=pedido.numero)
-    remitos = models.RemitoLaboratorio.objects.filter(pedidoLaboratorio=pedido)
+    detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido=pedido)
+    remitos = models.RemitoLaboratorio.objects.filter(pedidoLaboratorio__pk=id_pedido)
     return render(request, "pedidoAlaboratorio/pedidoVer.html", {'pedido': pedido, 'detalles': detalles, 'remitos': remitos})
 
 
+@login_required(login_url='login')
 def detallesPedidoAlaboratorio(request):
     pedido = request.session['pedidoAlaboratorio']
     detalles = request.session["detallesPedidoAlaboratorio"]
@@ -510,20 +512,25 @@ def guardar_recepcion_detalle(session, detalle, infoRecepcionDetalle):
     posDetalle = get_pos_detalle(detalles, detalle.renglon)
     infoDetalle = detalles[posDetalle]
     numeroLote = str(infoRecepcionDetalle['lote'])
-    detallesRemitoRecepcion.append({'detallePedidoLaboratorio':detalle.pk, 'lote': numeroLote, 'cantidad': infoRecepcionDetalle['cantidad']})
-    session['remitoRecepcion']['detalles'] = detallesRemitoRecepcion
+    #informacion del detalle de remito
+    detallesRemitoRecepcion.append({'detallePedidoLaboratorio':detalle.pk,'lote':numeroLote,'cantidad':infoRecepcionDetalle['cantidad']})
+    session['remitoRecepcion']['detalles']=detallesRemitoRecepcion
+
+    cantidadStockLote = 0
+    if infoDetalle['detallePedidoFarmacia'] == -1:
+        cantidadStockLote = infoRecepcionDetalle['cantidad']
 
     if numeroLote in recepcionPedidoAlaboratorio['nuevosLotes']:
         lote = recepcionPedidoAlaboratorio['nuevosLotes'][numeroLote]
-        lote['stock'] += infoRecepcionDetalle['cantidad']
+        lote['stock'] += cantidadStockLote
         recepcionPedidoAlaboratorio['nuevosLotes'][numeroLote] = lote # guardo cambios
     else:
         if numeroLote in recepcionPedidoAlaboratorio['actualizarLotes']:
-            lote = recepcionPedidoAlaboratorio['actualizarLotes'][numeroLote]
-            lote += infoRecepcionDetalle['cantidad']
-            recepcionPedidoAlaboratorio['actualizarLotes'][numeroLote] = lote # guardo cambios
+            stock = recepcionPedidoAlaboratorio['actualizarLotes'][numeroLote]
+            stock += cantidadStockLote
+            recepcionPedidoAlaboratorio['actualizarLotes'][numeroLote] = stock # guardo cambios
         else:
-            recepcionPedidoAlaboratorio['actualizarLotes'][numeroLote] = infoRecepcionDetalle['cantidad']
+            recepcionPedidoAlaboratorio['actualizarLotes'][numeroLote] = cantidadStockLote
 
     infoDetalle['cantidadPendiente'] -= infoRecepcionDetalle['cantidad']
     infoDetalle['actualizado'] = True
@@ -542,10 +549,13 @@ def guardar_recepcion_detalle_con_nuevo_lote(session, detalle, infoRecepcionDeta
     infoDetalle = detalles[posDetalle]
 
     numeroLote = infoRecepcionDetalle['lote']
+    cantidadStockLote = 0
+    if infoDetalle['detallePedidoFarmacia'] == -1:
+        cantidadStockLote = infoRecepcionDetalle['cantidad']
     nuevoLote = {
         'fechaVencimiento': infoRecepcionDetalle['fechaVencimiento'].strftime('%d/%m/%Y'),
         'precio': infoRecepcionDetalle['precio'],
-        'stock': infoRecepcionDetalle['cantidad'],
+        'stock': cantidadStockLote,
         'medicamento': detalle.medicamento.id
     }  
 
@@ -571,18 +581,13 @@ def crear_nuevos_lotes(nuevosLotes):
         lote.precio = info['precio']
         lote.stock = info['stock']
         lote.medicamento = get_object_or_404(Medicamento, pk=info['medicamento'])
+        lote.save()        
+
+def actualizar_lotes(lotes):
+    for numeroLote, cantidadRecibida in lotes.items():
+        lote = get_object_or_404(Lote, numero=numeroLote)
+        lote.stock += cantidadRecibida
         lote.save()
-
-
-def actualizar_lotes(remitoLab):
-    detalles = models.DetalleRemitoLaboratorio.objects.filter(remito=remitoLab)
-    for detalle in detalles:
-        detallePedidoFarmacia = detalle.detallePedidoLaboratorio.detallePedidoFarmacia
-        if not detallePedidoFarmacia:
-            lote = get_object_or_404(Lote, numero=detalle.lote.numero)
-            lote.stock += detalle.cantidad
-            lote.save()
-
 
 def actualizar_pedido(pedido, detalles):
     recepcionDelPedidoCompleta = True
@@ -603,12 +608,88 @@ def actualizar_pedido(pedido, detalles):
     pedido.save()
 
 
+def actualizar_pedidos_farmacia(remitoLab):
+
+    detalles = models.DetalleRemitoLaboratorio.objects.filter(remito=remitoLab)
+    #todos los pedidos de farmacia a los que se les realiza el remito y que luego deben actualizar su estado
+    listaPedidosDeFarmacia = []
+
+    remitosDeFarmacia = {}
+    for detalle in detalles:
+        detallePedidoFarmacia = detalle.detallePedidoLaboratorio.detallePedidoFarmacia
+        if detallePedidoFarmacia:
+            detallesRemito = remitosDeFarmacia.setdefault(detallePedidoFarmacia.pedidoDeFarmacia.nroPedido, [])
+            detallesRemito.append(detalle)
+            #detallesRemito[detallePedidoFarmacia.pedidoDeFarmacia.nroPedido] = detallesRemito
+    for pkPedido, detallesRemitoLaboratorio in remitosDeFarmacia.items():
+        pedidoDeFarmacia = models.PedidoDeFarmacia.objects.get(pk=pkPedido)
+        listaPedidosDeFarmacia.append(pedidoDeFarmacia)
+        remitoFarmacia = models.RemitoDeFarmacia()
+        remitoFarmacia.pedidoFarmacia = pedidoDeFarmacia
+        remitoFarmacia.fecha = remitoLab.fecha
+        remitoFarmacia.save()
+        for detalle in detallesRemitoLaboratorio:
+            #actualiza la cantidad pendiente del detalle pedido farmacia
+            detallePedidoFarmacia = detalle.detallePedidoLaboratorio.detallePedidoFarmacia
+            detallePedidoFarmacia.cantidadPendiente -= detalle.cantidad
+            detallePedidoFarmacia.save()
+
+            detalleRemitoFarmacia = models.DetalleRemitoDeFarmacia()
+            detalleRemitoFarmacia.cantidad = detalle.cantidad
+            detalleRemitoFarmacia.lote = detalle.lote
+            detalleRemitoFarmacia.detallePedidoDeFarmacia = detallePedidoFarmacia
+            detalleRemitoFarmacia.remito = remitoFarmacia
+            detalleRemitoFarmacia.save()
+
+    #se actualiza el estado del pedido de farmacia
+    for pedido in listaPedidosDeFarmacia:
+        cantidadTotalDetalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido).count()
+        cantidadDetallesCompletamenteSatisfechos = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido, cantidadPendiente=0).count()
+        print "cantidadTotalDetalles", cantidadTotalDetalles, "\n"
+        print "cantidadDetallesCompletamenteSatisfechos", cantidadDetallesCompletamenteSatisfechos, "\n"
+
+        if cantidadTotalDetalles == cantidadDetallesCompletamenteSatisfechos:
+            pedido.estado = "Enviado"
+        else:
+            pedido.estado = "Parcialmente Enviado"
+        pedido.save()
+
+
+def procesar_recepcion(sesion, pedido):
+    remitoSesion = sesion['remitoRecepcion']['remito']
+    detalleRemitoSesion = sesion['remitoRecepcion']['detalles']
+    nuevosLotes = sesion['recepcionPedidoAlaboratorio']['nuevosLotes']
+    actualizarLotes = sesion['recepcionPedidoAlaboratorio']['actualizarLotes']
+    detalles = sesion['recepcionPedidoAlaboratorio']['detalles']
+
+    crear_nuevos_lotes(nuevosLotes)
+    actualizar_lotes(actualizarLotes)
+    actualizar_pedido(pedido, detalles)
+
+    remito = models.RemitoLaboratorio()
+    remito.nroRemito = remitoSesion['nroRemito']
+    remito.fecha = datetime.datetime.strptime(remitoSesion['fecha'], '%d/%m/%Y').date()
+    remito.laboratorio = pedido.laboratorio
+    remito.pedidoLaboratorio = pedido
+    remito.save()
+
+    for detalle in detalleRemitoSesion:       
+        detalleRemito = models.DetalleRemitoLaboratorio()
+        detalleRemito.remito = remito
+        detalleRemito.cantidad = detalle['cantidad']
+        detalleRemito.lote = get_object_or_404(mmodels.Lote, numero= detalle['lote'])
+        detalleRemito.detallePedidoLaboratorio = get_object_or_404(models.DetallePedidoAlaboratorio, pk= detalle['detallePedidoLaboratorio'])
+        detalleRemito.save()
+
+    actualizar_pedidos_farmacia(remito)
+
+
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio(request):
     mfilters = get_filtros(request.GET, models.PedidoAlaboratorio)
     pedidos = models.PedidoAlaboratorio.objects.filter(**mfilters)
     fecha = datetime.datetime.now()
-    recibidos = pedidos.filter( Q(estado='Pendiente')|Q(estado='Parcialmente Recibido') )
+    recibidos = pedidos.filter(Q(estado='Pendiente')|Q(estado='Parcialmente Recibido'))
     return render(request, "recepcionPedidoALaboratorio/pedidos.html", {'recibidos': recibidos, 'fecha': fecha, "filtros": request.GET})
 
 
@@ -616,7 +697,7 @@ def recepcionPedidoAlaboratorio(request):
 def recepcionPedidoAlaboratorio_cargarPedido(request, id_pedido):
     limpiar_sesion('recepcionPedidoAlaboratorio', 'remitoRecepcion', request.session)
     cargar_detalles(id_pedido, request.session)
-    info = {'remito':{}, 'detalles':[]}
+    info = {'remito': {}, 'detalles': []}
     request.session['remitoRecepcion'] = info
     return redirect('recepcionPedidoAlaboratorio_registrarRecepcion', id_pedido)
 
@@ -699,56 +780,6 @@ def recepcionPedidoAlaboratorio_controlDetalleConNuevoLote(request, id_pedido, i
         return redirect('recepcionPedidoAlaboratorio_controlPedido', id_pedido)
 
 
-def crear_remitos_farmacia(remitoLab):
-    detalles = models.DetalleRemitoLaboratorio.objects.filter(remito=remitoLab)
-    remitosDeFarmacia = {}
-    for detalle in detalles:
-        detallePedidoFarmacia = detalle.detallePedidoLaboratorio.detallePedidoFarmacia
-        if detallePedidoFarmacia:
-            detallesRemito = remitosDeFarmacia.setdefault(detallePedidoFarmacia.pedidoDeFarmacia.nroPedido, [])
-            detallesRemito.append(detalle)
-    for pkPedido, detallesIn in remitosDeFarmacia.items():
-        remitoFarmacia = models.RemitoDeFarmacia()
-        remitoFarmacia.pedidoFarmacia = models.PedidoDeFarmacia.objects.get(pk=pkPedido)
-        remitoFarmacia.fecha = remitoLab.fecha
-        remitoFarmacia.save()
-        for detalle in detallesIn:
-            detalleRemitoFarmacia = models.DetalleRemitoDeFarmacia()
-            detalleRemitoFarmacia.cantidad = detalle.cantidad
-            detalleRemitoFarmacia.lote = detalle.lote
-            detalleRemitoFarmacia.detallePedidoDeFarmacia = detalle.detallePedidoLaboratorio.detallePedidoFarmacia
-            detalleRemitoFarmacia.remito = remitoFarmacia
-            detalleRemitoFarmacia.save()
-
-
-def procesar_recepcion(sesion, pedido):
-    remitoSesion = sesion['remitoRecepcion']['remito']
-    detalleRemitoSesion = sesion['remitoRecepcion']['detalles']
-    nuevosLotes = sesion['recepcionPedidoAlaboratorio']['nuevosLotes']
-    detalles = sesion['recepcionPedidoAlaboratorio']['detalles']
-
-    crear_nuevos_lotes(nuevosLotes)
-    actualizar_pedido(pedido, detalles)
-
-    remito = models.RemitoLaboratorio()
-    remito.nroRemito = remitoSesion['nroRemito']
-    remito.fecha= datetime.datetime.strptime(remitoSesion['fecha'], '%d/%m/%Y').date()
-    remito.laboratorio = pedido.laboratorio
-    remito.pedidoLaboratorio = pedido
-    remito.save()
-
-    for detalle in detalleRemitoSesion:
-        detalleRemito = models.DetalleRemitoLaboratorio()
-        detalleRemito.remito = remito
-        detalleRemito.cantidad = detalle['cantidad']
-        detalleRemito.lote  = get_object_or_404(mmodels.Lote, numero= detalle['lote'])
-        detalleRemito.detallePedidoLaboratorio = get_object_or_404(models.DetallePedidoAlaboratorio, pk= detalle['detallePedidoLaboratorio'])
-        detalleRemito.save()
-
-    crear_remitos_farmacia(remito)
-    actualizar_lotes(remito)
-
-
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_registrar(request, id_pedido):
     pedido = get_object_or_404(models.PedidoAlaboratorio, pk=id_pedido)
@@ -757,17 +788,17 @@ def recepcionPedidoAlaboratorio_registrar(request, id_pedido):
     actualizarLotes = request.session['recepcionPedidoAlaboratorio']['actualizarLotes']
 
     if len(nuevosLotes) > 0 or len(actualizarLotes) > 0:
-        procesar_recepcion(request.session,pedido)
+        procesar_recepcion(request.session, pedido)
         return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles, 'modalSuccess': True})
 
     return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles, 'modalError': True})
 
 
 class remitoDeLaboratorio(PDFTemplateView):
-    template_name = "recepcionPedidoALaboratorio/remitoDeLaboratorio.html"
+    template_name = "pedidoAlaboratorio/remitoDeLaboratorio.html"
 
-    def get_context_data(self, id_pedido):
-        remito = models.RemitoLaboratorio.objects.filter(pedidoAlaboratorio__pk=id_pedido).latest("id")
+    def get_context_data(self, id_remito):
+        remito = models.RemitoLaboratorio.objects.get(nroRemito=id_remito)
         detallesRemito = models.DetalleRemitoLaboratorio.objects.filter(remito=remito)
         return super(remitoDeLaboratorio, self).get_context_data(
             pagesize="A4",
@@ -776,18 +807,34 @@ class remitoDeLaboratorio(PDFTemplateView):
         )
 
 
+def procesar_devolucion(laboratorio, lotes):
+    remito = models.RemitoMedicamentosVencidos()
+    remito.numero = get_next_nro_pedido_laboratorio(models.RemitoMedicamentosVencidos, "numero")
+    remito.fecha = datetime.datetime.now()
+    remito.laboratorio = laboratorio
+    remito.save()
+
+    for lote in lotes:
+        detalleRemito = models.DetalleRemitoMedicamentosVencido()
+        detalleRemito.remito = remito
+        detalleRemito.medicamento = lote.medicamento
+        detalleRemito.lote = lote
+        detalleRemito.cantidad = lote.stock
+        detalleRemito.save()
+        lote.stock = 0
+        lote.save()
+
+
 @login_required(login_url='login')
 def devolucionMedicamentosVencidos(request):
-
     if request.method == 'POST':
         form = forms.DevolucionMedicamentosForm(request.POST)
         if form.is_valid():
-            formLaboratorio= form.cleaned_data.get('laboratorio')
+            formLaboratorio = form.cleaned_data.get('laboratorio')
             return redirect('devolucionMedicamentosVencidos_detalle', formLaboratorio.id)
     else:
         form = forms.DevolucionMedicamentosForm()
-    return render(request, "devolucionMedicamentosVencidos/devolucionMedicamentosVencidos.html", {'form': form})
-
+    return render(request, 'devolucionMedicamentosVencidos/devolucionMedicamentosVencidos.html', {'form': form})
 
 @login_required(login_url='login')
 def devolucionMedicamentosVencidos_detalle(request, id_laboratorio):
@@ -801,24 +848,36 @@ def devolucionMedicamentosVencidos_detalle(request, id_laboratorio):
     lt = datetime.date.today() + datetime.timedelta(weeks=26) # fecha vencimiento.(limite)
     lotes = Lote.objects.filter(fechaVencimiento__lte=lt, medicamento__pk__in=lista, stock__gt=0)
 
-    return render(request,"devolucionMedicamentosVencidos/devolucionMedicamentosVencidos_detalle.html", {'lotes':lotes, 'laboratorio':laboratorio} )
+    return render(request, "devolucionMedicamentosVencidos/devolucionMedicamentosVencidos_detalle.html",
+                  {'lotes': lotes, 'laboratorioId': id_laboratorio, 'fecha': datetime.datetime.now(),
+                  'numero': get_next_nro_pedido_laboratorio(models.RemitoMedicamentosVencidos, "numero")})
 
 
 @login_required(login_url='login')
 def devolucionMedicamentosVencidos_registrar(request, id_laboratorio):
-
     laboratorio = get_object_or_404(omodels.Laboratorio, pk=id_laboratorio)
-    medicamentos = Medicamento.objects.filter(laboratorio = laboratorio) # todos los medicamentos
+    medicamentos = Medicamento.objects.filter(laboratorio=laboratorio)  # todos los medicamentos
     lista = []
 
     for m in medicamentos:
         lista.append(m.pk)
 
-    lt = datetime.date.today() + datetime.timedelta(weeks=26) # fecha vencimiento.(limite)
+    lt = datetime.date.today() + datetime.timedelta(weeks=26)  # fecha vencimiento.(limite)
     lotes = Lote.objects.filter(fechaVencimiento__lte=lt, medicamento__pk__in=lista, stock__gt=0)
 
-    for l in lotes:
-        l.stock = 0
-        l.save()
+    procesar_devolucion(laboratorio, lotes)
+    return render(request, "devolucionMedicamentosVencidos/devolucionMedicamentosVencidos_detalle.html",
+                  {'laboratorioId': id_laboratorio, 'abrirModal': True, 'fecha': datetime.datetime.now(),
+                  'numero': get_next_nro_pedido_laboratorio(models.RemitoMedicamentosVencidos, "numero")-1})
 
-    return redirect("inicio")
+class remitoDevolucion(PDFTemplateView):
+    template_name = "devolucionMedicamentosVencidos/remitoDevolucion.html"
+
+    def get_context_data(self, id_remito):
+        remito = models.RemitoMedicamentosVencidos.objects.get(id=id_remito)
+        detallesRemito = models.DetalleRemitoMedicamentosVencido.objects.filter(remito=remito)
+        return super(remitoDevolucion, self).get_context_data(
+            pagesize="A4",
+            remito=remito,
+            detallesRemito=detallesRemito
+        )

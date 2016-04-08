@@ -110,22 +110,25 @@ urlpatterns = [
     url(r'^pedidosAlaboratorio/add/detalles/add/$', pviews.detallePedidoAlaboratorio_add, name="detallePedidoAlaboratorio_add"),
     url(r'^pedidosAlaboratorio/add/registrar-pedido/$', pviews.pedidoAlaboratorio_registrar, name="pedidoAlaboratorio_registrar"),  
     url(r'^pedidosAlaboratorio/ver/(?P<id_pedido>\d+)/$', pviews.pedidoAlaboratorio_ver, name="pedidoAlaboratorio_ver"),
-    
+    url(r'^pedidosAlaboratorio/remitoDeLaboratorio/(?P<id_remito>\d+)/$', pviews.remitoDeLaboratorio.as_view(), name="remitoDeLaboratorio"),
+
+
     # ************************************** Recepcion Pedido a Laboratorio ***************************************
     url(r'^recepcionPedidoAlaboratorio/$', pviews.recepcionPedidoAlaboratorio, name="recepcionPedidoAlaboratorio"),
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/registrar/$',pviews.recepcionPedidoAlaboratorio_registrarRecepcion, name="recepcionPedidoAlaboratorio_registrarRecepcion"),
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/cargarPedido/$', pviews.recepcionPedidoAlaboratorio_cargarPedido, name="recepcionPedidoAlaboratorio_cargarPedido"),
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/$', pviews.recepcionPedidoAlaboratorio_controlPedido, name="recepcionPedidoAlaboratorio_controlPedido"),
-        url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/detalle/(?P<id_detalle>\d+)/$', pviews.recepcionPedidoAlaboratorio_controlDetalle, name="recepcionPedidoAlaboratorio_controlDetalle"),
+    url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/detalle/(?P<id_detalle>\d+)/$', pviews.recepcionPedidoAlaboratorio_controlDetalle, name="recepcionPedidoAlaboratorio_controlDetalle"),
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/detalleConNuevoLote/(?P<id_detalle>\d+)/$', pviews.recepcionPedidoAlaboratorio_controlDetalleConNuevoLote, name="recepcionPedidoAlaboratorio_controlDetalleConNuevoLote"),
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/registrar/$', pviews.recepcionPedidoAlaboratorio_registrar, name="recepcionPedidoAlaboratorio_registrar"),
     # recordatorio: cambiar vistar en registrar
       # **************************************** Otros Pedidos ******************************************
     url(r'^devolucionMedicamentosVencidos/$', pviews.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
-    url(r'^devolucionMedicamentosVencidos/detalles/(?P<id_laboratorio>\d+)/$', pviews.devolucionMedicamentosVencidos_detalle,name="devolucionMedicamentosVencidos_detalle"),
-    url(r'^devolucionMedicamentosVencidos/detalles/(?P<id_laboratorio>\d+)/registar/$', pviews.devolucionMedicamentosVencidos_registrar,name="devolucionMedicamentosVencidos_registrar"),
+    url(r'^devolucionMedicamentosVencidos/detalles/(?P<id_laboratorio>\d+)/$', pviews.devolucionMedicamentosVencidos_detalle, name="devolucionMedicamentosVencidos_detalle"),
+    url(r'^devolucionMedicamentosVencidos/detalles/(?P<id_laboratorio>\d+)/registar/$', pviews.devolucionMedicamentosVencidos_registrar, name="devolucionMedicamentosVencidos_registrar"),
+    url(r'^devolucionMedicamentosVencidos/remitoDevolucion/(?P<id_remito>\d+)/$', pviews.remitoDevolucion.as_view(), name="remitoDevolucion"),
 
-    url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos,name="recepcionReemplazoMedicamentos"),
+    url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos, name="recepcionReemplazoMedicamentos"),
     
       # **************************************** PDFs ******************************************
 ]

@@ -1,7 +1,7 @@
 {% extends "base-remito.html" %}
 
-{% block cliente %}Cliente: {{ remito.pedidoFarmacia.farmacia.razonSocial }}{% endblock %}
-{% block direccion %}Direccion: {{ remito.pedidoFarmacia.farmacia.direccion }}{% endblock %}
+{% block cliente %}Cliente: {{ remito.laboratorio}}{% endblock %}
+{% block direccion %}Direccion: {{ remito.laboratorio.direccion }}{% endblock %}
 
 {% block grid %}
     <thead>
@@ -14,8 +14,8 @@
     <tbody>
        {% for detalle in detallesRemito %}
           <tr class="col-items">
-             <td class="nombre-med">{{ detalle.detallePedidoDeFarmacia.medicamento }}</td>
-             <td class="nombre-med">{{ detalle.detallePedidoDeFarmacia.medicamento }}</td>
+             <td class="nombre-med">{{ detalle.medicamento }}</td>
+             <td class="lote-med">{{ detalle.lote }}</td>
              <td class="cant-med">{{ detalle.cantidad }}</td>
           </tr>
        {% endfor %}

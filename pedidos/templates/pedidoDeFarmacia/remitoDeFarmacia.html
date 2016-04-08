@@ -6,14 +6,16 @@
 {% block grid %}
     <thead>
        <tr class="info" align="center">
-          <th>Medicamento</th>
-          <th>Cantidad</th>
+           <th>Medicamento</th>
+           <th>Lote</th>
+           <th>Cantidad</th>
        </tr>
     </thead>
     <tbody>
        {% for detalle in detallesRemito %}
           <tr class="col-items">
-             <td class="nombre-med">{{ detalle.detallePedidoDeFarmacia.medicamento }}</td>
+              <td class="nombre-med">{{ detalle.detallePedidoDeFarmacia.medicamento }}</td>
+              <td class="lote-med">{{ detalle.lote }}</td>
              <td class="cant-med">{{ detalle.cantidad }}</td>
           </tr>
        {% endfor %}
