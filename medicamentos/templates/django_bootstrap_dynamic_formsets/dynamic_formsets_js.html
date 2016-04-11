@@ -131,8 +131,9 @@
             var $inputTotalForms = $('#id_form-TOTAL_FORMS'),
                 btnDeleteFormDisabled = false;
 
-                return function() {
-                    if($inputTotalForms.attr('value') < 2 && !btnDeleteFormDisabled) {
+                return function(action) {
+                    var minForms = action==='delete' ? 2 : 1;
+                    if($inputTotalForms.attr('value') <= minForms && !btnDeleteFormDisabled) {
                         $('.sort-item:eq(0)').find('.delete-form').prop('disabled', true);
                         btnDeleteFormDisabled = true;
                     }else {
@@ -148,8 +149,9 @@
         start_control_min_forms();
 
         // Remove form
-        $(document).on('click', '.delete-form', function () {              
-            var $parentSortItem = $(this).parents(".sort-item");
+        $(document).on('click', '.delete-form', function () { 
+            start_control_min_forms('delete'); 
+            var $parentSortItem = $(this).parents(".sort-item");   
             if ($parentSortItem.hasClass('initial-form')) {
                 $parentSortItem.effect('drop');
                 $parentSortItem.find('[id$=DELETE]').prop('checked', true);
@@ -157,11 +159,9 @@
                 $parentSortItem.effect('drop', function () {
                     $(this).remove();
                     sortItemCounter--;
-                    $('#id_{{formset.prefix}}-TOTAL_FORMS').attr('value', sortItemCounter);
-                    start_control_min_forms();
+                    $('#id_{{formset.prefix}}-TOTAL_FORMS').attr('value', sortItemCounter);                                
                 });
             }
-
         });
 
         // Add form
@@ -173,7 +173,7 @@
             $(this).parents(".sort-item").after(formCopy);
             $('#id_{{formset.prefix}}-TOTAL_FORMS').attr('value', sortItemCounter);
             window.bindSelectables('body');
-            start_control_min_forms();
+            start_control_min_forms('add');
         });
 
         //Submit formset

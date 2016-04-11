@@ -4,13 +4,19 @@ from . import views
 from medicamentos import views as mviews
 from organizaciones import views as oviews
 from pedidos import views as pviews
+from usuarios import views as uviews
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^selectable/', include('selectable.urls')),
     url(r'^$', views.inicio, name="inicio"),
-    url(r'^login', views.login_user, name="login"),
-    url(r'^logout', views.logout_user, name="logout"),
+
+    # =============================================================================================== #
+    #                                       USUARIOS
+    # =============================================================================================== #
+    url(r'^login', uviews.login_user, name="login"),
+    url(r'^logout', uviews.logout_user, name="logout"),
+    url(r'^perfil/addUsuario/$', uviews.usuario_add, name="usuario_add"),
 
     # =============================================================================================== #
     #                                       MEDICAMENTOS

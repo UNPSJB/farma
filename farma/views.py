@@ -26,22 +26,6 @@ def recepcionReemplazoMedicamentos(request):
 def altaMonodroga(request):
   return render(request, "altaMonodroga.html")  
 
-def login_user(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-               if user.is_active:
-                   login(request, user)
-                   return redirect('inicio')
-               else:
-                   return HttpResponse('inactive')
-    return render(request, "login.html")
-
-def logout_user(request):
-    logout(request)
-    return redirect('login')
 
 def paginaEnConstruccion(request):
       return render(request, "paginaEnConstruccion.html")
