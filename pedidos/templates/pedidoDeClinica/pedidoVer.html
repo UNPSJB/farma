@@ -1,18 +1,5 @@
 {% extends "base-presentacion-pedido.html" %}
 
-{% block more-stylesheets %}
-    <style>
-        ul {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        tr {
-            font-size: 16px;
-        }
-    </style>
-{% endblock %}
-
 {% block title %}Ver Pedido De Clinica{% endblock %}
 
 {% block tipo-pedido %}Pedido de Clinica{% endblock %}
@@ -43,7 +30,7 @@
                         </thead>
                         <tbody>
                             {% for detalle in detalles %}
-                                <tr class="clickeable" data-id="{{ detalle.id }}">
+                                <tr>
                                     <td>{{ detalle.medicamento }}</td>
                                     <td>{{ detalle.cantidad }}</td>
                                 </tr>

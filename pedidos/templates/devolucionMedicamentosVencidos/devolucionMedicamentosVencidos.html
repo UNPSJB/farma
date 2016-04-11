@@ -70,7 +70,6 @@
 			<div class="col-md-offset-1 col-md-10">
 				<div class="panel panel-form">
 					<div class="clearfix"></div>
-					<!-- Formulario -->
 					{%crispy form %}
 				</div>
 			</div>
@@ -85,5 +84,6 @@
 
 {% block scripts %}
 	<script src="{% static 'js/datepicker.js' %}"></script>
+	{{ form.media.js }}
 {% endblock %}
 

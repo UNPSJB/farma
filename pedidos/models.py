@@ -78,21 +78,30 @@ class RemitoMedicamentosVencidos(models.Model):
 
     def __str__(self):
         return str(self.numero)
+
+    def to_json(self):
+        if self.laboratorio:
+            return {'laboratorio': {'id': self.laboratorio.id,
+                                 'razonSocial': self.laboratorio.razonSocial},
+                    'fecha': datetime.datetime.now().strftime('%d/%m/%Y')}
+        else:
+            return {}
+
         
 class DetalleRemitoMedicamentosVencido(models.Model):
     remito = models.ForeignKey('RemitoMedicamentosVencidos', on_delete=models.CASCADE)
+    medicamento = models.ForeignKey('medicamentos.Medicamento')
     lote = models.ForeignKey('medicamentos.Lote')
     cantidad = models.PositiveIntegerField()
-    detalleRemitoLaboratorio = models.ForeignKey('DetalleRemitoLaboratorio')
 
     def __str__(self):
-        return str(self.numero)
+        return str(self.id)
 
 
 #******************REMITO Y DETALLES REMITO DE LABORATORIO******************#
 
 class RemitoLaboratorio(models.Model):
-    nroRemito = models.BigIntegerField(primary_key= True, unique = True)
+    nroRemito = models.BigIntegerField(primary_key=True, unique=True)
     fecha = models.DateField()
     laboratorio = models.ForeignKey('organizaciones.Laboratorio')
     pedidoLaboratorio = models.ForeignKey('PedidoAlaboratorio')
@@ -146,8 +155,8 @@ class PedidoDeFarmacia(PedidoVenta):
 
 class DetallePedidoDeFarmacia(DetallePedidoVenta):
     pedidoDeFarmacia = models.ForeignKey('PedidoDeFarmacia')
-    cantidadPendiente =models.PositiveIntegerField(default= 0)
-    estaPedido = models.BooleanField(default= False)
+    cantidadPendiente = models.PositiveIntegerField(default=0)
+    estaPedido = models.BooleanField(default=False)
 
     class Meta(DetallePedidoVenta.Meta):
         verbose_name_plural = "Detalles de Pedidos de Farmacia"
@@ -159,7 +168,7 @@ class DetallePedidoDeFarmacia(DetallePedidoVenta):
                                     "descripcion": self.medicamento.nombreFantasia.nombreF + " " +
                                                    self.medicamento.presentacion.descripcion + " " +
                                                    str(self.medicamento.presentacion.cantidad) + " " +
-                                                   self.medicamento.presentacion.unidadMedida },
+                                                   self.medicamento.presentacion.unidadMedida},
                     'cantidad': self.cantidad, 'cantidadPendiente': self.cantidadPendiente}
         else:
             return {}
@@ -201,8 +210,8 @@ class PedidoDeClinica(PedidoVenta):
 
 class DetallePedidoDeClinica(DetallePedidoVenta):
     pedidoDeClinica = models.ForeignKey('PedidoDeClinica')
-    cantidadPendiente =models.PositiveIntegerField(default= 0)
-    estaPedido = models.BooleanField(default= False)
+    cantidadPendiente = models.PositiveIntegerField(default=0)
+    estaPedido = models.BooleanField(default=False)
 
     class Meta(DetallePedidoVenta.Meta):
         verbose_name_plural = "Detalles de Pedidos de Clinica"
@@ -214,7 +223,7 @@ class DetallePedidoDeClinica(DetallePedidoVenta):
                                     "descripcion": self.medicamento.nombreFantasia.nombreF + " " +
                                                    self.medicamento.presentacion.descripcion + " " +
                                                    str(self.medicamento.presentacion.cantidad) + " " +
-                                                   self.medicamento.presentacion.unidadMedida },
+                                                   self.medicamento.presentacion.unidadMedida},
                     'cantidad': self.cantidad}
         else:
             return {}
@@ -222,9 +231,9 @@ class DetallePedidoDeClinica(DetallePedidoVenta):
     def set_pedido(self, pedido):
         self.pedidoDeClinica = pedido
 
-#================================================PEDIDO A LABORATORIO===================================================
+# ================================================PEDIDO A LABORATORIO===================================================
 
-#PEDIDO A LABORATORIO
+# PEDIDO A LABORATORIO
 
 class PedidoAlaboratorio(models.Model):
     FILTROS = ["laboratorio"]
@@ -235,7 +244,7 @@ class PedidoAlaboratorio(models.Model):
     fecha = models.DateField(auto_now_add=True)
     laboratorio = models.ForeignKey('organizaciones.Laboratorio')
 
-    estado = models.CharField(max_length=25, blank=True, default="Pendiente")#cancelado, parcialmente recibido, pendiente, completo
+    estado = models.CharField(max_length=25, blank=True, default="Pendiente")# cancelado, parcialmente recibido, pendiente, completo
 
     def __str__(self):
         return 'Pedido Nro %s - Laboratorio: %s' % (self.numero, self.laboratorio)
@@ -248,7 +257,7 @@ class PedidoAlaboratorio(models.Model):
         else:
             return {}
 
-#DETALLE PEDIDO A LABORATORIO
+# DETALLE PEDIDO A LABORATORIO
 
 class DetallePedidoAlaboratorio(models.Model):
     renglon = models.AutoField(primary_key=True)
@@ -264,11 +273,11 @@ class DetallePedidoAlaboratorio(models.Model):
     def to_json(self):
         response = {}
 
-        #para evitar acceder a campos nulos
+        # para evitar acceder a campos nulos
         if self.renglon:
             response['renglon'] = self.renglon
 
-        #para evitar acceder a campos nulos
+        # para evitar acceder a campos nulos
         if self.medicamento:
             response['medicamento'] = {"id": self.medicamento.id,
                                        "descripcion": self.medicamento.nombreFantasia.nombreF + " " +

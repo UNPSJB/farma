@@ -23,16 +23,18 @@
                         </h3>
                     </div>
                     <div class="btn-group btn-group-xs pull-right">
-                        <a class="btn btn-success" href="{% block url-add %} {% endblock %}" id="alta">
+                        {% block btn-alta %}
+                        <a class="btn btn-success" href="{% block url-add %}{% endblock %}" id="alta">
                             <span class="glyphicon glyphicon-plus"></span>  Alta
                         </a>
+                        {% endblock %}
                         {% block btn-modificar %}
-                            <a class="btn btn-warning hidden" id="modificar">
+                            <a class="btn btn-warning hidden ocultable" id="modificar">
                                 <span class="glyphicon glyphicon-edit"></span>  Modificación
                             </a>
                         {% endblock %}
                         {% block btn-baja %}
-                            <a class="btn btn-danger hidden" id="baja">
+                            <a class="btn btn-danger hidden ocultable" id="baja">
                                 <span class="glyphicon glyphicon-minus"></span>  Baja
                             </a>
                         {% endblock %}
@@ -85,7 +87,6 @@
         </div>
     </div>
     {% endblock %}
-    <!-- Bloque para agregar mas contenido HTML -->
     {% block more-content %}
     {% endblock %}
 {% endblock %}
@@ -94,23 +95,11 @@
     <script src="{% static 'js/utils.js' %}"></script>
     <script>
         $(function() {
-            var id_botones = [],
-                load = function(){
-                    var $botones = $(".panel-heading a");
-
-                    /* recupero todos los botones para poder mostrarlos y ocultarlos*/
-                    for(var i = 1; i < $botones.length; i++){
-                        id_botones.push("#" + $botones[i].attributes.id.value);
-                    }
-                },      
+            var $botones = $(".panel-heading a.ocultable"),
                 limpiar = function (e) {
                     $("tr").removeClass("active");
-                    ocultarElementos(id_botones, true);
+                    $botones.addClass('hidden');
                 };
-
-            /*Invoco funcion de inicio*/
-
-            load();
 
            /*************EVENTOS***************/
 
@@ -129,7 +118,7 @@
 
             $(".clickeable").on("click", function(e) {
                 select_row_table(this);
-                ocultarElementos(id_botones, false);
+                $botones.removeClass('hidden');
                 e.stopPropagation();
             });
 

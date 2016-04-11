@@ -1,13 +1,5 @@
 {% extends "base-presentacion-pedido.html" %}
 
-{% block more-stylesheets %}
-    <style>
-        tr {
-            font-size: 16px;
-        }
-    </style>
-{% endblock %}
-
 {% block title %}Ver Pedido a Laboratorio{% endblock %}
 
 {% block tipo-pedido %}Pedido a Laboratorio{% endblock %}
@@ -21,31 +13,95 @@
 {% block panel-detalles %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3>Pedido a Laboratorio</h3>
+            <ul class="nav nav-pills">
+              <li class="active"><a data-toggle="pill" href="#detalles-pedido">Detalles del pedido</a></li>
+              <li><a data-toggle="pill" href="#remitos-pedido">Remitos del pedido</a></li>
+            </ul>
         </div>
         <div class="panel-body">
-            <div class="tab-pane fade in active">
-                <table class="table table-condensed table-responsive" >
-                    <thead>
-                        <tr class="info">
-                        <th>Renglon</th>
-                        <th>Cantidad</th>
-                        <th>Medicamento</th>
-                        <th>Cantidad Pendiente</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for detalle in detalles %}
-                            <tr class="clickeable" data-id="{{ detalle.id }}">
-                                <td>{{forloop.counter}}</td>
-                                <td>{{detalle.cantidad}}</td>
-                                <td>{{detalle.medicamento}}</td>
-                                <td>{{detalle.cantidadPendiente}}</td>
+            <div class="tab-content">
+                <div id="detalles-pedido" class="tab-pane fade in active">
+                    <table class="table table-condensed table-responsive" >
+                        <thead>
+                            <tr class="info">
+                                <th>Renglon</th>
+                                <th>Cantidad</th>
+                                <th>Medicamento</th>
+                                <th>Cantidad Pendiente</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for detalle in detalles %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{detalle.cantidad}}</td>
+                                    <td>{{detalle.medicamento}}</td>
+                                    <td>{{detalle.cantidadPendiente}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div id="remitos-pedido" class="tab-pane fade">
+                    <table class="table table-condensed table-responsive" >
+                        <thead>
+                            <tr class="info" align="center">
+                                <th>Numero</th>
+                                <th>Fecha</th>
+                                <th>Descargar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for remito in remitos %}
+                                <tr class="clickeable" data-id="{{ remito.nroRemito }}">
+                                    <td>{{ remito.nroRemito }}</td>
+                                    <td>{{ remito.fecha }}</td>
+                                    <td>
+                                        <a data-remito="{{ remito.nroRemito }}" class="btn btn-info btn-xs btn-generar"><span class="glyphicon glyphicon-floppy-disk"></span></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block modals-abm %}
+    <div class="modal fade" id="modal-generar-remito" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title">Generar remito</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center text-success">¿Desea generar el remito?</p>
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <a id="btn-pdf" target="_blank" class="btn btn-success">Si</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block url-remito %}"#"{% endblock %}
+
+{% block more-scripts %}
+    <script>
+        $(".btn-generar").on("click", function(e){
+            nroRemito = $(this).data("remito");
+            $("#btn-pdf").attr("href","/pedidosAlaboratorio/remitoDeLaboratorio/"+nroRemito+"/");
+            $("#modal-generar-remito").modal('show');
+            e.stopPropagation();
+        });
+
+        $("#btn-pdf").on("click", function(e){
+            $("#modal-generar-remito").modal('hide');
+        });
+    </script>
 {% endblock %}
