@@ -1,0 +1,13 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}Registrar Usuario{% endblock%}
+
+{% block content %} 
+
+	<div style="margin-top: 4rem; overflow: hidden;">
+		{% crispy form %}
+	</div>
+
+{% endblock %}

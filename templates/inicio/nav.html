@@ -1,6 +1,6 @@
 {% load staticfiles %}
 
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default navbar-principal">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -32,6 +32,8 @@
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
+
+                {% if perms.usuarios.encargado_general %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Organizaciones <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -41,6 +43,8 @@
                         <li><a href="{% url 'paginaEnConstruccion' %}">Obras Sociales</a></li>
                         <li><a href="{% url 'clinicas' %}">Clinicas</a></li>
                     </ul>
+                </li>
+                {% endif %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Medicamentos <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -50,7 +54,16 @@
                         <li><a href="{% url 'nombresFantasia' %}">Nombres Fantasia </a></li>
                     </ul>
                 </li>
-                <li><a href="{% url 'logout' %}" class="navbar-link">Salir</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Perfil <span class="caret"></span></a>
+
+                    <ul class="dropdown-menu">
+                        {% if perms.usuarios.encargado_general %}
+                            <li><a href="{% url 'usuario_add' %}">Agregar Usuario</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'logout' %}" class="navbar-link">Salir</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
