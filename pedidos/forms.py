@@ -9,6 +9,7 @@ from . import lookups
 from selectable import forms as selectable
 from medicamentos import models as mmodels
 from organizaciones import models as omodels
+import datetime
 
 
 # *******************************VALIDACION***************************************#
@@ -352,6 +353,18 @@ class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
         return True
 
 
+def get_laboratorios_con_vencidos():
+    labosConVencidos = []
+    laboratorios = omodels.Laboratorio.objects.all()
+    lt = datetime.date.today() + datetime.timedelta(weeks=26)
+    for laboratorio in laboratorios:
+        count = mmodels.Lote.objects.filter(medicamento__laboratorio=laboratorio, stock__gt=0, fechaVencimiento__lte=lt).count()
+        if count > 0:
+            labosConVencidos.append(laboratorio.pk)
+
+    return omodels.Laboratorio.objects.filter(pk__in=labosConVencidos)
+
+
 class DevolucionMedicamentosForm(forms.ModelForm):
         helper = FormHelper()
         helper.form_class = 'form'
@@ -374,7 +387,13 @@ class DevolucionMedicamentosForm(forms.ModelForm):
 
         def __init__(self, *args, **kwargs):
             super(DevolucionMedicamentosForm, self).__init__(*args, **kwargs)
-            self.fields['laboratorio'].queryset = get_laboratorios_con_medicamentos()
+            self.fields['laboratorio'].queryset = get_laboratorios_con_vencidos()
+
+        def clean_fecha(self):
+            fecha = self.cleaned_data['fecha']
+            if fecha and fecha >= datetime.date.today():
+                raise forms.ValidationError('La fecha ingresada debe ser menor o igual a la actual')
+            return fecha
 
 
 class RegistrarRecepcionForm(forms.Form):

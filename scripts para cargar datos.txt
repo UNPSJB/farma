@@ -26,17 +26,17 @@ INSERT INTO organizaciones_clinica VALUES ( 5, 'Maria S Sanchez',  '30-16735913-
 
 /*Laboratorios*/
 
-INSERT INTO organizaciones_laboratorio VALUES (1, 'Bayer Consumer', '30-50381106-1', 'Munro', 'Ricardo Gutierrez 3652', '', '4762-7000');
+INSERT INTO organizaciones_laboratorio VALUES (1, 'Bayer Consumer', '30-50381106-1', 'Munro', 'Ricardo Gutierrez 3652', '', '47627000');
 
-INSERT INTO organizaciones_laboratorio VALUES (2, 'Bago', '30-51602484-0', 'Capital Federal', 'Bernardo de Irigoyen 248','','4344-2000');
+INSERT INTO organizaciones_laboratorio VALUES (2, 'Bago', '30-51602484-0', 'Capital Federal', 'Bernardo de Irigoyen 248','','43442000');
 
-INSERT INTO organizaciones_laboratorio VALUES (3, 'Roemmers', '30-50093812-5', 'Olivos', 'Fray Justo Sarmiento 2350','','4346-9700');
+INSERT INTO organizaciones_laboratorio VALUES (3, 'Roemmers', '30-50093812-5', 'Olivos', 'Fray Justo Sarmiento 2350','','43469700');
 
-INSERT INTO organizaciones_laboratorio VALUES (4, 'Elea', '30-50057148-5', 'Capital Federal', 'Sanabria 2353 Piso 1', '', '4379-4300');
+INSERT INTO organizaciones_laboratorio VALUES (4, 'Elea', '30-50057148-5', 'Capital Federal', 'Sanabria 2353 Piso 1', '', '43794300');
 
-INSERT INTO organizaciones_laboratorio VALUES (5, 'Boehringer Ingelheim', '30-53562115-9', 'Capital Federal', 'Av. Del Libertador 7208', '', '4704-8600');
+INSERT INTO organizaciones_laboratorio VALUES (5, 'Boehringer Ingelheim', '30-53562115-9', 'Capital Federal', 'Av. Del Libertador 7208', '', '47048600');
 
-INSERT INTO organizaciones_laboratorio VALUES (6, 'Pfizer', '30-50351851-8', 'San Isidro', 'Colectora Panamericana 1804 1°P Sector B', '', '4788-7000');
+INSERT INTO organizaciones_laboratorio VALUES (6, 'Pfizer', '30-50351851-8', 'San Isidro', 'Colectora Panamericana 1804 1°P Sector B', '', '47887000');
 
 
 /*Monodrogas*/

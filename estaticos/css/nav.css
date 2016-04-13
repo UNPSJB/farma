@@ -23,7 +23,6 @@ hr {
 
 .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
     margin: 5px 15px 5px 0px;
-
 }
 
 .navbar-brand {
@@ -31,8 +30,8 @@ hr {
   }
 
 .navbar-default{
-  background-color: #E8A44F;
-  border-color: #d97424;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0px 6px #000;
 }
 
 .navbar-default .navbar-brand {
@@ -98,13 +97,13 @@ hr {
   font-size: 1.1em;
 }
 
-
-/*.navbar-principal {
+.navbar-principal {
   width: 100%;
   position: fixed;
-  left: 0; top: 0;
+  left: 0;
+  top: 0;
   z-index: 10000;
-}*/
+}
 
 
 

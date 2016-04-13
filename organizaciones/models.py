@@ -8,7 +8,7 @@ class Organizacion(models.Model):
     localidad = models.CharField(max_length=50)
     direccion = models.CharField(max_length=100)
     email = models.EmailField(max_length=50, blank=True)
-    telefono = models.CharField(max_length=80, blank=True) 
+    telefono = models.BigIntegerField(blank=True)
 
     class Meta:
         abstract = True   

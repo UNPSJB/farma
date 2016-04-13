@@ -28,8 +28,7 @@
         </thead>
         <tbody>
             {% for detalle in detalles %}
-                <tr class="clickeable">
-                    <!--<td>{{forloop.counter}}</td>-->
+                <tr>
                     <td>{{detalle.medicamento.descripcion}}</td>               
                     <td>{{detalle.cantidad}}</td>
                 </tr>

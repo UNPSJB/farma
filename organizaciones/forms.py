@@ -29,6 +29,12 @@ class FarmaciaFormGenerico(forms.ModelForm):
                 raise forms.ValidationError('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
 
+    def clean_nombreEncargado(self):
+        nombreEncargado = self.cleaned_data['nombreEncargado']
+        if nombreEncargado:
+            if not re.match(r"^[a-zA-Z]+((\s[a-zA-Z]+)+)?$", nombreEncargado):
+                raise forms.ValidationError('El nombre del encargado solo puede contener letras y espacios')
+        return nombreEncargado
 
 class FarmaciaFormAdd(FarmaciaFormGenerico):
     helper = FormHelper()
