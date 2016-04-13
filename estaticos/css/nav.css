@@ -1,4 +1,3 @@
-
 /*Etiquetas*/
 hr {
     border-color: #000 -moz-use-text-color -moz-use-text-color;
@@ -14,7 +13,7 @@ hr {
 }
 
 .navbar-nav > li:hover{
-  background-color: #d97424;
+    background-color: rgba(230,150,50,0.6);
 }
 
 .navbar {
@@ -48,32 +47,32 @@ hr {
 }
 
 .navbar-default .navbar-nav > li > a {
-  color: #2C57A6;
+  color: #000;
 }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-  color: #000000;
+  color: #fff;
 }
 
 .navbar-default .navbar-nav > li > .dropdown-menu {
-  background-color: #E8A44F;
+  background-color: rgba(230,150,50,0.8);
 }
 
 .navbar-default .navbar-nav > li > .dropdown-menu > li > a {
   font-family: "Open Sans",sans-serif;
-  font-weight: 600;
-  color: #2C57A6;
+  font-weight: 400;
+  rgba(230,150,50,0.6);
 }
 
 .navbar-default .navbar-nav > li > .dropdown-menu > li > a:hover,
 .navbar-default .navbar-nav > li > .dropdown-menu > li > a:focus {
-  color: #000000;
-  background-color: #d97424;
+  color: #fff;
+  background-color: rgb(230,150,50);
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-  color: #000000;
-  background-color: #d97424;
+  color: #fff;
+  background-color: rgba(230,150,50,0.6);
 }
 
 .navbar-default .navbar-toggle {
@@ -93,8 +92,12 @@ hr {
 .navbar .nav > li.current-menu-item > a,
 .navbar .nav > li.current-menu-ancestor > a {
   font-family: "Open Sans",sans-serif;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 1.1em;
+}
+
+.navbar-left > li {
+    margin-right: 15px;
 }
 
 .navbar-principal {
@@ -104,7 +107,6 @@ hr {
   top: 0;
   z-index: 10000;
 }
-
 
 
 

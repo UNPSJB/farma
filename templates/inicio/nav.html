@@ -10,11 +10,12 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{% url 'inicio' %}">
-                <img alt="Brand" src="{% static 'images/logopequeno.png'%}">
+                <img alt="Brand" src="{% static 'images/logopequeno2.png'%}" style="width: 95%; height: 95%;">
             </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="{% url 'inicio' %}">Inicio</a></li>
                 {% if perms.pedidos.add_pedidodefarmacia %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pedidos <span class="caret"></span></a>
@@ -29,10 +30,6 @@
                             <li><a href="{% url 'recepcionReemplazoMedicamentos' %}">Registrar Recepción de Medicamentos para Reemplazar Vencidos</a></li>
                         </ul>
                     </li>
-                {% endif %}
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                {% if perms.usuarios.encargado_general %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Organizaciones <span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -53,13 +50,15 @@
                         <li><a href="{% url 'nombresFantasia' %}">Nombres Fantasia </a></li>
                     </ul>
                 </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Perfil <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         {% if perms.usuarios.encargado_general %}
                             <li><a href="{% url 'usuario_add' %}">Agregar Usuario</a></li>
                         {% endif %}
-                        <li><a href="{% url 'logout' %}" class="navbar-link">Salir</a></li>
+                        <li><a href="{% url 'logout' %}">Salir</a></li>
                     </ul>
                 </li>
             </ul>
