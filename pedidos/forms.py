@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 from django import forms
 from pedidos import models, utils
 from crispy_forms.helper import FormHelper
@@ -329,7 +330,7 @@ class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
         )
     )
 
-    lote = forms.CharField(label='Lote', max_length=30)
+    lote = forms.IntegerField(label='Lote', min_value=1)
     fechaVencimiento = forms.DateField(label= 'Fecha de Vencimiento')
     precio = forms.FloatField(label= 'Precio', min_value=1)
     cantidad = forms.IntegerField(label='Cantidad Recibida', min_value=1)

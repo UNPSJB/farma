@@ -36,6 +36,14 @@ class FarmaciaFormGenerico(forms.ModelForm):
                 raise forms.ValidationError('El nombre del encargado solo puede contener letras y espacios')
         return nombreEncargado
 
+    def clean_telefono(self):
+        telefono = self.cleaned_data['telefono']
+        if telefono:
+            if not re.match(r"^[0|4|15][0-9]+$", telefono):
+                raise forms.ValidationError('telefono inválido')
+        return telefono
+
+
 class FarmaciaFormAdd(FarmaciaFormGenerico):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
