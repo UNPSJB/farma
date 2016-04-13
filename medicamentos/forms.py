@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
 from crispy_forms.bootstrap import StrictButton, FormActions
-
+import re
 
 class MonodrogaFormGenerico(forms.ModelForm):
     class Meta:
@@ -21,6 +21,12 @@ class MonodrogaFormGenerico(forms.ModelForm):
             'nombre': _('Nombre')
         }
 
+    def clean_nombre(self):
+        nombre = self.cleaned_data['nombre']
+        if nombre:
+            if not re.match(r"^[a-zA-Z]+((\s[a-zA-Z]+)+)?$", nombre):
+                raise forms.ValidationError('El nombre de la monodroga solo puede contener letras y espacios')
+        return nombre
 
 class MonodrogaFormAdd(MonodrogaFormGenerico):
     helper = FormHelper()
@@ -186,6 +192,12 @@ class MedicamentoForm(forms.ModelForm):
     class Meta:
         model = models.Medicamento
         fields = ["nombreFantasia", "codigoBarras", "stockMinimo","presentacion", "precioDeVenta", "laboratorio"]
+
+    def clean_precioDeVenta(self):
+        precioDeVenta = self.cleaned_data['precioDeVenta']
+        if (precioDeVenta) and (precioDeVenta < 0):
+                raise forms.ValidationError('El Precio de venta debe ser mayor a cero')
+        return precioDeVenta
 
 
 class MedicamentoFormUpdate(forms.ModelForm):
