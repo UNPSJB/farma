@@ -1,6 +1,7 @@
 # - encode: utf-8 -
 from django.db import models
 from organizaciones.models import Laboratorio
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Medicamento(models.Model):
@@ -12,7 +13,7 @@ class Medicamento(models.Model):
     laboratorio = models.ForeignKey(Laboratorio, related_name="medicamentos")
     stockMinimo = models.PositiveIntegerField("Stock minimo de reposicion",
                                       help_text="Este es el stock minimo en el cual el sistema alertara de que es necesario realizar un pedido")
-    precioDeVenta = models.FloatField(help_text="Este es el precio de venta del medicamento", )
+    precioDeVenta = models.FloatField(validators = [MinValueValidator(0.0), MaxValueValidator(9999)],help_text="Este es el precio de venta del medicamento", )
 
     def __str__(self):
         return "%s %s" % (self.nombreFantasia, self.presentacion)
@@ -20,9 +21,9 @@ class Medicamento(models.Model):
 
 class Presentacion(models.Model):
     FILTROS = ["descripcion__icontains"]
-    descripcion = models.TextField()
-    cantidad = models.PositiveIntegerField()
-    unidadMedida = models.CharField(max_length=50)
+    descripcion = models.TextField(max_length=95)
+    cantidad = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1),MaxValueValidator(9999)])
+    unidadMedida = models.CharField(max_length=45)
 
     def __str__(self):
         return "%s - %s %s" % (self.descripcion, self.cantidad, self.unidadMedida)
@@ -35,7 +36,7 @@ class Formula(models.Model):
 
 class Monodroga(models.Model):
     FILTROS = ["nombre__icontains"]
-    nombre = models.CharField(max_length=100, unique=True, error_messages={'unique': " Esta monodroga ya esta cargada!"})
+    nombre = models.CharField(max_length=75, unique=True, error_messages={'unique': " Esta monodroga ya esta cargada!"})
 
     def __str__(self):
         return "%s" % self.nombre
@@ -56,7 +57,7 @@ class Dosis(models.Model):
 
 class NombreFantasia(models.Model):
     FILTROS = ["nombreF__icontains"]
-    nombreF = models.CharField(max_length=100,unique=True,error_messages={'unique': "Este nombre de fantasia ya esta cargado!"})
+    nombreF = models.CharField(max_length=75,unique=True,error_messages={'unique': "Este nombre de fantasia ya esta cargado!"})
 
     def __str__(self):
         return "%s" % self.nombreF
