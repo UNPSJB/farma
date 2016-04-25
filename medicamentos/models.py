@@ -4,7 +4,7 @@ from organizaciones.models import Laboratorio
 
 
 class Medicamento(models.Model):
-    FILTROS = ["nombreFantasia__nombreF__icontains"]
+    FILTROS = ["nombreFantasia__nombreF__icontains", 'laboratorio__razonSocial__icontains']
     formulas = models.ManyToManyField('Monodroga',  through='Dosis')
     nombreFantasia = models.ForeignKey('NombreFantasia', help_text="Este es el Nombre Comercial del medicamento")
     presentacion = models.ForeignKey('Presentacion', help_text="Esta es la forma en la que se encuentra comercialmente el Medicamento")
@@ -16,6 +16,15 @@ class Medicamento(models.Model):
 
     def __str__(self):
         return "%s %s" % (self.nombreFantasia, self.presentacion)
+
+    def get_stock(self):
+        if self.id:
+            stockTotal = 0
+            lotes = Lote.objects.filter(medicamento=self, stock__gt=0)        
+            for lote in lotes:
+                stockTotal += lote.stock
+            return stockTotal
+
 
 
 class Presentacion(models.Model):

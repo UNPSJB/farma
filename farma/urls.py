@@ -45,7 +45,8 @@ urlpatterns = [
     # **************************************** Medicamento ******************************************
     url(r'^medicamentos/$', mviews.medicamentos, name="medicamentos"),
     url(r'^medicamentos/add/$', mviews.medicamento_add, name="medicamento_add"),
-    url(r'^medicamentos/update/(?P<id_medicamento>\d+)/$', mviews.medicamento_update, name="medicamento_update"),
+    url(r'^medicamentos/updateStockMinimo/(?P<id_medicamento>\d+)/$', mviews.medicamento_updateStockMinimo, name="medicamento_update_stock_minimo"),
+    url(r'^medicamentos/updatePrecioVenta/(?P<id_medicamento>\d+)/$', mviews.medicamento_updatePrecioVenta, name="medicamento_update_precio_venta"),
     url(r'^medicamentos/delete/(?P<id_medicamento>\d+)/$', mviews.medicamento_delete, name="medicamento_delete"),
     url(r'^medicamentos/verLotes/(?P<id_medicamento>\d+)/$', mviews.medicamento_verLotes, name="medicamento_verLotes"),
     
@@ -114,7 +115,10 @@ urlpatterns = [
     url(r'^pedidosAlaboratorio/add/$', pviews.pedidoAlaboratorio_add, name="pedidoAlaboratorio_add"),
     url(r'^pedidosAlaboratorio/add/detalles/$', pviews.detallesPedidoAlaboratorio, name="detallesPedidoAlaboratorio"),
     url(r'^pedidosAlaboratorio/add/detalles/add/$', pviews.detallePedidoAlaboratorio_add, name="detallePedidoAlaboratorio_add"),
-    url(r'^pedidosAlaboratorio/add/registrar-pedido/$', pviews.pedidoAlaboratorio_registrar, name="pedidoAlaboratorio_registrar"),  
+    url(r'^pedidosAlaboratorio/add/detalles/update/(?P<id_detalle>\d+)/$', pviews.detallePedidoAlaboratorio_update, name="detallePedidoAlaboratorio_update"),
+    url(r'^pedidosAlaboratorio/add/detalles/delete/(?P<id_detalle>\d+)/$', pviews.detallePedidoAlaboratorio_delete, name="detallePedidoAlaboratorio_delete"),
+    url(r'^pedidosAlaboratorio/add/registrar-pedido/$', pviews.pedidoAlaboratorio_registrar, name="pedidoAlaboratorio_registrar"),
+    url(r'^pedidosAlaboratorio/cancelar/(?P<id_pedido>\d+)/$', pviews.pedidoAlaboratorio_cancelar, name="pedidoAlaboratorio_cancelar"),  
     url(r'^pedidosAlaboratorio/ver/(?P<id_pedido>\d+)/$', pviews.pedidoAlaboratorio_ver, name="pedidoAlaboratorio_ver"),
     url(r'^pedidosAlaboratorio/remitoDeLaboratorio/(?P<id_remito>\d+)/$', pviews.remitoDeLaboratorio.as_view(), name="remitoDeLaboratorio"),
 

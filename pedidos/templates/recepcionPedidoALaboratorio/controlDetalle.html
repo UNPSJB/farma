@@ -69,10 +69,10 @@
 			<div class="col-md-offset-1 col-md-10">				
 				<div class="panel panel-form">
 					{% if btnNuevoLote %}
-						<a class="pull-right "href="{% url 'recepcionPedidoAlaboratorio_controlDetalleConNuevoLote' pedido.numero detalle.renglon %}">+ Nuevo Lote</a>
+						<a class="pull-right "href="{% url 'recepcionPedidoAlaboratorio_controlDetalleConNuevoLote' pedido.nroPedido detalle.renglon %}">+ Nuevo Lote</a>
 					{% else %}
 						{% if existenLotes %}
-							<a class="pull-right "href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.numero detalle.renglon %}">- Sin Nuevo Lote</a>
+							<a class="pull-right "href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.nroPedido detalle.renglon %}">- Sin Nuevo Lote</a>
 						{% endif %}
 					{% endif %}
 					<div class="clearfix"></div>
@@ -83,7 +83,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-offset-1 col-md-10 container-btn-volver">
-				<a class="btn-volver" href="{% url 'recepcionPedidoAlaboratorio_controlPedido' pedido.numero %}"><span aria-hidden="true">&larr; Volver</span> </a>
+				<a class="btn-volver" href="{% url 'recepcionPedidoAlaboratorio_controlPedido' pedido.nroPedido %}"><span aria-hidden="true">&larr; Volver</span> </a>
 			</div>
 		</div>
 	</div>

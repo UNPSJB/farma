@@ -11,6 +11,15 @@
 
 {% block url-add %}{% url 'medicamento_add' %}{% endblock %}
 
+{% block btn-modificar %}
+    <a class="btn btn-warning hidden ocultable" id="modificar-stock">
+        <span class="glyphicon glyphicon-edit"></span>  Modificar Stock
+    </a>
+    <a class="btn btn-primary hidden ocultable" id="modificar-precio">
+        <span class="glyphicon glyphicon-edit"></span>  Modificar Precio
+    </a>
+{% endblock %}
+
 {% block more-buttons %}
     <a class="btn btn-info hidden ocultable" id="verLote">
         <span class="glyphicon glyphicon-folder-open"></span> Ver Lotes
@@ -19,7 +28,8 @@
 
 {% block filtro %}
     <label for="nombreFantasia" >Buscar:</label>
-    <input class="filtro" id="nombreFantasia" name="nombreFantasia" value="{{ filtros.nombreFantasia }}" placeholder="Nombre Fantasia" autofocus>
+    <input class="filtro" id="nombreFantasia" name="nombreFantasia" value="{{ filtros.nombreFantasia }}" placeholder="Nombre Fantasia" type="text">
+    <input class="filtro" id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" type="text" placeholder="Laboratorio">
 {% endblock %}
 
 {% block grid %}
@@ -67,10 +77,19 @@
             e.stopPropagation();
         });
 
-        $("#modificar").on("click", function(e){
+        $("#modificar-stock").on("click", function(e){
             var id = get_selected_row();
             if(id){
-                var url="/medicamentos/update/" + id +"/";
+                var url="/medicamentos/updateStockMinimo/" + id +"/";
+                $(this).attr("href", url);
+            }
+            e.stopPropagation();
+        });
+
+        $("#modificar-precio").on("click", function(e){
+            var id = get_selected_row();
+            if(id){
+                var url="/medicamentos/updatePrecioVenta/" + id +"/";
                 $(this).attr("href", url);
             }
             e.stopPropagation();

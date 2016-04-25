@@ -9,6 +9,14 @@
     Clínicas
 {% endblock %}
 
+{%block filtro %}
+    <label>Buscar:</label>
+    <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social" >
+    <input class="filtro" id="localidad" name="localidad" value="{{filtros.localidad}}" placeholder="Localidad" >
+    <input class="filtro" id="obra-social" name="obraSocial" value="{{filtros.obraSocial}}" placeholder="Obra Social" type="text">
+    <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
+    <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
+{% endblock %}
 {% block grid %}
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>

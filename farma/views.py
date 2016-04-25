@@ -3,6 +3,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import *
 import datetime
+from pedidos import models as pmodels
+from pedidos.views import get_filtros
+
 
 def get_order(get):
     if "o" in get:
@@ -19,8 +22,11 @@ def pedidoDeClinica(request):
 
 @login_required(login_url='login')
 def recepcionReemplazoMedicamentos(request):
-  fecha = datetime.datetime.now()
-  return render(request, "recepcionReemplazoMedicamentos.html",{'fecha_pedido': fecha})
+  estadisticas = {}
+  mfilters = get_filtros(request.GET, pmodels.PedidoDeFarmacia)
+  pedidos = pmodels.PedidoDeFarmacia.objects.filter(**mfilters)
+  estadisticas['total'] = pmodels.PedidoDeFarmacia.objects.all().count()
+  return render(request, "recepcionReemplazoMedicamentos.html", {'pedidos': pedidos,'filtros': request.GET, 'estadisticas': estadisticas})
 
 @login_required(login_url='login')
 def altaMonodroga(request):

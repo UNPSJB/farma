@@ -185,16 +185,28 @@ def medicamento_add(request):
 
 
 @login_required(login_url='login')
-def medicamento_update(request, id_medicamento):
+def medicamento_updateStockMinimo(request, id_medicamento):
     medicamento = get_object_or_404(models.Medicamento, pk=id_medicamento)
     if request.method == "POST":
-        form = forms.MedicamentoFormUpdate(request.POST, instance=medicamento)
+        form = forms.MedicamentoFormUpdateStockMinimo(request.POST, instance=medicamento)
         if form.is_valid():
             form.save()
             return redirect('medicamentos')
     else:
-        form = forms.MedicamentoFormUpdate(instance=medicamento)
-    return render(request, "medicamento/medicamentoUpdate.html", {'form': form, 'id': id_medicamento})
+        form = forms.MedicamentoFormUpdateStockMinimo(instance=medicamento)
+    return render(request, "medicamento/medicamentoUpdateStockMinimo.html", {'form': form, 'id': id_medicamento})
+
+@login_required(login_url='login')
+def medicamento_updatePrecioVenta(request, id_medicamento):
+    medicamento = get_object_or_404(models.Medicamento, pk=id_medicamento)
+    if request.method == "POST":
+        form = forms.MedicamentoFormUpdatePrecioVenta(request.POST, instance=medicamento)
+        if form.is_valid():
+            form.save()
+            return redirect('medicamentos')
+    else:
+        form = forms.MedicamentoFormUpdatePrecioVenta(instance=medicamento)
+    return render(request, "medicamento/medicamentoUpdatePrecioVenta.html", {'form': form, 'id': id_medicamento})
 
 
 def medicamento_verLotes(request, id_medicamento):

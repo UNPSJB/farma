@@ -48,8 +48,9 @@
                         <form method="GET" class="form-inline pull-right">
                             <div class="form-group">
                                 {%block filtro %}
-                                    <label for="razonSocial" >Buscar:</label>
-                                    <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social" autofocus>
+                                    <label>Buscar:</label>
+                                    <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social" >
+                                    <input class="filtro" id="localidad" name="localidad" value="{{filtros.localidad}}" placeholder="Localidad" >
                                     <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
                                     <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
                                 {% endblock %}

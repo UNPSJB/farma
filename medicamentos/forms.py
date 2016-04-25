@@ -200,7 +200,7 @@ class MedicamentoForm(forms.ModelForm):
         return precioDeVenta
 
 
-class MedicamentoFormUpdate(forms.ModelForm):
+class MedicamentoFormUpdateStockMinimo(forms.ModelForm):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -208,6 +208,25 @@ class MedicamentoFormUpdate(forms.ModelForm):
     helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('stockMinimo', placeholder='Stock Minimo'),
+        FormActions(
+            StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
+        )
+    ) 
+
+    class Meta:
+        model = models.Medicamento
+        fields = ["stockMinimo"]
+        labels = {
+            'stockMinimo': _('Stock Minimo')
+        }
+
+class MedicamentoFormUpdatePrecioVenta(forms.ModelForm):
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
         Field('precioDeVenta', placeholder='Precio de Venta'),
         FormActions(
             StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
@@ -216,10 +235,9 @@ class MedicamentoFormUpdate(forms.ModelForm):
 
     class Meta:
         model = models.Medicamento
-        fields = ["stockMinimo", "precioDeVenta"]
+        fields = ["precioDeVenta"]
         labels = {
-            'stockMinimo': _('Stock Minimo'),
-            'precioDeVenta': _('Precio de Venta'),
+            'precioDeVenta': _('Precio de Venta')
         }
 
 
