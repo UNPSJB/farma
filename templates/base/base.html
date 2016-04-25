@@ -18,14 +18,38 @@
 
     {% include 'inicio/nav.html' %}
     {% block content %}
-    {% block breadcrumbs %}{% endblock %}
+        {% block breadcrumbs %}{% endblock %}
     {% endblock %}
+    <a id="btn-ir-arriba" class="btn-ir-arriba" href="#"><span class="glyphicon glyphicon-menu-up"></span></a>
     {% include 'inicio/footer.html' %}
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/jquery-ui.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script>
+        (function() {
+            var $btnIrArriba = $('#btn-ir-arriba'),
+                $nav = $('#navbar-principal');
 
+            function btnToggleFade () {
+                if( $(this).scrollTop() > $nav.height()){
+                    $btnIrArriba.fadeIn('slow');
+                    
+                }else{
+                    $btnIrArriba.fadeOut('slow');
+                }
+            }
+
+            function irArriba(e) {
+                e.preventDefault();
+                $('html, body').animate({scrollTop:0}, 500);
+            }
+
+            $btnIrArriba.on('click', irArriba);
+            $(window).on('scroll', btnToggleFade);
+
+        })();
+    </script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

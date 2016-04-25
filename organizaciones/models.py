@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Organizacion(models.Model):
-    FILTROS = ["razonSocial__icontains"]
+    FILTROS = ["razonSocial__icontains", "localidad__icontains"]
     razonSocial = models.CharField(max_length=50)
     cuit = models.CharField(max_length=80)
     localidad = models.CharField(max_length=50)
@@ -22,6 +22,7 @@ class Farmacia(Organizacion):
 
 
 class Clinica(Organizacion):
+    FILTROS = ["razonSocial__icontains", "localidad__icontains", "obraSocial__icontains"]
     obraSocial = models.CharField(max_length=80)
 
     def __str__(self):

@@ -1,5 +1,5 @@
-# -*- encoding: utf-8 -*-
-# -*- encoding: utf-8 -*-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from django import forms
 from pedidos import models, utils
 from crispy_forms.helper import FormHelper
@@ -107,23 +107,6 @@ class PedidoDeClinicaForm(forms.ModelForm):
             'clinica': selectable.AutoCompleteSelectWidget(lookup_class=lookups.ClinicaLookup),
         }
 
-
-def get_medicamentos_con_stock():
-    medicamentos_con_stock = []
-    medicamentos = mmodels.Medicamento.objects.all()
-    for medicamento in medicamentos:
-        lotes = mmodels.Lote.objects.filter(medicamento=medicamento)
-        if lotes.count() > 0:
-            hayStock = False
-            for lote in lotes:
-                if lote.stock > 0:
-                    hayStock = True
-                    break
-            if hayStock:
-                medicamentos_con_stock.append(medicamento.id)
-    return mmodels.Medicamento.objects.filter(pk__in=medicamentos_con_stock)
-
-
 class DetallePedidoDeClinicaForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
@@ -143,7 +126,7 @@ class DetallePedidoDeClinicaForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DetallePedidoDeClinicaForm, self).__init__(*args, **kwargs)
-        self.fields['medicamento'].queryset = get_medicamentos_con_stock()
+        self.fields['medicamento'].queryset = utils.get_medicamentos_con_stock()
 
     def clean_cantidad(self):
         return validarCantidad(self.cleaned_data['cantidad'])
@@ -156,7 +139,7 @@ class DetallePedidoDeClinicaForm(forms.ModelForm):
         medicamento = self.cleaned_data.get('medicamento')
         cantidad = self.cleaned_data.get('cantidad')
 
-        if cantidad > utils.get_stock_total(medicamento):
+        if cantidad > medicamento.get_stock():
             self.add_error('cantidad', 'No hay suficiente stock para cubrir la cantidad indicada')
             return False
         return True
@@ -169,7 +152,7 @@ class UpdateDetallePedidoDeClinicaForm(forms.ModelForm):
     helper.label_class = 'col-md-3'
     helper.field_class = 'col-md-8'
     helper.layout = Layout(
-        Field('cantidad', placeholder='Cantidad'),
+        Field('cantidad', placeholder='Cantidad')
     )
 
     class Meta:
@@ -186,7 +169,7 @@ class UpdateDetallePedidoDeClinicaForm(forms.ModelForm):
 
         cantidad = self.cleaned_data.get('cantidad')
         medicamento = mmodels.Medicamento.objects.get(pk=id_medicamento)
-        if cantidad > utils.get_stock_total(medicamento):
+        if cantidad > medicamento.get_stock():
             self.add_error('cantidad', 'No hay suficiente stock para cubrir la cantidad indicada')
             return False
         return True
@@ -252,13 +235,22 @@ def DetallePedidoAlaboratorioFormFactory(laboratorio_id):
             return cantidad
     return DetallePedidoAlaboratorioForm
 
+class UpdateDetallePedidoAlaboratorioForm(forms.ModelForm):
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'form-update-detalle'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('cantidad', placeholder='Cantidad'),
+    )
 
-class PedLaboratorioVerRenglonesForm(PedidoLaboratorioForm):
-    def __init__(self, *args, **kwargs):
-        super(PedLaboratorioVerRenglonesForm,self).__init__(*args, **kwargs)
-        self.fields['numero'].widget.attrs['readonly'] = True
-        self.fields['fecha'].widget.attrs['readonly'] = True
-        self.fields['laboratorio'].widget.attrs['readonly'] = True
+    class Meta:
+        model = models.DetallePedidoAlaboratorio
+        fields = ["cantidad"]
+
+    def clean_cantidad(self):
+        return validarCantidad(self.cleaned_data['cantidad'])
 
 
 # ===================================== FIN FORMULARIOS DE PEDIDOS A LABORATORIOS =====================================

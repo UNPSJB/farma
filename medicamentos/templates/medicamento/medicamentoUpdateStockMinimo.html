@@ -8,10 +8,10 @@
 {% endblock %}
 
 {% block panel-heading-add %}
-    <h3 class="panel-title">Modificacion de Medicamento</h3>
+    <h3 class="panel-title">Modificacion del Stock Minimo del Medicamento</h3>
 {% endblock %}
 
-{% block url-form-action %}{% url 'medicamento_update' id %}{% endblock %}
+{% block url-form-action %}{% url 'medicamento_update_stock_minimo' id %}{% endblock %}
 
 {% block boton-form %}
     <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>

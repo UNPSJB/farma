@@ -2,6 +2,10 @@
 {% load staticfiles %}
 {% load staticfiles bootstrap3 %}
 
+{% block more-stylesheets %}
+     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
+{% endblock %}
+
 {% block title %}
     Recepcion de Pedidos de Laboratorio
 {% endblock %}
@@ -27,9 +31,11 @@
    <a class="btn btn-warning hidden ocultable" id="registrar"><span class="glyphicon glyphicon-ok-circle"></span>  Registrar recepcion</a>
 {% endblock %}
 
-{%block filtro %}
-    <label for="Laboratorio" >Buscar:</label>
-    <input  id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" placeholder=" Laboratorio">
+{% block filtro %}
+    <label>Buscar:</label>
+    <input class="filtro" id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" placeholder="Laboratorio">
+    <input class="datepicker"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
+    <input class="datepicker" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta">
     <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
     <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
 {% endblock %}
@@ -45,7 +51,7 @@
         </thead>
         <tbody>
             {% for recibido in recibidos %}
-                <tr class="clickeable" data-id="{{ recibido.numero }}">
+                <tr class="clickeable" data-id="{{ recibido.nroPedido }}">          
                     <td>{{recibido.fecha}}</td>
                     <td>{{recibido.laboratorio.razonSocial}}</td>
                     <td>{{recibido.estado}}</td>
@@ -56,6 +62,7 @@
 {% endblock %}
 
 {% block more-scripts %}
+    <script src="{% static 'js/datepicker.js' %}"></script>
     <script>
         $(document).ready(function(){
             $("#registrar").on("click", function(e){

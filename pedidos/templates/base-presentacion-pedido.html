@@ -47,7 +47,7 @@
 
 {% block content %}
     {% block breadcrumbs %}
-        <ol class = "breadcrumb">
+        <ol id="breadcrumb-page" class="breadcrumb _breadcrumb_">
            <li><a href="{% url 'inicio' %}">Inicio</a></li>
            {% block more-crumbs %}{% endblock %}
         </ol>
@@ -116,7 +116,9 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Agregar Detalles al Pedido</h4>
+                        <h4 class="modal-title pull-left">Agregar Detalles al Pedido</h4>
+                        {% block medicamento-stock-alta %} {% endblock %}
+                        <div class="clearfix"></div>
                     </div>
                     <div class="modal-body">
                         <div class="collapse" id="collapse-add-detalle">
@@ -139,7 +141,9 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Actualizar Detalle del Pedido</h4>
+                        <h4 class="modal-title pull-left">Actualizar Detalle del Pedido</h4>
+                        {% block medicamento-stock-modificacion %} {% endblock %}
+                        <div class="clearfix"></div>
                     </div>
                     <div class="modal-body">
                          <div class="collapse" id="collapse-error">
@@ -281,8 +285,11 @@
                     url: url,
                     dataType: 'json',
                     success: function(data){
-                        $("#form-update-detalle").replaceWith(data['form_html']);
-                        $("#modal-update-detalle").modal('show');
+                        if(data){
+                            $("#form-update-detalle").replaceWith(data['form_html']);
+                            $("#modal-update-detalle").modal('show'); 
+                        }
+                        
                     },
                     error: function(err){
                         alert("Fallo Ajax");
@@ -356,9 +363,16 @@
                 var $tbody = $("table tbody");
                 $tbody.children().remove();
                 for(var i = 0; i < detalles.length; i++){
-                    var row = "<tr class=\"clickeable\" data-id=" + detalles[i].renglon + "><td>" + detalles[i].medicamento.descripcion +
-                              "</td><td>" + detalles[i].cantidad + "</td></tr>";
+                    var row = "<tr class=\"clickeable";
+                    if (detalles[i].detallePedidoFarmacia == -1){
+                        row += " editable";
+                    } 
+                    row += "\" data-id=" + detalles[i].renglon + 
+                    " data-medicamento="+ detalles[i].medicamento.id +"><td>" + 
+                    detalles[i].medicamento.descripcion + "</td><td>" + detalles[i].cantidad + 
+                    "</td></tr>";
                     $tbody.append(row);
+                    console.log(detalles[i].medicamento.id + "\n");
                 }
             }
 

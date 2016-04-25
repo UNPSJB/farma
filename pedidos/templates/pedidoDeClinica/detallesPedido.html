@@ -35,7 +35,7 @@
         </thead>
         <tbody>
             {% for detalle in detalles %}
-                <tr class="clickeable" data-id="{{ detalle.renglon }}">
+                <tr class="clickeable" data-id="{{ detalle.renglon }}" data-medicamento="{{detalle.medicamento.id}}">
                     <td>{{ detalle.medicamento.descripcion }}</td>
                     <td>{{ detalle.cantidad }}</td>
                 </tr>
@@ -44,7 +44,19 @@
     </table>
 {% endblock %}
 
-{% block url-remito %}"/pedidosDeFarmacia/remitoDeFarmacia/"+data['nroRemito']+"/"{% endblock %}
+{% block medicamento-stock-alta %} 
+    <p class="pull-right">
+        Disponible: <span class="medicamento-stock"> - </span>
+    </p>
+{% endblock %}
+
+{% block medicamento-stock-modificacion %} 
+    <p class="pull-right">
+        Disponible: <span class="medicamento-stock"> - </span>
+    </p>
+{% endblock %}
+
+{% block url-remito %}"/pedidosDeClinica/remitoDeClinica/"+data['nroRemito']+"/"{% endblock %}
 
 {% block panel-footer %}
     <div class="panel-footer">
@@ -118,6 +130,66 @@
                 registrar_pedido_ajax("{% url 'pedidoDeClinica_registrar' %}");
                 e.stopPropagation();
             });
+        })();
+    </script>
+    <script>
+        (function(){
+            /*var medicamentoStock  = {
+                init: function() {
+                    this.getElements();
+                    this.bindEvents();
+                    this.getData();
+                },
+                getElements: function(){
+                    this.$selectMedicamento = $('#id_medicamento');
+                    this.$medicamentoStock = $('#medicamento-stock');
+                },
+                bindEvents: function(){
+                    this.$selectMedicamento.on('change', this.showStock.bind(this));
+                },
+                getData: function(){
+                    this.medicamentos = {};
+                    {% for medicamentoStock in medicamentosStock %}
+                        this.medicamentos[{{medicamentoStock.id}}] = {{ medicamentoStock.stock}}; 
+                    {% endfor %}
+                },
+                showStock: function(e){
+                    var idMedicamento = $(e.currentTarget).find('option:selected').val();
+                    if(idMedicamento){
+                        this.$medicamentoStock.text(this.medicamentos[idMedicamento]);
+                    }else {
+                        this.$medicamentoStock.text('-');
+                    }
+                }
+            };*/
+            var medicamentos = {
+                {% for medicamentoStock in medicamentosStock %}
+                    {{medicamentoStock.id}}: {{ medicamentoStock.stock}},
+                {% endfor %}
+            };
+            
+
+            $('#modal-add-detalle').on('show.bs.modal', function(){
+                var $selectMedicamento = $(this).find('#id_medicamento');
+                $selectMedicamento.on('change', load_stock.bind(this));
+            });
+
+            $('#modal-update-detalle').on('show.bs.modal', function(e){
+                var idMedicamento = $('.clickeable.active').data('medicamento');
+                $(this).find('.medicamento-stock').text(medicamentos[idMedicamento])
+                //e.stockPropagation();
+
+            });
+
+            function load_stock(e) {
+                var idMedicamento = $(this).find('option:selected').val();
+                if(idMedicamento){
+                    $(this).find('.medicamento-stock').text(medicamentos[idMedicamento]);
+                }else{
+                    $(this).find('.medicamento-stock').text('-');
+                }
+                //e.stockPropagation();            
+            }
         })();
     </script>
 {% endblock %}

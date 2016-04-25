@@ -13,6 +13,7 @@ from crispy_forms.layout import Layout, Field
 from crispy_forms.bootstrap import StrictButton, FormActions
 import re
 
+
 class MonodrogaFormGenerico(forms.ModelForm):
     class Meta:
         model = models.Monodroga
@@ -27,6 +28,7 @@ class MonodrogaFormGenerico(forms.ModelForm):
             if not re.match(r"^[a-zA-Z]+((\s[a-zA-Z]+)+)?$", nombre):
                 raise forms.ValidationError('El nombre de la monodroga solo puede contener letras y espacios')
         return nombre
+
 
 class MonodrogaFormAdd(MonodrogaFormGenerico):
     helper = FormHelper()
@@ -170,23 +172,17 @@ class MedicamentoForm(forms.ModelForm):
     nombreFantasia = forms.ModelChoiceField(
        label="Nombre fantasia",
        required=True,
-       queryset=models.NombreFantasia.objects.all(),
-       widget=RelatedFieldWidgetCanAdd(models.NombreFantasia, related_url="nombreFantasia_add")
-
+       queryset=models.NombreFantasia.objects.all()
     )
 
     presentacion = forms.ModelChoiceField(
        required=True,
-       queryset=models.Presentacion.objects.all(),
-       widget=RelatedFieldWidgetCanAdd(models.Presentacion, related_url="presentacion_add")
-
+       queryset=models.Presentacion.objects.all()
     )
 
     laboratorio = forms.ModelChoiceField(
        required=True,
-       queryset=models.Laboratorio.objects.all(),
-       widget=RelatedFieldWidgetCanAdd(models.Laboratorio, related_url="laboratorio_add")
-
+       queryset=models.Laboratorio.objects.all()
     )
 
     class Meta:
@@ -200,7 +196,7 @@ class MedicamentoForm(forms.ModelForm):
         return precioDeVenta
 
 
-class MedicamentoFormUpdate(forms.ModelForm):
+class MedicamentoFormUpdateStockMinimo(forms.ModelForm):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.form_id = 'my-form'
@@ -208,6 +204,25 @@ class MedicamentoFormUpdate(forms.ModelForm):
     helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('stockMinimo', placeholder='Stock Minimo'),
+        FormActions(
+            StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
+        )
+    ) 
+
+    class Meta:
+        model = models.Medicamento
+        fields = ["stockMinimo"]
+        labels = {
+            'stockMinimo': _('Stock Minimo')
+        }
+
+class MedicamentoFormUpdatePrecioVenta(forms.ModelForm):
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
         Field('precioDeVenta', placeholder='Precio de Venta'),
         FormActions(
             StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
@@ -216,10 +231,9 @@ class MedicamentoFormUpdate(forms.ModelForm):
 
     class Meta:
         model = models.Medicamento
-        fields = ["stockMinimo", "precioDeVenta"]
+        fields = ["precioDeVenta"]
         labels = {
-            'stockMinimo': _('Stock Minimo'),
-            'precioDeVenta': _('Precio de Venta'),
+            'precioDeVenta': _('Precio de Venta')
         }
 
 

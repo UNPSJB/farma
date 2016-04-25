@@ -1,0 +1,215 @@
+@import url('animate.css');
+
+body {
+	color: rgb(124,124,124);
+}
+
+.button-hover {
+	transition: all 300ms!important;
+}
+
+.button-hover:hover,
+.button-hover:focus,
+.button-hover:active {
+	border-color: rgb(222,174,58) !important;
+	background-color: rgb(222,174,58) !important;
+	color: #FFF !important;
+}
+
+._breadcrumb_ {
+	background-color: rgba(255,255,255,0.1);
+	border-radius: 0;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	margin-bottom: 0;
+}
+
+.header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.7rem 15px;
+  overflow: hidden;
+}
+
+.header-title,
+.btn-volver span {
+  font-size: 2rem;
+}
+
+.btn-volver span:hover {
+	/*efecto*/
+}
+
+.header-title {
+	color: rgb(0,70,147);
+	font-weight: bolder;
+  	margin: 0;
+}
+
+.container-main {
+  margin-top: 2rem;
+}
+
+.aside {
+  min-height: 9rem;
+}
+.form-busqueda .form-field {
+	padding: 6px 12px;
+}
+
+.form-busqueda .form-avanzado,
+.form-busqueda .form-field {
+  margin-bottom: 1rem;
+}
+.form-busqueda .form-simple {
+  overflow: hidden;
+  position: relative;
+}
+.form-busqueda .form-simple .form-field-simple {
+  padding-right: 2.8rem;
+}
+.form-busqueda .form-simple .btn-form-simple {
+  position: absolute;
+  top: calc(50% - 0.5rem);
+  right: 1rem;
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  -webkit-transition: all 500ms ease;
+  transition: transform 500ms ease, color 300ms ease;
+}
+.form-busqueda .form-simple .btn-form-simple:hover {
+	color: rgb(222,174,58);
+}
+
+.form-busqueda .form-simple .btn-form-simple.slide-out {
+  right: 0;
+  -webkit-transform: translate(100%, -50%);
+          transform: translate(100%, -50%);
+}
+.form-busqueda .form-avanzado {
+  display: none;
+}
+.form-busqueda .form-avanzado .btn-form-avanzado {
+  /*height: 34px;*/
+  width: 100%;
+  /*padding: 6px 12px;
+  background-color: transparent;
+  border: 1px solid #cccccc;
+  border-radius: 4px;*/
+}
+.form-busqueda .form-toggle {
+  text-align: right;
+}
+.form-busqueda .form-toggle .btn-form-toggle {
+  font-size: 1.2rem;
+}
+
+/*TABLA*/
+.header-tabla {
+  padding: 1rem;
+  background-color: #fafafa;
+  border-radius: 5px;
+  border: 1px solid rgb(214,215,219);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.header-tabla-title {
+  margin: 0;
+  color: rgb(51,107,169);
+  font-size: 1.5rem;
+  font-weight: bolder;
+}
+
+.section-table {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.table-responsive {
+  min-height: 9rem;
+  margin-top: 1rem;
+  overflow-y: auto;
+  border-bottom: 1px solid #dddee2;
+}
+
+.table thead {
+	color: #444;
+	font-style: italic;
+}
+.table tbody tr td {
+  border-top: none;
+}
+.table .action {
+  width: 10%;
+}
+
+.table .action .dropdown-menu {
+	padding: 0;
+}
+
+.table .action-link {
+	position: relative;	
+	padding-bottom: 5px;
+	padding-top: 5px;
+	color: rgb(33,53,64) ;
+	text-align: center;
+	webkit-transition: color 300ms ease;
+	transition: color 300ms ease;
+}
+
+.table .action-link:hover .action-link-icon{
+	webkit-animation-name: tada-action-link-icon;
+  	animation-name: tada-action-link-icon;
+  	color: rgb(51,107,169);
+}
+
+.table .action-link-icon {
+	position: absolute;
+	left: 1rem; top: 50%;
+  	-webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.table-count {
+  margin-top: 1rem;
+  color: #7c7c7c;
+  font-weight: bold;
+  font-size: 1.2rem;
+  font-style: italic;
+  text-align: right;
+}
+
+.table-count-icon {
+	color: rgb(222,174,58);
+}
+
+.table-empty {
+	position: relative;
+	border: 2px dashed #ccc;
+	padding: 1rem;
+	height: 20rem;
+  overflow: hidden;
+}
+
+.table-empty-title,
+.table-empty-msg {
+	position: absolute;
+	left: 50%; top: 50%;
+  width: 100%;
+  text-align: center;
+}
+
+.table-empty-title {
+	margin: 0;
+	-webkit-transform: translate(-50%, -150%);
+	transform: translate(-50%, -150%);
+}
+
+.table-empty-title span {
+	color: rgb(228,45,64);
+	top: 0;
+}
+
+.table-empty-msg {
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+}

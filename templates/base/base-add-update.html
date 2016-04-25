@@ -5,7 +5,7 @@
 
 {% block content %}
 	{% block breadcrumbs %}
-        <ol class = "breadcrumb">
+        <ol id="breadcrumb-page" class="breadcrumb _breadcrumb_">
            <li><a href="{% url 'inicio' %}">Inicio</a></li>
            {% block more-crumbs %}{% endblock %}
         </ol>

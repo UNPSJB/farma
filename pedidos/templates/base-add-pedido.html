@@ -31,33 +31,37 @@
 
 {% block content %}
     {% block breadcrumbs %}
-        <ol class = "breadcrumb">
+        <ol id="breadcrumb-page" class="breadcrumb _breadcrumb_">
            <li><a href="{% url 'inicio' %}">Inicio</a></li>
            {% block more-crumbs %}{% endblock %}
         </ol>
     {% endblock %}
-    <div class="col-xs-12 col-md-offset-2 col-md-8 panel-add-pedido">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    {% block panel-title-pedido %}{% endblock %}
-                </h3>
-            </div>
-            <div class="panel-body">
-                <div class="well well-lg">
-                    <div class="form-cabezera">
-                        {% block form-pedido %}
-                            {% crispy form %}
-                        {% endblock %}
+    <div class="container">
+		<div class="col-xs-12 col-md-offset-2 col-md-8 panel-add-pedido">
+			{% block panel %}    
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {% block panel-title-pedido %}{% endblock %}
+                        </h3>
                     </div>
-                </div>
-            </div>
-            {% block footer %}
-                <div class="panel-footer">
-                    <button id="btn-enviar-form" class="btn btn-success pull-right" type="submit">
-                        Crear Pedido
-                    </button>
-                    <div class="clearfix"></div>
+                    <div class="panel-body">
+                        <div class="well well-lg">
+                            <div class="form-cabezera">
+                                {% block form-pedido %}
+                                    {% crispy form %}
+                                {% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                    {% block footer %}
+                        <div class="panel-footer">
+                            <button id="btn-enviar-form" class="btn btn-success pull-right" type="submit">
+                                Crear Pedido
+                            </button>
+                            <div class="clearfix"></div>
+                        </div>
+                    {% endblock %}
                 </div>
             {% endblock %}
         </div>

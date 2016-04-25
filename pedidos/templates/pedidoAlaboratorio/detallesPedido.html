@@ -12,6 +12,8 @@
 {% block panel-heading-right %}
     <div class="btn-group btn-group-xs">
         <a id="btn-add-detalle" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>
+        <a id="btn-update-detalle" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
+        <a id="btn-delete-detalle" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></a>
     </div>
 {% endblock %}
 
@@ -21,7 +23,7 @@
 
 {% block fecha-pedido %} {{ pedido.fecha }} {% endblock %}
 
-{% block nro-pedido %} {{ pedido.numero }} {% endblock %}
+{% block nro-pedido %} {{ pedido.nroPedido }} {% endblock %}
 
 {% block grid %}
     <table class="table table-condensed table-responsive" >
@@ -33,7 +35,13 @@
         </thead>
         <tbody>
             {% for detalle in detalles %}
-                <tr>
+                <tr 
+                {% if detalle.detallePedidoFarmacia == -1 %} 
+                    class="clickeable editable"
+                {% else %} 
+                    class="clickeable"
+                {% endif %}
+                data-id="{{detalle.renglon}}">
                     <td>{{detalle.medicamento.descripcion}}</td>               
                     <td>{{detalle.cantidad}}</td>
                 </tr>
@@ -69,6 +77,24 @@
 
             /****************************** Botones Alta Detalle ***************************************/
 
+
+            var id;
+
+            $("#btn-update-detalle").on("click", function(e){
+                id = get_selected_row();
+                if(id){
+                    update_detalle_ajax("/pedidosAlaboratorio/add/detalles/update/" + id + "/");
+                }
+                e.stopPropagation();
+            });
+
+            $("#btn-save-update-detalle").on("click", function(e){
+                if(id){
+                    save_update_ajax("/pedidosAlaboratorio/add/detalles/update/" + id + "/");
+                }
+                e.stopPropagation();
+            });
+
             $("#btn-add-detalle").on("click", function(e){
                 add_detalle_ajax("{% url 'detallePedidoAlaboratorio_add' %}");
                 e.stopPropagation();
@@ -79,9 +105,35 @@
                 e.stopPropagation()
             });
 
+            $("#btn-delete-detalle").on("click", function(e){
+                var id = get_selected_row();
+                if(id){
+                    $("#modal-delete-detalle").modal('show');
+                }
+                e.stopPropagation();
+            });
+
+            $("#btn-confirmar-baja-detalle").on("click", function(e){
+                var id = get_selected_row();
+                if(id){
+                    delete_detalle_ajax("/pedidosAlaboratorio/add/detalles/delete/" + id + "/");
+                    $("#modal-delete-detalle").modal('hide');
+                }
+                e.stopPropagation();
+            });
+
             $("#btn-registrar").on("click", function(e){
                 registrar_pedido_ajax("{% url 'pedidoAlaboratorio_registrar' %}");
                 e.stopPropagation();
+            });
+
+            $('.clickeable').on('click', function(e){
+                var $btn = $('#btn-update-detalle');
+                if(! $(this).hasClass("editable")) {
+                    $btn.addClass("hidden");
+                }else{
+                    $btn.removeClass("hidden");
+                }
             });
         })();
     </script>

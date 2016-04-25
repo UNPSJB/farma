@@ -127,7 +127,7 @@ class PedidoDeFarmacia(PedidoVenta):
         'desde': "fecha__gte",
         'hasta': "fecha__lte",
         'farmacia': "farmacia__razonSocial__icontains",
-        'estado': "estado__icontains"
+        'estado': "estado__istartswith"
     }
     farmacia = models.ForeignKey('organizaciones.Farmacia')
     estado = models.CharField(max_length=25, blank=True)
@@ -179,7 +179,7 @@ class DetallePedidoDeFarmacia(DetallePedidoVenta):
 #******************PEDIDO DE CLINICA Y DETALLE PEDIDO DE CLINICA******************#
 
 class PedidoDeClinica(PedidoVenta):
-    FILTROS = ["clinica", "desde", "hasta"]
+    FILTROS = ["clinica", "obraSocial", "desde", "hasta"]
     FILTERMAPPER = {
         'desde': "fecha__gte",
         'hasta': "fecha__lte",
@@ -236,18 +236,20 @@ class DetallePedidoDeClinica(DetallePedidoVenta):
 # PEDIDO A LABORATORIO
 
 class PedidoAlaboratorio(models.Model):
-    FILTROS = ["laboratorio"]
+    FILTROS = ["laboratorio", "desde", "hasta"]
     FILTERMAPPER = {
-        'laboratorio': "laboratorio__razonSocial__icontains"
+        'laboratorio': "laboratorio__razonSocial__icontains",
+        'desde': "fecha__gte",
+        'hasta': "fecha__lte"
     }
-    numero = models.AutoField(primary_key=True)
+    nroPedido = models.AutoField(primary_key=True)
     fecha = models.DateField(auto_now_add=True)
     laboratorio = models.ForeignKey('organizaciones.Laboratorio')
 
     estado = models.CharField(max_length=25, blank=True, default="Pendiente")# cancelado, parcialmente recibido, pendiente, completo
 
     def __str__(self):
-        return 'Pedido Nro %s - Laboratorio: %s' % (self.numero, self.laboratorio)
+        return 'Pedido Nro %s - Laboratorio: %s' % (self.nroPedido, self.laboratorio)
     
     def to_json(self):
         if self.laboratorio:
@@ -268,7 +270,7 @@ class DetallePedidoAlaboratorio(models.Model):
     detallePedidoFarmacia = models.ForeignKey('DetallePedidoDeFarmacia', blank=True, null=True)
 
     def __str__(self):
-        return "Pedido Nro %s - Detalle %s"%(self.pedido.numero, self.renglon)
+        return "Pedido Nro %s - Detalle %s"%(self.pedido.nroPedido, self.renglon)
     
     def to_json(self):
         response = {}

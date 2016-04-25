@@ -44,6 +44,7 @@
     </table>
 {% endblock %}
 
+
 {% block url-remito %}"/pedidosDeFarmacia/remitoDeFarmacia/"+data['nroRemito']+"/"{% endblock %}
 
 {% block panel-footer %}
@@ -118,6 +119,8 @@
                 registrar_pedido_ajax("{% url 'pedidoDeFarmacia_registrar' %}");
                 e.stopPropagation();
             });
+
         })();
     </script>
+    
 {% endblock %}

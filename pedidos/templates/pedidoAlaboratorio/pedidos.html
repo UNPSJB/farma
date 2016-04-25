@@ -1,6 +1,10 @@
 {% extends "base/base-abm.html" %}
 {% load staticfiles %}
 
+{% block more-stylesheets %}
+     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
+{% endblock %}
+
 {% block title %}Pedidos a laboratorios{% endblock %}
 
 {% block more-crumbs %}
@@ -13,8 +17,11 @@
 
 {% block btn-modificar %}{% endblock %}
 
+{% block btn-baja %}{% endblock %}
+
 {% block more-buttons %}
-    <a class="btn btn-warning hidden ocultable" id="ver"><span class="glyphicon glyphicon-pencil"></span>Ver</a>
+    <a class="btn btn-danger hidden ocultable" id="cancelar-pedido" data-toggle="modal" data-target="#modal-baja"><span class="glyphicon glyphicon-remove"></span> Cancelar Pedido</a>
+    <a class="btn btn-info hidden ocultable" id="ver"><span class="glyphicon glyphicon-pencil"></span> Ver</a>
 {% endblock %}
 
 {% block grid %}
@@ -24,14 +31,22 @@
                 <th>Numero</th>
                 <th>Fecha</th>
                 <th>Laboratorio</th>
+                <th>Estado</th>
             </tr>
         </thead>
         <tbody>
             {% for pedido in pedidos %}
-                <tr class="clickeable" data-id="{{ pedido.numero }}">
-                    <td>{{pedido.numero}}</td>
+                <tr 
+                    {% if pedido.estado == "Pendiente" %}
+                        class="clickeable cancelable"
+                    {% else %}
+                        class="clickeable"
+                    {% endif %} 
+                data-id="{{ pedido.nroPedido }}">
+                    <td>{{pedido.nroPedido}}</td>
                     <td>{{pedido.fecha}}</td>
                     <td>{{pedido.laboratorio}}</td>
+                    <td>{{pedido.estado}}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -41,8 +56,12 @@
 {% block url-add %}{% url 'pedidoAlaboratorio_add' %}{% endblock %}
 
 {% block filtro %}
-    <label for="numero" >Buscar:</label>
-    <input class="filtro" id="numero" name="numero" value="{{filtros.numero}}" placeholder=" Numero" autofocus>
+    <label>Buscar:</label>
+    <input class="filtro" id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" placeholder="Laboratorio">
+    <input class="datepicker"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
+    <input class="datepicker" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta">
+    <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
+    <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
 {% endblock %}
 
 {% block cantidad-elementos %}
@@ -55,20 +74,37 @@
 {% endblock %}
 
 {% block modal-baja-title %}
-    <h4 class="modal-title">Eliminar Laboratorio </h4>
+    <h4 class="modal-title">Cancelar Laboratorio </h4>
 {% endblock %}
 
+{% block modal-baja-texto %}¿Esta seguro de querer cancelar este pedido a laboratorio?{% endblock %}
+
 {% block more-scripts %}
+<script src="{% static 'js/datepicker.js' %}"></script>
     <script>
         $(document).ready(function(){
 
             $("#ver").on("click", function(e){
                 var id = get_selected_row();
                 if(id){
-                    var url = "/pedidosAlaboratorio/ver/" + id +"/";
+                    var url = "/pedidosAlaboratorio/ver/" + id + "/";
                     $(this).attr("href", url);
                 }
                 e.stopPropagation();
+            });
+
+            $('.clickeable').on('click', function(){
+                if(! $(this).hasClass('cancelable')){
+                    $('#cancelar-pedido').addClass('hidden');
+                }
+            });
+
+            $('#cancelar-pedido').on('click', function(e){
+                var id = get_selected_row();
+                if(id){
+                    crear_baja("/pedidosAlaboratorio/cancelar/", id);
+                }
+                e.stopPropagation()
             });
         });
     </script>
