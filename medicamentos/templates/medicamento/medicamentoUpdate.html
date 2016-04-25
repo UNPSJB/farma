@@ -1,6 +1,11 @@
 {% extends "base/base-add-update.html" %}
 
-{% block title %}Actualizar Medicamento{% endblock %}
+{% block title %}Modificacion de Medicamento{% endblock %}
+
+{% block more-crumbs %}
+    <li><a href="{% url 'medicamentos' %}">Medicamentos</a></li>
+    <li class="active">Modificacion de medicamento</li>
+{% endblock %}
 
 {% block panel-heading-add %}
     <h3 class="panel-title">Modificacion de Medicamento</h3>

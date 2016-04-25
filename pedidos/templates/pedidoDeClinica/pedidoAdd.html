@@ -10,6 +10,11 @@
 	Alta Pedido De Farmacia
 {% endblock %}
 
+{% block more-crumbs %}
+    <li><a href="{% url 'pedidosDeClinica' %}">Pedidos de clinica</a></li>
+    <li class="active">Alta de pedido de clinica</li>
+{% endblock %}
+
 {% block panel-title-pedido %}
 	Pedido de Farmacia
 {% endblock %}

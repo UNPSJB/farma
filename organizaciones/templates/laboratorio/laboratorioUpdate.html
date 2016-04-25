@@ -1,6 +1,11 @@
 {% extends "base/base-add-update.html" %}
 
-{% block title %}Actualizar Laboratorio{% endblock %}
+{% block title %}Modificacion de Laboratorio{% endblock %}
+
+{% block more-crumbs %}
+    <li><a href="{% url 'laboratorios' %}">Laboratorios</a></li>
+    <li class="active">Modificacion de laboratorio</li>
+{% endblock %}
 
 {% block panel-heading-add %}
     <h3 class="panel-title">Modificacion de Laboratorio</h3>
@@ -8,8 +13,8 @@
 
 {% block url-form-action %}{% url 'laboratorio_update' id %}{% endblock %}
 
-{% block boton-form %
+{% block boton-form %}
     <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
-{% endblock%}
+{% endblock %}
 
 {% block url-previous %}{% url 'laboratorios' %}{% endblock %}

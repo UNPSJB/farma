@@ -1,4 +1,4 @@
-{% extends "base/base.html" %}
+{% extends "base-add-pedido.html" %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
@@ -56,31 +56,17 @@
 </style>
 {% endblock %}
 
-{% block title %} Devolucion Medicamentos Vencidos {% endblock %}
+{% block title %}Devolucion de Medicamentos Vencidos{% endblock %}
 
-{% block content %}
-	<div class="header">
-		<div class="container-fluid">
-			<h1>Devolucion De Medicamentos Vencidos</h1>
-		</div>
-	</div>
-
-	<div class="container-fluid container-reference">
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">
-				<div class="panel panel-form">
-					<div class="clearfix"></div>
-					{%crispy form %}
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10 container-btn-volver">
-				<a class="btn-volver" href="{% url 'inicio' %}"><span aria-hidden="true">&larr; Volver</span> </a>
-			</div>
-		</div>
-	</div>
+{% block more-crumbs %}
+    <li class="active">Devolucion de medicamentos vencidos</li>
 {% endblock %}
+
+{% block panel-title-pedido %}
+	Devolucion de medicamentos vencidos
+{% endblock %}
+
+{% block footer %}{% endblock %}
 
 {% block scripts %}
 	<script src="{% static 'js/datepicker.js' %}"></script>

@@ -1,8 +1,13 @@
 {% extends "base/base-abm.html" %}
 {% load staticfiles %}
+[% load sortable %}
 
 {% block title %}
 	Farmacias
+{% endblock %}
+
+{% block more-crumbs %}
+    <li class="active">Farmacias</li>
 {% endblock %}
 
 {% block panel-title-ABM %}
@@ -13,28 +18,26 @@
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr class="info">
-            <th>Razón Social </th>
-            <th>Cuit</th>
-            <th>Localidad</th>
-            <th>Dirección</th>        
-            <th>Nombre Encargado</th>
-            <th>Teléfono</th>
-            <th>Email</th>
+                <th>Razón social</th>
+                <th>CUIT</th>
+                <th>Localidad</th>
+                <th>Dirección</th>
+                <th>Nombre de encargado</th>
+                <th>Teléfono</th>
+                <th>Email</th>
             </tr>
         </thead>
         <tbody>
             {% for farmacia in farmacias %}
-
                 <tr class="clickeable" data-id="{{ farmacia.id }}">
-                <td>{{farmacia.razonSocial}}</td>
-                <td>{{farmacia.cuit}}</td>
-                <td>{{farmacia.localidad}}</td>
-                <td>{{farmacia.direccion}}</td>               
-                <td>{{farmacia.nombreEncargado}}</td>
-                <td>{{farmacia.telefono}}</td>
-                <td>{{farmacia.email}}</td>
+                    <td>{{farmacia.razonSocial}}</td>
+                    <td>{{farmacia.cuit}}</td>
+                    <td>{{farmacia.localidad}}</td>
+                    <td>{{farmacia.direccion}}</td>
+                    <td>{{farmacia.nombreEncargado}}</td>
+                    <td>{{farmacia.telefono}}</td>
+                    <td>{{farmacia.email}}</td>
                 </tr>
-
             {% endfor %}
         </tbody>
     </table>

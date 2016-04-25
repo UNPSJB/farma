@@ -10,7 +10,12 @@
 {% endblock %}
 
 {% block content %}
-
+    {% block breadcrumbs %}
+        <ol class = "breadcrumb">
+           <li><a href="{% url 'inicio' %}">Inicio</a></li>
+           {% block more-crumbs %}{% endblock %}
+        </ol>
+    {% endblock %}
     <div class="container-fluid panel-grid">
         <div class="col-xs-12">
             <div class="panel panel-primary">
@@ -26,13 +31,9 @@
                         {%block botonVer%}
                             <a class="btn btn-warning hidden" id="modificar"><span class="glyphicon glyphicon-pencil"></span>  Ver</a>
                         {%endblock%}
-
                         {% block botonBaja%}
-
-                        <a class="btn btn-danger hidden" id="baja"><span class="glyphicon glyphicon-minus"></span>  Baja</a>
-
+                            <a class="btn btn-danger hidden" id="baja"><span class="glyphicon glyphicon-minus"></span>  Baja</a>
                         {%endblock%}
-
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -49,9 +50,7 @@
         </div>
     </div>
 
-
     {% block modal-baja %}
-    <!-- Modal modal-baja -->
     <div class="modal fade" id="modal-baja" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -67,13 +66,9 @@
                     <a class="btn btn-primary confirmar">Confirmar</a>
                 </div>
             </div>
-            <!-- modal-content -->
         </div>
-        <!-- end modal-dialog -->
     </div>
-    <!-- end modal ...-->
     {% endblock %}
-
 {% endblock %}
 
 {% block scripts %}
@@ -107,7 +102,6 @@
         });
 
         $(document).on("click", limpiar);
-        
     });
     </script>
     {% block more-scripts %}{% endblock %}

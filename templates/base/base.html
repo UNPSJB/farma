@@ -17,7 +17,9 @@
     {% bootstrap_messages %}
 
     {% include 'inicio/nav.html' %}
-    {% block content %}{% endblock %}
+    {% block content %}
+    {% block breadcrumbs %}{% endblock %}
+    {% endblock %}
     {% include 'inicio/footer.html' %}
 
     <script src="{% static 'js/jquery.min.js' %}"></script>

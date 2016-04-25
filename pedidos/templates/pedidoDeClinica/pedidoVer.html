@@ -2,6 +2,11 @@
 
 {% block title %}Ver Pedido De Clinica{% endblock %}
 
+{% block more-crumbs %}
+    <li><a href="{% url 'pedidosDeClinica' %}">Pedidos de clinica</a></li>
+    <li class="active">Ver pedido de clinica</li>
+{% endblock %}
+
 {% block tipo-pedido %}Pedido de Clinica{% endblock %}
 
 {% block nombre-organizacion %} {{ pedido.clinica.razonSocial }} {% endblock %}

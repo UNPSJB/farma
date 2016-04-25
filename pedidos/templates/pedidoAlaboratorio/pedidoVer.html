@@ -2,6 +2,11 @@
 
 {% block title %}Ver Pedido a Laboratorio{% endblock %}
 
+{% block more-crumbs %}
+    <li><a href="{% url 'pedidosAlaboratorio' %}">Pedidos a laboratorio</a></li>
+    <li class="active">Ver pedido a laboratorio</li>
+{% endblock %}
+
 {% block tipo-pedido %}Pedido a Laboratorio{% endblock %}
 
 {% block nombre-organizacion %} {{ pedido.laboratorio.razonSocial }} {% endblock %}

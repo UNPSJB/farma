@@ -12,6 +12,12 @@
 {% endblock %}
 
 {% block content %}
+    {% block breadcrumbs %}
+        <ol class = "breadcrumb">
+           <li><a href="{% url 'inicio' %}">Inicio</a></li>
+           {% block more-crumbs %}{% endblock %}
+        </ol>
+    {% endblock %}
     <div class="container-fluid panel-grid">
         <div class="col-xs-12 {% block ancho-panel %}{% endblock %}">
             <div class="panel panel-primary">

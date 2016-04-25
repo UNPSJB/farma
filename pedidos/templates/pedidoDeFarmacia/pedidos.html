@@ -7,6 +7,10 @@
      <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
 {% endblock %}
 
+{% block more-crumbs %}
+    <li class="active">Pedidos de farmacia</li>
+{% endblock %}
+
 {% block panel-title-ABM %}Pedidos de Farmacia{% endblock %}
 
 {% block url-add %}{% url 'pedidoDeFarmacia_add' %}{% endblock %}
@@ -23,7 +27,8 @@
 
 {%block filtro %}
     <label for="farmacia" >Buscar:</label>
-    <input  id="farmacia" name="farmacia" value="{{filtros.farmacia}}" placeholder="Farmacia">
+    <input  id="farmacia" name="farmacia" value="{{filtros.farmacia}}" placeholder=" Farmacia">
+
     <select id = "selectEstado" class = "form-control" name="estado">
         <option value = "">-----</option>
         <option value= "Pendiente" {% if filtros.estado == 'Pendiente' %}selected ="selected"{% endif %} >Pendiente</option>
@@ -32,8 +37,8 @@
         <option value = "Cancelado" {% if filtros.estado == 'Cancelado' %}selected ="selected"{% endif %}>Cancelado </option>
     </select>
 
-    <input class="datepicker"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
-    <input class="datepicker" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta">
+    <input class="datepicker"  id="desde" name="desde" value="{{filtros.desde}}" placeholder=" Desde">
+    <input class="datepicker" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder=" Hasta">
     <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
     <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
 {% endblock %}

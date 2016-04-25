@@ -1,6 +1,11 @@
 {% extends "base/base-add-update.html" %}
 
-{% block title %}Alta farmacia{% endblock %}
+{% block title %}Alta de Farmacia{% endblock %}
+
+{% block more-crumbs %}
+    <li><a href="{% url 'farmacias' %}">Farmacias</a></li>
+    <li class="active">Alta de farmacias</li>
+{% endblock %}
 
 {% block panel-heading-add %}
     <h3 class="panel-title">Alta de Farmacia</h3>

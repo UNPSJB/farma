@@ -104,10 +104,10 @@ class NombreFantasiaFormUpdate(NombreFantasiaFormGenerico):
 class PresentacionFormGenerico(forms.ModelForm):
     class Meta:
         model = models.Presentacion
-        fields = ["descripcion" , "unidadMedida", "cantidad"]
+        fields = ["descripcion", "unidadMedida", "cantidad"]
         labels = {
             'descripcion': _('Descripcion'),
-            'unidadMedida': _('Unidad Medida'),
+            'unidadMedida': _('Unidad de Medida'),
             'cantidad': _('Cantidad')
         }
 
@@ -168,7 +168,7 @@ class RelatedFieldWidgetCanAdd(widgets.Select):
 
 class MedicamentoForm(forms.ModelForm):
     nombreFantasia = forms.ModelChoiceField(
-       label="Nombre Fantasia",
+       label="Nombre fantasia",
        required=True,
        queryset=models.NombreFantasia.objects.all(),
        widget=RelatedFieldWidgetCanAdd(models.NombreFantasia, related_url="nombreFantasia_add")

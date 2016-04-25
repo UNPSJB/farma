@@ -5,6 +5,10 @@
 	Clínicas
 {% endblock %}
 
+{% block more-crumbs %}
+    <li class="active">Clinicas</li>
+{% endblock %}
+
 {% block panel-title-ABM %}
     Clínicas
 {% endblock %}
@@ -13,27 +17,26 @@
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr class="info">
-            <th>Razón Social </th>
-            <th>Cuit</th>
-            <th>Localidad</th>
-            <th>Dirección</th>           
-            <th>Obra Social</th>
-            <th>Teléfono</th>
-            <th>Email</th>
+                <th>Razón social </th>
+                <th>CUIT</th>
+                <th>Localidad</th>
+                <th>Dirección</th>
+                <th>Obra social</th>
+                <th>Teléfono</th>
+                <th>Email</th>
             </tr>
         </thead>
         <tbody>
             {% for clinica in clinicas %}
                 <tr class="clickeable" data-id="{{ clinica.id }}">
-                <td>{{clinica.razonSocial}}</td>
-                <td>{{clinica.cuit}}</td>
-                <td>{{clinica.localidad}}</td>
-                <td>{{clinica.direccion}}</td>               
-                <td>{{clinica.obraSocial}}</td>
-                <td>{{clinica.telefono}}</td>
-                <td>{{clinica.email}}</td>
+                    <td>{{clinica.razonSocial}}</td>
+                    <td>{{clinica.cuit}}</td>
+                    <td>{{clinica.localidad}}</td>
+                    <td>{{clinica.direccion}}</td>
+                    <td>{{clinica.obraSocial}}</td>
+                    <td>{{clinica.telefono}}</td>
+                    <td>{{clinica.email}}</td>
                 </tr>
-
             {% endfor %}
         </tbody>
     </table>
@@ -51,11 +54,11 @@
 {% endblock %}
 
 {% block modal-baja-title %}
-    <h4 class="modal-title">Eliminar Clínica </h4>
+    <h4 class="modal-title">Eliminar Clínica</h4>
 {% endblock %}
 
 {% block modal-baja-texto %}
-    <p> La clínica seleccionada se eliminara permanentemente ¿Esta seguro?</p>
+    <p>La clínica seleccionada se eliminara permanentemente ¿Esta seguro?</p>
 {% endblock %}
 
 {% block more-scripts %}

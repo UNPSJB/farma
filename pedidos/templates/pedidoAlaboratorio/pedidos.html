@@ -1,7 +1,11 @@
 {% extends "base/base-abm.html" %}
 {% load staticfiles %}
 
-{% block title %}Laboratorios{% endblock %}
+{% block title %}Pedidos a laboratorios{% endblock %}
+
+{% block more-crumbs %}
+    <li class="active">Pedidos a laboratorio</li>
+{% endblock %}
 
 {% block panel-title-ABM %}
     <h3 class="panel-title">Pedidos a Laboratorio</h3>
@@ -16,8 +20,8 @@
 {% block grid %}
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
-            <tr class="info"> <!--encabezado del listado que tendra una tabla de tres columnas-->
-                <th>numero</th>
+            <tr class="info">
+                <th>Numero</th>
                 <th>Fecha</th>
                 <th>Laboratorio</th>
             </tr>
@@ -38,7 +42,7 @@
 
 {% block filtro %}
     <label for="numero" >Buscar:</label>
-    <input class="filtro" id="numero" name="numero" value="{{filtros.numero}}" placeholder="numero" autofocus>
+    <input class="filtro" id="numero" name="numero" value="{{filtros.numero}}" placeholder=" Numero" autofocus>
 {% endblock %}
 
 {% block cantidad-elementos %}

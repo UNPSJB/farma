@@ -7,7 +7,12 @@
 {% endblock %}
 
 {% block title %}
-	Alta Pedido De Farmacia
+	Alta de Pedido De Farmacia
+{% endblock %}
+
+{% block more-crumbs %}
+    <li><a href="{% url 'pedidosDeFarmacia' %}">Pedidos de farmacia</a></li>
+    <li class="active">Alta de pedido de farmacia</li>
 {% endblock %}
 
 {% block panel-title-pedido %}

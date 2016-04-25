@@ -5,6 +5,10 @@
 	Laboratorios
 {% endblock %}
 
+{% block more-crumbs %}
+    <li class="active">Laboratorios</li>
+{% endblock %}
+
 {% block panel-title-ABM %}
     Laboratorios
 {% endblock %}
@@ -13,24 +17,23 @@
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr class="info">
-            <th>Razón Social </th>
-            <th>Cuit</th>
-            <th>Localidad</th>
-            <th>Dirección</th>            
-            <th>Teléfono</th>
-            <th>Email</th>
+                <th>Razón social </th>
+                <th>CUIT</th>
+                <th>Localidad</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Email</th>
             </tr>
         </thead>
         <tbody>
             {% for laboratorio in laboratorios %}
-
                 <tr class="clickeable" data-id="{{ laboratorio.id }}">
-                <td>{{laboratorio.razonSocial}}</td>
-                <td>{{laboratorio.cuit}}</td>
-                <td>{{laboratorio.localidad}}</td>
-                <td>{{laboratorio.direccion}}</td>                
-                <td>{{laboratorio.telefono}}</td>
-                <td>{{laboratorio.email}}</td>
+                    <td>{{laboratorio.razonSocial}}</td>
+                    <td>{{laboratorio.cuit}}</td>
+                    <td>{{laboratorio.localidad}}</td>
+                    <td>{{laboratorio.direccion}}</td>
+                    <td>{{laboratorio.telefono}}</td>
+                    <td>{{laboratorio.email}}</td>
                 </tr>
             {% endfor %}
         </tbody>

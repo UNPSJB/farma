@@ -5,6 +5,10 @@
 	Monodrogas
 {% endblock %}
 
+{% block more-crumbs %}
+    <li class="active">Monodrogas</li>
+{% endblock %}
+
 {% block panel-title-ABM %}
     Monodrogas
 {% endblock %}
@@ -18,11 +22,9 @@
         </thead>
         <tbody>
             {% for monodroga in monodrogas %}
-
                 <tr class="clickeable" data-id="{{ monodroga.id }}">
                     <td>{{monodroga.nombre}}</td>
                 </tr>
-
             {% endfor %}
         </tbody>
     </table>
@@ -67,7 +69,6 @@
             if(id){
                 var url="/monodrogas/update/" + id +"/";
                 $(this).attr("href", url);
-
             }
             e.stopPropagation();
         });

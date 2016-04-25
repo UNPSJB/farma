@@ -4,6 +4,11 @@
 
 {% block title %}Pedido de Laboratorio{% endblock %}
 
+{% block more-crumbs %}
+    <li><a href="{% url 'pedidosAlaboratorio' %}">Pedidos a laboratorio</a></li>
+    <li class="active">Detalles de pedido a laboratorio</li>
+{% endblock %}
+
 {% block panel-heading-right %}
     <div class="btn-group btn-group-xs">
         <a id="btn-add-detalle" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>

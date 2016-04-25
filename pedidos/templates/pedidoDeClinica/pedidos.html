@@ -3,9 +3,13 @@
 
 {% block title %}Pedidos de Clinica{% endblock %}
 
-    {% block more-stylesheets %}
-         <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
-    {% endblock %}
+{% block more-stylesheets %}
+     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
+{% endblock %}
+
+{% block more-crumbs %}
+    <li class="active">Pedidos de clinica</li>
+{% endblock %}
 
 {% block panel-title-ABM %}Pedidos de Clinica{% endblock %}
 
@@ -23,9 +27,9 @@
 
 {%block filtro %}
     <label for="clinica" >Buscar:</label>
-    <input  id="clinica" name="clinica" value="{{filtros.clinica}}" placeholder="Clinica">
-    <input class="datepicker"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
-    <input class="datepicker" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta">
+    <input  id="clinica" name="clinica" value="{{filtros.clinica}}" placeholder=" Clinica">
+    <input class="datepicker"  id="desde" name="desde" value="{{filtros.desde}}" placeholder=" Desde">
+    <input class="datepicker" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder=" Hasta">
     <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
     <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
 {% endblock %}
@@ -37,8 +41,8 @@
                 <th>Nº Pedido</th>
                 <th>Clinica</th>
                 <th>Fecha</th>
-                <th>Obra Social</th>
-                <th>Medico Auditor</th>
+                <th>Obra social</th>
+                <th>Medico auditor</th>
             </tr>
         </thead>
         <tbody>

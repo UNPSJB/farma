@@ -4,6 +4,11 @@
 
 {% block title %}Pedido de Farmacia{% endblock %}
 
+{% block more-crumbs %}
+    <li><a href="{% url 'pedidosDeFarmacia' %}">Pedidos de farmacia</a></li>
+    <li class="active">Detalles de pedido de farmacia</li>
+{% endblock %}
+
 {% block panel-heading-right %}
     <div class="btn-group btn-group-xs">
         <a id="btn-add-detalle" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>

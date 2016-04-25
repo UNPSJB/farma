@@ -5,6 +5,10 @@
 	Medicamentos
 {% endblock %}
 
+{% block more-crumbs %}
+    <li class="active">Medicamentos</li>
+{% endblock %}
+
 {% block panel-title-ABM%}
     Medicamentos
 {% endblock %}
@@ -13,36 +17,30 @@
 
 {% block more-buttons %}
     <a class="btn btn-info hidden ocultable" id="verLote">
-        <span class="glyphicon glyphicon-folder-open"></span> Ver Lotes
+        <span class="glyphicon glyphicon-folder-open"></span>  Ver Lotes
     </a>
 {% endblock %}
 
 {% block filtro %}
     <label for="nombreFantasia" >Buscar:</label>
-    <input class="filtro" id="nombreFantasia" name="nombreFantasia" value="{{ filtros.nombreFantasia }}" placeholder="Nombre Fantasia" autofocus>
+    <input class="filtro" id="nombreFantasia" name="nombreFantasia" value="{{ filtros.nombreFantasia }}" placeholder=" Nombre Fantasia" autofocus>
 {% endblock %}
 
 {% block grid %}
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr class="info">
-            <th>Nombre de Fantasia</th>
-            <th>Codigo de Barras</th>
+            <th>Nombre Fantasia</th>
             <th>Presentacion</th>
             <th>Formula</th>
-            <th>Stock Minimo</th>
-            <th>Precio</th>
             </tr>
         </thead>
         <tbody>
             {% for medicamento in medicamentos %}
                 <tr class="clickeable" data-id="{{ medicamento.id }}">
                     <td>{{medicamento.nombreFantasia}}</td>
-                    <td>{{medicamento.codigoBarras}}</td>
                     <td>{{medicamento.presentacion}}</td>
                     <td>{{medicamento.formulas.all|join:", "}}</td>
-                    <td>{{medicamento.stockMinimo}}</td>
-                    <td>{{medicamento.precioDeVenta}}</td>
                 </tr>
             {% endfor %}
         </tbody>

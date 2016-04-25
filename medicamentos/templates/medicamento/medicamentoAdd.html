@@ -29,6 +29,11 @@
 {% endblock %}
 
 {% block content %}
+    <ol class = "breadcrumb">
+       <li><a href="{% url 'inicio' %}">Inicio</a></li>
+       <li><a href="{% url 'medicamentos' %}">Medicamentos</a></li>
+        <li class="active">Alta de medicamento</li>
+    </ol>
     <div style="margin: 30px 20px 90px 20px;">
         <div class="container">
             <div class="col-xs-12 col-md-offset-1 col-md-10">
@@ -44,16 +49,13 @@
                             {% bootstrap_form medicamento_form %}
                             <label class="control-label">Formula</label>
                             {{ dosis_formset.non_form_errors }}
-                            {% bootstrap_dynamic_formset dosis_formset can_order=True can_delete=True layout='inline'  %}
+                            {% bootstrap_dynamic_formset dosis_formset can_order=True can_delete=True layout='inline' %}
                             <div class="pull-right" style="margin-bottom: -10px;">
-                                <button type="button" class="btn btn-warning" style="margin-right: 10px;">
-                                    {% bootstrap_icon "refresh" %} Limpiar
-                                </button>
                                 <button type="submit" id="btn-guardar-continuar" class="btn btn-success pull-right" style="margin-left:10px;" value="_continuar" name="_continuar">
 	                        		{% bootstrap_icon "ok" %} Guardar y Continuar
 	                        	</button>
 								<button type="submit" id="btn-guardar-volver" class="btn btn-primary pull-right" value="_volver" name="_volver">
-									{% bootstrap_icon "ok" %} Guarrdar y Volver
+									{% bootstrap_icon "ok" %} Guardar y Volver
 								</button>
                                 <div class="clearfix"></div>
                             </div>

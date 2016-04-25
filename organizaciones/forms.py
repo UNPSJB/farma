@@ -13,11 +13,11 @@ class FarmaciaFormGenerico(forms.ModelForm):
         model = models.Farmacia
         fields = ["razonSocial", "cuit", "localidad", "direccion", "nombreEncargado", "telefono", "email"]
         labels = {
-            'razonSocial': _('Razon Social'),
-            'cuit': _('Cuit'),
+            'razonSocial': _('Razon social'),
+            'cuit': _('CUIT'),
             'localidad': _('Localidad'),
             'direccion': _('Direccion'),
-            'nombreEncargado': _('Nombre del encargado'),
+            'nombreEncargado': _('Nombre de encargado'),
             'telefono': _('Telefono'),
             'email': _('Email'),
         }
@@ -26,7 +26,7 @@ class FarmaciaFormGenerico(forms.ModelForm):
         cuit = self.cleaned_data['cuit']
         if cuit:
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
-                raise forms.ValidationError('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x')
+                raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
 
     def clean_nombreEncargado(self):
@@ -40,7 +40,7 @@ class FarmaciaFormGenerico(forms.ModelForm):
         telefono = self.cleaned_data['telefono']
         if telefono:
             if not re.match(r"^[0|4|15][0-9]+$", telefono):
-                raise forms.ValidationError('telefono inválido')
+                raise forms.ValidationError('Telefono inválido')
         return telefono
 
 
@@ -53,7 +53,7 @@ class FarmaciaFormAdd(FarmaciaFormGenerico):
     helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('razonSocial', placeholder='Razon Social'),
-        Field('cuit', placeholder='Cuit',),
+        Field('cuit', placeholder='CUIT',),
         Field('localidad', placeholder='Localidad'),
         Field('direccion', placeholder='Direccion'),
         Field('nombreEncargado', placeholder='Encargado'),
@@ -75,8 +75,8 @@ class FarmaciaFormUpdate(FarmaciaFormGenerico):
     helper.label_class = 'col-md-3'
     helper.field_class = 'col-md-8'
     helper.layout = Layout(
-        Field('razonSocial', placeholder='Razon Social', readonly=True),
-        Field('cuit', placeholder='Cuit', readonly=True),
+        Field('razonSocial', placeholder='Razon social', readonly=True),
+        Field('cuit', placeholder='CUIT', readonly=True),
         Field('localidad', placeholder='Localidad'),
         Field('direccion', placeholder='Direccion'),
         Field('nombreEncargado', placeholder='Encargado'),
@@ -93,11 +93,11 @@ class ClinicaFormGenerico(forms.ModelForm):
         model = models.Clinica
         fields = ["razonSocial", "cuit", "localidad", "direccion", "obraSocial", "telefono", "email"]
         labels = {
-            'razonSocial': _('Razon Social'),
-            'cuit': _('Cuit'),
+            'razonSocial': _('Razon social'),
+            'cuit': _('CUIT'),
             'localidad': _('Localidad'),
             'direccion': _('Direccion'),
-            'obraSocial': _('Obra Social'),
+            'obraSocial': _('Obra social'),
             'telefono': _('Telefono'),
             'email': _('Email'),
         }
@@ -106,7 +106,7 @@ class ClinicaFormGenerico(forms.ModelForm):
         cuit = self.cleaned_data['cuit']
         if cuit:
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
-                raise forms.ValidationError('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x')
+                raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
 
 
@@ -118,11 +118,11 @@ class ClinicaFormAdd(ClinicaFormGenerico):
     helper.label_class = 'col-md-3'
     helper.field_class = 'col-md-8'
     helper.layout = Layout(
-        Field('razonSocial', placeholder='Razon Social'),
-        Field('cuit', placeholder='Cuit'),
+        Field('razonSocial', placeholder='Razon social'),
+        Field('cuit', placeholder='CUIT'),
         Field('localidad', placeholder='Localidad'),
         Field('direccion', placeholder='Direccion'),
-        Field('obraSocial', placeholder='Obra Social'),
+        Field('obraSocial', placeholder='Obra social'),
         Field('telefono', placeholder='Telefono'),
         Field('email', placeholder='Email'),
         FormActions(
@@ -141,11 +141,11 @@ class ClinicaFormUpdate(ClinicaFormGenerico):
     helper.label_class = 'col-md-3'
     helper.field_class = 'col-md-8'
     helper.layout = Layout(
-        Field('razonSocial', placeholder='Razon Social', readonly=True),
-        Field('cuit', placeholder='Cuit', readonly=True),
+        Field('razonSocial', placeholder='Razon social', readonly=True),
+        Field('cuit', placeholder='CUIT', readonly=True),
         Field('localidad', placeholder='Localidad'),
         Field('direccion', placeholder='Direccion'),
-        Field('obraSocial', placeholder='Obra Social'),
+        Field('obraSocial', placeholder='Obra social'),
         Field('telefono', placeholder='Telefono'),
         Field('email', placeholder='Email'),
         FormActions(
@@ -160,8 +160,8 @@ class LaboratorioFormGenerico(forms.ModelForm):
         model = models.Laboratorio
         fields = ["razonSocial", "cuit", "localidad", "direccion", "telefono", "email"]
         labels = {
-            'razonSocial': _('Razon Social'),
-            'cuit': _('Cuit'),
+            'razonSocial': _('Razon social'),
+            'cuit': _('CUIT'),
             'localidad': _('Localidad'),
             'direccion': _('Direccion'),
             'telefono': _('Telefono'),
@@ -172,7 +172,7 @@ class LaboratorioFormGenerico(forms.ModelForm):
         cuit = self.cleaned_data['cuit']
         if cuit:
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
-                raise forms.ValidationError('Cuit inválido, por favor siga este formato xx-xxxxxxxx-x')
+                raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
 
 
@@ -184,8 +184,8 @@ class LaboratorioFormAdd(LaboratorioFormGenerico):
     helper.label_class = 'col-md-3'
     helper.field_class = 'col-md-8'
     helper.layout = Layout(
-        Field('razonSocial', placeholder='Razon Social'),
-        Field('cuit', placeholder='Cuit'),
+        Field('razonSocial', placeholder='Razon social'),
+        Field('cuit', placeholder='CUIT'),
         Field('localidad', placeholder='Localidad'),
         Field('direccion', placeholder='Direccion'),
         Field('telefono', placeholder='Telefono'),
@@ -206,8 +206,8 @@ class LaboratorioFormUpdate(LaboratorioFormGenerico):
     helper.label_class = 'col-md-3'
     helper.field_class = 'col-md-8'
     helper.layout = Layout(
-        Field('razonSocial', placeholder='Razon Social', readonly=True),
-        Field('cuit', placeholder='Cuit', readonly=True),
+        Field('razonSocial', placeholder='Razon social', readonly=True),
+        Field('cuit', placeholder='CUIT', readonly=True),
         Field('localidad', placeholder='Localidad'),
         Field('direccion', placeholder='Direccion'),
         Field('telefono', placeholder='Telefono'),

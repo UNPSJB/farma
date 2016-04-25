@@ -91,8 +91,8 @@ class PedidoDeClinicaForm(forms.ModelForm):
     helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('clinica', placeholder='Clinica'),
-        Field('obraSocial', placeholder='Obra Social'),
-        Field('medicoAuditor', placeholder='Medico Auditor'),
+        Field('obraSocial', placeholder='Obra social'),
+        Field('medicoAuditor', placeholder='Medico auditor'),
         Field('fecha', placeholder='Fecha', css_class='datepicker'),
     )
 
@@ -100,8 +100,8 @@ class PedidoDeClinicaForm(forms.ModelForm):
         model = models.PedidoDeClinica
         fields = ["clinica", "obraSocial", "medicoAuditor", "fecha"]
         labels = {
-            'obraSocial': _('Obra Social'),
-            'medicoAuditor': _('Medico Auditor'),
+            'obraSocial': _('Obra social'),
+            'medicoAuditor': _('Medico auditor'),
         }
         widgets = {
             'clinica': selectable.AutoCompleteSelectWidget(lookup_class=lookups.ClinicaLookup),
@@ -207,13 +207,12 @@ def get_laboratorios_con_medicamentos():
 class PedidoLaboratorioForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
+    helper.form_id = 'form-pedido'
+    helper.form_action = 'pedidoAlaboratorio_add'
     helper.label_class = 'col-md-3'
     helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('laboratorio'),
-        FormActions(
-                StrictButton('Crear Pedido', type="submit", id="btn-guardar-continuar", css_class="btn btn-success pull-right")
-                )
     )
 
     laboratorio = forms.ModelChoiceField(queryset=omodels.Laboratorio.objects.none())
@@ -331,9 +330,9 @@ class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
     )
 
     lote = forms.IntegerField(label='Lote', min_value=1)
-    fechaVencimiento = forms.DateField(label= 'Fecha de Vencimiento')
+    fechaVencimiento = forms.DateField(label= 'Fecha de vencimiento')
     precio = forms.FloatField(label= 'Precio', min_value=1)
-    cantidad = forms.IntegerField(label='Cantidad Recibida', min_value=1)
+    cantidad = forms.IntegerField(label='Cantidad recibida', min_value=1)
 
     def is_valid(self, cantidadPendiente, lotesEnSesion):
         valid = super(ControlDetalleConNuevoLotePedidoAlaboratorioForm, self).is_valid()
@@ -380,7 +379,7 @@ class DevolucionMedicamentosForm(forms.ModelForm):
         )
 
         laboratorio = forms.ModelChoiceField(queryset=omodels.Laboratorio.objects.none())
-        fecha = forms.DateField(label='Fecha de Remito')
+        fecha = forms.DateField(label='Fecha de remito')
 
         class Meta:
             model = models.PedidoAlaboratorio
@@ -392,7 +391,7 @@ class DevolucionMedicamentosForm(forms.ModelForm):
 
         def clean_fecha(self):
             fecha = self.cleaned_data['fecha']
-            if fecha and fecha >= datetime.date.today():
+            if fecha and fecha > datetime.date.today():
                 raise forms.ValidationError('La fecha ingresada debe ser menor o igual a la actual')
             return fecha
 
@@ -401,14 +400,14 @@ class RegistrarRecepcionForm(forms.Form):
     helper = FormHelper()
     helper.form_class = 'form'
     helper.layout = Layout(
-        Field('nroRemito', placeholder="Nro de Remito"),
-        Field('fechaRemito', placeholder='Fecha Remito', css_class='datepicker'),
+        Field('nroRemito', placeholder="Numero de remito"),
+        Field('fechaRemito', placeholder='Fecha de remito', css_class='datepicker'),
         FormActions(
             StrictButton('Continuar', type="submit", css_class="btn btn-success pull-right"),
         )
     )
-    nroRemito = forms.IntegerField(min_value=1)
-    fechaRemito = forms.DateField(label='Fecha de Remito')
+    nroRemito = forms.IntegerField(label='Numero de remito', min_value=1)
+    fechaRemito = forms.DateField(label='Fecha de remito')
 
     def clean_nroRemito(self):
         nroRemito = self.cleaned_data['nroRemito']

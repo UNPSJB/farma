@@ -46,6 +46,12 @@
 {% endblock %}
 
 {% block content %}
+    {% block breadcrumbs %}
+        <ol class = "breadcrumb">
+           <li><a href="{% url 'inicio' %}">Inicio</a></li>
+           {% block more-crumbs %}{% endblock %}
+        </ol>
+    {% endblock %}
     <div class="jumbotron">
         <div class="container-fluid">
             <div class="row">

@@ -4,7 +4,6 @@ hr {
     margin-bottom: 0px;
     margin-top: 0px;
 }
-
 /*Clases*/
 
 .contenedor-principal{
@@ -51,7 +50,7 @@ hr {
 }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-  color: #fff;
+  color: #000;
 }
 
 .navbar-default .navbar-nav > li > .dropdown-menu {
@@ -107,7 +106,6 @@ hr {
   top: 0;
   z-index: 10000;
 }
-
 
 
 

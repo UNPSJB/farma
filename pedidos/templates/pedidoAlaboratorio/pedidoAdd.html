@@ -1,33 +1,21 @@
-{% extends "base-pedidos.html" %}
+{% extends "base-add-pedido.html" %}
 {% load staticfiles bootstrap3 %}
 {% load crispy_forms_tags %}
+
+{% block more-stylesheets %}
+     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
+    {{ form.media.css }}
+{% endblock %}
 
 {% block title %}
 	Pedido a Laboratorio
 {% endblock %}
 
-{% block panel-title-ABM%}
-    <h3 class="panel-title">Pedido a Laboratorio</h3>
+{% block more-crumbs %}
+    <li><a href="{% url 'pedidosAlaboratorio' %}">Pedidos a laboratorio</a></li>
+    <li class="active">Alta de pedido a laboratorio</li>
 {% endblock %}
 
-{% block filtro %}{% endblock %}
-
-{% block content %}
-    <div style="margin: 30px 20px 90px 20px;">
-        <div class="container">
-            <div class="col-xs-12 col-md-offset-1 col-md-10">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Crear nuevo pedido a Laboratorio</h3>
-                    </div>
-                    <div class="panel-body">
-                        {% crispy form %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{% block panel-title-pedido %}
+	Pedido a Laboratorio
 {% endblock %}
-
-
-

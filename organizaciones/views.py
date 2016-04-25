@@ -21,8 +21,8 @@ def farmacias(request):
     filters = get_filtros(request.GET, models.Farmacia)
     mfilters = dict(filter(lambda v: v[0] in models.Farmacia.FILTROS, filters.items()))
     farmacias = models.Farmacia.objects.filter(**mfilters)
-    return render(request, "farmacia/farmacias.html", {"farmacias": farmacias, "filtros": filters})
 
+    return render(request, "farmacia/farmacias.html", {"farmacias": farmacias, "filtros": filters})
 
 @login_required(login_url='login')
 def farmacia_add(request):

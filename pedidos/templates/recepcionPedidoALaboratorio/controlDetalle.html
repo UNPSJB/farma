@@ -1,4 +1,4 @@
-{% extends "base/base.html" %}
+{% extends "base-add-pedido.html" %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
@@ -55,40 +55,33 @@
 </style>
 {% endblock %}
 
-{% block title %} Control Detalle {% endblock %}
+{% block title %}Control de Detalle de Pedido{% endblock %}
 
-{% block content %} 
-	<div class="header">
-		<div class="container-fluid">
-			<h1>Control Detalle Nº {{detalle.renglon}}</h1>
-		</div>
-	</div>
-
-	<div class="container-fluid container-reference">
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">				
-				<div class="panel panel-form">
-					{% if btnNuevoLote %}
-						<a class="pull-right "href="{% url 'recepcionPedidoAlaboratorio_controlDetalleConNuevoLote' pedido.numero detalle.renglon %}">+ Nuevo Lote</a>
-					{% else %}
-						{% if existenLotes %}
-							<a class="pull-right "href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.numero detalle.renglon %}">- Sin Nuevo Lote</a>
-						{% endif %}
-					{% endif %}
-					<div class="clearfix"></div>
-					<!-- Formulario -->
-					{% crispy form %}
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10 container-btn-volver">
-				<a class="btn-volver" href="{% url 'recepcionPedidoAlaboratorio_controlPedido' pedido.numero %}"><span aria-hidden="true">&larr; Volver</span> </a>
-			</div>
-		</div>
-	</div>
+{% block more-crumbs %}
+    <li><a href="{% url 'recepcionPedidoAlaboratorio' %}">Recepcion de pedidos de laboratorio</a></li>
+    <li><a href="{% url 'recepcionPedidoAlaboratorio_controlPedido' pedido.numero %}">Control del pedido</a></li>
+    <li class="active">Control de detalle</li>
 {% endblock %}
+
+{% block panel-title-pedido %}
+	Control Detalle Nº {{detalle.renglon}}
+{% endblock %}
+
+{% block form-pedido %}
+    {% if btnNuevoLote %}
+        <a class="pull-right "href="{% url 'recepcionPedidoAlaboratorio_controlDetalleConNuevoLote' pedido.numero detalle.renglon %}">+ Nuevo Lote</a>
+    {% else %}
+        {% if existenLotes %}
+            <a class="pull-right "href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.numero detalle.renglon %}">- Sin Nuevo Lote</a>
+        {% endif %}
+    {% endif %}
+    <div class="clearfix"></div>
+    {% crispy form %}
+{% endblock %}
+
+{% block footer %}{% endblock %}
 
 {% block scripts %}
 	<script src="{% static 'js/datepicker.js' %}"></script>
+    {{ form.media.js }}
 {% endblock %}

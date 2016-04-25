@@ -3,11 +3,15 @@
 {% load staticfiles bootstrap3 %}
 
 {% block title %}
-    Recepcion
+    Recepcion de Pedidos de Laboratorio
+{% endblock %}
+
+{% block more-crumbs %}
+    <li class="active">Recepcion de pedidos de laboratorio</li>
 {% endblock %}
 
 {% block panel-title-ABM %}
-    <h3 class="panel-title">Registrar Recepcion Pedido a Laboratorio</h3><!--se sobreescribe el titulo de base-pedidos-->
+    <h3 class="panel-title">Pedidos a Laboratorio</h3>
 {% endblock %}
 
 {% block btn-alta %}
@@ -25,7 +29,7 @@
 
 {%block filtro %}
     <label for="Laboratorio" >Buscar:</label>
-    <input  id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" placeholder="laboratorio">
+    <input  id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" placeholder=" Laboratorio">
     <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
     <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
 {% endblock %}
@@ -34,7 +38,6 @@
     <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr class="info">
-                <th>Renglon</th>
                 <th>Fecha</th>
                 <th>Laboratorio</th>
                 <th>Estado</th>
@@ -43,7 +46,6 @@
         <tbody>
             {% for recibido in recibidos %}
                 <tr class="clickeable" data-id="{{ recibido.numero }}">
-                    <td>{{forloop.counter}}</td>
                     <td>{{recibido.fecha}}</td>
                     <td>{{recibido.laboratorio.razonSocial}}</td>
                     <td>{{recibido.estado}}</td>

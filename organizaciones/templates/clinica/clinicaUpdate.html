@@ -1,20 +1,20 @@
 {% extends "base/base-add-update.html" %}
 
-{% block title %}Actualizar Clinica{% endblock %}
+{% block title %}Modificacion de Clinica{% endblock %}
 
+{% block more-crumbs %}
+    <li><a href="{% url 'clinicas' %}">Clinicas</a></li>
+    <li class="active">Modificacion de clinica</li>
+{% endblock %}
 
-					{% block panel-heading-add %}
+{% block panel-heading-add %}
+    <h3 class="panel-title">Modificacion de Clinica</h3>
+{% endblock %}
 
-                        <h3 class="panel-title">Modificacion de Clinica</h3>
+{% block url-form-action %} {% url 'clinica_update' id %} {% endblock %}
 
-                    {% endblock %}
+{% block boton-form %}
+    <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+{% endblock%}
 
-                    {% block url-form-action %} {% url 'clinica_update' id %}  {% endblock %}
-
-                    {% block boton-form %}
-
-                        <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
-
-                    {% endblock%}
-
-					{% block url-previous %} {% url 'clinicas' %} {% endblock %}
+{% block url-previous %} {% url 'clinicas' %} {% endblock %}

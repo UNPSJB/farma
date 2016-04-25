@@ -6,7 +6,7 @@
     <style>
         .btn-volver {
             position: absolute;
-            bottom: 0; right: 15px;
+            right: 15px;
             padding: 0.5rem 1rem;
             border: 1px solid rgb(219,119,89);
             border-radius: 5px;
@@ -34,6 +34,11 @@
 
 {% block title %}Lotes{% endblock %}
 
+{% block more-crumbs %}
+    <li><a href="{% url 'medicamentos' %}">Medicamentos</a></li>
+    <li class="active">Lotes</li>
+{% endblock %}
+
 {% block tipo-pedido %}Lotes del medicamento{% endblock %}
 
 {% block nombre-organizacion %} {{ medicamento.nombreFantasia }} {{ medicamento.presentacion }} {% endblock %}
@@ -53,7 +58,7 @@
                     <thead>
                         <tr class="info">
                             <th>Lote</th>
-                            <th>Fecha Vencimiento</th>
+                            <th>Fecha de vencimiento</th>
                             <th>Stock</th>
                             <th>Precio</th>
                         </tr>

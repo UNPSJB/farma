@@ -12,7 +12,7 @@ class Medicamento(models.Model):
     laboratorio = models.ForeignKey(Laboratorio, related_name="medicamentos")
     stockMinimo = models.PositiveIntegerField("Stock minimo de reposicion",
                                       help_text="Este es el stock minimo en el cual el sistema alertara de que es necesario realizar un pedido")
-    precioDeVenta = models.FloatField(help_text="Este es el precio de venta del medicamento", )
+    precioDeVenta = models.FloatField("Precio de venta", help_text="Este es el precio de venta del medicamento",)
 
     def __str__(self):
         return "%s %s" % (self.nombreFantasia, self.presentacion)
@@ -22,7 +22,7 @@ class Presentacion(models.Model):
     FILTROS = ["descripcion__icontains"]
     descripcion = models.TextField()
     cantidad = models.PositiveIntegerField()
-    unidadMedida = models.CharField(max_length=50)
+    unidadMedida = models.CharField("Unidad de medida", max_length=50)
 
     def __str__(self):
         return "%s - %s %s" % (self.descripcion, self.cantidad, self.unidadMedida)
