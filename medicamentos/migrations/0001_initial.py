@@ -2,12 +2,13 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+import django.core.validators
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('organizaciones', '0002_auto_20160413_1532'),
+        ('organizaciones', '__first__'),
     ]
 
     operations = [
@@ -42,30 +43,30 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('codigoBarras', models.CharField(help_text=b'Este es un valor numerico, el cual deberia ser la clave', unique=True, max_length=15, verbose_name=b'Codigo de barras', error_messages={b'unique': b' Este codigo de barras ya esta cargado!'})),
                 ('stockMinimo', models.PositiveIntegerField(help_text=b'Este es el stock minimo en el cual el sistema alertara de que es necesario realizar un pedido', verbose_name=b'Stock minimo de reposicion')),
-                ('precioDeVenta', models.FloatField(help_text=b'Este es el precio de venta del medicamento')),
+                ('precioDeVenta', models.FloatField(help_text=b'Este es el precio de venta del medicamento', validators=[django.core.validators.MinValueValidator(0.0), django.core.validators.MaxValueValidator(9999)])),
             ],
         ),
         migrations.CreateModel(
             name='Monodroga',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('nombre', models.CharField(unique=True, max_length=100, error_messages={b'unique': b' Esta monodroga ya esta cargada!'})),
+                ('nombre', models.CharField(unique=True, max_length=75, error_messages={b'unique': b' Esta monodroga ya esta cargada!'})),
             ],
         ),
         migrations.CreateModel(
             name='NombreFantasia',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('nombreF', models.CharField(unique=True, max_length=100, error_messages={b'unique': b'Este nombre de fantasia ya esta cargado!'})),
+                ('nombreF', models.CharField(unique=True, max_length=75, error_messages={b'unique': b'Este nombre de fantasia ya esta cargado!'})),
             ],
         ),
         migrations.CreateModel(
             name='Presentacion',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('descripcion', models.TextField(max_length=100)),
-                ('cantidad', models.PositiveIntegerField()),
-                ('unidadMedida', models.CharField(max_length=50)),
+                ('descripcion', models.TextField(max_length=95)),
+                ('cantidad', models.PositiveIntegerField(default=1, validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(9999)])),
+                ('unidadMedida', models.CharField(max_length=45)),
             ],
         ),
         migrations.AddField(

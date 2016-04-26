@@ -45,10 +45,6 @@ ul, ol{
     list-style: none;
 }
 
-body {
-    padding-top: 62px;
-}
-
 .btn-ir-arriba {
     position: fixed;
     right: 2rem; bottom: 2rem;

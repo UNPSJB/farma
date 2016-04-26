@@ -354,9 +354,10 @@ def crear_nuevos_lotes(nuevosLotes):
 
 def actualizar_lotes(lotes):
     for numeroLote, cantidadRecibida in lotes.items():
-        lote = mmodels.Lote.objects.get(numero=numeroLote)
-        lote.stock += cantidadRecibida
-        lote.save()
+        if cantidadRecibida > 0:
+            lote = mmodels.Lote.objects.get(numero=numeroLote)
+            lote.stock += cantidadRecibida
+            lote.save()
 
 def actualizar_pedido(pedido, detalles):
     recepcionDelPedidoCompleta = True
@@ -399,10 +400,9 @@ def actualizar_pedidos_farmacia(remitoLab):
         remitoFarmacia.save()
         for detalle in detallesRemitoLaboratorio:
             #actualiza la cantidad pendiente del detalle pedido farmacia
-            detallePedidoFarmacia = detalle.detallePedidoLaboratorio.detallePedidoFarmacia
-            print "antes ",detallePedidoFarmacia.to_json()
+            detallePedidoFarmacia = models.DetallePedidoDeFarmacia.objects.get(pk=detalle.detallePedidoLaboratorio.detallePedidoFarmacia.pk)
+           
             detallePedidoFarmacia.cantidadPendiente -= detalle.cantidad
-            print "despues ",detallePedidoFarmacia.to_json()
             detallePedidoFarmacia.save()
 
             detalleRemitoFarmacia = models.DetalleRemitoDeFarmacia()
@@ -428,7 +428,7 @@ def actualizar_pedidos_farmacia(remitoLab):
 
 def procesar_recepcion(sesion, pedido):
     remitoSesion = sesion['remitoRecepcion']['remito']
-    detalleRemitoSesion = sesion['remitoRecepcion']['detalles']
+    detallesRemitoSesion = sesion['remitoRecepcion']['detalles']
     nuevosLotes = sesion['recepcionPedidoAlaboratorio']['nuevosLotes']
     actualizarLotes = sesion['recepcionPedidoAlaboratorio']['actualizarLotes']
     detalles = sesion['recepcionPedidoAlaboratorio']['detalles']
@@ -443,8 +443,7 @@ def procesar_recepcion(sesion, pedido):
     remito.laboratorio = pedido.laboratorio
     remito.pedidoLaboratorio = pedido
     remito.save()
-
-    for detalle in detalleRemitoSesion:       
+    for detalle in detallesRemitoSesion:       
         detalleRemito = models.DetalleRemitoLaboratorio()
         detalleRemito.remito = remito
         detalleRemito.cantidad = detalle['cantidad']
