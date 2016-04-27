@@ -85,6 +85,13 @@
                 $("form input").val("");
                 e.stopPropagation();
             });
+
+            $(document).on("keyup", function(e){
+                if(e.keyCode == 112){
+                    url = "{% static 'documentacion/build/html/pedidosclinica.html' %}"
+                    window.open(url);
+                }
+            });
         })();
     </script>
 {% endblock %}

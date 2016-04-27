@@ -95,6 +95,13 @@
             $("#selectEstado").on('change',function() {
                 $("#btn-filtrar").click();
             });
+
+            $(document).on("keyup", function(e){
+                if(e.keyCode == 112){
+                    url = "{% static 'documentacion/build/html/pedidosfarmacia.html' %}"
+                    window.open(url);
+                }
+            });
         })();
     </script>
 {% endblock %}

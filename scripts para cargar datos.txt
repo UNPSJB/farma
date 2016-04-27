@@ -118,57 +118,55 @@ INSERT INTO medicamentos_nombrefantasia VALUES (11, 'Dioxaflex');
 
 /*Medicamentos*/
 
+INSERT INTO medicamentos_medicamento VALUES (1, 18674582, 50, 1, 1, 1, 110);
 
-INSERT INTO medicamentos_medicamento VALUES (1, 1, 1, 18674582, 1, 50, 110);
+INSERT INTO medicamentos_medicamento VALUES (2, 368521369, 80, 3, 2, 2, 120);
 
-INSERT INTO medicamentos_medicamento VALUES (2, 2, 2, 368521369, 3, 80, 120);
+INSERT INTO medicamentos_medicamento VALUES (3, 15976584, 100, 2, 3, 3, 150);
 
-INSERT INTO medicamentos_medicamento VALUES (3, 3, 3, 15976584, 2, 100, 150);
+INSERT INTO medicamentos_medicamento VALUES (4, 23589746, 40, 1, 4, 4, 50);
 
-INSERT INTO medicamentos_medicamento VALUES (4, 4, 4, 23589746, 1, 40, 50);
+INSERT INTO medicamentos_medicamento VALUES (5, 45873691, 150, 4, 5, 5, 85);
 
-INSERT INTO medicamentos_medicamento VALUES (5, 5, 5, 45873691, 4, 150, 85);
+INSERT INTO medicamentos_medicamento VALUES (6, 95123657, 120, 5, 6, 6, 90);
 
-INSERT INTO medicamentos_medicamento VALUES (6, 6, 6, 95123657, 5, 120, 90);
+INSERT INTO medicamentos_medicamento VALUES (7, 78563125, 100, 1, 7, 7, 210);
 
-INSERT INTO medicamentos_medicamento VALUES (7, 7, 7, 78563125, 1, 100, 210);
+INSERT INTO medicamentos_medicamento VALUES (8, 85823647, 80, 4, 8, 8, 45);
 
-INSERT INTO medicamentos_medicamento VALUES (8, 8, 8, 85823647, 4, 80, 45);
+INSERT INTO medicamentos_medicamento VALUES (9, 63251478, 80, 6, 9, 9, 68);
 
-INSERT INTO medicamentos_medicamento VALUES (9, 9, 9, 63251478, 6, 80, 68);
+INSERT INTO medicamentos_medicamento VALUES (10, 59632574, 30, 3, 10, 10, 75);
 
-INSERT INTO medicamentos_medicamento VALUES (10, 10, 10, 59632574, 3, 30, 75);
-
-INSERT INTO medicamentos_medicamento VALUES (11, 11, 11, 19198585, 2, 40, 82);
-
+INSERT INTO medicamentos_medicamento VALUES (11, 19198585, 40, 2, 11, 11, 82);
 
 /*Medicamento-Dosis*/
 
 
-INSERT INTO medicamentos_dosis VALUES (1, 1, 1, 2, 600);
+INSERT INTO medicamentos_dosis VALUES (1, 2, 600, 1, 1);
 
-INSERT INTO medicamentos_dosis VALUES (2, 2, 2, 2, 875);
+INSERT INTO medicamentos_dosis VALUES (2, 2, 875, 2, 2);
 
-INSERT INTO medicamentos_dosis VALUES (3, 3, 3, 2, 25);
+INSERT INTO medicamentos_dosis VALUES (3, 2, 25, 3, 3);
 
-INSERT INTO medicamentos_dosis VALUES (4, 4, 4, 2, 500);
+INSERT INTO medicamentos_dosis VALUES (4, 2, 500, 4, 4);
 
-INSERT INTO medicamentos_dosis VALUES (5, 5, 5, 2, 50);
+INSERT INTO medicamentos_dosis VALUES (5, 2, 50, 5, 5);
 
-INSERT INTO medicamentos_dosis VALUES (6, 6, 6, 2, 20);
+INSERT INTO medicamentos_dosis VALUES (6, 2, 20, 6, 6);
 
-INSERT INTO medicamentos_dosis VALUES (7, 7, 4, 2, 500);
+INSERT INTO medicamentos_dosis VALUES (7, 2, 500, 7, 4);
 
-INSERT INTO medicamentos_dosis VALUES (8, 7, 7, 2, 40);
+INSERT INTO medicamentos_dosis VALUES (8, 2, 40, 7, 7);
 
-INSERT INTO medicamentos_dosis VALUES (9, 8, 5, 3, 1);
+INSERT INTO medicamentos_dosis VALUES (9, 3, 1, 8, 5);
 
-INSERT INTO medicamentos_dosis VALUES (10, 8, 8, 3, 8);
+INSERT INTO medicamentos_dosis VALUES (10, 3, 8, 8, 8);
 
-INSERT INTO medicamentos_dosis VALUES (11, 9, 1, 2, 600);
+INSERT INTO medicamentos_dosis VALUES (11, 2, 600, 9, 1);
 
-INSERT INTO medicamentos_dosis VALUES (12, 10, 9, 2, 100);
+INSERT INTO medicamentos_dosis VALUES (12, 2, 100, 10, 9);
 
-INSERT INTO medicamentos_dosis VALUES (13, 10, 10, 2, 1200);
+INSERT INTO medicamentos_dosis VALUES (13, 2, 1200, 10, 10);
 
-INSERT INTO medicamentos_dosis VALUES (14, 11, 11, 2, 75);
+INSERT INTO medicamentos_dosis VALUES (14, 2, 75, 11, 11);

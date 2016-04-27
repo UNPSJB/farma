@@ -1,4 +1,4 @@
-{%extends "base/base.html"%}
+{% extends "base/base.html" %}
 {% load staticfiles %}
 
 {% block title %}
@@ -9,3 +9,13 @@
 	{% include 'inicio/carousel.html' %}
 {% endblock %}
 
+{% block scripts %}
+    <script>
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                url = "{% static 'documentacion/build/html/index.html' %}"
+                window.open(url);
+            }
+        });
+    </script>
+{% endblock %}

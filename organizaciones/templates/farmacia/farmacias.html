@@ -80,5 +80,12 @@
             }
             e.stopPropagation();
         });
+
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                url = "{% static 'documentacion/build/html/farmacias.html' %}"
+                window.open(url);
+            }
+        });
     </script>
 {% endblock %}

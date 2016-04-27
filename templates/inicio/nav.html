@@ -10,7 +10,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{% url 'inicio' %}">
-                <img alt="Brand" src="{% static 'images/logopequeno2.png'%}" style="width: 95%; height: 95%;">
+                <img alt="Brand" src="{% static 'images/logopequeno2.png' %}" style="width: 95%; height: 95%;">
             </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -60,6 +60,9 @@
                         {% endif %}
                         <li><a href="{% url 'logout' %}">Salir</a></li>
                     </ul>
+                </li>
+                <li>
+                    <li><a alt="Ayuda" href="{% static 'documentacion/build/html/index.html' %}" target="_blank">Ayuda</a></li>
                 </li>
             </ul>
         </div>

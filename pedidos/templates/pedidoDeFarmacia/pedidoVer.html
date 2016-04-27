@@ -31,6 +31,7 @@
                             <tr class="info" align="center">
                                 <th>Medicamento</th>
                                 <th>Cantidad</th>
+                                <th>Pendiente</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,6 +39,7 @@
                                 <tr>
                                     <td>{{ detalle.medicamento }}</td>
                                     <td>{{ detalle.cantidad }}</td>
+                                    <td>{{ detalle.cantidadPendiente }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

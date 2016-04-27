@@ -71,5 +71,13 @@
 {% block scripts %}
 	<script src="{% static 'js/datepicker.js' %}"></script>
 	{{ form.media.js }}
+    <script>
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                url = "{% static 'documentacion/build/html/devolucionvencidos.html' %}"
+                window.open(url);
+            }
+        });
+    </script>
 {% endblock %}
 

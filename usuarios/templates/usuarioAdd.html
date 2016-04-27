@@ -4,10 +4,19 @@
 
 {% block title %}Registrar Usuario{% endblock%}
 
-{% block content %} 
-
+{% block content %}
 	<div style="margin-top: 4rem; overflow: hidden;">
 		{% crispy form %}
 	</div>
+{% endblock %}
 
+{% block scripts %}
+    <script>
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                url = "{% static 'documentacion/build/html/agregarusuario.html' %}"
+                window.open(url);
+            }
+        });
+    </script>
 {% endblock %}
