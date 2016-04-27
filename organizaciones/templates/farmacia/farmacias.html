@@ -1,81 +1,71 @@
-{% extends "base/base-abm.html" %}
-{% load staticfiles %}
+{% extends "base/base-listado.html" %}
 
-{% block title %}
-	Farmacias
+{% block title %} Farmacias {% endblock %}
+
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li class="active">Farmacias</li>
 {% endblock %}
 
-{% block panel-title-ABM %}
-    Farmacias
+{% block header-title %} Farmacias {% endblock%}
+
+{% block form-field-simple %} 
+    <input class="form-control form-field form-field-simple" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social" type="text" />
 {% endblock %}
 
-{% block grid %}
-    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
-        <thead>
-            <tr class="info">
+{% block form-fields-avanzados %} 
+    <input class="form-control form-field" id="localidad" name="localidad" value="{{filtros.localidad}}" placeholder="Localidad" type="text" />
+{% endblock %}
+
+{% block botones-header-tabla %} 
+    <a class="btn-alta" href="{% url 'farmacia_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+{% endblock %}
+
+{% block tabla %}
+     <thead>
+        <tr>
             <th>Razón Social </th>
-            <th>Cuit</th>
             <th>Localidad</th>
             <th>Dirección</th>        
             <th>Nombre Encargado</th>
-            <th>Teléfono</th>
-            <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for farmacia in farmacias %}
-
-                <tr class="clickeable" data-id="{{ farmacia.id }}">
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for farmacia in farmacias %}
+            <tr class="clickeable" data-id="{{ farmacia.id }}">
                 <td>{{farmacia.razonSocial}}</td>
-                <td>{{farmacia.cuit}}</td>
                 <td>{{farmacia.localidad}}</td>
                 <td>{{farmacia.direccion}}</td>               
                 <td>{{farmacia.nombreEncargado}}</td>
-                <td>{{farmacia.telefono}}</td>
-                <td>{{farmacia.email}}</td>
-                </tr>
+                <td class="action">
+                    <div class="dropdown">
+                        <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Acción
+                        <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a class="action-link" href="{% url 'farmacia_update' farmacia.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-edit"></span> Modificar
+                                </a>
+                            </li>
+                            <li>
+                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'farmacia_delete' farmacia.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
 
-            {% endfor %}
-        </tbody>
-    </table>
+        {% endfor %}
+    </tbody>
 {% endblock %}
 
-{% block cantidad-elementos %}
-    {{ farmacias|length }}
-    {% if farmacias|length != 1 %}
-        farmacias
-    {% else %}
-        farmacia
-    {% endif %}
-{% endblock %}
+{% block modal-eliminar-titulo %} Eliminar Farmacia {% endblock %}
 
-{% block url-add %}{% url 'farmacia_add' %}{% endblock %}
-
-{% block modal-baja-title %}
-    <h4 class="modal-title">Eliminar Farmacia </h4>
-{% endblock %}
-
-{% block modal-baja-texto %}
-    <p> La farmacia seleccionada se eliminara permanentemente ¿Esta seguro?</p>
-{% endblock %}
-
-{% block more-scripts %}
-    <script>
-        $("#baja").on("click", function(e) {
-            var id = get_selected_row();
-            if(id){
-                crear_baja("/farmacias/delete/", id);
-            }
-            e.stopPropagation();
-        });
-
-        $("#modificar").on("click", function(e){
-            var id = get_selected_row();
-            if(id){
-                var url = "/farmacias/update/" + id +"/";
-                $(this).attr("href", url);
-            }
-            e.stopPropagation();
-        });
-    </script>
+{% block modal-eliminar-mensaje %}
+    La farmacia seleccionada se eliminará permanentemente ¿Está seguro?
 {% endblock %}

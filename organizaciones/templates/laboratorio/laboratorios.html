@@ -1,78 +1,71 @@
-{% extends "base/base-abm.html" %}
-{% load staticfiles %}
+{% extends "base/base-listado.html" %}
 
-{% block title %}
-	Laboratorios
+{% block title %} Laboratorios {% endblock %}
+
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li class="active">Laboratorios</li>
 {% endblock %}
 
-{% block panel-title-ABM %}
-    Laboratorios
+{% block header-title %} Laboratorios {% endblock%}
+
+{% block form-field-simple %} 
+    <input class="form-control form-field form-field-simple" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder="Razon Social" type="text" />
 {% endblock %}
 
-{% block grid %}
-    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
-        <thead>
-            <tr class="info">
+{% block form-fields-avanzados %}
+    <input class="form-control form-field" id="localidad" name="localidad" value="{{filtros.localidad}}" placeholder="Localidad" type="text" /> 
+{% endblock %}
+
+{% block botones-header-tabla %} 
+    <a class="btn-alta" href="{% url 'laboratorio_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+{% endblock %}
+
+{% block tabla %}
+     <thead>
+        <tr>
             <th>Razón Social </th>
-            <th>Cuit</th>
             <th>Localidad</th>
             <th>Dirección</th>            
             <th>Teléfono</th>
-            <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for laboratorio in laboratorios %}
-
-                <tr class="clickeable" data-id="{{ laboratorio.id }}">
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for laboratorio in laboratorios %}
+            <tr class="clickeable" data-id="{{ laboratorio.id }}">
                 <td>{{laboratorio.razonSocial}}</td>
-                <td>{{laboratorio.cuit}}</td>
                 <td>{{laboratorio.localidad}}</td>
                 <td>{{laboratorio.direccion}}</td>                
                 <td>{{laboratorio.telefono}}</td>
-                <td>{{laboratorio.email}}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                <td class="action">
+                    <div class="dropdown">
+                        <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Acción
+                        <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a class="action-link" href="{% url 'laboratorio_update' laboratorio.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-edit"></span> Modificar
+                                </a>
+                            </li>
+                            <li>
+                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'laboratorio_delete' laboratorio.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+
+        {% endfor %}
+    </tbody>
 {% endblock %}
 
-{% block cantidad-elementos %}
-    {{ laboratorios|length }}
-    {% if laboratorios|length != 1 %}
-        laboratorios
-    {% else %}
-        laboratorio
-    {% endif %}
-{% endblock %}
+{% block modal-eliminar-titulo %} Eliminar Laboratorio {% endblock %}
 
-{% block url-add %}{% url 'laboratorio_add' %}{% endblock %}
-
-{% block modal-baja-title %}
-    <h4 class="modal-title">Eliminar Laboratorio </h4>
-{% endblock %}
-
-{% block modal-baja-texto %}
-    <p> El laboratorio seleccionada se eliminara permanentemente ¿Esta seguro?</p>
-{% endblock %}
-
-{% block more-scripts %}
-    <script>
-        $("#baja").on("click", function(e) {
-            var id = get_selected_row();
-            if(id){
-               crear_baja("/laboratorios/delete/", id);
-            }
-            e.stopPropagation();
-        });
-
-        $("#modificar").on("click", function(e){
-            var id = get_selected_row();
-            if(id){
-                var url = "/laboratorios/update/" + id +"/";
-                $(this).attr("href", url);
-            }
-            e.stopPropagation();
-        });
-    </script>
+{% block modal-eliminar-mensaje %}
+    El laboratorio seleccionado se eliminará permanentemente ¿Está seguro?
 {% endblock %}

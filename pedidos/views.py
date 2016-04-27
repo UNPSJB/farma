@@ -48,7 +48,11 @@ def limpiar_sesion(list, session):
 def pedidosDeFarmacia(request):
     mfilters = get_filtros(request.GET, models.PedidoDeFarmacia)
     pedidos = models.PedidoDeFarmacia.objects.filter(**mfilters)
-    return render(request, "pedidoDeFarmacia/pedidos.html", {"pedidos": pedidos, "filtros": request.GET})
+    estadisticas = {
+        'total': models.PedidoDeFarmacia.objects.all().count(),
+        'filtrados': pedidos.count()
+    }
+    return render(request, "pedidoDeFarmacia/pedidos.html", {"pedidos": pedidos, "filtros": request.GET, 'estadisticas': estadisticas})
 
 
 @login_required(login_url='login')
@@ -186,7 +190,11 @@ class remitoDeFarmacia(PDFTemplateView):
 def pedidosDeClinica(request):
     mfilters = get_filtros(request.GET, models.PedidoDeClinica)
     pedidos = models.PedidoDeClinica.objects.filter(**mfilters)
-    return render(request, "pedidoDeClinica/pedidos.html", {"pedidos": pedidos, "filtros": request.GET})
+    estadisticas = {
+        'total': models.PedidoDeClinica.objects.all().count(),
+        'filtrados': pedidos.count()
+    }
+    return render(request, "pedidoDeClinica/pedidos.html", {"pedidos": pedidos, "filtros": request.GET, 'estadisticas': estadisticas})
 
 @login_required(login_url='login')
 def pedidoDeClinica_add(request):
@@ -327,7 +335,11 @@ class remitoDeClinica(PDFTemplateView):
 def pedidosAlaboratorio(request):
     mfilters = get_filtros(request.GET, models.PedidoAlaboratorio)
     pedidos = models.PedidoAlaboratorio.objects.filter(**mfilters).exclude(estado="Cancelado")
-    return render(request, "pedidoAlaboratorio/pedidos.html", {"pedidos": pedidos, "filtros": request.GET})
+    estadisticas = {
+        'total': models.PedidoAlaboratorio.objects.all().count(),
+        'filtrados': pedidos.count()
+    }
+    return render(request, "pedidoAlaboratorio/pedidos.html", {"pedidos": pedidos, "filtros": request.GET, 'estadisticas': estadisticas})
 
 
 @login_required(login_url='login')
@@ -469,8 +481,12 @@ def pedidoAlaboratorio_registrar(request):
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio(request):
     mfilters = get_filtros(request.GET, models.PedidoAlaboratorio)
-    recibidos = models.PedidoAlaboratorio.objects.filter(Q(estado='Pendiente')|Q(estado='Parcialmente Recibido'), **mfilters)
-    return render(request, "recepcionPedidoALaboratorio/pedidos.html", {'recibidos': recibidos, "filtros": request.GET})
+    pedidos = models.PedidoAlaboratorio.objects.filter(Q(estado='Pendiente')|Q(estado='Parcialmente Recibido'), **mfilters)
+    estadisticas = {
+        'total': models.PedidoAlaboratorio.objects.filter(Q(estado='Pendiente')|Q(estado='Parcialmente Recibido')).count(),
+        'filtrados': pedidos.count()
+    }
+    return render(request, "recepcionPedidoALaboratorio/pedidos.html", {'pedidos': pedidos, "filtros": request.GET, 'estadisticas': estadisticas})
 
 
 @login_required(login_url='login')

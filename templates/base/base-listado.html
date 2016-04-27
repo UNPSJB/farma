@@ -1,0 +1,253 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+{% block stylesheets %} 
+	<link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
+	<link rel="stylesheet" href="{% static 'css/base-listado.css' %}">
+	<link rel="stylesheet" href="{% static 'css/introjs.min.css' %}">
+{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+	<ol id="breadcrumb-page" class="breadcrumb _breadcrumb_">
+		{% block breadcrumb-items %}
+		{% endblock %}
+	</ol>
+	
+	<header id="header-page" class="header">
+	    <a href="{% url 'inicio' %}" class="btn-volver">
+	    <span class="glyphicon glyphicon-arrow-left animated"></span>
+	    </a>
+	    <h1 class="header-title pull-right">
+	    	{% block header-title %} {% endblock %}
+	    </h1>
+	</header>
+	<div class="container-fluid container-main">
+		<div class="row">
+	        <aside id="aside" class="aside col-md-3 hidden-xs hidden-sm">
+	            <form id="form-busqueda" class="form-busqueda" action="">
+	                <div class="form-simple">
+	                	{% block form-field-simple %} {% endblock %}
+	                    <button type="submit" class="btn-form-simple"><span class="glyphicon glyphicon-search"></span></button>
+	                </div>
+	                {% block form-sin-busqueda-avanzada %}
+	                	<div class="form-avanzado">
+		                	{% block form-fields-avanzados %} {% endblock %}
+						    <button class="btn btn-default button-hover btn-form-avanzado" type="submit">Buscar</button>
+		                </div>
+		                <div class="form-toggle">
+		                    <a class="btn-form-toggle" href="#"><span class="glyphicon glyphicon-triangle-right"></span><span class="txt-toggle">Búsqueda Avanzada</span></a>
+		                </div>
+	                {% endblock %}
+	            </form>
+	        </aside>
+	        <section id="section-table" class="col-md-9 section-table">
+	            <!-- ------------------TABLA----------------- -->
+
+	            <div class="header-tabla">
+	                <h3 class="header-tabla-title"><span class="glyphicon glyphicon-th-list"></span> Listado</h3>
+					{% block sin-botones-header-tabla %}
+						<div class="header-tabla-botones pull-right">
+							{% block botones-header-tabla %} {% endblock %}
+						</div>
+					{% endblock %}
+	            </div>
+	            <div id="table-responsive" class="table-responsive">
+	            	<table class="table table-striped">
+	            		{% block tabla %}
+						{% endblock %}
+	            	</table>
+	                {% if estadisticas.total == 0 or estadisticas.filtrados == 0 %}
+		                <div id="table-empty" class="table-empty">                	
+		                	<h3 class="table-empty-title"> <span class="glyphicon glyphicon-exclamation-sign"></span> 
+		                		{% if estadisticas.total == 0 %}
+		                			La tabla esta vacia.
+		                		{% else %}
+		                			No se encontraron resultados
+		                		{% endif %}
+		                	</h3>
+	                        <em class="table-empty-msg">
+	                        	{% if estadisticas.total == 0 %}
+	                        		Puedes agregar datos presionando el botón de alta.
+	                        	{% else %}
+	                        		Intente cambiar los parámetros de búsqueda.
+	                        	{% endif %}
+	                        	</em>
+		                </div>
+	                {% endif %}
+	            </div> 
+	        </section>
+	    </div>
+	    <div class="table-count">
+			<p>
+				<span class="table-count-icon glyphicon glyphicon-info-sign"></span>
+				 <span>
+				 	{% if estadisticas.total == 0%}
+				 		No hay datos
+				 	{% else %}
+			    	 	{{ estadisticas.filtrados }}
+			    	 	{% if estadisticas.filtrados == 1 %}
+			    	 		resultado
+			    	 	{% else %}
+			    	 		resultados 
+			    	 	{% endif %}
+			    	 	 - Total: {{estadisticas.total}}</span>
+			 	 	{% endif %}
+			</p>
+		</div>
+	</div>
+	
+	{% block sin-modal-eliminar %}
+		<div class="modal fade" id="modal-eliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		    <div class="modal-dialog modal-sm" role="document">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		                <h4 class="modal-title">{% block modal-eliminar-titulo%}{% endblock %}</h4>
+		            </div>
+		            <div class="modal-body">
+		               <p>{% block modal-eliminar-mensaje %}{% endblock %}</p>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+		                <a class="btn btn-danger confirmar">Confirmar</a>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	{% endblock %}
+{% endblock %}
+
+
+{% block scripts %} 
+	<script src="{% static 'js/datepicker.js' %}"></script>
+	<script src="{% static 'js/intro.min.js'%}"></script>
+	<script>
+		(function(){
+			var formBusqueda = {
+			    getElements: function() {
+			        this.$form = $('#form-busqueda');
+			        this.$formSimple = this.$form.find('.form-simple');
+			        this.$formSimpleField = this.$formSimple.find('.form-field');
+			        this.$btnFormSimple = this.$formSimple.find('.btn-form-simple');
+			        this.$formAvanzado = this.$form.find('.form-avanzado');
+			        this.$formAvanzadoFields = this.$formAvanzado.find('.form-field');
+			        this.$btnFormAvanzado = this.$formAvanzado.find('.btn-form-avanzado');
+			        this.$btnFormToggle = this.$form.find('.btn-form-toggle');
+			    },
+			    bindEvents: function() {
+			        this.$btnFormToggle.on('click', this.formToggle.bind(this));
+			        this.$btnFormSimple.on('click', this.sendForm.bind(this));
+			        this.$btnFormAvanzado.on('click', this.sendForm.bind(this));
+			    },
+			    init: function() {
+			        this.getElements();
+			        this.bindEvents();
+			    },
+			    formToggle: function(e) {
+			        var $txtToggle = this.$btnFormToggle.find('.txt-toggle');
+			        this.$form.toggleClass('form-is-avanzado');
+			        this.$formSimpleField.toggleClass('form-field-simple');
+			        this.$btnFormSimple.toggleClass('slide-out');
+			        this.$formAvanzado.slideToggle(500);
+			        if (this.$form.hasClass('form-is-avanzado')) {
+			            $txtToggle.text($txtToggle.text().replace('Avanzada', 'Simple'));
+			        } else {
+			            $txtToggle.text($txtToggle.text().replace('Simple', 'Avanzada'));
+			        }
+
+			    },
+			    sendForm: function() {
+			        if (!this.$form.hasClass('form-is-avanzado')) {
+			            this.$formAvanzadoFields.each(function() {
+			                $(this).val('');
+			            });
+			        }
+			    }
+			},
+			main = {
+				getElements: function() {
+					this.$bread = $('#breadcrumb-page');
+					this.$header = $('#header-page');
+					this.$containerMain = $('.container-main');
+					this.$containerTable = $('#table-responsive');
+					this.$nav = $('#navbar-principal');
+					this.$footer = $('#footer-page');
+					this.$modalEliminar = $('#modal-eliminar');
+				},
+				bindEvents: function() {
+					$(window).on('resize', this.heightTable.bind(this));
+					$('.btn-eliminar').on('click', this.openModalBaja.bind(this));
+				},
+				init: function() {
+					this.getElements();
+					this.bindEvents();
+					this.heightTable();
+					formBusqueda.init();
+					//this.loadTour();
+				},
+				heightTable: function(e) {
+					var totalHeight = $(window).height() - this.$bread.outerHeight(true) - this.$header.outerHeight(true) - (this.$containerMain.outerHeight(true) - this.$containerTable.outerHeight(true)) - this.$nav.outerHeight(true) -  this.$footer.outerHeight(true) - 10,
+						$tableEmpty = $('#table-empty');
+
+					if($tableEmpty.length) {
+						$tableEmpty.css('height', (totalHeight - this.$containerTable.find('table').outerHeight(true) - 2) + 'px');
+
+					}else{
+						this.$containerTable.css('height', totalHeight + 'px');
+					}		
+
+				},
+				openModalBaja: function(e) {
+					var urlBaja = $(e.target).data('url');
+					this.$modalEliminar.find('.confirmar').attr('href', urlBaja);
+					this.$modalEliminar.modal('show');
+					e.stopPropagation();
+				},
+				loadTour: function() {
+					var introguide = introJs();
+					  // var startbtn   = $('#startdemotour');
+					  
+					  introguide.setOptions({
+					    steps: [
+					    {
+					      element: '#breadcrumb-page',
+					      intro: 'This guided tour will explain the Hongkiat demo page interface.<br><br>Use the arrow keys for navigation or hit ESC to exit the tour immediately.',
+					      position: 'bottom'
+					    },
+					    {
+					      element: '#header-page',
+					      intro: 'Click this main logo to view a list of all Hongkiat demos.',
+					      position: 'bottom'
+					    },
+					    {
+					      element: '#aside',
+					      intro: 'Hover over each title to display a longer description.',
+					      position: 'bottom'
+					    },
+					    {
+					      element: '#section-table',
+					      intro: 'Click this orange button to view the tutorial article in a new tab.',
+					      position: 'left'
+					    },
+					    {
+					      element: '.table',
+					      intro: "Each demo will link to the previous & next entries.",
+					      position: 'bottom'
+					    }
+					    ]
+					  });
+
+					  introguide.start();
+				}
+
+			}; 
+
+
+			main.init();
+
+
+		})();
+	</script>
+{% endblock %}

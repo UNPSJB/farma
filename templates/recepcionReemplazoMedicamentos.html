@@ -1,253 +1,67 @@
-{% extends "base/base.html" %}
-{% load staticfiles %}
+{% extends "base/base-listado.html" %}
 
-{% block stylesheets %} 
-	<link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
-	<link rel="stylesheet" href="{% static 'css/test.css' %}">
-	<link rel="stylesheet" href="{% static 'css/introjs.min.css' %}">
-{% endblock %}
-{% block title %}TEST-Pedido de Farmacias{% endblock %}
+{% block title %} Pedido de Farmacia {% endblock %}
 
-{% block content %}
-<ol id="breadcrumb-page" class="breadcrumb _breadcrumb_">
+{% block breadcrumb-items %}
     <li><a href="{% url 'inicio' %}">Inicio</a></li>
     <li class="active">Pedido de Farmacia</li>
-</ol>
-<header id="header-page" class="header">
-    <a href="{% url 'inicio' %}" class="btn-volver">
-    <span class="glyphicon glyphicon-arrow-left animated"></span>
-    </a>
-    <h1 class="header-title pull-right">Pedidos de Farmacia</h1>
-</header>
-
-
-<div class="container-fluid container-main">
-    <div class="row">
-        <aside id="aside" class="aside col-md-3 hidden-xs hidden-sm">
-            <form id="form-busqueda" class="form-busqueda" action="">
-                <div class="form-simple">
-                	<input  class="form-control form-field form-field-simple" type="text" id="farmacia" name="farmacia" value="{{filtros.farmacia}}" placeholder="Farmacia">
-                    <button type="submit" class="btn-form-simple"><span class="glyphicon glyphicon-search"></span></button>
-                </div>
-                <div class="form-avanzado">
-                	<input class="datepicker form-control form-field" type="text" id="desde" name="desde" value="{{filtros.desde}}" placeholder="Fecha Desde">
-				    <input class="datepicker form-control form-field" type="text" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="FechaHasta"> 
-                    <select id="selectEstado" class="form-control form-field" name="estado">
-				        <option value = "">-----</option>
-				        <option value= "Pendiente" {% if filtros.estado == 'Pendiente' %}selected ="selected"{% endif %} >Pendiente</option>
-				        <option value = "Enviado" {%  if filtros.estado == 'Enviado' %}selected ="selected"{% endif %}>Enviado</option>
-				        <option value = "Parcial" {% if filtros.estado == 'Parcial' %}selected ="selected"{% endif %}>Parcialmente Enviado</option>
-				    </select>
-				    <button class="btn btn-default button-hover btn-form-avanzado" type="submit">Buscar</button>
-                </div>
-                <div class="form-toggle">
-                    <a class="btn-form-toggle" href="#"><span class="glyphicon glyphicon-triangle-right"></span><span class="txt-toggle">Búsqueda Avanzada</span></a>
-                </div>
-            </form>
-        </aside>
-        <section id="section-table" class="col-md-9 section-table">
-            <!-- ------------------TABLA----------------- -->
-            <div class="header-tabla">
-                <h3 class="header-tabla-title"><span class="glyphicon glyphicon-th-list"></span> Listado</h3>
-            </div>
-            <div id="table-responsive" class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nº Pedido</th>
-                            <th>Farmacia</th>
-                            <th>Fecha</th>
-                            <th>Estado</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for pedido in pedidos %}
-                    		<tr class="clickeable" data-id="{{ pedido.nroPedido }}">
-			                    <td>{{ pedido.nroPedido }}</td>
-			                    <td>{{ pedido.farmacia }}</td>
-			                    <td>{{ pedido.fecha }}</td>
-			                    <td>{{ pedido.estado }}</td>
-			                    <td class="action">
-							        <div class="dropdown">
-							            <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-							            Acción
-							            <span class="caret"></span>
-							            </button>
-							            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-							                <li>
-							                	<a class="action-link" href="{% url 'pedidoDeFarmacia_ver' pedido.pk %}">
-							                		<span class="action-link-icon animated glyphicon glyphicon-eye-open"></span> Ver
-							                	</a>
-							                </li>
-							            </ul>
-							        </div>
-							    </td>
-			                </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% if estadisticas.total == 0 or pedidos|length == 0 %}
-	                <div id="table-empty" class="table-empty">                	
-	                	<h3 class="table-empty-title"> <span class="glyphicon glyphicon-exclamation-sign"></span> 
-	                		{% if estadisticas.total == 0 %}
-	                			La tabla esta vacia.
-	                		{% else %}
-	                			No se encontraron resultados
-	                		{% endif %}
-	                	</h3>
-                        <em class="table-empty-msg">
-                        	{% if estadisticas.total == 0 %}
-                        		Puedes agregar datos presionando el botón de alta.
-                        	{% else %}
-                        		Intente cambiar los parámetros de búsqueda.
-                        	{% endif %}
-                        	</em>
-	                </div>
-                {% endif %}
-            </div> 
-        </section>
-    </div>
-    <div class="table-count">
-		<p>
-			<span class="table-count-icon glyphicon glyphicon-info-sign"></span>
-			 <span>
-			 	{% if estadisticas.total == 0%}
-			 		No hay datos
-			 	{% else %}
-		    	 	{{pedidos|length}}
-		    	 	{% if pedidos|length == 1%}
-		    	 		resultado
-		    	 	{% else %}
-		    	 		resultados 
-		    	 	{% endif %}
-		    	 	 - Total: {{estadisticas.total}}</span>
-		 	 	{% endif %}
-		</p>
-	</div>
-</div>
 {% endblock %}
 
-{% block scripts %} 
-	<script src="{% static 'js/datepicker.js' %}"></script>
-	<script src="{% static 'js/intro.min.js'%}"></script>
-	<script>
-		var formBusqueda = {
-		    getElements: function() {
-		        this.$form = $('#form-busqueda');
-		        this.$formSimple = this.$form.find('.form-simple');
-		        this.$formSimpleField = this.$formSimple.find('.form-field');
-		        this.$btnFormSimple = this.$formSimple.find('.btn-form-simple');
-		        this.$formAvanzado = this.$form.find('.form-avanzado');
-		        this.$formAvanzadoFields = this.$formAvanzado.find('.form-field');
-		        this.$btnFormAvanzado = this.$formAvanzado.find('.btn-form-avanzado');
-		        this.$btnFormToggle = this.$form.find('.btn-form-toggle');
-		    },
-		    bindEvents: function() {
-		        this.$btnFormToggle.on('click', this.formToggle.bind(this));
-		        this.$btnFormSimple.on('click', this.sendForm.bind(this));
-		        this.$btnFormAvanzado.on('click', this.sendForm.bind(this));
-		    },
-		    init: function() {
-		        this.getElements();
-		        this.bindEvents();
-		    },
-		    formToggle: function(e) {
-		        var $txtToggle = this.$btnFormToggle.find('.txt-toggle');
-		        this.$form.toggleClass('form-is-avanzado');
-		        this.$formSimpleField.toggleClass('form-field-simple');
-		        this.$btnFormSimple.toggleClass('slide-out');
-		        this.$formAvanzado.slideToggle(500);
-		        if (this.$form.hasClass('form-is-avanzado')) {
-		            $txtToggle.text($txtToggle.text().replace('Avanzada', 'Simple'));
-		        } else {
-		            $txtToggle.text($txtToggle.text().replace('Simple', 'Avanzada'));
-		        }
+{% block header-title %} Pedido de Farmacia {% endblock%}
 
-		    },
-		    sendForm: function() {
-		        if (!this.$form.hasClass('form-is-avanzado')) {
-		            this.$formAvanzadoFields.each(function() {
-		                $(this).val('');
-		            });
-		        }
-		    }
-		},
-		main = {
-			getElements: function() {
-				this.$bread = $('#breadcrumb-page');
-				this.$header = $('#header-page');
-				this.$containerMain = $('.container-main');
-				this.$containerTable = $('#table-responsive');
-				this.$nav = $('#navbar-principal');
-				this.$footer = $('#footer-page');
-			},
-			bindEvents: function() {
-				$(window).on('resize', this.heightTable.bind(this));
-			},
-			init: function() {
-				this.getElements();
-				this.bindEvents();
-				this.heightTable();
-				formBusqueda.init();
-				//this.loadTour();
-			},
-			heightTable: function(e) {
-				var totalHeight = $(window).height() - this.$bread.outerHeight(true) - this.$header.outerHeight(true) - (this.$containerMain.outerHeight(true) - this.$containerTable.outerHeight(true)) - this.$nav.outerHeight(true) -  this.$footer.outerHeight(true) - 10,
-					$tableEmpty = $('#table-empty');
-
-				if($tableEmpty.length) {
-					$tableEmpty.css('height', totalHeight - this.$containerTable.find('table').outerHeight(true) + 'px');
-
-				}else{
-					this.$containerTable.css('height', totalHeight + 'px');
-				}		
-
-			},
-			loadTour: function() {
-				var introguide = introJs();
-				  // var startbtn   = $('#startdemotour');
-				  
-				  introguide.setOptions({
-				    steps: [
-				    {
-				      element: '#breadcrumb-page',
-				      intro: 'This guided tour will explain the Hongkiat demo page interface.<br><br>Use the arrow keys for navigation or hit ESC to exit the tour immediately.',
-				      position: 'bottom'
-				    },
-				    {
-				      element: '#header-page',
-				      intro: 'Click this main logo to view a list of all Hongkiat demos.',
-				      position: 'bottom'
-				    },
-				    {
-				      element: '#aside',
-				      intro: 'Hover over each title to display a longer description.',
-				      position: 'bottom'
-				    },
-				    {
-				      element: '#section-table',
-				      intro: 'Click this orange button to view the tutorial article in a new tab.',
-				      position: 'left'
-				    },
-				    {
-				      element: '.table',
-				      intro: "Each demo will link to the previous & next entries.",
-				      position: 'bottom'
-				    }
-				    ]
-				  });
-
-				  introguide.start();
-			}
-
-		}; 
-
-
-		main.init();
-
-
-	</script>
+{% block form-field-simple %} 
+	<input  class="form-control form-field form-field-simple" type="text" id="farmacia" name="farmacia" value="{{filtros.farmacia}}" placeholder="Farmacia">
 {% endblock %}
-						
+
+{% block form-fields-avanzados %} 
+	<input class="datepicker form-control form-field" type="text" id="desde" name="desde" value="{{filtros.desde}}" placeholder="Fecha Desde">
+	<input class="datepicker form-control form-field" type="text" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="FechaHasta"> 
+	<select id="selectEstado" class="form-control form-field" name="estado">
+	    <option value = "">-----</option>
+	    <option value= "Pendiente" {% if filtros.estado == 'Pendiente' %}selected ="selected"{% endif %} >Pendiente</option>
+	    <option value = "Enviado" {%  if filtros.estado == 'Enviado' %}selected ="selected"{% endif %}>Enviado</option>
+	    <option value = "Parcial" {% if filtros.estado == 'Parcial' %}selected ="selected"{% endif %}>Parcialmente Enviado</option>
+	</select>
+{% endblock %}
+
+{% block botones-header-tabla %} 
+	<a class="btn-alta" href="#"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+{% endblock %}
+
+{% block tabla %}
+	<thead>
+	    <tr>
+	        <th>Nº Pedido</th>
+	        <th>Farmacia</th>
+	        <th>Fecha</th>
+	        <th>Estado</th>
+	        <th>Acción</th>
+	    </tr>
+	</thead>
+	<tbody>
+	    {% for pedido in pedidos %}
+			<tr class="clickeable" data-id="{{ pedido.nroPedido }}">
+	            <td>{{ pedido.nroPedido }}</td>
+	            <td>{{ pedido.farmacia }}</td>
+	            <td>{{ pedido.fecha }}</td>
+	            <td>{{ pedido.estado }}</td>
+	            <td class="action">
+			        <div class="dropdown">
+			            <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			            Acción
+			            <span class="caret"></span>
+			            </button>
+			            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+			                <li>
+			                	<a class="action-link" href="{% url 'pedidoDeFarmacia_ver' pedido.pk %}">
+			                		<span class="action-link-icon animated glyphicon glyphicon-eye-open"></span> Ver
+			                	</a>
+			                </li>
+			            </ul>
+			        </div>
+			    </td>
+	        </tr>
+	    {% endfor %}
+	</tbody>
+{% endblock %}
 
