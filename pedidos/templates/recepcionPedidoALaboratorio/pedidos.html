@@ -76,8 +76,7 @@
 
             $(document).on("keyup", function(e){
                 if(e.keyCode == 112){
-                    url = "{% static 'documentacion/build/html/receppedidosdelab.html' %}"
-                    window.open(url);
+                    window.open("{% static 'documentacion/build/html/receppedidosdelab.html' %}");
                 }
             });
         });
