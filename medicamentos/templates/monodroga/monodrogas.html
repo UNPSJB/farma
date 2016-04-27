@@ -1,78 +1,71 @@
-{% extends "base/base-abm.html" %}
+{% extends "base/base-listado.html" %}
 {% load staticfiles %}
 
-{% block title %}
-	Monodrogas
-{% endblock %}
+{% block title %} Monodrogas {% endblock %}
 
-{% block more-crumbs %}
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
     <li class="active">Monodrogas</li>
 {% endblock %}
 
-{% block panel-title-ABM %}
-    Monodrogas
+{% block header-title %} Monodrogas {% endblock%}
+
+{% block form-field-simple %} 
+    <input class="form-control form-field form-field-simple" id="nombre" name="nombre" value="{{filtros.nombre}}" placeholder="Nombre" type="text"autofocus>
 {% endblock %}
 
-{% block grid %}
-    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
-        <thead>
-            <tr class="info">
+{% block form-sin-busqueda-avanzada %}{% endblock %}
+
+{% block botones-header-tabla %} 
+    <a class="btn-alta" href="{% url 'monodroga_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+{% endblock %}
+
+{% block tabla %}
+     <thead>
+        <tr>
             <th>Nombre</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for monodroga in monodrogas %}
+
+            <tr class="clickeable" data-id="{{ monodroga.id }}">
+                <td>{{monodroga.nombre}}</td>
+                <td class="action">
+                    <div class="dropdown">
+                        <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Acción
+                        <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a class="action-link" href="{% url 'monodroga_update' monodroga.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-edit"></span> Modificar
+                                </a>
+                            </li>
+                            <li>
+                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'monodroga_delete' monodroga.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for monodroga in monodrogas %}
-                <tr class="clickeable" data-id="{{ monodroga.id }}">
-                    <td>{{monodroga.nombre}}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+        {% endfor %}
+    </tbody>
 {% endblock %}
 
-{% block url-add %}{% url 'monodroga_add' %}{% endblock %}
+{% block modal-eliminar-titulo %} Eliminar Monodroga {% endblock %}
 
-{% block filtro %}
-    <label for="nombre" >Buscar:</label>
-    <input class="filtro" id="nombre" name="nombre" value="{{filtros.nombre}}" placeholder=" Nombre" autofocus>
-{% endblock %}
-
-{% block cantidad-elementos %}
-    {{ monodrogas|length }}
-    {% if monodrogas|length != 1%}
-        monodrogas
-    {% else %}
-        monodroga
-    {% endif %}
-{% endblock %}
-
-{% block modal-baja-title %}
-    <h4 class="modal-title">Eliminar Monodroga </h4>
-{% endblock %}
-
-{% block modal-baja-texto %}
-    <p> La monodroga seleccionada se eliminara permanentemente ¿Esta seguro?</p>
+{% block modal-eliminar-mensaje %}
+    La monodroga seleccionada se eliminará permanentemente ¿Está seguro?
 {% endblock %}
 
 {% block more-scripts %}
     <script>
-        $("#baja").on("click", function(e) {
-            var id = get_selected_row();
-            if(id){
-               crear_baja("/monodrogas/delete/", id);
-            }
-            e.stopPropagation();
-        });
-
-        $("#modificar").on("click", function(e){
-            var id = get_selected_row();
-            if(id){
-                var url="/monodrogas/update/" + id +"/";
-                $(this).attr("href", url);
-            }
-            e.stopPropagation();
-        });
-
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 window.open("{% static 'documentacion/build/html/monodrogas.html' %}");

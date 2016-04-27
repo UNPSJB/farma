@@ -1,106 +1,79 @@
-{% extends "base/base-abm.html"%}
+{% extends "base/base-listado.html" %}
 {% load staticfiles %}
 
-{% block title %}Pedidos de Farmacia{% endblock %}
+{% block title %} Pedido de Farmacia {% endblock %}
 
-{% block more-stylesheets %}
-     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li class="active">Pedido de Farmacia</li>
 {% endblock %}
 
-{% block more-crumbs %}
-    <li class="active">Pedidos de farmacia</li>
+{% block header-title %} Pedido de Farmacia {% endblock%}
+
+{% block form-field-simple %} 
+    <input  class="form-control form-field form-field-simple" type="text" id="farmacia" name="farmacia" value="{{filtros.farmacia}}" placeholder="Farmacia">
 {% endblock %}
 
-{% block panel-title-ABM %}Pedidos de Farmacia{% endblock %}
-
-{% block url-add %}{% url 'pedidoDeFarmacia_add' %}{% endblock %}
-
-{% block btn-baja %}{% endblock %}
-
-{% block btn-modificar %}{% endblock %}
-
-{% block more-buttons %}
-    <a id="btn-ver" class="btn btn-info hidden ocultable" href="#" >
-        <span class="glyphicon glyphicon-eye-open"></span> Ver
-    </a>
-{% endblock %}
-
-{%block filtro %}
-    <label for="farmacia" >Buscar:</label>
-    <input  id="farmacia" name="farmacia" value="{{filtros.farmacia}}" placeholder=" Farmacia">
-
-    <select id = "selectEstado" class = "form-control" name="estado">
+{% block form-fields-avanzados %} 
+    <input class="datepicker form-control form-field" type="text" id="desde" name="desde" value="{{filtros.desde}}" placeholder="Fecha Desde">
+    <input class="datepicker form-control form-field" type="text" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="FechaHasta"> 
+    <select id="selectEstado" class="form-control form-field" name="estado">
         <option value = "">-----</option>
         <option value= "Pendiente" {% if filtros.estado == 'Pendiente' %}selected ="selected"{% endif %} >Pendiente</option>
         <option value = "Enviado" {%  if filtros.estado == 'Enviado' %}selected ="selected"{% endif %}>Enviado</option>
-        <option value = "Parcial" {% if filtros.estado == 'Parcial' %}selected ="selected"{% endif %}>Parcialmente Enviado</option>
-        <option value = "Cancelado" {% if filtros.estado == 'Cancelado' %}selected ="selected"{% endif %}>Cancelado </option>
+        <option value = "Parcial" {% if filtros.estado == 'Parcial' %}selected ="selected"{% endif %}>Parcialmente Enviado</option>      
     </select>
-
-    <input class="datepicker"  id="desde" name="desde" value="{{filtros.desde}}" placeholder=" Desde">
-    <input class="datepicker" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder=" Hasta">
-    <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
-    <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
 {% endblock %}
 
-{% block grid %}
-    <table class="table table-bordered">
-        <thead>
-            <tr class="info">
-                <th>Nº Pedido</th>
-                <th>Farmacia</th>
-                <th>Fecha</th>
-                <th>Estado</th>
+{% block botones-header-tabla %} 
+    <a class="btn-alta" href="{% url 'pedidoDeFarmacia_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+{% endblock %}
+
+{% block tabla %}
+    <thead>
+        <tr>
+            <th>Nº Pedido</th>
+            <th>Farmacia</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pedido in pedidos %}
+            <tr class="clickeable" data-id="{{ pedido.nroPedido }}">
+                <td>{{ pedido.nroPedido }}</td>
+                <td>{{ pedido.farmacia }}</td>
+                <td>{{ pedido.fecha }}</td>
+                <td>{{ pedido.estado }}</td>
+                <td class="action">
+                    <div class="dropdown">
+                        <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Acción
+                        <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a class="action-link" href="{% url 'pedidoDeFarmacia_ver' pedido.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-eye-open"></span> Ver
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for pedido in pedidos %}
-                <tr class="clickeable" data-id="{{ pedido.nroPedido }}">
-                    <td>{{ pedido.nroPedido }}</td>
-                    <td>{{ pedido.farmacia }}</td>
-                    <td>{{ pedido.fecha }}</td>
-                    <td>{{ pedido.estado }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        {% endfor %}
+    </tbody>
 {% endblock %}
 
-{% block cantidad-elementos %}
-    {{ pedidos|length }}
-    {% if pedidos|length != 1%}
-        pedidos de farmacia
-    {% else %}
-        pedido de farmacia
-    {% endif %}
-{% endblock %}
+{% block sin-modal-eliminar %}{% endblock %}
 
 {% block more-scripts %}
-    <script src="{% static 'js/datepicker.js' %}"></script>
     <script>
-        (function(){
-            $("#btn-ver").on("click", function(e){
-                id = get_selected_row()
-                if(id){
-                    $(this).attr("href", "/pedidosDeFarmacia/ver/" + id + "/");
-                }
-                e.stopPropagation();
-            });
-
-            $("#btn-limpiar").on("click", function(e){
-                $("form input").val("");
-                e.stopPropagation();
-            });
-
-            $("#selectEstado").on('change',function() {
-                $("#btn-filtrar").click();
-            });
-
-            $(document).on("keyup", function(e){
-                if(e.keyCode == 112){
-                    window.open("{% static 'documentacion/build/html/pedidosfarmacia.html' %}");
-                }
-            });
-        })();
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                window.open("{% static 'documentacion/build/html/pedidosfarmacia.html' %}");
+            }
+        });
     </script>
 {% endblock %}

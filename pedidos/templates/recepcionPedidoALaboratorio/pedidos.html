@@ -1,84 +1,72 @@
-{% extends "base/base-abm.html" %}
+{% extends "base/base-listado.html" %}
 {% load staticfiles %}
-{% load staticfiles bootstrap3 %}
 
-{% block more-stylesheets %}
-     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
+{% block title %} Recepcion Pedido a Laboratorio {% endblock %}
+
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li class="active">Recepcion Pedido a Laboratorio</li>
 {% endblock %}
 
-{% block title %}
-    Recepcion de Pedidos de Laboratorio
+{% block header-title %} Recepcion Pedido a Laboratorio {% endblock%}
+
+{% block form-field-simple %} 
+    <input class="form-control form-field form-field-simple" id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" placeholder="Laboratorio" type="text" />
 {% endblock %}
 
-{% block more-crumbs %}
-    <li class="active">Recepcion de pedidos de laboratorio</li>
+{% block form-fields-avanzados %} 
+    <input class="datepicker form-control form-field"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
+    <input class="datepicker form-control form-field" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta">
 {% endblock %}
 
-{% block panel-title-ABM %}
-    <h3 class="panel-title">Pedidos a Laboratorio</h3>
+{% block sin-botones-header-tabla %}
 {% endblock %}
 
-{% block btn-alta %}
-{% endblock %}
-
-{% block btn-modificar %}
-{% endblock %}
-
-{% block btn-baja %}
-{% endblock %}
-
-{% block more-buttons %}
-   <a class="btn btn-warning hidden ocultable" id="registrar"><span class="glyphicon glyphicon-ok-circle"></span>  Registrar recepcion</a>
-{% endblock %}
-
-{% block filtro %}
-    <label>Buscar:</label>
-    <input class="filtro" id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" placeholder="Laboratorio">
-    <input class="datepicker"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
-    <input class="datepicker" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta">
-    <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
-    <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
-{% endblock %}
-
-{% block grid %}
-    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
-        <thead>
-            <tr class="info">
-                <th>Fecha</th>
-                <th>Laboratorio</th>
-                <th>Estado</th>
+{% block tabla %}
+     <thead>
+        <tr>
+            <th>Nº Pedido</th>
+            <th>Laboratorio</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pedido in pedidos %}
+            <tr class="clickeable" data-id="{{ pedido.nroPedido }}">
+                <td>{{pedido.nroPedido}}</td>
+                <td>{{pedido.laboratorio.razonSocial}}</td>
+                <td>{{pedido.fecha}}</td>
+                <td>{{pedido.estado}}</td>
+                <td class="action">
+                    <div class="dropdown">
+                        <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Acción
+                        <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a class="action-link" href="{% url 'recepcionPedidoAlaboratorio_registrar' pedido.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-ok-circle"></span> Registrar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for recibido in recibidos %}
-                <tr class="clickeable" data-id="{{ recibido.nroPedido }}">          
-                    <td>{{recibido.fecha}}</td>
-                    <td>{{recibido.laboratorio.razonSocial}}</td>
-                    <td>{{recibido.estado}}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        {% endfor %}
+    </tbody>
 {% endblock %}
+
+{% block sin-modal-eliminar %}{% endblock %}
 
 {% block more-scripts %}
-    <script src="{% static 'js/datepicker.js' %}"></script>
     <script>
-        $(document).ready(function(){
-            $("#registrar").on("click", function(e){
-                var id = get_selected_row();
-                if(id){
-                    var url = "/recepcionPedidoAlaboratorio/" + id +"/cargarPedido/";
-                    $(this).attr("href", url);
-                }
-                e.stopPropagation();
-            });
-
-            $(document).on("keyup", function(e){
-                if(e.keyCode == 112){
-                    window.open("{% static 'documentacion/build/html/receppedidosdelab.html' %}");
-                }
-            });
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                window.open("{% static 'documentacion/build/html/receppedidosdelab.html' %}");
+            }
         });
     </script>
 {% endblock %}

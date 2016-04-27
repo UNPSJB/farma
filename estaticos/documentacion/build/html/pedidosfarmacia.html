@@ -85,7 +85,12 @@
             
                 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="pedidos.html">Pedidos</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Pedidos de Farmacia</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Pedidos de Farmacia</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#alta-de-pedido-de-farmacia">Alta de Pedido de Farmacia</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filtrar-pedidos">Filtrar Pedidos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ver-detalles-y-remitos-de-un-pedido">Ver Detalles y Remitos de un Pedido</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="pedidosclinica.html">Pedidos de Clinica</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pedidosalab.html">Pedidos a Laboratorio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="receppedidosdelab.html">Recepcion de Pedidos de Laboratorio</a></li>
@@ -144,6 +149,78 @@
             
   <div class="section" id="pedidos-de-farmacia">
 <h1>Pedidos de Farmacia<a class="headerlink" href="#pedidos-de-farmacia" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Al usuario se le presentará una pantalla donde se observará como regla general el listado de todos los pedidos registrados en el sistema hasta la fecha.
+El usuario contara con las opciones de:</p>
+<ul class="simple">
+<li>Crear un nuevo pedido (Alta)</li>
+<li>Filtrar pedidos</li>
+<li>Ver Detalles y Remitos de un Pedido</li>
+</ul>
+<p>CAPTURA</p>
+<div class="section" id="alta-de-pedido-de-farmacia">
+<h2>Alta de Pedido de Farmacia<a class="headerlink" href="#alta-de-pedido-de-farmacia" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario decide dar de alta un nuevo pedido, deberá hacer “click” en el botón “Alta”, el cual permitirá crear uno nuevo. El sistema presentará la siguiente pantalla:</p>
+<p>CAPTURA</p>
+<p>Para poder crear un nuevo pedido, el usuario escribirá el nombre de la farmacia, a fin de mantener la integridad de los datos, se auto-completará con el nombre de farmacias existentes, ingresará una fecha y pulsará “Crear pedido”.
+En caso de que la información ingresada sea errónea, el sistema lo informará, e imposibilitara la creación del pedido. Estos errores se producirán a causa de:
+No existir una farmacia registrada en el sistema.
+Formato de fecha incorrecto o fuera de rango.
+Uno o mas campos obligatorios vacíos.</p>
+<p>En caso de que la información ingresada sea correcta, el sistema nos dirigirá a una nueva pantalla:</p>
+<p>CAPTURA 2</p>
+<p>En esta pantalla se especifican los detalles del pedido de farmacia. A su vez se cuenta con un conjunto de funcionalidades que permiten manipular el pedido. Estas funcionalidades pueden ser utilizadas mediante los siguientes botones:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Modo Alta.</li>
+<li>Modo Baja.</li>
+<li>Modo Modificación.</li>
+<li>Modo Registrar.</li>
+</ol>
+</div></blockquote>
+<ol class="arabic simple">
+<li>Modo Alta:</li>
+</ol>
+<p>Si usuario decide dar de alta un nuevo detalle, deberá hacer “click” en el botón “Alta”, el cual permitirá crear uno nuevo. El sistema presentará la siguiente pantalla:</p>
+<blockquote>
+<div>CAPTURA 3</div></blockquote>
+<p>Para poder crear un nuevo detalle, el usuario, escribirá el nombre del medicamento, y la cantidad solicitada, y pulsará “Guardar”.</p>
+<p>En caso de que la información ingresada sea errónea, el sistema lo informará, e imposibilitara la creación del detalle. Estos errores se producirán a causa de:
+-Medicamento no seleccionado.
+-Cantidad no ingresada.
+-La cantidad ingresada no posee un formato correcto.</p>
+<p>En caso de que la información ingresada sea correcta, se agregara el nuevo detalle al pedido, y dará la opción de ingresar un nuevo detalle hasta que se presione el botón “Cerrar”.</p>
+<ol class="arabic simple" start="2">
+<li>Modo Baja:</li>
+</ol>
+<p>Si usuario decide dar de baja un detalle existente, deberá hacer “click” en el renglón del detalle a eliminar, y presionar el botón “Baja”, el cual permitirá eliminar el detalle seleccionado. El sistema presentará la siguiente pantalla:</p>
+<blockquote>
+<div>CAPTURA 4</div></blockquote>
+<p>El sistema solicitara una confirmación de la baja. Si se presiona el botón “Confirmar”, el detalle sera eliminado del pedido. Caso contrario, se deberá presionar el botón “Cancelar”, el cual deja sin efecto la eliminación.</p>
+<ol class="arabic simple">
+<li>Modo Modificar:</li>
+</ol>
+<p>Si usuario decide modificar la cantidad pedida de un detalle existente, deberá hacer “click” en el renglón del detalle a modificar, y presionar el botón “Modificar”, el cual permitirá actualizar la cantidad solicitada del detalle seleccionado. El sistema presentará la siguiente pantalla:</p>
+<blockquote>
+<div>CAPTURA 5</div></blockquote>
+<p>Para poder actualizar la cantidad solicitada del detalle, el usuario escribirá la nueva cantidad a solicitar, y pulsará “Guardar”.</p>
+<p>En caso de que la información ingresada sea errónea, el sistema lo informará, e imposibilitara la modificación del detalle. Esto producirse a causa de:
+- Cantidad ingresada menor o igual a 0.
+- Cantidad ingresada no posee un formato correcto.</p>
+<p>En caso de que la información ingresada sea correcta, se modificara el detalle.</p>
+<ol class="arabic simple" start="4">
+<li>Modo Registrar:</li>
+</ol>
+<p>Si usuario decide registrar el pedido, deberá hacer “click” en el botón “Registrar”, el cual dará de alta un pedido con los detalles ingresados. El sistema presentará la siguiente pantalla informando que el pedido se creo correctamente.</p>
+<p>CAPTURA 5</p>
+<p>Esta pantalla pedirá confirmación al usuario y lo redirigirá al listado de pedidos registrados.</p>
+<p>En caso de no existir detalles, el sistema informara que no es posible registrar un pedido sin detalles.</p>
+</div>
+<div class="section" id="filtrar-pedidos">
+<h2>Filtrar Pedidos<a class="headerlink" href="#filtrar-pedidos" title="Enlazar permanentemente con este título">¶</a></h2>
+</div>
+<div class="section" id="ver-detalles-y-remitos-de-un-pedido">
+<h2>Ver Detalles y Remitos de un Pedido<a class="headerlink" href="#ver-detalles-y-remitos-de-un-pedido" title="Enlazar permanentemente con este título">¶</a></h2>
+</div>
 </div>
 
 

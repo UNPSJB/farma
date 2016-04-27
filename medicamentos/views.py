@@ -19,7 +19,11 @@ def monodrogas(request):
     filters = get_filtros(request.GET, models.Monodroga)
     mfilters = dict(filter(lambda v: v[0] in models.Monodroga.FILTROS, filters.items()))
     monodrogas = models.Monodroga.objects.filter(**mfilters)
-    return render(request, "monodroga/monodrogas.html", {"monodrogas": monodrogas, "filtros": filters})
+    estadisticas = {
+        'total': models.Monodroga.objects.all().count(),
+        'filtrados': monodrogas.count()
+    }
+    return render(request, "monodroga/monodrogas.html", {"monodrogas": monodrogas, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @login_required(login_url='login')
@@ -63,7 +67,11 @@ def nombresFantasia(request):
     filters = get_filtros(request.GET, models.NombreFantasia)
     mfilters = dict(filter(lambda v: v[0] in models.NombreFantasia.FILTROS, filters.items()))
     nombresFantasia = models.NombreFantasia.objects.filter(**mfilters)
-    return render(request, "nombreFantasia/nombresFantasia.html", {"nombresFantasia": nombresFantasia, "filtros": filters})
+    estadisticas = {
+        'total': models.NombreFantasia.objects.all().count(),
+        'filtrados': nombresFantasia.count()
+    }
+    return render(request, "nombreFantasia/nombresFantasia.html", {"nombresFantasia": nombresFantasia, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @login_required(login_url='login')
@@ -107,7 +115,11 @@ def presentaciones(request):
     filters = get_filtros(request.GET, models.Presentacion)
     mfilters = dict(filter(lambda v: v[0] in models.Presentacion.FILTROS, filters.items()))
     presentaciones = models.Presentacion.objects.filter(**mfilters)
-    return render(request, "presentacion/presentaciones.html",{"presentaciones": presentaciones, "filtros": filters})
+    estadisticas = {
+        'total': models.Presentacion.objects.all().count(),
+        'filtrados': presentaciones.count()
+    }
+    return render(request, "presentacion/presentaciones.html",{"presentaciones": presentaciones, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @login_required(login_url='login')
@@ -150,7 +162,11 @@ def medicamentos(request):
     filters = get_filtros(request.GET, models.Medicamento)
     mfilters = dict(filter(lambda v: v[0] in models.Medicamento.FILTROS, filters.items()))
     medicamentos = models.Medicamento.objects.filter(**mfilters)
-    return render(request, "medicamento/medicamentos.html", {"medicamentos": medicamentos, "filtros": filters})
+    estadisticas = {
+        'total': models.Medicamento.objects.all().count(),
+        'filtrados': medicamentos.count()
+    }
+    return render(request, "medicamento/medicamentos.html", {"medicamentos": medicamentos, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @login_required(login_url='login')

@@ -1,88 +1,73 @@
-{% extends "base/base-abm.html" %}
-{% load staticfiles %}
+{% extends "base/base-listado.html" %}
+{% laod staticfiles %}
 
-{% block title %}
-	Presentaciones
-{% endblock %}
+{% block title %} Presentaciones {% endblock %}
 
-{% block more-crumbs %}
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
     <li class="active">Presentaciones</li>
 {% endblock %}
 
-{% block panel-title-ABM %}
-    Forma de Presentacion
+{% block header-title %} Presentaciones {% endblock%}
+
+{% block form-field-simple %} 
+    <input class="form-control form-field form-field-simple" id="descripcion" name="descripcion" value="{{filtros.descripcion}}" placeholder="Descripcion" type="text" autofocus>
 {% endblock %}
 
-{% block grid %}
-    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
-        <thead>
-            <tr class="info">
+{% block form-sin-busqueda-avanzada %}{% endblock %}
+
+{% block botones-header-tabla %} 
+    <a class="btn-alta" href="{% url 'presentacion_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+{% endblock %}
+
+{% block tabla %}
+    <thead>
+        <tr>
             <th>Descripcion</th>
             <th>Cantidad</th>
             <th>Unidad de Medida</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            {% for presentacion in presentaciones %}
-
-                <tr class="clickeable" data-id="{{ presentacion.id }}">
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for presentacion in presentaciones %}
+            <tr class="clickeable" data-id="{{ presentacion.id }}">
                 <td>{{presentacion.descripcion}}</td>
                 <td>{{presentacion.cantidad}}</td>
                 <td>{{presentacion.unidadMedida}}</td>
-
-                </tr>
-
-            {% endfor %}
-        </tbody>
-    </table>
+                <td class="action">
+                    <div class="dropdown">
+                        <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Acción
+                        <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a class="action-link" href="{% url 'presentacion_update' presentacion.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-edit"></span> Modificar
+                                </a>
+                            </li>
+                            <li>
+                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'presentacion_delete' presentacion.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
 {% endblock %}
 
-{% block url-add %}{% url 'presentacion_add' %}{% endblock %}
+{% block modal-eliminar-titulo %} Eliminar Presentación {% endblock %}
 
-{% block filtro %}
-
- <label for="descripcion" >Buscar:</label>
- <input class="filtro" id="descripcion" name="descripcion" value="{{filtros.descripcion}}" placeholder=" Descripcion" autofocus>
-
-{% endblock %}
-
-{% block cantidad-elementos %}
-    {{ presentaciones|length }}
-    {% if presentaciones|length != 1%}
-        formas de presentacion
-    {% else %}
-        forma de presentacion
-    {% endif %}
-{% endblock %}
-
-{% block modal-baja-title %}
-    <h4 class="modal-title">Eliminar Presentacion </h4>
-{% endblock %}
-
-{% block modal-baja-texto %}
-    <p> La presentacion seleccionada se eliminara permanentemente ¿Esta seguro?</p>
+{% block modal-eliminar-mensaje %}
+    La presentación seleccionada se eliminará permanentemente ¿Está seguro?
 {% endblock %}
 
 {% block more-scripts %}
     <script>
-        $("#baja").on("click", function(e) {
-            var id = get_selected_row();
-            if(id){
-               crear_baja("/presentaciones/delete/", id);
-            }
-            e.stopPropagation();
-        });
-
-        $("#modificar").on("click", function(e){
-            var id = get_selected_row();
-            if(id){
-                var url = "/presentaciones/update/" + id +"/";
-                $(this).attr("href", url);
-            }
-            e.stopPropagation();
-        });
-
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 window.open("{% static 'documentacion/build/html/presentaciones.html' %}");

@@ -1,85 +1,69 @@
-{% extends "base/base-abm.html" %}
+{% extends "base/base-listado.html" %}
 {% load staticfiles %}
 
-{% block title %}
-	Nombres Fantasia
+{% block title %} Nombres Fantasia {% endblock %}
+
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li class="active">Nombres Fantasia</li>
 {% endblock %}
 
-{% block more-crumbs %}
-    <li class="active">Nombres fantasia</li>
+{% block header-title %} Nombres Fantasia {% endblock%}
+
+{% block form-field-simple %} 
+    <input class="form-control form-field form-field-simple" id="nombre" name="nombre" value="{{filtros.nombreF}}" placeholder="Nombre" type="text" autofocus>
 {% endblock %}
 
-{% block panel-title-ABM %}
-    Nombres Fantasia
+{% block form-sin-busqueda-avanzada %}{% endblock %}
+
+{% block botones-header-tabla %} 
+    <a class="btn-alta" href="{% url 'nombreFantasia_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
 {% endblock %}
 
-{% block add-button %}
-    <button class="btn btn-success btn-xs pull-right" type="button" data-toggle="modal" data-target="#add-nombreFantasia"><span class="glyphicon glyphicon-plus"></span>  Alta</button>
-{% endblock %}
-
-{% block grid %}
-    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
-        <thead>
-            <tr class="info">
-                <th>Nombre Fantasia </th>
+{% block tabla %}
+    <thead>
+        <tr>
+            <th>Nombre Fantasia </th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for nombreFantasia in nombresFantasia %}
+            <tr class="clickeable" data-id="{{ nombreFantasia.id }}">
+                <td>{{nombreFantasia.nombreF}}</td>
+                <td class="action">
+                    <div class="dropdown">
+                        <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Acción
+                        <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a class="action-link" href="{% url 'nombreFantasia_update' nombreFantasia.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-edit"></span> Modificar
+                                </a>
+                            </li>
+                            <li>
+                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'nombreFantasia_delete' nombreFantasia.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for nombreFantasia in nombresFantasia %}
-                <tr class="clickeable" data-id="{{ nombreFantasia.id }}">
-                    <td>{{nombreFantasia.nombreF}}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        {% endfor %}
+    </tbody>
 {% endblock %}
 
-{% block cantidad-elementos %}
-    {{ nombresFantasia|length }}
-    {% if nombresFantasia|length != 1 %}
-        nombres fantasia
-    {% else %}
-        nombre fantasia
-    {% endif %}
-{% endblock %}
+{% block modal-eliminar-titulo %} Eliminar Nombre Fantasia {% endblock %}
 
-{% block url-add %}{% url 'nombreFantasia_add' %}{% endblock %}
-
-{% block filtro %}
-
- <label for="nombre" >Buscar:</label>
- <input class="filtro" id="nombre" name="nombre" value="{{filtros.nombreF}}" placeholder=" Nombre" autofocus>
-
-{% endblock %}
-
-{% block modal-baja-title %}
-    <h4 class="modal-title">Eliminar Nombre Fantasia </h4>
-{% endblock %}
-
-{% block modal-baja-texto %}
-    <p> El nombre fantasia seleccionado se eliminara permanentemente ¿Esta seguro?</p>
+{% block modal-eliminar-mensaje %}
+    El nombre fantasia seleccionado se eliminará permanentemente ¿Está seguro?
 {% endblock %}
 
 {% block more-scripts %}
     <script>
-        $("#baja").on("click", function(e) {
-            var id = get_selected_row();
-            if(id){
-               crear_baja("/nombresFantasia/delete/", id);
-            }
-            e.stopPropagation();
-        });
-
-        $("#modificar").on("click", function(e){
-            var id = get_selected_row();
-            if(id){
-                var url="/nombresFantasia/update/" + id +"/";
-                $(this).attr("href", url);
-
-            }
-            e.stopPropagation();
-        });
-
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 window.open("{% static 'documentacion/build/html/nombresfantasia.html' %}");

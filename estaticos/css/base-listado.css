@@ -112,8 +112,10 @@ body {
   border-radius: 5px;
   border: 1px solid rgb(214,215,219);
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 .header-tabla-title {
+  display: inline-block;
   margin: 0;
   color: rgb(51,107,169);
   font-size: 1.5rem;
@@ -148,8 +150,7 @@ body {
 
 .table .action-link {
 	position: relative;	
-	padding-bottom: 5px;
-	padding-top: 5px;
+  padding: 5px 20px 5px 3rem;
 	color: rgb(33,53,64) ;
 	text-align: center;
 	webkit-transition: color 300ms ease;

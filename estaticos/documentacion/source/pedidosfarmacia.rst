@@ -1,2 +1,90 @@
 Pedidos de Farmacia
 ===================
+Al usuario se le presentará una pantalla donde se observará como regla general el listado de todos los pedidos registrados en el sistema hasta la fecha.
+El usuario contara con las opciones de:
+
+- Crear un nuevo pedido (Alta)
+- Filtrar pedidos
+- Ver Detalles y Remitos de un Pedido
+
+CAPTURA
+
+Alta de Pedido de Farmacia
+--------------------------
+Si el usuario decide dar de alta un nuevo pedido, deberá hacer “click” en el botón “Alta”, el cual permitirá crear uno nuevo. El sistema presentará la siguiente pantalla:
+
+CAPTURA
+
+Para poder crear un nuevo pedido, el usuario escribirá el nombre de la farmacia, a fin de mantener la integridad de los datos, se auto-completará con el nombre de farmacias existentes, ingresará una fecha y pulsará “Crear pedido”.
+En caso de que la información ingresada sea errónea, el sistema lo informará, e imposibilitara la creación del pedido. Estos errores se producirán a causa de:
+No existir una farmacia registrada en el sistema.
+Formato de fecha incorrecto o fuera de rango.
+Uno o mas campos obligatorios vacíos.
+
+En caso de que la información ingresada sea correcta, el sistema nos dirigirá a una nueva pantalla:
+
+CAPTURA 2
+
+En esta pantalla se especifican los detalles del pedido de farmacia. A su vez se cuenta con un conjunto de funcionalidades que permiten manipular el pedido. Estas funcionalidades pueden ser utilizadas mediante los siguientes botones:
+
+    1. Modo Alta.
+    2. Modo Baja.
+    3. Modo Modificación.
+    4. Modo Registrar.
+
+    
+1. Modo Alta:
+
+Si usuario decide dar de alta un nuevo detalle, deberá hacer “click” en el botón “Alta”, el cual permitirá crear uno nuevo. El sistema presentará la siguiente pantalla:
+
+ CAPTURA 3
+
+Para poder crear un nuevo detalle, el usuario, escribirá el nombre del medicamento, y la cantidad solicitada, y pulsará “Guardar”.
+
+En caso de que la información ingresada sea errónea, el sistema lo informará, e imposibilitara la creación del detalle. Estos errores se producirán a causa de:
+-Medicamento no seleccionado.
+-Cantidad no ingresada.
+-La cantidad ingresada no posee un formato correcto.
+
+En caso de que la información ingresada sea correcta, se agregara el nuevo detalle al pedido, y dará la opción de ingresar un nuevo detalle hasta que se presione el botón “Cerrar”.
+
+
+2. Modo Baja:
+
+Si usuario decide dar de baja un detalle existente, deberá hacer “click” en el renglón del detalle a eliminar, y presionar el botón “Baja”, el cual permitirá eliminar el detalle seleccionado. El sistema presentará la siguiente pantalla:
+
+ CAPTURA 4
+
+El sistema solicitara una confirmación de la baja. Si se presiona el botón “Confirmar”, el detalle sera eliminado del pedido. Caso contrario, se deberá presionar el botón “Cancelar”, el cual deja sin efecto la eliminación.
+
+
+1. Modo Modificar:
+
+Si usuario decide modificar la cantidad pedida de un detalle existente, deberá hacer “click” en el renglón del detalle a modificar, y presionar el botón “Modificar”, el cual permitirá actualizar la cantidad solicitada del detalle seleccionado. El sistema presentará la siguiente pantalla:
+
+ CAPTURA 5
+
+Para poder actualizar la cantidad solicitada del detalle, el usuario escribirá la nueva cantidad a solicitar, y pulsará “Guardar”.
+
+En caso de que la información ingresada sea errónea, el sistema lo informará, e imposibilitara la modificación del detalle. Esto producirse a causa de:
+- Cantidad ingresada menor o igual a 0.
+- Cantidad ingresada no posee un formato correcto.
+
+En caso de que la información ingresada sea correcta, se modificara el detalle.
+
+
+4. Modo Registrar:
+
+Si usuario decide registrar el pedido, deberá hacer “click” en el botón “Registrar”, el cual dará de alta un pedido con los detalles ingresados. El sistema presentará la siguiente pantalla informando que el pedido se creo correctamente.
+
+CAPTURA 5
+
+Esta pantalla pedirá confirmación al usuario y lo redirigirá al listado de pedidos registrados.
+
+En caso de no existir detalles, el sistema informara que no es posible registrar un pedido sin detalles. 
+
+Filtrar Pedidos
+---------------
+
+Ver Detalles y Remitos de un Pedido
+-----------------------------------

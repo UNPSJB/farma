@@ -1,93 +1,81 @@
-{% extends "base/base-abm.html" %}
+{% extends "base/base-listado.html" %}
 {% load staticfiles %}
 
-{% block title %}
-	Clínicas
+{% block title %} Clínicas {% endblock %}
+
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li class="active">Clínicas</li>
 {% endblock %}
 
-{% block more-crumbs %}
-    <li class="active">Clinicas</li>
+{% block header-title %} Clínicas {% endblock%}
+
+{% block form-field-simple %} 
+    <input class="form-control form-field form-field-simple" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder="Razon Social" type="text" />
 {% endblock %}
 
-{% block panel-title-ABM %}
-    Clínicas
+{% block form-fields-avanzados %} 
+    <input class="form-control form-field" id="localidad" name="localidad" value="{{filtros.localidad}}" placeholder="Localidad" type="text" />
+    <input class="form-control form-field" id="obra-social" name="obraSocial" value="{{filtros.obraSocial}}" placeholder="Obra Social" type="text" />
 {% endblock %}
 
-{%block filtro %}
-    <label>Buscar:</label>
-    <input class="filtro" id="razonSocial" name="razonSocial" value="{{filtros.razonSocial}}" placeholder=" Razon Social" >
-    <input class="filtro" id="localidad" name="localidad" value="{{filtros.localidad}}" placeholder="Localidad" >
-    <input class="filtro" id="obra-social" name="obraSocial" value="{{filtros.obraSocial}}" placeholder="Obra Social" type="text">
-    <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
-    <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
+{% block botones-header-tabla %} 
+    <a class="btn-alta" href="{% url 'clinica_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
 {% endblock %}
-{% block grid %}
-    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
-        <thead>
-            <tr class="info">
-                <th>Razón social </th>
-                <th>CUIT</th>
-                <th>Localidad</th>
-                <th>Dirección</th>
-                <th>Obra social</th>
-                <th>Teléfono</th>
-                <th>Email</th>
+
+{% block tabla %}
+     <thead>
+        <tr>
+            <th>Razón Social </th>
+            <th>Localidad</th> 
+            <th>Dirección</th>         
+            <th>Obra Social</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for clinica in clinicas %}
+            <tr class="clickeable" data-id="{{ clinica.id }}">
+                <td>{{clinica.razonSocial}}</td>
+                <td>{{clinica.localidad}}</td>
+                <td>{{clinica.direccion}}</td>              
+                <td>{{clinica.obraSocial}}</td>
+                <td class="action">
+                    <div class="dropdown">
+                        <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Acción
+                        <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a class="action-link" href="{% url 'clinica_update' clinica.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-edit"></span> Modificar
+                                </a>
+                            </li>
+                            <li>
+                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'clinica_delete' clinica.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for clinica in clinicas %}
-                <tr class="clickeable" data-id="{{ clinica.id }}">
-                    <td>{{clinica.razonSocial}}</td>
-                    <td>{{clinica.cuit}}</td>
-                    <td>{{clinica.localidad}}</td>
-                    <td>{{clinica.direccion}}</td>
-                    <td>{{clinica.obraSocial}}</td>
-                    <td>{{clinica.telefono}}</td>
-                    <td>{{clinica.email}}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+        {% endfor %}
+    </tbody>
 {% endblock %}
 
-{% block url-add %}{% url 'clinica_add' %}{% endblock %}
-
-{% block cantidad-elementos %}
-    {{ clinicas|length }}
-    {% if clinicas|length != 1 %}
-        clinicas
-    {% else %}
-        clinica
-    {% endif %}
+{% block modal-eliminar-titulo %}
+   Eliminar Clínica
 {% endblock %}
 
-{% block modal-baja-title %}
-    <h4 class="modal-title">Eliminar Clínica</h4>
-{% endblock %}
-
-{% block modal-baja-texto %}
-    <p>La clínica seleccionada se eliminara permanentemente ¿Esta seguro?</p>
+{% block modal-eliminar-mensaje %}
+    La clínica seleccionada se eliminará permanentemente ¿Está seguro?
 {% endblock %}
 
 {% block more-scripts %}
     <script>
-        $("#baja").on("click", function(e) {
-            var id = get_selected_row();
-            if(id){
-               crear_baja("/clinicas/delete/", id);
-            }
-            e.stopPropagation();
-        });
-
-        $("#modificar").on("click", function(e){
-            var id = get_selected_row();
-            if(id){
-                var url = "/clinicas/update/" + id +"/";
-                $(this).attr("href", url);
-            }
-            e.stopPropagation();
-        });
-
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 window.open("{% static 'documentacion/build/html/clinicas.html' %}");

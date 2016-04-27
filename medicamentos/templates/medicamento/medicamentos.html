@@ -1,107 +1,87 @@
-{% extends "base/base-abm.html" %}
+{% extends "base/base-listado.html" %}
 {% load staticfiles %}
 
-{% block title %}
-	Medicamentos
-{% endblock %}
+{% block title %} Medicamentos {% endblock %}
 
-{% block more-crumbs %}
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
     <li class="active">Medicamentos</li>
 {% endblock %}
 
-{% block panel-title-ABM%}
-    Medicamentos
+{% block header-title %} Medicamentos {% endblock%}
+
+{% block form-field-simple %} 
+    <input class="form-control form-field form-field-simple" id="nombreFantasia" name="nombreFantasia" value="{{ filtros.nombreFantasia }}" placeholder="Nombre Fantasia" type="text">
 {% endblock %}
 
-{% block url-add %}{% url 'medicamento_add' %}{% endblock %}
-
-{% block btn-modificar %}
-    <a class="btn btn-warning hidden ocultable" id="modificar-stock">
-        <span class="glyphicon glyphicon-edit"></span>  Modificar Stock
-    </a>
-    <a class="btn btn-primary hidden ocultable" id="modificar-precio">
-        <span class="glyphicon glyphicon-edit"></span>  Modificar Precio
-    </a>
+{% block form-fields-avanzados %} 
+    <input class="form-control form-field" id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" type="text" placeholder="Laboratorio">
 {% endblock %}
 
-{% block more-buttons %}
-    <a class="btn btn-info hidden ocultable" id="verLote">
-        <span class="glyphicon glyphicon-folder-open"></span>  Ver Lotes
-    </a>
+{% block botones-header-tabla %} 
+    <a class="btn-alta" href="{% url 'medicamento_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
 {% endblock %}
 
-{% block filtro %}
-    <label for="nombreFantasia" >Buscar:</label>
-    <input class="filtro" id="nombreFantasia" name="nombreFantasia" value="{{ filtros.nombreFantasia }}" placeholder="Nombre Fantasia" type="text">
-    <input class="filtro" id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" type="text" placeholder="Laboratorio">
-{% endblock %}
-
-{% block grid %}
-    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
-        <thead>
-            <tr class="info">
-            <th>Nombre Fantasia</th>
+{% block tabla %}
+    <thead>
+        <tr>
+            <th>Código de Barras</th>
+            <th>Nombre de Fantasia</th>
             <th>Presentacion</th>
-            <th>Formula</th>
+            <th>Stock Minimo</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for medicamento in medicamentos %}
+            <tr class="clickeable" data-id="{{ medicamento.id }}">
+                <td>{{medicamento.codigoBarras}}</td>
+                <td>{{medicamento.nombreFantasia}}</td>
+                <td>{{medicamento.presentacion}}</td>
+                <td>{{medicamento.stockMinimo}}</td>
+                <td class="action">
+                    <div class="dropdown">
+                        <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Acción
+                        <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a class="action-link" href="{% url 'medicamento_update_stock_minimo' medicamento.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-edit"></span> Modificar Stock Mínimo
+                                </a>
+                            </li>
+                            <li>
+                                <a class="action-link" href="{% url 'medicamento_update_precio_venta' medicamento.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon glyphicon-edit"></span> Modificar Precio Venta
+                                </a>
+                            </li>
+                            <li>
+                                <a class="action-link" href="{% url 'medicamento_verLotes' medicamento.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-eye-open"></span> Ver Lotes
+                                </a>
+                            </li>
+                            <li>
+                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'medicamento_delete' medicamento.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for medicamento in medicamentos %}
-                <tr class="clickeable" data-id="{{ medicamento.id }}">
-                    <td>{{medicamento.nombreFantasia}}</td>
-                    <td>{{medicamento.presentacion}}</td>
-                    <td>{{medicamento.formulas.all|join:", "}}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        {% endfor %}
+    </tbody>
 {% endblock %}
 
-{% block modal-baja-title %}
-    <h4 class="modal-title">Eliminar Medicamento </h4>
-{% endblock %}
+{% block modal-eliminar-titulo %}Eliminar Medicamento{% endblock %}
 
-{% block modal-baja-texto %}
-    <p> El medicamento seleccionado se eliminara permanentemente ¿Esta seguro?</p>
+{% block modal-eliminar-mensaje %}
+    El medicamento seleccionado se eliminará permanentemente ¿Está seguro?
 {% endblock %}
 
 {% block more-scripts %}
     <script>
-        $("#baja").on("click", function(e) {
-            var id = get_selected_row();
-            if(id){
-               crear_baja("/medicamentos/delete/", id);
-            }
-            e.stopPropagation();
-        });
-
-        $("#modificar-stock").on("click", function(e){
-            var id = get_selected_row();
-            if(id){
-                var url="/medicamentos/updateStockMinimo/" + id +"/";
-                $(this).attr("href", url);
-            }
-            e.stopPropagation();
-        });
-
-        $("#modificar-precio").on("click", function(e){
-            var id = get_selected_row();
-            if(id){
-                var url="/medicamentos/updatePrecioVenta/" + id +"/";
-                $(this).attr("href", url);
-            }
-            e.stopPropagation();
-        });
-
-        $("#verLote").on("click", function(e) {
-            var id = get_selected_row();
-            if(id){
-               var url="/medicamentos/verLotes/" + id +"/";
-                $(this).attr("href", url);
-            }
-            e.stopPropagation();
-        });
-
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 window.open("{% static 'documentacion/build/html/medicams.html' %}");

@@ -20,9 +20,13 @@ def get_filtros(get, modelo):
 def farmacias(request):
     filters = get_filtros(request.GET, models.Farmacia)
     mfilters = dict(filter(lambda v: v[0] in models.Farmacia.FILTROS, filters.items()))
-    farmacias = models.Farmacia.objects.filter(**mfilters)
+    farmacias = models.Farmacia.objects.filter(**mfilters) 
+    estadisticas = {
+        'total': models.Farmacia.objects.all().count(),
+        'filtrados': farmacias.count()
+    }
+    return render(request, "farmacia/farmacias.html", {"farmacias": farmacias, "filtros": filters, 'estadisticas': estadisticas})
 
-    return render(request, "farmacia/farmacias.html", {"farmacias": farmacias, "filtros": filters})
 
 @login_required(login_url='login')
 def farmacia_add(request):
@@ -68,7 +72,11 @@ def clinicas(request):
     filters = get_filtros(request.GET, models.Clinica)
     mfilters = dict(filter(lambda v: v[0] in models.Clinica.FILTROS, filters.items()))
     clinicas = models.Clinica.objects.filter(**mfilters)
-    return render(request, "clinica/clinicas.html",{"clinicas": clinicas, "filtros": filters})
+    estadisticas = {
+        'total': models.Clinica.objects.all().count(),
+        'filtrados': clinicas.count()
+    }
+    return render(request, "clinica/clinicas.html",{"clinicas": clinicas, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @login_required(login_url='login')
@@ -114,7 +122,11 @@ def laboratorios(request):
     filters = get_filtros(request.GET, models.Laboratorio)
     mfilters = dict(filter(lambda v: v[0] in models.Laboratorio.FILTROS, filters.items()))
     laboratorios = models.Laboratorio.objects.filter(**mfilters)
-    return render(request, "laboratorio/laboratorios.html",{"laboratorios": laboratorios, "filtros": filters})
+    estadisticas = {
+        'total': models.Laboratorio.objects.all().count(),
+        'filtrados': laboratorios.count()
+    }
+    return render(request, "laboratorio/laboratorios.html",{"laboratorios": laboratorios, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @login_required(login_url='login')
