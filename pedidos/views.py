@@ -501,6 +501,7 @@ def recepcionPedidoAlaboratorio_cargarPedido(request, id_pedido):
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_controlPedido(request, id_pedido):
     pedido = models.PedidoAlaboratorio.objects.get(pk=id_pedido)
+    utils.cargar_detalles(id_pedido, request.session)
     detalles = request.session['recepcionPedidoAlaboratorio']['detalles']
     return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles})
 

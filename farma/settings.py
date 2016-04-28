@@ -29,7 +29,7 @@ INSTALLED_APPS = (
     'medicamentos',
     'organizaciones',
     'pedidos',
-    'usuarios',
+#    'usuarios',
     'django_bootstrap_dynamic_formsets',
     'easy_pdf',
     'reportlab',
