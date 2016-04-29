@@ -4,11 +4,13 @@ from django.forms import widgets
 from django.conf import settings
 from django import forms
 from . import models
+from . import lookups
 from django.forms.formsets import BaseFormSet, formset_factory
 from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
 from crispy_forms.bootstrap import StrictButton, FormActions
+from selectable import forms as selectable
 import re
 
 
@@ -239,6 +241,15 @@ class DosisForm(forms.ModelForm):
     class Meta:
         model = models.Dosis
         fields = ["monodroga", "cantidad", "unidad"]
+        widgets = {
+            'monodroga': selectable.AutoCompleteSelectWidget(lookup_class=lookups.MonodrogaLookup),
+        }
+
+    def clean_monodroga(self):
+        monodroga = self.cleaned_data['monodroga']
+        if not monodroga:
+            raise forms.ValidationError('dfjghdkfj')
+        return monodroga
 
 
 class DosisFormSetBase(BaseFormSet):
@@ -246,12 +257,15 @@ class DosisFormSetBase(BaseFormSet):
         ret = super(DosisFormSetBase, self).is_valid()
         formula = set()
         for form in self.forms:
+            if not form.cleaned_data:
+                self._non_form_errors = self.error_class(
+                    forms.ValidationError("El medicamente debe poseer al menos una formula"))
+                return False
             mono = form.cleaned_data["monodroga"].pk
             if mono in formula:
                 self._non_form_errors = self.error_class(forms.ValidationError("No se puede cargar una monodroga repetida"))
                 return False
             formula.add(mono)
-            print(formula)
         return ret
 
 DosisFormSet = formset_factory(DosisForm, formset=DosisFormSetBase, extra=1)

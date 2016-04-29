@@ -3,7 +3,6 @@
 {% load crispy_forms_tags %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{% static 'css/jquery-ui.custom.min.css' %}">
     <link rel="stylesheet" href="{%  static 'css/selectize.css' %}">
     <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
     <style>
@@ -70,7 +69,6 @@
 {% block footer %}{% endblock %}
 
 {% block scripts %}
-	<script src="{% static 'js/datepicker.js' %}"></script>
 	{{ form.media.js }}
     <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
     <script>

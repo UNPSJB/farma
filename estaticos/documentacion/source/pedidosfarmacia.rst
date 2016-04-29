@@ -34,6 +34,7 @@ En esta pantalla se especifican los detalles del pedido de farmacia. A su vez se
 
     
 1. Modo Alta:
++++++++++++++
 
 Si usuario decide dar de alta un nuevo detalle, deberá hacer “click” en el botón “Alta”, el cual permitirá crear uno nuevo. El sistema presentará la siguiente pantalla:
 

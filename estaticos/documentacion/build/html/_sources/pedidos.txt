@@ -2,7 +2,7 @@ Pedidos
 =======
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    
    pedidosfarmacia
    pedidosclinica

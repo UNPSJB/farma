@@ -84,7 +84,9 @@
     <script>
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
-                window.open("{% static 'documentacion/build/html/medicams.html' %}");
+                var url = "{% static 'documentacion/build/html/medicams.html' %}";
+                url += "#medicamentos";
+                window.open(url);
             }
         });
     </script>

@@ -44,7 +44,7 @@ class Formula(models.Model):
 
 class Monodroga(models.Model):
     FILTROS = ["nombre__icontains"]
-    nombre = models.CharField(max_length=75, unique=True, error_messages={'unique': " Esta monodroga ya esta cargada!"})
+    nombre = models.CharField(max_length=75, unique=True, error_messages={'unique': "Esta monodroga ya esta cargada"})
 
     def __str__(self):
         return "%s" % self.nombre

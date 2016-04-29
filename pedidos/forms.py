@@ -378,7 +378,6 @@ class DevolucionMedicamentosForm(forms.ModelForm):
         helper.form_id = 'form-add-detalle'
         helper.layout = Layout(
             Field('laboratorio', placeholder="Laboratorio"),
-            Field('fecha', placeholder='Fecha', css_class='datepicker'),
             FormActions(
                 StrictButton('Confirmar', type="submit", name="_confirmar", value="_confirmar", id="btn-confirmar",
                             css_class="btn btn-success pull-right"),
@@ -386,21 +385,14 @@ class DevolucionMedicamentosForm(forms.ModelForm):
         )
 
         laboratorio = forms.ModelChoiceField(queryset=omodels.Laboratorio.objects.none())
-        fecha = forms.DateField(label='Fecha de remito')
 
         class Meta:
             model = models.PedidoAlaboratorio
-            fields = ["laboratorio", "fecha"]
+            fields = ["laboratorio"]
 
         def __init__(self, *args, **kwargs):
             super(DevolucionMedicamentosForm, self).__init__(*args, **kwargs)
             self.fields['laboratorio'].queryset = get_laboratorios_con_vencidos()
-
-        def clean_fecha(self):
-            fecha = self.cleaned_data['fecha']
-            if fecha and fecha > datetime.date.today():
-                raise forms.ValidationError('La fecha ingresada debe ser menor o igual a la actual')
-            return fecha
 
 
 class RegistrarRecepcionForm(forms.Form):
