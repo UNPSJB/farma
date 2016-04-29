@@ -3,8 +3,10 @@
 {% load crispy_forms_tags %}
 
 {% block more-stylesheets %}
-     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
+    <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css' %}">
     {{ form.media.css }}
+    <link rel="stylesheet" href="{%  static 'css/selectize.css' %}">
+    <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -18,4 +20,17 @@
 
 {% block panel-title-pedido %}
 	Pedido a Laboratorio
+{% endblock %}
+
+{% block more-scripts %}
+    <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
+    <script>
+        $('select').selectize({
+            sortField: {
+                field: 'text',
+                direction: 'asc'
+            },
+            dropdownParent: 'body'
+        });
+    </script>
 {% endblock %}

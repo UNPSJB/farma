@@ -653,7 +653,7 @@ def devolucionMedicamentosVencidos_detalle(request, id_laboratorio):
     for m in medicamentos:
         lista.append(m.pk)
 
-    lt = datetime.date.today() + datetime.timedelta(weeks=26) # fecha vencimiento.(limite)
+    lt = datetime.date.today() + datetime.timedelta(weeks=26)  # fecha vencimiento.(limite)
     lotes = mmodels.Lote.objects.filter(fechaVencimiento__lte=lt, medicamento__pk__in=lista, stock__gt=0)
 
     return render(request, "devolucionMedicamentosVencidos/devolucionMedicamentosVencidos_detalle.html",

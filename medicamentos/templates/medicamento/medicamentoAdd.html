@@ -5,13 +5,15 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
-	<link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
     <link rel="stylesheet" href="{%  static 'css/base.css'  %}">
 
     {{ dosis_formset.media.css }}
 	<script src="{% static 'js/jquery.min.js' %}"></script>
 	<script src="{% static 'js/jquery-ui.min.js' %}"></script>
 	{{ dosis_formset.media.js }}
+
+    <link rel="stylesheet" href="{%  static 'css/selectize.css' %}">
+    <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
 
     <style>
         .errorlist {
@@ -21,7 +23,7 @@
         }
 
         .pre-scrollable {
-            max-height: 470px;
+            max-height: 490px;
         }
     </style>
 {% endblock %}
@@ -78,4 +80,14 @@
 
 {% block scripts %}
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
+    <script>
+        $('select').selectize({
+            sortField: {
+                field: 'text',
+                direction: 'asc'
+            },
+            dropdownParent: 'body'
+        });
+    </script>
 {% endblock %}

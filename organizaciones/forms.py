@@ -22,6 +22,13 @@ class FarmaciaFormGenerico(forms.ModelForm):
             'email': _('Email'),
         }
 
+    def clean_razonSocial(self):
+        razonSocial = self.cleaned_data['razonSocial']
+        if razonSocial:
+            if not re.match(r"^[a-zA-Z\d]+((\s[a-zA-Z\d]+)+)?$", razonSocial):
+                raise forms.ValidationError('La razon social no puede contener caracteres especiales')
+        return razonSocial
+
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
         if cuit:
@@ -29,19 +36,26 @@ class FarmaciaFormGenerico(forms.ModelForm):
                 raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
 
+    def clean_localidad(self):
+        localidad = self.cleaned_data['localidad']
+        if localidad:
+            if not re.match(r"^[a-zA-Z]+((\s[a-zA-Z]+)+)?$", localidad):
+                raise forms.ValidationError('La localidad solo puede contener letras y espacios')
+        return localidad
+
+    def clean_direccion(self):
+        direccion = self.cleaned_data['direccion']
+        if direccion:
+            if not re.match(r"^[a-zA-Z\d°]+((\s[a-zA-Z\d°]+)+)?$", direccion):
+                raise forms.ValidationError('La direccion no puede contener caracteres especiales, excepto "°"')
+        return direccion
+
     def clean_nombreEncargado(self):
         nombreEncargado = self.cleaned_data['nombreEncargado']
         if nombreEncargado:
             if not re.match(r"^[a-zA-Z]+((\s[a-zA-Z]+)+)?$", nombreEncargado):
                 raise forms.ValidationError('El nombre del encargado solo puede contener letras y espacios')
         return nombreEncargado
-
-    def clean_telefono(self):
-        telefono = self.cleaned_data['telefono']
-        if telefono:
-            if not re.match(r"^[0|4|15][0-9]+$", telefono):
-                raise forms.ValidationError('Telefono inválido')
-        return telefono
 
 
 class FarmaciaFormAdd(FarmaciaFormGenerico):
@@ -101,13 +115,41 @@ class ClinicaFormGenerico(forms.ModelForm):
             'telefono': _('Telefono'),
             'email': _('Email'),
         }
-    
+
+    def clean_razonSocial(self):
+        razonSocial = self.cleaned_data['razonSocial']
+        if razonSocial:
+            if not re.match(r"^[a-zA-Z\d]+((\s[a-zA-Z\d]+)+)?$", razonSocial):
+                raise forms.ValidationError('La razon social no puede contener caracteres especiales')
+        return razonSocial
+
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
         if cuit:
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
                 raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
+
+    def clean_localidad(self):
+        localidad = self.cleaned_data['localidad']
+        if localidad:
+            if not re.match(r"^[a-zA-Z]+((\s[a-zA-Z]+)+)?$", localidad):
+                raise forms.ValidationError('La localidad solo puede contener letras y espacios')
+        return localidad
+
+    def clean_direccion(self):
+        direccion = self.cleaned_data['direccion']
+        if direccion:
+            if not re.match(r"^[a-zA-Z\d°]+((\s[a-zA-Z\d°]+)+)?$", direccion):
+                raise forms.ValidationError('La direccion no puede contener caracteres especiales, excepto "°"')
+        return direccion
+
+    def clean_obraSocial(self):
+        obraSocial = self.cleaned_data['obraSocial']
+        if obraSocial:
+            if not re.match(r"^[a-zA-Z\d]+((\s[a-zA-Z\d]+)+)?$", obraSocial):
+                raise forms.ValidationError('La obra social no puede contener caracteres especiales')
+        return obraSocial
 
 
 class ClinicaFormAdd(ClinicaFormGenerico):
@@ -168,12 +210,33 @@ class LaboratorioFormGenerico(forms.ModelForm):
             'email': _('Email'),
         }
 
+    def clean_razonSocial(self):
+        razonSocial = self.cleaned_data['razonSocial']
+        if razonSocial:
+            if not re.match(r"^[a-zA-Z\d]+((\s[a-zA-Z\d]+)+)?$", razonSocial):
+                raise forms.ValidationError('La razon social no puede contener caracteres especiales')
+        return razonSocial
+
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
         if cuit:
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
                 raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
+
+    def clean_localidad(self):
+        localidad = self.cleaned_data['localidad']
+        if localidad:
+            if not re.match(r"^[a-zA-Z]+((\s[a-zA-Z]+)+)?$", localidad):
+                raise forms.ValidationError('La localidad solo puede contener letras y espacios')
+        return localidad
+
+    def clean_direccion(self):
+        direccion = self.cleaned_data['direccion']
+        if direccion:
+            if not re.match(r"^[a-zA-Z\d°]+((\s[a-zA-Z\d°]+)+)?$", direccion):
+                raise forms.ValidationError('La direccion no puede contener caracteres especiales, excepto "°"')
+        return direccion
 
 
 class LaboratorioFormAdd(LaboratorioFormGenerico):

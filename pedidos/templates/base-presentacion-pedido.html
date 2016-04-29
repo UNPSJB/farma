@@ -3,7 +3,13 @@
 
 {% block stylesheets %}
 	<link rel="stylesheet" href="{% static 'css/pedidos-detalles.css' %}">
+    <link rel="stylesheet" href="{%  static 'css/selectize.css' %}">
+    <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
     <style>
+        .selectize-dropdown-content{
+        z-index: 10000;
+        }
+
         .jumbotron{
             padding: 28px 30px;
             max-height: 9.5em;
@@ -233,6 +239,7 @@
 
     {% block scripts-abm-detalles %}
         <script src="{% static 'js/ajax.js' %}"></script>
+        <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
         <script>
             function add_detalle_ajax(url){
                 $.ajax({
@@ -242,6 +249,13 @@
                     success: function(data){
                         if(data['success']){
                             $("#form-add-detalle").replaceWith(data['form_html']);
+                            $('select').selectize({
+                                sortField: {
+                                    field: 'text',
+                                    direction: 'asc'
+                                },
+                                dropdownParent: 'body'
+                            });
                             $("#modal-add-detalle").modal("show");
                         }else{
                             alert("Data = Error");
@@ -399,5 +413,4 @@
     {% endblock %}
 
     {% block more-scripts%}{% endblock %}
-
 {% endblock %}

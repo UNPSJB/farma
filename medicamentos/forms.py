@@ -170,19 +170,19 @@ class RelatedFieldWidgetCanAdd(widgets.Select):
 
 class MedicamentoForm(forms.ModelForm):
     nombreFantasia = forms.ModelChoiceField(
-       label="Nombre fantasia",
-       required=True,
-       queryset=models.NombreFantasia.objects.all()
+        label="Nombre fantasia",
+        required=True,
+        queryset=models.NombreFantasia.objects.all()
     )
 
     presentacion = forms.ModelChoiceField(
-       required=True,
-       queryset=models.Presentacion.objects.all()
+        required=True,
+        queryset=models.Presentacion.objects.all()
     )
 
     laboratorio = forms.ModelChoiceField(
-       required=True,
-       queryset=models.Laboratorio.objects.all()
+        required=True,
+        queryset=models.Laboratorio.objects.all()
     )
 
     class Meta:
@@ -241,9 +241,6 @@ class DosisForm(forms.ModelForm):
     class Meta:
         model = models.Dosis
         fields = ["monodroga", "cantidad", "unidad"]
-        widgets = {
-            'monodroga': selectable.AutoCompleteSelectWidget(lookup_class=lookups.MonodrogaLookup),
-        }
 
 
 class DosisFormSetBase(BaseFormSet):

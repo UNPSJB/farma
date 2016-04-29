@@ -11,6 +11,7 @@ from selectable import forms as selectable
 from medicamentos import models as mmodels
 from organizaciones import models as omodels
 import datetime
+import config
 
 
 # *******************************VALIDACION***************************************#
@@ -38,9 +39,13 @@ class PedidoDeFarmaciaForm(forms.ModelForm):
     class Meta:
         model = models.PedidoDeFarmacia
         fields = ["farmacia", "fecha"]
-        widgets = {
-            'farmacia': selectable.AutoCompleteSelectWidget(lookup_class=lookups.FarmaciaLookup),
-        }
+
+    def clean_fecha(self):
+        fecha = self.cleaned_data['fecha']
+        lim = datetime.date.today() - datetime.timedelta(weeks=config.SEMANAS_LIMITE_PEDIDO)
+        if fecha and not (datetime.date.today() >= fecha > lim):
+            raise forms.ValidationError('La fecha debe ser como maximo una semana anterior al dia actual')
+        return fecha
 
 
 class DetallePedidoDeFarmaciaForm(forms.ModelForm):
@@ -106,6 +111,14 @@ class PedidoDeClinicaForm(forms.ModelForm):
         widgets = {
             'clinica': selectable.AutoCompleteSelectWidget(lookup_class=lookups.ClinicaLookup),
         }
+
+    def clean_fecha(self):
+        fecha = self.cleaned_data['fecha']
+        lim = datetime.date.today() - datetime.timedelta(weeks=config.SEMANAS_LIMITE_PEDIDO)
+        if fecha and not (datetime.date.today() >= fecha > lim):
+            raise forms.ValidationError('La fecha debe ser como maximo una semana anterior al dia actual')
+        return fecha
+
 
 class DetallePedidoDeClinicaForm(forms.ModelForm):
     helper = FormHelper()
@@ -344,11 +357,18 @@ class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
 
         return True
 
+    def clean_fechaVencimiento(self):
+        fechaVencimiento = self.cleaned_data['fechaVencimiento']
+        lim = datetime.date.today() + datetime.timedelta(weeks=config.SEMANAS_LIMITE_VENCIDOS)
+        if fechaVencimiento and fechaVencimiento <= lim:
+            raise forms.ValidationError('No se puede ingresar lotes cuya fecha de vencimiento este dentro de los proximos 6 meses')
+        return fechaVencimiento
+
 
 def get_laboratorios_con_vencidos():
     labosConVencidos = []
     laboratorios = omodels.Laboratorio.objects.all()
-    lt = datetime.date.today() + datetime.timedelta(weeks=26)
+    lt = datetime.date.today() + datetime.timedelta(weeks=config.SEMANAS_LIMITE_VENCIDOS)
     for laboratorio in laboratorios:
         count = mmodels.Lote.objects.filter(medicamento__laboratorio=laboratorio, stock__gt=0, fechaVencimiento__lte=lt).count()
         if count > 0:
@@ -406,3 +426,10 @@ class RegistrarRecepcionForm(forms.Form):
         if nroRemito and models.RemitoLaboratorio.objects.filter(pk=nroRemito).exists():
             raise forms.ValidationError('El número de remito ya existe')
         return nroRemito
+
+    def clean_fechaRemito(self):
+        fechaRemito = self.cleaned_data['fechaRemito']
+        lim = datetime.date.today() - datetime.timedelta(weeks=config.SEMANAS_LIMITE_PEDIDO)
+        if fechaRemito and not (datetime.date.today() >= fechaRemito > lim):
+            raise forms.ValidationError('La fecha debe ser como maximo una semana anterior al dia actual')
+        return fechaRemito
