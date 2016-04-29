@@ -67,11 +67,13 @@
 		                		{% endif %}
 		                	</h3>
 	                        <em class="table-empty-msg">
-	                        	{% if estadisticas.total == 0 %}
-	                        		Puedes agregar datos presionando el botón de alta.
-	                        	{% else %}
-	                        		Intente cambiar los parámetros de búsqueda.
-	                        	{% endif %}
+	                        	{% block table-empty-msg %}
+									{% if estadisticas.total == 0 %}
+		                        		Puedes agregar datos presionando el botón de alta.
+		                        	{% else %}
+		                        		Intente cambiar los parámetros de búsqueda.
+		                        	{% endif %}
+	                        	{% endblock %}
                             </em>
 		                </div>
 	                {% endif %}
@@ -117,6 +119,11 @@
 		    </div>
 		</div>
 	{% endblock %}
+
+	<!-- Para agregar más contenido -->
+	{% block more-content %}
+	{% endblock %}
+	
 {% endblock %}
 
 {% block scripts %} 
@@ -155,6 +162,7 @@
 			        } else {
 			            $txtToggle.text($txtToggle.text().replace('Simple', 'Avanzada'));
 			        }
+			        e.preventDefault();
 			    },
 			    sendForm: function() {
 			        if (!this.$form.hasClass('form-is-avanzado')) {

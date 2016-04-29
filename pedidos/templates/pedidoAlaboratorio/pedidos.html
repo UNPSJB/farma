@@ -1,117 +1,225 @@
-{% extends "base/base-abm.html" %}
+{% extends "base/base-listado.html" %}
 {% load staticfiles %}
 
-{% block more-stylesheets %}
-     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
+{% block title %} Pedidos a laboratorios {% endblock %}
+
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li class="active">Pedidos a laboratorios</li>
 {% endblock %}
 
-{% block title %}Pedidos a laboratorios{% endblock %}
+{% block header-title %} Pedidos a laboratorios {% endblock%}
 
-{% block more-crumbs %}
-    <li class="active">Pedidos a laboratorio</li>
+{% block form-field-simple %} 
+    <input class="form-control form-field form-field-simple" id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" placeholder="Laboratorio" type="text" />
 {% endblock %}
 
-{% block panel-title-ABM %}
-    <h3 class="panel-title">Pedidos a Laboratorio</h3>
+{% block form-fields-avanzados %} 
+    <input class="datepicker form-control form-field"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde" type="text" />
+    <input class="datepicker form-control form-field" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta" type="text" />
 {% endblock %}
 
-{% block btn-modificar %}{% endblock %}
-
-{% block btn-baja %}{% endblock %}
-
-{% block more-buttons %}
-    <a class="btn btn-danger hidden ocultable" id="cancelar-pedido" data-toggle="modal" data-target="#modal-baja"><span class="glyphicon glyphicon-remove"></span> Cancelar Pedido</a>
-    <a class="btn btn-info hidden ocultable" id="ver"><span class="glyphicon glyphicon-pencil"></span> Ver</a>
+{% block botones-header-tabla %} 
+    <a class="btn-alta" href="{% url 'pedidoAlaboratorio_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
 {% endblock %}
 
-{% block grid %}
-    <table id="example" class="table table-hover table-bordered" cellspacing="0" width="100%">
-        <thead>
-            <tr class="info">
-                <th>Numero</th>
-                <th>Fecha</th>
-                <th>Laboratorio</th>
-                <th>Estado</th>
+{% block tabla %}
+    <thead>
+        <tr>
+            <th>Nº Pedido</th>
+            <th>Laboratorio</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pedido in pedidos %}
+            <tr class="clickeable" data-id="{{ pedido.nroPedido }}">
+                <td>{{ pedido.nroPedido }}</td>
+                <td>{{ pedido.laboratorio }}</td>
+                <td>{{ pedido.fecha }}</td>
+                <td>{{ pedido.estado}}</td>
+                <td class="action">
+                    <div class="dropdown">
+                        <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Acción
+                        <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a class="action-link btn-ver-detalles" data-url="{% url 'pedidoAlaboratorio_verDetalles' pedido.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-eye-open"></span> Ver Detalles
+                                </a>
+                            </li>
+                            <li>
+                                <a class="action-link" href="{% url 'pedidoAlaboratorio_verRemitos' pedido.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-eye-open"></span> Ver Remitos
+                                </a>
+                            </li>
+                            {% if pedido.estado == "Pendiente" %}
+                            <li>
+                                <a class="action-link btn-eliminar" data-url="{% url 'pedidoAlaboratorio_cancelar' pedido.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-remove"></span> Cancelar
+                                </a>
+                            </li>
+                            {% endif%}
+                        </ul>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for pedido in pedidos %}
-                <tr 
-                    {% if pedido.estado == "Pendiente" %}
-                        class="clickeable cancelable"
+        {% endfor %}
+    </tbody>
+{% endblock %}
+
+{% block modal-eliminar-titulo %} Cancelar Pedido a Laboratorio {% endblock %}
+
+{% block modal-eliminar-mensaje %}
+    El pedido a laboratorio seleccionado se cancelará ¿Está seguro?
+{% endblock %}
+
+{% block more-content %}
+    <div class="modal fade" id="modal-ver-detalles" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Detalles del Pedido</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Medicamento</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for detalle in detalles %}
+                                <tr>
+                                    <td>{{ detalle.medicamento }}</td>
+                                    <td>{{ detalle.cantidad }}</td>
+                                </tr>
+                            {% endfor%}
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal-ver-remitos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Remitos del Pedido</h4>
+                </div>
+                <div class="modal-body">
+                    {% if remitos %}
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nº Remito</th>
+                                    <th>Fecha</th>
+                                    <th>Descargar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for remito in remitos %}
+                                    <tr>
+                                        <td>{{ remito.nroRemito }}</td>
+                                        <td>{{ remito.fecha}}</td>
+                                        <td>
+                                            <a target="_blank" href="{% url 'remitoDeLaboratorio' remito.pk %}">
+                                                <span class="glyphicon glyphicon-floppy-disk" style="color: #F11"></span>
+                                            </a>
+
+                                        </td>
+                                    </tr>
+                                {% endfor%}
+                            </tbody>
+                        </table>
                     {% else %}
-                        class="clickeable"
-                    {% endif %} 
-                data-id="{{ pedido.nroPedido }}">
-                    <td>{{pedido.nroPedido}}</td>
-                    <td>{{pedido.fecha}}</td>
-                    <td>{{pedido.laboratorio}}</td>
-                    <td>{{pedido.estado}}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                        <p>Este pedido aún no posee remitos</p>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
-
-{% block url-add %}{% url 'pedidoAlaboratorio_add' %}{% endblock %}
-
-{% block filtro %}
-    <label>Buscar:</label>
-    <input class="filtro" id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" placeholder="Laboratorio">
-    <input class="datepicker"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
-    <input class="datepicker" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta">
-    <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
-    <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
-{% endblock %}
-
-{% block cantidad-elementos %}
-    {{ pedidos|length }}
-    {% if pedidos|length != 1%}
-        pedidos a laboratorio
-    {% else %}
-        pedido a laboratorio
-    {% endif %}
-{% endblock %}
-
-{% block modal-baja-title %}
-    <h4 class="modal-title">Cancelar Laboratorio </h4>
-{% endblock %}
-
-{% block modal-baja-texto %}¿Esta seguro de querer cancelar este pedido a laboratorio?{% endblock %}
 
 {% block more-scripts %}
-<script src="{% static 'js/datepicker.js' %}"></script>
     <script>
-        $(document).ready(function(){
-
-            $("#ver").on("click", function(e){
-                var id = get_selected_row();
-                if(id){
-                    var url = "/pedidosAlaboratorio/ver/" + id + "/";
-                    $(this).attr("href", url);
-                }
-                e.stopPropagation();
-            });
-
-            $('.clickeable').on('click', function(){
-                if(! $(this).hasClass('cancelable')){
-                    $('#cancelar-pedido').addClass('hidden');
-                }
-            });
-
-            $('#cancelar-pedido').on('click', function(e){
-                var id = get_selected_row();
-                if(id){
-                    crear_baja("/pedidosAlaboratorio/cancelar/", id);
-                }
-                e.stopPropagation()
-            });
+        (function(){
+            var $modalRemitos = $('#modal-ver-remitos'),
+                $modalDetalles = $('#modal-ver-detalles');
 
             $(document).on("keyup", function(e){
                 if(e.keyCode == 112){
                     window.open("{% static 'documentacion/build/html/pedidosalab.html' %}");
                 }
             });
-        });
+
+            {% if remitos != None %} 
+                $modalRemitos.modal('show');
+            {% endif%}
+
+            {% if detalles != None %} 
+                $modalDetalles.modal('show');
+            {% endif%}
+
+            $('.btn-ver-detalles').on('click', function() {
+                $.ajax({
+                    type: 'GET',
+                    url: $(this).data('url'),
+                    dataType: 'json',
+                    success: function(data){
+                        if(data) {
+                            console.log(data['detalles']);
+                            fillDataDetalles(data['detalles']);
+                            $modalDetalles.modal('show');
+                        }
+                        
+                    },
+                    error: function(err){
+                        alert("Fallo Ajax");
+                    },
+                });
+            });
+
+            function fillDataDetalles(detalles) {
+                var $tabla = $modalDetalles.find('table tbody'),
+                    rows = document.createDocumentFragment(),
+                    i, max;
+                $tabla.remove('tr');
+
+                for(i = 0, max = detalles.length; i < max; i+=1) {  
+                    var tr = document.createElement('tr'),
+                    medicamento = document.createElement('td'),
+                    cantidad = document.createElement('td'),
+                    txtMedicamento = document.createTextNode(detalles[i]['medicamento']['descripcion']),
+                    txtCantidad = document.createTextNode(detalles[i]['cantidad']);
+
+                    medicamento.appendChild(txtMedicamento);
+                    cantidad.appendChild(txtCantidad);
+                    tr.appendChild(medicamento);
+                    tr.appendChild(cantidad);
+
+                    rows.appendChild(tr);
+                }
+                console.log(rows);
+                $tabla.append(rows);
+            }
+
+        })();
     </script>
 {% endblock %}

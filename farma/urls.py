@@ -118,7 +118,9 @@ urlpatterns = [
     url(r'^pedidosAlaboratorio/add/detalles/update/(?P<id_detalle>\d+)/$', pviews.detallePedidoAlaboratorio_update, name="detallePedidoAlaboratorio_update"),
     url(r'^pedidosAlaboratorio/add/detalles/delete/(?P<id_detalle>\d+)/$', pviews.detallePedidoAlaboratorio_delete, name="detallePedidoAlaboratorio_delete"),
     url(r'^pedidosAlaboratorio/add/registrar-pedido/$', pviews.pedidoAlaboratorio_registrar, name="pedidoAlaboratorio_registrar"),
-    url(r'^pedidosAlaboratorio/cancelar/(?P<id_pedido>\d+)/$', pviews.pedidoAlaboratorio_cancelar, name="pedidoAlaboratorio_cancelar"),  
+    url(r'^pedidosAlaboratorio/cancelar/(?P<id_pedido>\d+)/$', pviews.pedidoAlaboratorio_cancelar, name="pedidoAlaboratorio_cancelar"), 
+    url(r'^pedidosAlaboratorio/verDetalles/(?P<id_pedido>\d+)/$', pviews.pedidoAlaboratorio_verDetalles, name="pedidoAlaboratorio_verDetalles"), 
+    url(r'^pedidosAlaboratorio/verRemitos/(?P<id_pedido>\d+)/$', pviews.pedidoAlaboratorio_verRemitos, name="pedidoAlaboratorio_verRemitos"),
     url(r'^pedidosAlaboratorio/ver/(?P<id_pedido>\d+)/$', pviews.pedidoAlaboratorio_ver, name="pedidoAlaboratorio_ver"),
     url(r'^pedidosAlaboratorio/remitoDeLaboratorio/(?P<id_remito>\d+)/$', pviews.remitoDeLaboratorio.as_view(), name="remitoDeLaboratorio"),
 

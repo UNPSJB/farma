@@ -37,6 +37,13 @@ def crear_detalle_json(detalle, renglon):
     d['renglon'] = renglon
     return d
 
+def get_detalles(session, m):
+    id_pedido = request.session['mostrarDetalles']
+    del request.session['mostrarDetalles']
+    detalles = m.objects.filter(pedido__pk=id_pedido)
+
+
+
 #**********************
 # PEDIDO DE FARMACIA
 #**********************
@@ -226,9 +233,15 @@ def existe_medicamento_en_detalle_suelto(detalles, id_medicamento):
 
 
 
+def get_remitos_pedido_a_laboratorio(session):
+    id_pedido = session['mostrarRemitos']
+    del session['mostrarRemitos']
+    return models.RemitoLaboratorio.objects.filter(pedidoLaboratorio__pk=id_pedido)
 
-
-
+def get_detalles_pedido_a_laboratorio(session):
+    id_pedido = session['mostrarDetalles']
+    del session['mostrarDetalles']
+    return models.DetallePedidoAlaboratorio.objects.filter(pedido__pk=id_pedido)
 
 #*******************************
 # RECEPCION PEDIDO A LABORATORIO

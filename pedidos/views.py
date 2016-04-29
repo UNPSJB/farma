@@ -336,9 +336,19 @@ def pedidosAlaboratorio(request):
     mfilters = get_filtros(request.GET, models.PedidoAlaboratorio)
     pedidos = models.PedidoAlaboratorio.objects.filter(**mfilters).exclude(estado="Cancelado")
     estadisticas = {
-        'total': models.PedidoAlaboratorio.objects.all().count(),
+        'total': models.PedidoAlaboratorio.objects.all().exclude(estado="Cancelado").count(),
         'filtrados': pedidos.count()
     }
+    if 'mostrarRemitos' in request.session:
+        remitos = utils.get_remitos_pedido_a_laboratorio(request.session)
+        return render(request, "pedidoAlaboratorio/pedidos.html", 
+        {"pedidos": pedidos, "filtros": request.GET, 'estadisticas': estadisticas, 'remitos': remitos})
+
+    if 'mostrarDetalles' in request.session:
+        detalles = utils.get_detalles_pedido_a_laboratorio(request.session)
+        return render(request, "pedidoAlaboratorio/pedidos.html", 
+        {"pedidos": pedidos, "filtros": request.GET, 'estadisticas': estadisticas, 'detalles': detalles})
+    
     return render(request, "pedidoAlaboratorio/pedidos.html", {"pedidos": pedidos, "filtros": request.GET, 'estadisticas': estadisticas})
 
 
@@ -366,6 +376,21 @@ def pedidoAlaboratorio_cancelar(request, id_pedido):
     utils.cancelar_pedido_a_laboratorio(pedido);
     return redirect('pedidosAlaboratorio')
 
+@json_view
+@login_required(login_url='login')
+def pedidoAlaboratorio_verDetalles(request, id_pedido):
+    detalles_json = []
+    detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido__pk=id_pedido)
+    for detalle in detalles:
+        
+        detalles_json.append(detalle.to_json())
+    
+    print detalles_json
+    return {'detalles': detalles_json}
+
+def pedidoAlaboratorio_verRemitos(request, id_pedido):
+    request.session['mostrarRemitos'] = id_pedido
+    return redirect('pedidosAlaboratorio')
 
 @login_required(login_url='login')
 def pedidoAlaboratorio_ver(request, id_pedido):

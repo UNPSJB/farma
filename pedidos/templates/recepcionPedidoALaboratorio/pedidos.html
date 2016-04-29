@@ -47,7 +47,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
                             <li>
-                                <a class="action-link" href="{% url 'recepcionPedidoAlaboratorio_registrar' pedido.pk %}">
+                                <a class="action-link" href="{% url 'recepcionPedidoAlaboratorio_cargarPedido' pedido.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon-ok-circle"></span> Registrar
                                 </a>
                             </li>
@@ -58,15 +58,22 @@
         {% endfor %}
     </tbody>
 {% endblock %}
+{% block table-empty-msg %} 
+ No hay pedidos de laboratorio que esperen una recepción.
+{% endblock %}
 
 {% block sin-modal-eliminar %}{% endblock %}
 
 {% block more-scripts %}
     <script>
-        $(document).on("keyup", function(e){
-            if(e.keyCode == 112){
-                window.open("{% static 'documentacion/build/html/receppedidosdelab.html' %}");
-            }
-        });
+        (function(){
+            $(document).on("keyup", function(e){
+                if(e.keyCode == 112){
+                    window.open("{% static 'documentacion/build/html/receppedidosdelab.html' %}");
+                }
+            });
+
+
+        })();
     </script>
 {% endblock %}

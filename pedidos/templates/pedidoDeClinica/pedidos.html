@@ -1,96 +1,74 @@
-{% extends "base/base-abm.html"%}
+{% extends "base/base-listado.html" %}
 {% load staticfiles %}
 
-{% block title %}Pedidos de Clinica{% endblock %}
+{% block title %} Pedidos de Clinica {% endblock %}
 
-{% block more-stylesheets %}
-     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li class="active">Pedidos de Clinica</li>
 {% endblock %}
 
-{% block more-crumbs %}
-    <li class="active">Pedidos de clinica</li>
+{% block header-title %} Pedidos de Clinica {% endblock%}
+
+{% block form-field-simple %} 
+    <input class="form-control form-field form-field-simple" id="clinica" name="clinica" value="{{filtros.clinica}}" placeholder="Clinica" type="text" />
 {% endblock %}
 
-{% block panel-title-ABM %}Pedidos de Clinica{% endblock %}
-
-{% block url-add %}{% url 'pedidoDeClinica_add' %}{% endblock %}
-
-{% block btn-baja %}{% endblock %}
-
-{% block btn-modificar %}{% endblock %}
-
-{% block more-buttons %}
-    <a id="btn-ver" class="btn btn-info hidden ocultable" href="#">
-        <span class="glyphicon glyphicon-eye-open"></span> Ver
-    </a>
+{% block form-fields-avanzados %} 
+    <input class="form-control form-field" id="obra-social" name="obraSocial" value="{{filtros.obraSocial}}" placeholder="Obra Social" type="text">
+    <input class="datepicker form-control form-field"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
+    <input class="datepicker form-control form-field" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta">
 {% endblock %}
 
-{%block filtro %}
-    <label for="clinica" >Buscar:</label>
-    <input  id="clinica" name="clinica" value="{{filtros.clinica}}" placeholder="Clinica">
-    <input  id="obra-social" name="obraSocial" value="{{filtros.obraSocial}}" placeholder="Obra Social">
-    <input class="datepicker"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
-    <input class="datepicker" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta">
-    <button class="btn btn-danger btn-sm" type="submit" value="Filtrar" id="btn-filtrar">Filtrar</button>
-    <button class="btn btn-primary btn-sm" type="button"  id="btn-limpiar">Limpiar</button>
+{% block botones-header-tabla %} 
+    <a class="btn-alta" href="{% url 'pedidoDeClinica_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
 {% endblock %}
 
-{% block grid %}
-    <table class="table table-bordered">
-        <thead>
-            <tr class="info">
-                <th>Nº Pedido</th>
-                <th>Clinica</th>
-                <th>Fecha</th>
-                <th>Obra social</th>
-                <th>Medico auditor</th>
+{% block tabla %}
+    <thead>
+        <tr>
+            <th>Nº Pedido</th>
+            <th>Clinica</th>
+            <th>Fecha</th>
+            <th>Obra social</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pedido in pedidos %}
+            <tr class="clickeable" data-id="{{ pedido.nroPedido }}">
+                <td>{{ pedido.nroPedido }}</td>
+                <td>{{ pedido.clinica }}</td>
+                <td>{{ pedido.fecha }}</td>
+                <td>{{ pedido.obraSocial}}</td>
+                <td class="action">
+                    <div class="dropdown">
+                        <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Acción
+                        <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a class="action-link" href="{% url 'pedidoDeClinica_ver' pedido.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-eye-open"></span> Ver
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for pedido in pedidos %}
-                <tr class="clickeable" data-id="{{ pedido.nroPedido }}">
-                    <td>{{ pedido.nroPedido }}</td>
-                    <td>{{ pedido.clinica }}</td>
-                    <td>{{ pedido.fecha }}</td>
-                    <td>{{ pedido.obraSocial}}</td>
-                    <td>{{ pedido.medicoAuditor }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        {% endfor %}
+    </tbody>
 {% endblock %}
 
-{% block cantidad-elementos %}
-    {{ pedidos|length }}
-    {% if pedidos|length != 1 %}
-        pedidos de clinica
-    {% else %}
-        pedido de clinica
-    {% endif %}
-{% endblock %}
+{% block sin-modal-eliminar %}{% endblock %}
 
 {% block more-scripts %}
-    <script src="{% static 'js/datepicker.js' %}"></script>
     <script>
-        (function(){
-            $("#btn-ver").on("click", function(e){
-                id = get_selected_row()
-                if(id){
-                    $(this).attr("href", "/pedidosDeClinica/ver/" + id + "/");
-                }
-                e.stopPropagation();
-            });
-
-            $("#btn-limpiar").on("click", function(e){
-                $("form input").val("");
-                e.stopPropagation();
-            });
-
-            $(document).on("keyup", function(e){
-                if(e.keyCode == 112){
-                    window.open("{% static 'documentacion/build/html/pedidosclinica.html' %}");
-                }
-            });
-        })();
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                window.open("{% static 'documentacion/build/html/pedidosclinica.html' %}");
+            }
+        });
     </script>
 {% endblock %}
