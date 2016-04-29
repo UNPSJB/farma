@@ -109,6 +109,13 @@ class RemitoLaboratorio(models.Model):
     def __str__(self):
         return str(self.nroRemito)
 
+    def to_json(self):
+        if self.nroRemito:
+            return {
+                'nroRemito': self.nroRemito,
+                'fecha': self.fecha
+            }
+
 class DetalleRemitoLaboratorio(models.Model):
     remito = models.ForeignKey('RemitoLaboratorio', on_delete=models.CASCADE)
     lote = models.ForeignKey('medicamentos.Lote')

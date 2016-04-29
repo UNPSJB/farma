@@ -2,7 +2,7 @@
 
 INSERT INTO organizaciones_farmacia VALUES ( 1, 'Nueva Molina',  '30-45879153-4', 'Trelew',  'Belgrano Norte 152', ' ', ' ', ' ');
 
-INSERT INTO organizaciones_farmacia VALUES ( 2, 'La Botica',  '30-42589634-8', 'Trelew',  'Maipú 683', ' ', ' ', ' ');
+INSERT INTO organizaciones_farmacia VALUES ( 2, 'La Botica',  '30-42589634-8', 'Trelew',  'Maipu 683', ' ', ' ', ' ');
 
 INSERT INTO organizaciones_farmacia VALUES ( 3, 'Crisol',  '30-36741596-1', 'Rawson', 'Conesa 236', ' ', ' ', ' ');
 
@@ -36,7 +36,7 @@ INSERT INTO organizaciones_laboratorio VALUES (4, 'Elea', '30-50057148-5', 'Capi
 
 INSERT INTO organizaciones_laboratorio VALUES (5, 'Boehringer Ingelheim', '30-53562115-9', 'Capital Federal', 'Av. Del Libertador 7208', '', '47048600');
 
-INSERT INTO organizaciones_laboratorio VALUES (6, 'Pfizer', '30-50351851-8', 'San Isidro', 'Colectora Panamericana 1804 1°P Sector B', '', '47887000');
+INSERT INTO organizaciones_laboratorio VALUES (6, 'Pfizer', '30-50351851-8', 'San Isidro', 'Colectora Panamericana 1804 primer piso Sector B', '', '47887000');
 
 
 /*Monodrogas*/
@@ -118,55 +118,55 @@ INSERT INTO medicamentos_nombrefantasia VALUES (11, 'Dioxaflex');
 
 /*Medicamentos*/
 
-INSERT INTO medicamentos_medicamento VALUES (1, 18674582, 50, 1, 1, 1, 110);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (1, 18674582, 50, 1, 1, 1, 110);
 
-INSERT INTO medicamentos_medicamento VALUES (2, 368521369, 80, 3, 2, 2, 120);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta )  VALUES (2, 368521369, 80, 3, 2, 2, 120);
 
-INSERT INTO medicamentos_medicamento VALUES (3, 15976584, 100, 2, 3, 3, 150);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (3, 15976584, 100, 2, 3, 3, 150);
 
-INSERT INTO medicamentos_medicamento VALUES (4, 23589746, 40, 1, 4, 4, 50);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (4, 23589746, 40, 1, 4, 4, 50);
 
-INSERT INTO medicamentos_medicamento VALUES (5, 45873691, 150, 4, 5, 5, 85);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (5, 45873691, 150, 4, 5, 5, 85);
 
-INSERT INTO medicamentos_medicamento VALUES (6, 95123657, 120, 5, 6, 6, 90);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (6, 95123657, 120, 5, 6, 6, 90);
 
-INSERT INTO medicamentos_medicamento VALUES (7, 78563125, 100, 1, 7, 7, 210);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (7, 78563125, 100, 1, 7, 7, 210);
 
-INSERT INTO medicamentos_medicamento VALUES (8, 85823647, 80, 4, 8, 8, 45);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (8, 85823647, 80, 4, 8, 8, 45);
 
-INSERT INTO medicamentos_medicamento VALUES (9, 63251478, 80, 6, 9, 9, 68);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (9, 63251478, 80, 6, 9, 9, 68);
 
-INSERT INTO medicamentos_medicamento VALUES (10, 59632574, 30, 3, 10, 10, 75);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (10, 59632574, 30, 3, 10, 10, 75);
 
-INSERT INTO medicamentos_medicamento VALUES (11, 19198585, 40, 2, 11, 11, 82);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (11, 19198585, 40, 2, 11, 11, 82);
 
 /*Medicamento-Dosis*/
 
 
-INSERT INTO medicamentos_dosis VALUES (1, 2, 600, 1, 1);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (1, 2, 600, 1, 1);
 
-INSERT INTO medicamentos_dosis VALUES (2, 2, 875, 2, 2);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (2, 2, 875, 2, 2);
 
-INSERT INTO medicamentos_dosis VALUES (3, 2, 25, 3, 3);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (3, 2, 25, 3, 3);
 
-INSERT INTO medicamentos_dosis VALUES (4, 2, 500, 4, 4);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (4, 2, 500, 4, 4);
 
-INSERT INTO medicamentos_dosis VALUES (5, 2, 50, 5, 5);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (5, 2, 50, 5, 5);
 
-INSERT INTO medicamentos_dosis VALUES (6, 2, 20, 6, 6);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (6, 2, 20, 6, 6);
 
-INSERT INTO medicamentos_dosis VALUES (7, 2, 500, 7, 4);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (7, 2, 500, 7, 4);
 
-INSERT INTO medicamentos_dosis VALUES (8, 2, 40, 7, 7);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (8, 2, 40, 7, 7);
 
-INSERT INTO medicamentos_dosis VALUES (9, 3, 1, 8, 5);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (9, 3, 1, 8, 5);
 
-INSERT INTO medicamentos_dosis VALUES (10, 3, 8, 8, 8);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (10, 3, 8, 8, 8);
 
-INSERT INTO medicamentos_dosis VALUES (11, 2, 600, 9, 1);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (11, 2, 600, 9, 1);
 
-INSERT INTO medicamentos_dosis VALUES (12, 2, 100, 10, 9);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (12, 2, 100, 10, 9);
 
-INSERT INTO medicamentos_dosis VALUES (13, 2, 1200, 10, 10);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (13, 2, 1200, 10, 10);
 
-INSERT INTO medicamentos_dosis VALUES (14, 2, 75, 11, 11);
+INSERT INTO medicamentos_dosis (id, unidad, cantidad, monodroga_id, medicamento_id) VALUES (14, 2, 75, 11, 11);

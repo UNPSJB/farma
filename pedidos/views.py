@@ -382,15 +382,17 @@ def pedidoAlaboratorio_verDetalles(request, id_pedido):
     detalles_json = []
     detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido__pk=id_pedido)
     for detalle in detalles:
-        
         detalles_json.append(detalle.to_json())
-    
-    print detalles_json
     return {'detalles': detalles_json}
-
+    
+@json_view
 def pedidoAlaboratorio_verRemitos(request, id_pedido):
-    request.session['mostrarRemitos'] = id_pedido
-    return redirect('pedidosAlaboratorio')
+    remitos_json = []
+    remitos = models.RemitoLaboratorio.objects.filter(pedidoLaboratorio__pk=id_pedido)
+    for remito in remitos:
+        remitos_json.append(remito.to_json())
+    return {'remitos': remitos_json}
+
 
 @login_required(login_url='login')
 def pedidoAlaboratorio_ver(request, id_pedido):
