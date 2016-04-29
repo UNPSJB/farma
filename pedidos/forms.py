@@ -6,8 +6,6 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
 from crispy_forms.bootstrap import StrictButton, FormActions
 from django.utils.translation import ugettext_lazy as _
-from . import lookups
-from selectable import forms as selectable
 from medicamentos import models as mmodels
 from organizaciones import models as omodels
 import datetime
@@ -107,9 +105,6 @@ class PedidoDeClinicaForm(forms.ModelForm):
         labels = {
             'obraSocial': _('Obra social'),
             'medicoAuditor': _('Medico auditor'),
-        }
-        widgets = {
-            'clinica': selectable.AutoCompleteSelectWidget(lookup_class=lookups.ClinicaLookup),
         }
 
     def clean_fecha(self):

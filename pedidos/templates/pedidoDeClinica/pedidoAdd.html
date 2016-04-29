@@ -4,6 +4,8 @@
 {% block more-stylesheets %}
     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
     {{ form.media.css }}
+    <link rel="stylesheet" href="{%  static 'css/selectize.css' %}">
+    <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -22,4 +24,14 @@
 {% block more-scripts %}
     <script src="{% static 'js/datepicker.js' %}"></script>
     {{ form.media.js }}
+    <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
+    <script>
+        $('select').selectize({
+            sortField: {
+                field: 'text',
+                direction: 'asc'
+            },
+            dropdownParent: 'body'
+        });
+    </script>
 {% endblock %}

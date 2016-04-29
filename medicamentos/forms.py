@@ -4,9 +4,7 @@ from django.forms import widgets
 from django.conf import settings
 from django import forms
 from . import models
-from . import lookups
 from django.forms.formsets import BaseFormSet, formset_factory
-from selectable import forms as selectable
 from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field

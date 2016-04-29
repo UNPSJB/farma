@@ -3,56 +3,58 @@
 {% load crispy_forms_tags %}
 
 {% block stylesheets %}
-<link rel="stylesheet" href="{% static 'css/jquery-ui.custom.min.css' %}">
-<style>
-	.header {
-		background-color: rgb(19, 43, 60);
-		color: #D0D0D0;
-	}
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.custom.min.css' %}">
+    <link rel="stylesheet" href="{%  static 'css/selectize.css' %}">
+    <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
+    <style>
+        .header {
+            background-color: rgb(19, 43, 60);
+            color: #D0D0D0;
+        }
 
-	.header h1 {
-		display: inline-block;
-		margin: 0;
-		padding: 2rem 0;
-	}
+        .header h1 {
+            display: inline-block;
+            margin: 0;
+            padding: 2rem 0;
+        }
 
-	.btn-volver {
-		position: absolute;
-		bottom: 0; right: 15px;
-		padding: 0.5rem 1rem;
-		border: 1px solid rgb(219,119,89);
-		border-radius: 5px;
-		color: rgb(219,119,89);
-		-webkit-transition: all .4s ease;
-		transition: all .4s ease;
-	}
+        .btn-volver {
+            position: absolute;
+            bottom: 0; right: 15px;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgb(219,119,89);
+            border-radius: 5px;
+            color: rgb(219,119,89);
+            -webkit-transition: all .4s ease;
+            transition: all .4s ease;
+        }
 
-	.btn-volver:hover {
-		background-color: rgb(219,119,89);
-		color: #FFF;
-	}
+        .btn-volver:hover {
+            background-color: rgb(219,119,89);
+            color: #FFF;
+        }
 
-	.panel-form {
-		margin-top: 3rem;
-		padding: 2rem;
-		background-color: rgb(237,239,241);
-		border: 1px solid #DDD;
-	}
+        .panel-form {
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: rgb(237,239,241);
+            border: 1px solid #DDD;
+        }
 
-	.container-btn-volver {
-		position: relative;
-		margin-top: 4rem;
-		margin-bottom: 2rem;
-	}
+        .container-btn-volver {
+            position: relative;
+            margin-top: 4rem;
+            margin-bottom: 2rem;
+        }
 
-	.form{
-		overflow: hidden;
-	}
+        .form{
+            overflow: hidden;
+        }
 
-	.ocultable {
-		display: none;
-	}
-</style>
+        .ocultable {
+            display: none;
+        }
+    </style>
 {% endblock %}
 
 {% block title %}Devolucion de Medicamentos Vencidos{% endblock %}
@@ -70,7 +72,16 @@
 {% block scripts %}
 	<script src="{% static 'js/datepicker.js' %}"></script>
 	{{ form.media.js }}
+    <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
     <script>
+        $('select').selectize({
+            sortField: {
+                field: 'text',
+                direction: 'asc'
+            },
+            dropdownParent: 'body'
+        });
+
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 window.open("{% static 'documentacion/build/html/devolucionvencidos.html' %}");
