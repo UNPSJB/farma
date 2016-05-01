@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 #******************CLASES ABSTRACTAS******************#
 
@@ -15,7 +16,7 @@ class PedidoVenta(models.Model):
         return str(self.nroPedido)
 
 class DetallePedidoVenta(models.Model):
-    cantidad = models.PositiveIntegerField()
+    cantidad = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(9999)])
     medicamento = models.ForeignKey('medicamentos.Medicamento')
 
     class Meta:
