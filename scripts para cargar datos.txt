@@ -118,27 +118,27 @@ INSERT INTO medicamentos_nombrefantasia VALUES (11, 'Dioxaflex');
 
 /*Medicamentos*/
 
-INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (1, 18674582, 50, 1, 1, 1, 110);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (1, 18674582, 50, 5, 1, 1, 110);
 
-INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta )  VALUES (2, 368521369, 80, 3, 2, 2, 120);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta )  VALUES (2, 368521369, 80, 4, 2, 2, 120);
 
 INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (3, 15976584, 100, 2, 3, 3, 150);
 
 INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (4, 23589746, 40, 1, 4, 4, 50);
 
-INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (5, 45873691, 150, 4, 5, 5, 85);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (5, 45873691, 150, 3, 5, 5, 85);
 
-INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (6, 95123657, 120, 5, 6, 6, 90);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (6, 95123657, 120, 3, 6, 6, 90);
 
-INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (7, 78563125, 100, 1, 7, 7, 210);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (7, 78563125, 100, 3, 7, 7, 210);
 
-INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (8, 85823647, 80, 4, 8, 8, 45);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (8, 85823647, 80, 3, 8, 8, 45);
 
-INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (9, 63251478, 80, 6, 9, 9, 68);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (9, 63251478, 80, 3, 9, 9, 68);
 
 INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (10, 59632574, 30, 3, 10, 10, 75);
 
-INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (11, 19198585, 40, 2, 11, 11, 82);
+INSERT INTO medicamentos_medicamento (id, codigoBarras,stockMinimo, laboratorio_id, nombreFantasia_id, presentacion_id,precioDeVenta ) VALUES (11, 19198585, 40, 3, 11, 11, 82);
 
 /*Medicamento-Dosis*/
 
