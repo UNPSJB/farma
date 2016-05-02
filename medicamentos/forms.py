@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- encoding: utf-8 -*-
+
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.forms import widgets
@@ -245,27 +248,22 @@ class DosisForm(forms.ModelForm):
             'monodroga': selectable.AutoCompleteSelectWidget(lookup_class=lookups.MonodrogaLookup),
         }
 
-    def clean_monodroga(self):
-        monodroga = self.cleaned_data['monodroga']
-        if not monodroga:
-            raise forms.ValidationError('dfjghdkfj')
-        return monodroga
-
-
 class DosisFormSetBase(BaseFormSet):
     def is_valid(self):
         ret = super(DosisFormSetBase, self).is_valid()
         formula = set()
         for form in self.forms:
-            if not form.cleaned_data:
-                self._non_form_errors = self.error_class(
-                    forms.ValidationError("El medicamente debe poseer al menos una formula"))
-                return False
-            mono = form.cleaned_data["monodroga"].pk
-            if mono in formula:
-                self._non_form_errors = self.error_class(forms.ValidationError("No se puede cargar una monodroga repetida"))
-                return False
-            formula.add(mono)
+            mono = form.cleaned_data.get("monodroga")
+            print form.cleaned_data
+            if mono:
+                if mono.pk in formula:
+                    raise forms.ValidationError("No se puede cargar una monodroga repetida")
+                formula.add(mono)
         return ret
 
-DosisFormSet = formset_factory(DosisForm, formset=DosisFormSetBase, extra=1)
+    def clean_monodroga(self):
+        print "HOAAAAAAAAAAAAAAAAAAA"
+        monodroga = self.cleaned_data['monodroga']
+        return monodroga
+
+DosisFormSet = formset_factory(DosisForm, formset=DosisFormSetBase, min_num=1, validate_min=True)

@@ -44,7 +44,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'nombreFantasia_delete' nombreFantasia.pk %}">
+                                <a class="action-link btn-eliminar-ajax" href="#" data-url="{% url 'nombreFantasia_delete' nombreFantasia.pk %}" data-url-ajax="{% url 'nombreFantasia_try_delete' nombreFantasia.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
                                 </a>
                             </li>
@@ -61,6 +61,8 @@
 {% block modal-eliminar-mensaje %}
     El nombre fantasia seleccionado se eliminará permanentemente ¿Está seguro?
 {% endblock %}
+
+{% block mensaje-fallo-eliminacion %}Este nombre fantasía no puede ser eliminado por las siguientes razones:{% endblock %}
 
 {% block more-scripts %}
     <script>

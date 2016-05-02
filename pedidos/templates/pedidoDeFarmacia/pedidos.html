@@ -54,8 +54,13 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
                             <li>
-                                <a class="action-link" href="{% url 'pedidoDeFarmacia_ver' pedido.pk %}">
-                                    <span class="action-link-icon animated glyphicon glyphicon-eye-open"></span> Ver
+                                <a class="action-link btn-ver-detalles" href="#" data-url="{% url 'pedidoDeFarmacia_verDetalles' pedido.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-eye-open"></span> Ver Detalles
+                                </a>
+                            </li>
+                            <li>
+                                <a class="action-link btn-ver-remitos" href="#" data-url="{% url 'pedidoDeFarmacia_verRemitos' pedido.pk %}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-eye-open"></span> Ver Remitos
                                 </a>
                             </li>
                         </ul>
@@ -68,12 +73,82 @@
 
 {% block sin-modal-eliminar %}{% endblock %}
 
+{% block more-content %}
+    <div class="modal fade" id="modal-ver-detalles" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Detalles del Pedido</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Medicamento</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal-ver-remitos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Remitos del Pedido</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nº Remito</th>
+                                <th>Fecha</th>
+                                <th>Descargar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                    <div class="mensaje-sin-remitos">
+                        <p>Este pedido aún no posee remitos</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
 {% block more-scripts %}
+    <script src="{% static 'js/modalAjax.js' %}"></script>
     <script>
-        $(document).on("keyup", function(e){
-            if(e.keyCode == 112){
-                window.open("{% static 'documentacion/build/html/pedidosfarmacia.html' %}");
-            }
-        });
+        (function() {
+
+            var modal = modalAjax();
+            modal.init();
+
+            $(document).on("keyup", function(e){
+                if(e.keyCode == 112){
+                    window.open("{% static 'documentacion/build/html/pedidosfarmacia.html' %}");
+                }
+            });
+
+        })();
     </script>
 {% endblock %}

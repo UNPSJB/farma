@@ -39,11 +39,6 @@ input[type="submit"]:active{
     border-style: solid;
 }
 
-ul, ol{
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
 
 /*
 body {

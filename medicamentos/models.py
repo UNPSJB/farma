@@ -2,6 +2,8 @@
 from django.db import models
 from organizaciones.models import Laboratorio
 from django.core.validators import MaxValueValidator, MinValueValidator
+from pedidos import config
+import datetime
 
 
 class Medicamento(models.Model):
@@ -20,10 +22,16 @@ class Medicamento(models.Model):
     def get_stock(self):
         if self.id:
             stockTotal = 0
-            lotes = Lote.objects.filter(medicamento=self, stock__gt=0)        
+            lotes = self.get_lotes_activos()
             for lote in lotes:
                 stockTotal += lote.stock
             return stockTotal
+
+    def get_lotes_activos(self):
+        if self.id:
+            lim = datetime.date.today() + datetime.timedelta(weeks=config.SEMANAS_LIMITE_VENCIDOS)
+            return Lote.objects.filter(medicamento=self, stock__gt=0, fechaVencimiento__gte=lim)
+        return None
 
 
 
@@ -81,6 +89,14 @@ class Lote(models.Model):
 
     def __str__(self):
         return "%s" % self.numero
+
+    def to_json(self):
+        if self.numero:
+            return {
+                'nroLote': self.numero,
+                'fechaVencimiento': self.fechaVencimiento.strftime("%d/%m/%y"),
+                'stock': self.stock
+            }
 
 
 

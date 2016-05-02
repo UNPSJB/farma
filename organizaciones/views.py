@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from organizaciones import models, forms
+from organizaciones import models, forms, utils
 from django.contrib.auth.decorators import login_required
-
+from jsonview.decorators import json_view
 
 def get_filtros(get, modelo):
     mfilter = {}
@@ -57,11 +57,19 @@ def farmacia_update(request, id_farmacia):
     return render(request, "farmacia/farmaciaUpdate.html", {'form': form, 'id': id_farmacia})
 
 
+@json_view
+@login_required(login_url='login')
+def farmacia_try_delete(request, id_farmacia):
+    infoBaja = utils.puedo_eliminar_farmacia(id_farmacia)
+    return infoBaja
+
 @login_required(login_url='login')
 def farmacia_delete(request, id_farmacia):
-    farmacia = get_object_or_404(models.Farmacia, pk=id_farmacia)
-    farmacia.delete()
-    return redirect('farmacias')
+    infoBaja = utils.puedo_eliminar_farmacia(id_farmacia)
+    if infoBaja['success']:
+        farmacia = get_object_or_404(models.Farmacia, pk=id_farmacia)
+        farmacia.delete()
+        return redirect('farmacias')
 
 
 # ****** CLINICAS ******
@@ -157,8 +165,17 @@ def laboratorio_update(request, id_laboratorio):
     return render(request, "laboratorio/laboratorioUpdate.html", {'form': form, 'id': id_laboratorio})
 
 
+
+@json_view
+@login_required(login_url='login')
+def laboratorio_try_delete(request, id_laboratorio):
+    infoBaja = utils.puedo_eliminar_laboratorio(id_laboratorio)
+    return infoBaja
+
 @login_required(login_url='login')
 def laboratorio_delete(request, id_laboratorio):
-    laboratorio = models.Laboratorio.objects.get(pk=id_laboratorio)
-    laboratorio.delete()
-    return redirect('laboratorios')
+    infoBaja = utils.puedo_eliminar_laboratorio(id_laboratorio)
+    if infoBaja['success']:
+        laboratorio = models.Laboratorio.objects.get(pk=id_laboratorio)
+        laboratorio.delete()
+        return redirect('laboratorios')

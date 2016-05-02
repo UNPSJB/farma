@@ -56,6 +56,13 @@ class RemitoDeClinica(models.Model):
     def set_pedido(self, pedido):
         self.pedidoDeClinica = pedido
 
+    def to_json(self):
+        if self.pk:
+            return {
+                'nroRemito': self.pk,
+                'fecha': self.fecha
+        }
+
 class DetalleRemitoDeClinica(models.Model):
     remito = models.ForeignKey('RemitoDeClinica', on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()

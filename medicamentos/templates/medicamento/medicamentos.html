@@ -19,7 +19,9 @@
 {% endblock %}
 
 {% block botones-header-tabla %} 
-    <a class="btn-alta" href="{% url 'medicamento_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% if perms.usuarios.encargado_general %}
+        <a class="btn-alta" href="{% url 'medicamento_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% endif %}
 {% endblock %}
 
 {% block tabla %}
@@ -51,21 +53,25 @@
                                     <span class="action-link-icon animated glyphicon glyphicon-edit"></span> Modificar Stock Mínimo
                                 </a>
                             </li>
+                            {% if perms.usuarios.encargado_general %}
                             <li>
                                 <a class="action-link" href="{% url 'medicamento_update_precio_venta' medicamento.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon glyphicon-edit"></span> Modificar Precio Venta
                                 </a>
                             </li>
+                            {% endif %}
                             <li>
-                                <a class="action-link" href="{% url 'medicamento_verLotes' medicamento.pk %}">
+                                <a class="action-link btn-ver-lotes" href="#" data-url="{% url 'medicamento_verLotes' medicamento.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon-eye-open"></span> Ver Lotes
                                 </a>
                             </li>
+                            {% if perms.usuarios.encargado_general %}
                             <li>
-                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'medicamento_delete' medicamento.pk %}">
+                                <a class="action-link btn-eliminar-ajax" href="#" data-url="{% url 'medicamento_delete' medicamento.pk %}" data-url-ajax="{% url 'medicamento_try_delete' medicamento.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
                                 </a>
                             </li>
+                            {% endif %}
                         </ul>
                     </div>
                 </td>
@@ -80,14 +86,112 @@
     El medicamento seleccionado se eliminará permanentemente ¿Está seguro?
 {% endblock %}
 
+{% block mensaje-fallo-eliminacion %}Este medicamento no puede ser eliminado por las siguientes razones:{% endblock %}
+
+{% block more-content %}
+    <div class="modal fade" id="modal-ver-lotes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Detalles del Pedido</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nº Lote</th>
+                                <th>Fecha de Vencimiento</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+
+                    </table>
+
+                    <div class="mensaje-sin-lotes">
+                        <p>Este medicamento no posee lotes activos</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
 {% block more-scripts %}
     <script>
-        $(document).on("keyup", function(e){
-            if(e.keyCode == 112){
-                var url = "{% static 'documentacion/build/html/medicams.html' %}";
-                url += "#medicamentos";
-                window.open(url);
+        (function(){
+            var $btnVerLotes = $('.btn-ver-lotes'),
+                $modalVerLotes = $('#modal-ver-lotes'),
+                $tablaLotes = $modalVerLotes.find('table'),
+                $mensajeSinLotes = $modalVerLotes.find('.mensaje-sin-lotes');
+
+            $(document).on("keyup", function(e){
+                if(e.keyCode == 112){
+                    var url = "{% static 'documentacion/build/html/medicams.html' %}";
+                    url += "#medicamentos";
+                    window.open(url);
+                }
+            });
+
+            $btnVerLotes.on('click', openModalLotes);
+
+            function setDataTable(options) {
+                var $table = options.table,
+                    $bodyTable = $table.find('tbody'),
+                    $emptyTable = options.emptyTable,
+                    fragment = document.createDocumentFragment(),
+                    i, j, maxFilas, maxColumns;
+
+                $emptyTable.addClass('hidden');
+                $table.removeClass('hidden');
+                $bodyTable.empty();
+
+                for (i = 0, maxFilas = options.data.length; i < maxFilas; i += 1) {
+                    var tr = document.createElement('tr');
+
+                    for (j = 0, maxColumns = options.keyColumns.length; j < maxColumns; j += 1) {
+                        var td = document.createElement('td'),
+                            txtTd = document.createTextNode(options.data[i][options.keyColumns[j]]);
+                        td.appendChild(txtTd);
+                        tr.appendChild(td);
+                        fragment.appendChild(tr);
+                    }
+                }
+
+                if (options.data.length === 0) {
+                    $table.addClass('hidden');
+                    $emptyTable.removeClass('hidden');
+
+                } else {
+                    $bodyTable.append(fragment);
+                }
             }
-        });
+            function openModalLotes(e) {
+                $.ajax({
+                    type: 'GET',
+                    url: $(this).data('url'),
+                    dataType: 'json',
+                    success: function(data){
+                        setDataTable({
+                            'table': $tablaLotes,
+                            'emptyTable': $mensajeSinLotes,
+                            'data': data['lotes'],
+                            'keyColumns': ['nroLote', 'fechaVencimiento', 'stock']
+                        });
+                        $modalVerLotes.modal('show');
+                    },
+                    error: function(err){
+                        alert("Fallo Ajax");
+                    },
+                });
+            }
+
+        })();
     </script>
 {% endblock %}

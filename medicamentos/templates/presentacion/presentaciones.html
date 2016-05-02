@@ -17,7 +17,9 @@
 {% block form-sin-busqueda-avanzada %}{% endblock %}
 
 {% block botones-header-tabla %} 
-    <a class="btn-alta" href="{% url 'presentacion_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% if perms.usuarios.encargado_general %}
+        <a class="btn-alta" href="{% url 'presentacion_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% endif %}
 {% endblock %}
 
 {% block tabla %}
@@ -26,7 +28,9 @@
             <th>Descripcion</th>
             <th>Cantidad</th>
             <th>Unidad de Medida</th>
+            {% if perms.usuarios.encargado_general %}
             <th>Acción</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -35,6 +39,7 @@
                 <td>{{presentacion.descripcion}}</td>
                 <td>{{presentacion.cantidad}}</td>
                 <td>{{presentacion.unidadMedida}}</td>
+                {% if perms.usuarios.encargado_general %}
                 <td class="action">
                     <div class="dropdown">
                         <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -48,13 +53,14 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'presentacion_delete' presentacion.pk %}">
+                                <a class="action-link btn-eliminar-ajax" href="#" data-url="{% url 'presentacion_delete' presentacion.pk %}" data-url-ajax="{% url 'presentacion_try_delete' presentacion.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </td>
+                {% endif %}
             </tr>
         {% endfor %}
     </tbody>
@@ -65,6 +71,8 @@
 {% block modal-eliminar-mensaje %}
     La presentación seleccionada se eliminará permanentemente ¿Está seguro?
 {% endblock %}
+
+{% block mensaje-fallo-eliminacion %}Esta presentación no puede ser eliminada por las siguientes razones:{% endblock %}
 
 {% block more-scripts %}
     <script>

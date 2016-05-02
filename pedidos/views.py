@@ -76,6 +76,25 @@ def pedidoDeFarmacia_ver(request, id_pedido):
     remitos = models.RemitoDeFarmacia.objects.filter(pedidoFarmacia__pk=id_pedido)
     return render(request, "pedidoDeFarmacia/pedidoVer.html",{"pedido": pedido, "detalles": detalles, "remitos": remitos})
 
+@json_view
+@login_required(login_url='login')
+def pedidoDeFarmacia_verDetalles(request, id_pedido):
+    detalles_json = []
+    detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia__pk=id_pedido)
+    for detalle in detalles:
+        detalles_json.append(detalle.to_json())
+    return {'detalles': detalles_json}
+    
+@json_view
+@login_required(login_url='login')
+def pedidoDeFarmacia_verRemitos(request, id_pedido):
+    remitos_json = []
+    remitos = models.RemitoDeFarmacia.objects.filter(pedidoFarmacia__pk=id_pedido)
+    for remito in remitos:
+        json = remito.to_json()
+        json['urlPdf'] = reverse('remitoDeFarmacia', args=[remito.pk])
+        remitos_json.append(json)
+    return {'remitos': remitos_json}
 
 @json_view
 @login_required(login_url='login')
@@ -220,6 +239,25 @@ def pedidoDeClinica_ver(request, id_pedido):
     remitos = models.RemitoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
     return render(request, "pedidoDeClinica/pedidoVer.html", {"pedido": pedido, "detalles": detalles, "remitos":remitos})
 
+@json_view
+@login_required(login_url='login')
+def pedidoDeClinica_verDetalles(request, id_pedido):
+    detalles_json = []
+    detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
+    for detalle in detalles:
+        detalles_json.append(detalle.to_json())
+    return {'detalles': detalles_json}
+    
+@json_view
+@login_required(login_url='login')
+def pedidoDeClinica_verRemitos(request, id_pedido):
+    remitos_json = []
+    remitos = models.RemitoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
+    for remito in remitos:
+        json = remito.to_json()
+        json['urlPdf'] = reverse('remitoDeClinica', args=[remito.pk])
+        remitos_json.append(json)
+    return {'remitos': remitos_json}
 
 @json_view
 @login_required(login_url='login')
@@ -390,7 +428,9 @@ def pedidoAlaboratorio_verRemitos(request, id_pedido):
     remitos_json = []
     remitos = models.RemitoLaboratorio.objects.filter(pedidoLaboratorio__pk=id_pedido)
     for remito in remitos:
-        remitos_json.append(remito.to_json())
+        json = remito.to_json()
+        json['urlPdf'] = reverse('remitoDeLaboratorio', args=[remito.pk])
+        remitos_json.append(json)
     return {'remitos': remitos_json}
 
 

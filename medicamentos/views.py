@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from . import models
-from . import forms
+from . import models, forms, utils
 from django.contrib.auth.decorators import login_required
+from jsonview.decorators import json_view
 
 
 def get_filtros(get, modelo):
@@ -54,12 +54,19 @@ def monodroga_update(request, id_monodroga):
         form = forms.MonodrogaFormUpdate(instance=monodroga)
     return render(request, "monodroga/monodrogaUpdate.html", {'form': form, 'id': id_monodroga})
 
+@json_view
+@login_required(login_url='login')
+def monodroga_try_delete(request, id_monodroga):
+    infoBaja = utils.puedo_eliminar_monodroga(id_monodroga)
+    return infoBaja
 
 @login_required(login_url='login')
 def monodroga_delete(request, id_monodroga):
-    monodroga = models.Monodroga.objects.get(pk=id_monodroga)
-    monodroga.delete()
-    return redirect('monodrogas')
+    infoBaja = utils.puedo_eliminar_monodroga(id_monodroga)
+    if infoBaja['success']:
+        monodroga = models.Monodroga.objects.get(pk=id_monodroga)
+        monodroga.delete()
+        return redirect('monodrogas')
 
 
 @login_required(login_url='login')
@@ -103,11 +110,19 @@ def nombresFantasia_update(request, id_nombreFantasia):
     return render(request, "nombreFantasia/nombreFantasiaUpdate.html", {'form': form, 'id': id_nombreFantasia})
 
 
+@json_view
+@login_required(login_url='login')
+def nombresFantasia_try_delete(request, id_nombreFantasia):
+    infoBaja = utils.puedo_eliminar_nombreFantasia(id_nombreFantasia)
+    return infoBaja
+
 @login_required(login_url='login')
 def nombresFantasia_delete(request, id_nombreFantasia):
-    nombreFantasia = models.NombreFantasia.objects.get(pk=id_nombreFantasia)
-    nombreFantasia.delete()
-    return redirect('nombresFantasia')
+    infoBaja = utils.puedo_eliminar_nombreFantasia(id_nombreFantasia)
+    if infoBaja['success']:
+        nombreFantasia = models.NombreFantasia.objects.get(pk=id_nombreFantasia)
+        nombreFantasia.delete()
+        return redirect('nombresFantasia')
 
 
 @login_required(login_url='login')
@@ -150,11 +165,19 @@ def presentacion_update(request, id_presentacion):
     return render(request, "presentacion/presentacionUpdate.html", {'form': form, 'id': id_presentacion})
 
 
+@json_view
+@login_required(login_url='login')
+def presentacion_try_delete(request, id_presentacion):
+    infoBaja = utils.puedo_eliminar_presentacion(id_presentacion)
+    return infoBaja
+
 @login_required(login_url='login')
 def presentacion_delete(request, id_presentacion):
-    clinica = models.Presentacion.objects.get(pk=id_presentacion)
-    clinica.delete()
-    return redirect('presentaciones')
+    infoBaja = utils.puedo_eliminar_presentacion(id_presentacion)
+    if infoBaja['success']:
+        clinica = models.Presentacion.objects.get(pk=id_presentacion)
+        clinica.delete()
+        return redirect('presentaciones')
 
 
 @login_required(login_url='login')
@@ -170,29 +193,27 @@ def medicamentos(request):
 
 
 @login_required(login_url='login')
-def medicamento_delete(request, id_medicamento):
-    medicamento = models.Medicamento.objects.get(pk=id_medicamento)
-    medicamento.delete()
-    return redirect('medicamentos')
-
-
-@login_required(login_url='login')
 def medicamento_add(request):
-    dosis_formset = forms.DosisFormSet()
-    medicamento_form = forms.MedicamentoForm()
     if request.method == 'POST':
         medicamento_form = forms.MedicamentoForm(request.POST)
         dosis_formset = forms.DosisFormSet(request.POST)
         if medicamento_form.is_valid() and dosis_formset.is_valid():
             medicamento = medicamento_form.save()
             for dosis_form in dosis_formset:
-                dosis = dosis_form.save(commit=False)
-                dosis.medicamento = medicamento
-                dosis.save()
+                if dosis_form.cleaned_data:
+                    print dosis_form.cleaned_data
+                    dosis = dosis_form.save(commit=False)
+                    dosis.medicamento = medicamento
+                    dosis.save()
             if '_volver' in request.POST:
                 return redirect('medicamentos')
             else:
                 return redirect('medicamento_add')
+    else:
+        dosis_formset = forms.DosisFormSet()
+        medicamento_form = forms.MedicamentoForm()
+    print dosis_formset.errors 
+    print medicamento_form.errors
 
     return render(request, "medicamento/medicamentoAdd.html", {
         "medicamento_form": medicamento_form,
@@ -224,10 +245,33 @@ def medicamento_updatePrecioVenta(request, id_medicamento):
         form = forms.MedicamentoFormUpdatePrecioVenta(instance=medicamento)
     return render(request, "medicamento/medicamentoUpdatePrecioVenta.html", {'form': form, 'id': id_medicamento})
 
-
+@json_view
+@login_required(login_url='login')
 def medicamento_verLotes(request, id_medicamento):
+    """
     medicamento = get_object_or_404(models.Medicamento, pk=id_medicamento)
     lotes = models.Lote.objects.filter(medicamento__pk=id_medicamento)
 
     return render(request, "medicamento/verLotes.html", {'lotes': lotes, 'medicamento': medicamento})
+    """
+    lotes_json = []
+    medicamento = models.Medicamento.objects.get(pk=id_medicamento)
+    lotes = medicamento.get_lotes_activos()
+    for lote in lotes:
+        lotes_json.append(lote.to_json())
 
+    return {'lotes': lotes_json}
+
+@login_required(login_url='login')
+def medicamento_delete(request, id_medicamento):
+    infoBaja = utils.puedo_eliminar_medicamento(id_medicamento)
+    if infoBaja['success']:
+        medicamento = models.Medicamento.objects.get(pk=id_medicamento)
+        medicamento.delete()
+        return redirect('medicamentos')
+
+@json_view
+@login_required(login_url='login')
+def medicamento_try_delete(request, id_medicamento):
+    infoBaja = utils.puedo_eliminar_medicamento(id_medicamento)
+    return infoBaja

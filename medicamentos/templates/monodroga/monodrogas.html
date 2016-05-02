@@ -17,14 +17,18 @@
 {% block form-sin-busqueda-avanzada %}{% endblock %}
 
 {% block botones-header-tabla %} 
-    <a class="btn-alta" href="{% url 'monodroga_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% if perms.usuarios.encargado_general %}
+        <a class="btn-alta" href="{% url 'monodroga_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% endif %}
 {% endblock %}
 
 {% block tabla %}
      <thead>
         <tr>
             <th>Nombre</th>
+            {% if perms.usuarios.encargado_general %}
             <th>Acción</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -32,6 +36,7 @@
 
             <tr class="clickeable" data-id="{{ monodroga.id }}">
                 <td>{{monodroga.nombre}}</td>
+                {% if perms.usuarios.encargado_general %}
                 <td class="action">
                     <div class="dropdown">
                         <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -45,13 +50,14 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'monodroga_delete' monodroga.pk %}">
+                                <a class="action-link btn-eliminar-ajax" href="#" data-url="{% url 'monodroga_delete' monodroga.pk %}" data-url-ajax="{% url 'monodroga_try_delete' monodroga.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </td>
+                {% endif %}
             </tr>
 
         {% endfor %}
@@ -63,6 +69,8 @@
 {% block modal-eliminar-mensaje %}
     La monodroga seleccionada se eliminará permanentemente ¿Está seguro?
 {% endblock %}
+
+{% block mensaje-fallo-eliminacion %}Esta monodroga no puede ser eliminado por las siguientes razones:{% endblock %}
 
 {% block more-scripts %}
     <script>

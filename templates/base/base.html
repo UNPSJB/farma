@@ -22,9 +22,10 @@
     {% endblock %}
     <a id="btn-ir-arriba" class="btn-ir-arriba" href="#"><span class="glyphicon glyphicon-menu-up"></span></a>
     {% include 'inicio/footer.html' %}
-
+    {% block no-jquery %}
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    {% endblock %}
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script>
         (function() {
