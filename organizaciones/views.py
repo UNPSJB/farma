@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from organizaciones import models, forms, utils
 from django.contrib.auth.decorators import login_required
 from jsonview.decorators import json_view
+from django.contrib.auth.decorators import permission_required
 
 def get_filtros(get, modelo):
     mfilter = {}
@@ -28,6 +29,7 @@ def farmacias(request):
     return render(request, "farmacia/farmacias.html", {"farmacias": farmacias, "filtros": filters, 'estadisticas': estadisticas})
 
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def farmacia_add(request):
     if request.method == "POST":
@@ -43,6 +45,7 @@ def farmacia_add(request):
     return render(request, "farmacia/farmaciaAdd.html", {"form": form})
 
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def farmacia_update(request, id_farmacia):
     farmacia = get_object_or_404(models.Farmacia, pk=id_farmacia)
@@ -58,11 +61,13 @@ def farmacia_update(request, id_farmacia):
 
 
 @json_view
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def farmacia_try_delete(request, id_farmacia):
     infoBaja = utils.puedo_eliminar_farmacia(id_farmacia)
     return infoBaja
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def farmacia_delete(request, id_farmacia):
     infoBaja = utils.puedo_eliminar_farmacia(id_farmacia)
@@ -73,7 +78,6 @@ def farmacia_delete(request, id_farmacia):
 
 
 # ****** CLINICAS ******
-
 
 @login_required(login_url='login')
 def clinicas(request):
@@ -87,6 +91,7 @@ def clinicas(request):
     return render(request, "clinica/clinicas.html",{"clinicas": clinicas, "filtros": filters, 'estadisticas': estadisticas})
 
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def clinica_add(request):
     if request.method == "POST":
@@ -102,6 +107,7 @@ def clinica_add(request):
     return render(request, "clinica/clinicaAdd.html", {"form": form})
 
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def clinica_update(request, id_clinica):
     clinica = get_object_or_404(models.Clinica, pk=id_clinica)
@@ -115,6 +121,7 @@ def clinica_update(request, id_clinica):
     return render(request, "clinica/clinicaUpdate.html", {'form': form, 'id': id_clinica})
 
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def clinica_delete(request, id_clinica):
     clinica = models.Clinica.objects.get(pk=id_clinica)
@@ -137,6 +144,7 @@ def laboratorios(request):
     return render(request, "laboratorio/laboratorios.html",{"laboratorios": laboratorios, "filtros": filters, 'estadisticas': estadisticas})
 
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def laboratorio_add(request):
     if request.method == "POST":
@@ -152,6 +160,7 @@ def laboratorio_add(request):
     return render(request, "laboratorio/laboratorioAdd.html", {"form": form})
 
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def laboratorio_update(request, id_laboratorio):
     laboratorio = get_object_or_404(models.Laboratorio, pk=id_laboratorio)
@@ -165,13 +174,14 @@ def laboratorio_update(request, id_laboratorio):
     return render(request, "laboratorio/laboratorioUpdate.html", {'form': form, 'id': id_laboratorio})
 
 
-
 @json_view
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def laboratorio_try_delete(request, id_laboratorio):
     infoBaja = utils.puedo_eliminar_laboratorio(id_laboratorio)
     return infoBaja
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def laboratorio_delete(request, id_laboratorio):
     infoBaja = utils.puedo_eliminar_laboratorio(id_laboratorio)

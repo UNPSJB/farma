@@ -21,7 +21,9 @@
 {% endblock %}
 
 {% block botones-header-tabla %} 
-    <a class="btn-alta" href="{% url 'pedidoDeClinica_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% if perms.usuarios.empleado_despacho_pedido %} 
+        <a class="btn-alta" href="{% url 'pedidoDeClinica_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% endif %}
 {% endblock %}
 
 {% block tabla %}

@@ -48,11 +48,13 @@
                         <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            {% if perms.usuarios.encargado_stock %}
                             <li>
                                 <a class="action-link" href="{% url 'medicamento_update_stock_minimo' medicamento.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon-edit"></span> Modificar Stock Mínimo
                                 </a>
                             </li>
+                            {% endif %}
                             {% if perms.usuarios.encargado_general %}
                             <li>
                                 <a class="action-link" href="{% url 'medicamento_update_precio_venta' medicamento.pk %}">

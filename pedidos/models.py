@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 #******************CLASES ABSTRACTAS******************#
 
@@ -15,7 +16,7 @@ class PedidoVenta(models.Model):
         return str(self.nroPedido)
 
 class DetallePedidoVenta(models.Model):
-    cantidad = models.PositiveIntegerField()
+    cantidad = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(9999)])
     medicamento = models.ForeignKey('medicamentos.Medicamento')
 
     class Meta:
@@ -32,6 +33,12 @@ class RemitoDeFarmacia(models.Model):
     def __str__(self):
         return str(self.id)
 
+    def to_json(self):
+        if self.pk:
+            return {
+                'nroRemito': self.pk,
+                'fecha': self.fecha
+        }
 class DetalleRemitoDeFarmacia(models.Model):
     remito = models.ForeignKey(RemitoDeFarmacia, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()

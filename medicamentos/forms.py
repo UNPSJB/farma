@@ -73,6 +73,12 @@ class NombreFantasiaFormGenerico(forms.ModelForm):
             'nombreF': _('Nombre')
         }
 
+    def clean_nombreF(self):
+        nombreF = self.cleaned_data['nombreF']
+        if nombreF:
+            if not re.match(r"^\[a-zA-Z\d]+((\s[a-zA-Z\d]+)+)?$", nombreF):
+                raise forms.ValidationError('El nombre fantasia no puede contener caracteres especiales')
+        return nombreF
 
 class NombreFantasiaFormAdd(NombreFantasiaFormGenerico):
     helper = FormHelper()
@@ -115,6 +121,21 @@ class PresentacionFormGenerico(forms.ModelForm):
             'unidadMedida': _('Unidad de Medida'),
             'cantidad': _('Cantidad')
         }
+
+
+    def clean_descripcion(self):
+        descripcion = self.cleaned_data['descripcion']
+        if descripcion:
+            if not re.match(r"^[a-zA-Z]+((\s[a-zA-Z]+)+)?$", descripcion):
+                raise forms.ValidationError('La descripcion no puede contener caracteres especiales o numeros')
+        return descripcion
+
+    def clean_unidadMedida(self):
+        unidadMedida = self.cleaned_data['unidadMedida']
+        if unidadMedida:
+            if not re.match(r"^[a-zA-Z]+((\s[a-zA-Z]+)+)?$", unidadMedida):
+                raise forms.ValidationError('La unidad de medida solo puede contener letras y espacios')
+        return unidadMedida
 
 
 class PresentacionFormAdd(PresentacionFormGenerico):
@@ -198,6 +219,13 @@ class MedicamentoForm(forms.ModelForm):
                 raise forms.ValidationError('El Precio de venta debe ser mayor a cero')
         return precioDeVenta
 
+    def clean_codigoBarras(self):
+        codigoBarras = self.cleaned_data['codigoBarras']
+        if codigoBarras:
+            if not re.match(r"^[0-9]+((\s[0-9]+)+)?$", codigoBarras):
+                raise forms.ValidationError('El codigo de barras solo puede contener numeros')
+        return codigoBarras
+
 
 class MedicamentoFormUpdateStockMinimo(forms.ModelForm):
     helper = FormHelper()
@@ -247,6 +275,20 @@ class DosisForm(forms.ModelForm):
         widgets = {
             'monodroga': selectable.AutoCompleteSelectWidget(lookup_class=lookups.MonodrogaLookup),
         }
+
+    def clean_monodroga(self):
+        monodroga = self.cleaned_data['monodroga']
+        if not monodroga:
+            raise forms.ValidationError('Error monodroga')
+        return monodroga
+
+#    def clean_cantidad(self):
+#        cantidad = self.cleaned_data['cantidad']
+#        if ((not cantidad) and ((cantidad<1) or (cantidad>999))):
+#            raise forms.ValidationError('La cantidad debe ser mayor a 1 o menor a 9999')
+#        return cantidad
+
+
 
 class DosisFormSetBase(BaseFormSet):
     def is_valid(self):

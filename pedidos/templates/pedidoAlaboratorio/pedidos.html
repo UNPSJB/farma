@@ -8,7 +8,7 @@
     <li class="active">Pedidos a laboratorios</li>
 {% endblock %}
 
-{% block header-title %} Pedidos a laboratorios {% endblock%}
+{% block header-title %} Pedidos a laboratorios {% endblock %}
 
 {% block form-field-simple %} 
     <input class="form-control form-field form-field-simple" id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" placeholder="Laboratorio" type="text" />
@@ -20,7 +20,9 @@
 {% endblock %}
 
 {% block botones-header-tabla %} 
-    <a class="btn-alta" href="{% url 'pedidoAlaboratorio_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% if perms.usuarios.encargado_pedido %}
+        <a class="btn-alta" href="{% url 'pedidoAlaboratorio_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% endif %}
 {% endblock %}
 
 {% block tabla %}
@@ -59,7 +61,7 @@
                             </li>
                             {% if pedido.estado == "Pendiente" and perms.usuarios.encargado_general %}
                             <li>
-                                <a class="action-link btn-eliminar" data-url="{% url 'pedidoAlaboratorio_cancelar' pedido.pk %}">
+                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'pedidoAlaboratorio_cancelar' pedido.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon-remove"></span> Cancelar
                                 </a>
                             </li>

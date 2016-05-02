@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from . import models, forms, utils
 from django.contrib.auth.decorators import login_required
 from jsonview.decorators import json_view
-
+from django.contrib.auth.decorators import permission_required
 
 def get_filtros(get, modelo):
     mfilter = {}
@@ -25,7 +25,7 @@ def monodrogas(request):
     }
     return render(request, "monodroga/monodrogas.html", {"monodrogas": monodrogas, "filtros": filters, 'estadisticas': estadisticas})
 
-
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def monodroga_add(request):
     if request.method == "POST":
@@ -42,6 +42,7 @@ def monodroga_add(request):
     return render(request, "monodroga/monodrogaAdd.html", {"form": form})
 
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def monodroga_update(request, id_monodroga):
     monodroga = get_object_or_404(models.Monodroga, pk=id_monodroga)
@@ -54,12 +55,15 @@ def monodroga_update(request, id_monodroga):
         form = forms.MonodrogaFormUpdate(instance=monodroga)
     return render(request, "monodroga/monodrogaUpdate.html", {'form': form, 'id': id_monodroga})
 
+
 @json_view
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def monodroga_try_delete(request, id_monodroga):
     infoBaja = utils.puedo_eliminar_monodroga(id_monodroga)
     return infoBaja
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def monodroga_delete(request, id_monodroga):
     infoBaja = utils.puedo_eliminar_monodroga(id_monodroga)
@@ -81,6 +85,7 @@ def nombresFantasia(request):
     return render(request, "nombreFantasia/nombresFantasia.html", {"nombresFantasia": nombresFantasia, "filtros": filters, 'estadisticas': estadisticas})
 
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def nombresFantasia_add(request):
     if request.method == "POST":
@@ -97,6 +102,7 @@ def nombresFantasia_add(request):
     return render(request, "nombreFantasia/nombreFantasiaAdd.html", {"form": form})
 
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def nombresFantasia_update(request, id_nombreFantasia):
     nombresFantasias = get_object_or_404(models.NombreFantasia, pk=id_nombreFantasia)
@@ -111,11 +117,13 @@ def nombresFantasia_update(request, id_nombreFantasia):
 
 
 @json_view
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def nombresFantasia_try_delete(request, id_nombreFantasia):
     infoBaja = utils.puedo_eliminar_nombreFantasia(id_nombreFantasia)
     return infoBaja
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def nombresFantasia_delete(request, id_nombreFantasia):
     infoBaja = utils.puedo_eliminar_nombreFantasia(id_nombreFantasia)
@@ -137,6 +145,7 @@ def presentaciones(request):
     return render(request, "presentacion/presentaciones.html",{"presentaciones": presentaciones, "filtros": filters, 'estadisticas': estadisticas})
 
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def presentacion_add(request):
     if request.method == "POST":
@@ -152,6 +161,7 @@ def presentacion_add(request):
     return render(request, "presentacion/presentacionAdd.html", {"form": form})
 
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def presentacion_update(request, id_presentacion):
     presentacion = get_object_or_404(models.Presentacion, pk=id_presentacion)
@@ -166,11 +176,13 @@ def presentacion_update(request, id_presentacion):
 
 
 @json_view
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def presentacion_try_delete(request, id_presentacion):
     infoBaja = utils.puedo_eliminar_presentacion(id_presentacion)
     return infoBaja
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def presentacion_delete(request, id_presentacion):
     infoBaja = utils.puedo_eliminar_presentacion(id_presentacion)
@@ -192,6 +204,7 @@ def medicamentos(request):
     return render(request, "medicamento/medicamentos.html", {"medicamentos": medicamentos, "filtros": filters, 'estadisticas': estadisticas})
 
 
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def medicamento_add(request):
     if request.method == 'POST':
@@ -201,7 +214,7 @@ def medicamento_add(request):
             medicamento = medicamento_form.save()
             for dosis_form in dosis_formset:
                 if dosis_form.cleaned_data:
-                    print dosis_form.cleaned_data
+                    print "***", dosis_form.cleaned_data
                     dosis = dosis_form.save(commit=False)
                     dosis.medicamento = medicamento
                     dosis.save()
@@ -220,7 +233,7 @@ def medicamento_add(request):
         "dosis_formset": dosis_formset,
     })
 
-
+@permission_required('usuarios.encargado_stock', login_url='login')
 @login_required(login_url='login')
 def medicamento_updateStockMinimo(request, id_medicamento):
     medicamento = get_object_or_404(models.Medicamento, pk=id_medicamento)
@@ -233,6 +246,8 @@ def medicamento_updateStockMinimo(request, id_medicamento):
         form = forms.MedicamentoFormUpdateStockMinimo(instance=medicamento)
     return render(request, "medicamento/medicamentoUpdateStockMinimo.html", {'form': form, 'id': id_medicamento})
 
+
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def medicamento_updatePrecioVenta(request, id_medicamento):
     medicamento = get_object_or_404(models.Medicamento, pk=id_medicamento)
@@ -245,15 +260,10 @@ def medicamento_updatePrecioVenta(request, id_medicamento):
         form = forms.MedicamentoFormUpdatePrecioVenta(instance=medicamento)
     return render(request, "medicamento/medicamentoUpdatePrecioVenta.html", {'form': form, 'id': id_medicamento})
 
+
 @json_view
 @login_required(login_url='login')
 def medicamento_verLotes(request, id_medicamento):
-    """
-    medicamento = get_object_or_404(models.Medicamento, pk=id_medicamento)
-    lotes = models.Lote.objects.filter(medicamento__pk=id_medicamento)
-
-    return render(request, "medicamento/verLotes.html", {'lotes': lotes, 'medicamento': medicamento})
-    """
     lotes_json = []
     medicamento = models.Medicamento.objects.get(pk=id_medicamento)
     lotes = medicamento.get_lotes_activos()
@@ -262,6 +272,14 @@ def medicamento_verLotes(request, id_medicamento):
 
     return {'lotes': lotes_json}
 
+@json_view
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def medicamento_try_delete(request, id_medicamento):
+    infoBaja = utils.puedo_eliminar_medicamento(id_medicamento)
+    return infoBaja
+    
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def medicamento_delete(request, id_medicamento):
     infoBaja = utils.puedo_eliminar_medicamento(id_medicamento)
@@ -270,8 +288,3 @@ def medicamento_delete(request, id_medicamento):
         medicamento.delete()
         return redirect('medicamentos')
 
-@json_view
-@login_required(login_url='login')
-def medicamento_try_delete(request, id_medicamento):
-    infoBaja = utils.puedo_eliminar_medicamento(id_medicamento)
-    return infoBaja

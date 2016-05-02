@@ -11,9 +11,9 @@ class Medicamento(models.Model):
     formulas = models.ManyToManyField('Monodroga',  through='Dosis')
     nombreFantasia = models.ForeignKey('NombreFantasia')
     presentacion = models.ForeignKey('Presentacion')
-    codigoBarras = models.CharField("Codigo de barras", max_length=15, unique=True, error_messages={'unique': "Este codigo de barras ya esta cargado"})
+    codigoBarras = models.CharField("Codigo de barras", max_length=17, unique=True, error_messages={'unique': "Este codigo de barras ya esta cargado"})
     laboratorio = models.ForeignKey(Laboratorio, related_name="medicamentos")
-    stockMinimo = models.PositiveIntegerField("Stock minimo de reposicion")
+    stockMinimo = models.PositiveIntegerField("Stock minimo de reposicion",validators=[MinValueValidator(0), MaxValueValidator(9999)])
     precioDeVenta = models.FloatField("Precio de venta", validators=[MinValueValidator(0.0), MaxValueValidator(9999)])
 
     def __str__(self):
@@ -66,7 +66,7 @@ class Dosis(models.Model):
     medicamento = models.ForeignKey(Medicamento)
     monodroga = models.ForeignKey(Monodroga)
     unidad = models.PositiveIntegerField(choices=UNIDADES)
-    cantidad = models.PositiveIntegerField()
+    cantidad = models.PositiveIntegerField(default=1,validators=[MinValueValidator(1), MaxValueValidator(9999)])
 
     def __str__(self):
         return "%s - %s" % (self.cantidad, self.get_unidad_display())
