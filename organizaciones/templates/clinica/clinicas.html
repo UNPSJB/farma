@@ -20,7 +20,9 @@
 {% endblock %}
 
 {% block botones-header-tabla %} 
-    <a class="btn-alta" href="{% url 'clinica_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% if perms.usuarios.encargado_general %}
+        <a class="btn-alta" href="{% url 'clinica_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% endif %}
 {% endblock %}
 
 {% block tabla %}
@@ -30,7 +32,9 @@
             <th>Localidad</th> 
             <th>Dirección</th>         
             <th>Obra Social</th>
+            {% if perms.usuarios.encargado_general %}
             <th>Acción</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -40,6 +44,7 @@
                 <td>{{clinica.localidad}}</td>
                 <td>{{clinica.direccion}}</td>              
                 <td>{{clinica.obraSocial}}</td>
+                {% if perms.usuarios.encargado_general %}
                 <td class="action">
                     <div class="dropdown">
                         <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -60,6 +65,7 @@
                         </ul>
                     </div>
                 </td>
+                {% endif %}
             </tr>
 
         {% endfor %}

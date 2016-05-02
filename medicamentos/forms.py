@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- encoding: utf-8 -*-
+
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.forms import widgets
@@ -76,6 +79,7 @@ class NombreFantasiaFormGenerico(forms.ModelForm):
             if not re.match(r"^\[a-zA-Z\d]+((\s[a-zA-Z\d]+)+)?$", nombreF):
                 raise forms.ValidationError('El nombre fantasia no puede contener caracteres especiales')
         return nombreF
+
 
 class NombreFantasiaFormAdd(NombreFantasiaFormGenerico):
     helper = FormHelper()
@@ -212,7 +216,7 @@ class MedicamentoForm(forms.ModelForm):
 
     def clean_precioDeVenta(self):
         precioDeVenta = self.cleaned_data['precioDeVenta']
-        if (precioDeVenta) and (precioDeVenta < 0):
+        if precioDeVenta and (precioDeVenta < 0):
                 raise forms.ValidationError('El Precio de venta debe ser mayor a cero')
         return precioDeVenta
 
@@ -292,15 +296,15 @@ class DosisFormSetBase(BaseFormSet):
         ret = super(DosisFormSetBase, self).is_valid()
         formula = set()
         for form in self.forms:
-            if not form.cleaned_data:
-                self._non_form_errors = self.error_class(
-                    forms.ValidationError("El medicamente debe poseer al menos una formula"))
-                return False
-            mono = form.cleaned_data["monodroga"].pk
-            if mono in formula:
-                self._non_form_errors = self.error_class(forms.ValidationError("No se puede cargar una monodroga repetida"))
-                return False
-            formula.add(mono)
+            mono = form.cleaned_data.get("monodroga")
+            if mono:
+                if mono.pk in formula:
+                    raise forms.ValidationError("No se puede cargar una monodroga repetida")
+                formula.add(mono)
         return ret
 
-DosisFormSet = formset_factory(DosisForm, formset=DosisFormSetBase, extra=1)
+    def clean_monodroga(self):
+        monodroga = self.cleaned_data['monodroga']
+        return monodroga
+
+DosisFormSet = formset_factory(DosisForm, formset=DosisFormSetBase, min_num=1, validate_min=True)

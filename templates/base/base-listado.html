@@ -118,6 +118,32 @@
 		        </div>
 		    </div>
 		</div>
+		
+		<div class="modal fade" id="modal-fallo-eliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		    <div class="modal-dialog" role="document">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		                <h4 class="modal-title">Informe Falla Eliminación</h4>
+		            </div>
+		            <div class="modal-body">
+		               <div class="container-fluid">
+		               		<div class="row">
+		               			<div class="col-xs-12">
+		               				{% block mensaje-fallo-eliminacion %}{% endblock %}
+		               				<ul class="informe"></ul>
+		               			</div>
+		               		</div>
+
+		               </div>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
 	{% endblock %}
 
 	<!-- Para agregar más contenido -->
@@ -128,7 +154,6 @@
 
 {% block scripts %} 
 	<script src="{% static 'js/datepicker.js' %}"></script>
-	<script src="{% static 'js/intro.min.js'%}"></script>
 	<script>
 		(function(){
 			var formBusqueda = {
@@ -181,17 +206,18 @@
 					this.$nav = $('#navbar-principal');
 					this.$footer = $('#footer-page');
 					this.$modalEliminar = $('#modal-eliminar');
+					this.$modalFalloEliminar = $('#modal-fallo-eliminar');
 				},
 				bindEvents: function() {
 					$(window).on('resize', this.heightTable.bind(this));
 					$('.btn-eliminar').on('click', this.openModalBaja.bind(this));
+					$('.btn-eliminar-ajax').on('click', this.tryDelete.bind(this))
 				},
 				init: function() {
 					this.getElements();
 					this.bindEvents();
 					this.heightTable();
 					formBusqueda.init();
-					//this.loadTour();
 				},
 				heightTable: function(e) {
 					var totalHeight = $(window).height() - this.$bread.outerHeight(true) - this.$header.outerHeight(true) - (this.$containerMain.outerHeight(true) - this.$containerTable.outerHeight(true)) - this.$nav.outerHeight(true) -  this.$footer.outerHeight(true) - 10,
@@ -205,47 +231,45 @@
 					}
 				},
 				openModalBaja: function(e) {
-					var urlBaja = $(e.target).data('url');
-					this.$modalEliminar.find('.confirmar').attr('href', urlBaja);
+					var url = $(e.target).data('url');
+					this.$modalEliminar.find('.confirmar').attr('href', url)
 					this.$modalEliminar.modal('show');
 					e.stopPropagation();
 				},
-				loadTour: function() {
-					var introguide = introJs();
-					  // var startbtn   = $('#startdemotour');
-					  
-					  introguide.setOptions({
-					    steps: [
-					    {
-					      element: '#breadcrumb-page',
-					      intro: 'This guided tour will explain the Hongkiat demo page interface.<br><br>Use the arrow keys for navigation or hit ESC to exit the tour immediately.',
-					      position: 'bottom'
-					    },
-					    {
-					      element: '#header-page',
-					      intro: 'Click this main logo to view a list of all Hongkiat demos.',
-					      position: 'bottom'
-					    },
-					    {
-					      element: '#aside',
-					      intro: 'Hover over each title to display a longer description.',
-					      position: 'bottom'
-					    },
-					    {
-					      element: '#section-table',
-					      intro: 'Click this orange button to view the tutorial article in a new tab.',
-					      position: 'left'
-					    },
-					    {
-					      element: '.table',
-					      intro: "Each demo will link to the previous & next entries.",
-					      position: 'bottom'
-					    }
-					    ]
-					  });
-					  introguide.start();
-				}
-			};
+				tryDelete: function(e) {
+					var urlBaja = $(e.target).data('url-ajax'),
+						that = this;
+					$.ajax({
+			            type: 'GET',
+			            url: urlBaja,
+			            dataType: 'json',
+			            success: function(data){
+			                if(data && ! data['success']) {
+			                    var msgInforme = data['informe'],
+			                    items = msgInforme.split(';'),
+			                    itemsList = '',
+			                    i, max;
+			                    for(i = 0, max = items.length; i < max ; i += 1){
+			                    	if(items[i].length > 0){
+			                    		itemsList += '<li>' + items[i] + '</li>';
+			                    	}			                    	
+			                    }
+			                    that.$modalFalloEliminar.find('.informe').html(itemsList);
+			                    that.$modalFalloEliminar.modal('show');
+			                } else {
+			                	var url = $(e.target).data('url');
+			                	that.$modalEliminar.find('.confirmar').attr('href', url);
+								that.$modalEliminar.modal('show');
+			                }
+			                
+			            },
+			            error: function(err){
+			                alert("Fallo Ajax");
+			            },
+			        });
+				},
+			}
+
 			main.init();
 		})();
 	</script>

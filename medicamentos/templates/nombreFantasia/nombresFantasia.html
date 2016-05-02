@@ -17,20 +17,25 @@
 {% block form-sin-busqueda-avanzada %}{% endblock %}
 
 {% block botones-header-tabla %} 
-    <a class="btn-alta" href="{% url 'nombreFantasia_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% if perms.usuarios.encargado_general %}
+        <a class="btn-alta" href="{% url 'nombreFantasia_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% endif %}
 {% endblock %}
 
 {% block tabla %}
     <thead>
         <tr>
             <th>Nombre Fantasia </th>
-            <th>Acción</th>
+            {% if perms.usuarios.encargado_general %}
+                <th>Acción</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
         {% for nombreFantasia in nombresFantasia %}
             <tr class="clickeable" data-id="{{ nombreFantasia.id }}">
                 <td>{{nombreFantasia.nombreF}}</td>
+                {% if perms.usuarios.encargado_general %}
                 <td class="action">
                     <div class="dropdown">
                         <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -44,13 +49,14 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'nombreFantasia_delete' nombreFantasia.pk %}">
+                                <a class="action-link btn-eliminar-ajax" href="#" data-url="{% url 'nombreFantasia_delete' nombreFantasia.pk %}" data-url-ajax="{% url 'nombreFantasia_try_delete' nombreFantasia.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </td>
+                {% endif %}
             </tr>
         {% endfor %}
     </tbody>
@@ -61,6 +67,8 @@
 {% block modal-eliminar-mensaje %}
     El nombre fantasia seleccionado se eliminará permanentemente ¿Está seguro?
 {% endblock %}
+
+{% block mensaje-fallo-eliminacion %}Este nombre fantasía no puede ser eliminado por las siguientes razones:{% endblock %}
 
 {% block more-scripts %}
     <script>

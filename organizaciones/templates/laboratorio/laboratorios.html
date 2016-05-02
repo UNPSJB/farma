@@ -18,8 +18,10 @@
     <input class="form-control form-field" id="localidad" name="localidad" value="{{filtros.localidad}}" placeholder="Localidad" type="text" /> 
 {% endblock %}
 
-{% block botones-header-tabla %} 
-    <a class="btn-alta" href="{% url 'laboratorio_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+{% block botones-header-tabla %}
+    {% if perms.usuarios.encargado_general %} 
+        <a class="btn-alta" href="{% url 'laboratorio_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% endif %}
 {% endblock %}
 
 {% block tabla %}
@@ -29,7 +31,9 @@
             <th>Localidad</th>
             <th>Dirección</th>            
             <th>Teléfono</th>
+            {% if perms.usuarios.encargado_general %}
             <th>Acción</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -39,6 +43,7 @@
                 <td>{{laboratorio.localidad}}</td>
                 <td>{{laboratorio.direccion}}</td>                
                 <td>{{laboratorio.telefono}}</td>
+                {% if perms.usuarios.encargado_general %}
                 <td class="action">
                     <div class="dropdown">
                         <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -52,13 +57,14 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'laboratorio_delete' laboratorio.pk %}">
+                                <a class="action-link btn-eliminar-ajax" href="#" data-url="{% url 'laboratorio_delete' laboratorio.pk %}" data-url-ajax="{% url 'laboratorio_try_delete' laboratorio.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </td>
+                {% endif %}
             </tr>
 
         {% endfor %}
@@ -70,6 +76,8 @@
 {% block modal-eliminar-mensaje %}
     El laboratorio seleccionado se eliminará permanentemente ¿Está seguro?
 {% endblock %}
+
+{% block mensaje-fallo-eliminacion %}Este laboratorio no puede ser eliminado por las siguientes razones:{% endblock %}
 
 {% block more-scripts %}
     <script>

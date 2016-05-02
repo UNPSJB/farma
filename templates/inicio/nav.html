@@ -16,31 +16,29 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-left">
                 <li><a href="{% url 'inicio' %}">Inicio</a></li>
-                {% if perms.pedidos.add_pedidodefarmacia %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pedidos <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'pedidosDeFarmacia' %}">Pedidos de Farmacia</a></li>
                             <li><a href="{% url 'pedidosDeClinica' %}">Pedidos de Clinica</a></li>
-                            <li role="separator" class="divider"></li>
                             <li><a href="{% url 'pedidosAlaboratorio' %}">Pedidos a Laboratorio</a></li>
-                            <li><a href="{% url 'recepcionPedidoAlaboratorio' %}">Registrar Recepcion de Pedido de Laboratorio</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="{% url 'devolucionMedicamentosVencidos' %}">Registrar Devolución de Medicamentos Vencidos</a></li>
-                            <li><a href="{% url 'recepcionReemplazoMedicamentos' %}">Registrar Recepción de Medicamentos para Reemplazar Vencidos</a></li>
+                            {% if perms.usuarios.encargado_stock %}
+                                <li><a href="{% url 'recepcionPedidoAlaboratorio' %}">Recepcion de Pedido de Laboratorio</a></li>
+                            {% endif %}
+                            {% if perms.usuarios.encargado_medicamentos_vencidos %} 
+                                <li><a href="{% url 'devolucionMedicamentosVencidos' %}">Registrar Devolución de Medicamentos Vencidos</a></li>
+                            {% endif %}
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Organizaciones <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'farmacias' %}">Farmacias</a></li>
-                            <li><a href="{% url 'laboratorios' %}">Laboratorios</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="{% url 'paginaEnConstruccion' %}">Obras Sociales</a></li>
                             <li><a href="{% url 'clinicas' %}">Clinicas</a></li>
+                            <li><a href="{% url 'laboratorios' %}">Laboratorios</a></li>
+                            <li><a href="{% url 'paginaEnConstruccion' %}">Obras Sociales</a></li>  
                         </ul>
                     </li>
-                {% endif %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Medicamentos <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -51,18 +49,18 @@
                     </ul>
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right">      
+                <li>
+                    <a alt="Ayuda" href="{% static 'documentacion/build/html/index.html' %}" target="_blank">Ayuda</a>
+                </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Perfil <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span style="top:2px;"class="glyphicon glyphicon-user"></span> {{ user.get_username }} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         {% if perms.usuarios.encargado_general %}
                             <li><a href="{% url 'usuario_add' %}">Agregar Usuario</a></li>
                         {% endif %}
                         <li><a href="{% url 'logout' %}">Salir</a></li>
                     </ul>
-                </li>
-                <li>
-                    <li><a alt="Ayuda" href="{% static 'documentacion/build/html/index.html' %}" target="_blank">Ayuda</a></li>
                 </li>
             </ul>
         </div>

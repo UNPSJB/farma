@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import decorators as authd
+from django.contrib.auth.decorators import permission_required
 from django.db.models import Q
 
 from easy_pdf.views import PDFTemplateView
@@ -55,6 +56,7 @@ def pedidosDeFarmacia(request):
     return render(request, "pedidoDeFarmacia/pedidos.html", {"pedidos": pedidos, "filtros": request.GET, 'estadisticas': estadisticas})
 
 
+@permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
 def pedidoDeFarmacia_add(request):
     limpiar_sesion(["pedidoDeFarmacia", "detallesPedidoDeFarmacia"], request.session)
@@ -76,11 +78,29 @@ def pedidoDeFarmacia_ver(request, id_pedido):
     remitos = models.RemitoDeFarmacia.objects.filter(pedidoFarmacia__pk=id_pedido)
     return render(request, "pedidoDeFarmacia/pedidoVer.html",{"pedido": pedido, "detalles": detalles, "remitos": remitos})
 
-
 @json_view
 @login_required(login_url='login')
-@authd.permission_required(perm="add_pedidodefarmacia")
-@authd.permission_required(perm="change_pedidodefarmacia")
+def pedidoDeFarmacia_verDetalles(request, id_pedido):
+    detalles_json = []
+    detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia__pk=id_pedido)
+    for detalle in detalles:
+        detalles_json.append(detalle.to_json())
+    return {'detalles': detalles_json}
+    
+@json_view
+@login_required(login_url='login')
+def pedidoDeFarmacia_verRemitos(request, id_pedido):
+    remitos_json = []
+    remitos = models.RemitoDeFarmacia.objects.filter(pedidoFarmacia__pk=id_pedido)
+    for remito in remitos:
+        json = remito.to_json()
+        json['urlPdf'] = reverse('remitoDeFarmacia', args=[remito.pk])
+        remitos_json.append(json)
+    return {'remitos': remitos_json}
+
+@json_view
+@permission_required('usuarios.empleado_despacho_pedido', login_url='login')
+@login_required(login_url='login')
 def pedidoDeFarmacia_registrar(request):
     pedido = request.session['pedidoDeFarmacia']
     detalles = request.session['detallesPedidoDeFarmacia']
@@ -109,6 +129,7 @@ def pedidoDeFarmacia_registrar(request):
     return {'success': False, 'mensaje-error': mensaje_error}
 
 
+@permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
 def detallesPedidoDeFarmacia(request):
     detalles = request.session.setdefault("detallesPedidoDeFarmacia", [])
@@ -117,6 +138,7 @@ def detallesPedidoDeFarmacia(request):
 
 
 @json_view
+@permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
 def detallePedidoDeFarmacia_add(request):
     success = True
@@ -140,6 +162,7 @@ def detallePedidoDeFarmacia_add(request):
 
 
 @json_view
+@permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
 def detallePedidoDeFarmacia_update(request, id_detalle):
     detalles = request.session['detallesPedidoDeFarmacia']
@@ -161,6 +184,7 @@ def detallePedidoDeFarmacia_update(request, id_detalle):
 
 
 @json_view
+@permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
 def detallePedidoDeFarmacia_delete(request, id_detalle):
     detalles = request.session['detallesPedidoDeFarmacia']
@@ -196,6 +220,7 @@ def pedidosDeClinica(request):
     }
     return render(request, "pedidoDeClinica/pedidos.html", {"pedidos": pedidos, "filtros": request.GET, 'estadisticas': estadisticas})
 
+@permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
 def pedidoDeClinica_add(request):
     limpiar_sesion(["pedidoDeClinica", "detallesPedidoDeClinica"], request.session)
@@ -220,8 +245,28 @@ def pedidoDeClinica_ver(request, id_pedido):
     remitos = models.RemitoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
     return render(request, "pedidoDeClinica/pedidoVer.html", {"pedido": pedido, "detalles": detalles, "remitos":remitos})
 
+@json_view
+@login_required(login_url='login')
+def pedidoDeClinica_verDetalles(request, id_pedido):
+    detalles_json = []
+    detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
+    for detalle in detalles:
+        detalles_json.append(detalle.to_json())
+    return {'detalles': detalles_json}
+    
+@json_view
+@login_required(login_url='login')
+def pedidoDeClinica_verRemitos(request, id_pedido):
+    remitos_json = []
+    remitos = models.RemitoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
+    for remito in remitos:
+        json = remito.to_json()
+        json['urlPdf'] = reverse('remitoDeClinica', args=[remito.pk])
+        remitos_json.append(json)
+    return {'remitos': remitos_json}
 
 @json_view
+@permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
 def pedidoDeClinica_registrar(request):
     pedido = request.session["pedidoDeClinica"]
@@ -248,6 +293,7 @@ def pedidoDeClinica_registrar(request):
         mensaje_error = "No se puede registrar un pedido sin detalles"
     return {'success': False, 'mensaje-error': mensaje_error}
 
+@permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
 def detallesPedidoDeClinica(request):
     detalles = request.session.setdefault("detallesPedidoDeClinica", [])
@@ -261,6 +307,7 @@ def detallesPedidoDeClinica(request):
 
 
 @json_view
+@permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
 def detallePedidoDeClinica_add(request):
     success = True
@@ -284,6 +331,7 @@ def detallePedidoDeClinica_add(request):
 
 
 @json_view
+@permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
 def detallePedidoDeClinica_update(request, id_detalle):
     detalles = request.session['detallesPedidoDeClinica']
@@ -305,6 +353,7 @@ def detallePedidoDeClinica_update(request, id_detalle):
 
 
 @json_view
+@permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
 def detallePedidoDeClinica_delete(request, id_detalle):
     detalles = request.session['detallesPedidoDeClinica']
@@ -339,19 +388,10 @@ def pedidosAlaboratorio(request):
         'total': models.PedidoAlaboratorio.objects.all().exclude(estado="Cancelado").count(),
         'filtrados': pedidos.count()
     }
-    if 'mostrarRemitos' in request.session:
-        remitos = utils.get_remitos_pedido_a_laboratorio(request.session)
-        return render(request, "pedidoAlaboratorio/pedidos.html", 
-        {"pedidos": pedidos, "filtros": request.GET, 'estadisticas': estadisticas, 'remitos': remitos})
-
-    if 'mostrarDetalles' in request.session:
-        detalles = utils.get_detalles_pedido_a_laboratorio(request.session)
-        return render(request, "pedidoAlaboratorio/pedidos.html", 
-        {"pedidos": pedidos, "filtros": request.GET, 'estadisticas': estadisticas, 'detalles': detalles})
-    
     return render(request, "pedidoAlaboratorio/pedidos.html", {"pedidos": pedidos, "filtros": request.GET, 'estadisticas': estadisticas})
 
 
+@permission_required('usuarios.encargado_pedido', login_url='login')
 @login_required(login_url='login')
 def pedidoAlaboratorio_add(request):
     limpiar_sesion(['pedidoAlaboratorio', 'detallesPedidoAlaboratorio'], request.session)
@@ -369,7 +409,7 @@ def pedidoAlaboratorio_add(request):
     return render(request, 'pedidoAlaboratorio/pedidoAdd.html', {'form': form})
 
 
-
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def pedidoAlaboratorio_cancelar(request, id_pedido):
     pedido = models.PedidoAlaboratorio.objects.get(pk=id_pedido)
@@ -390,7 +430,9 @@ def pedidoAlaboratorio_verRemitos(id_pedido):
     remitos_json = []
     remitos = models.RemitoLaboratorio.objects.filter(pedidoLaboratorio__pk=id_pedido)
     for remito in remitos:
-        remitos_json.append(remito.to_json())
+        json = remito.to_json()
+        json['urlPdf'] = reverse('remitoDeLaboratorio', args=[remito.pk])
+        remitos_json.append(json)
     return {'remitos': remitos_json}
 
 
@@ -402,6 +444,7 @@ def pedidoAlaboratorio_ver(request, id_pedido):
     return render(request, "pedidoAlaboratorio/pedidoVer.html", {'pedido': pedido, 'detalles': detalles, 'remitos': remitos})
 
 
+@permission_required('usuarios.encargado_pedido', login_url='login')
 @login_required(login_url='login')
 def detallesPedidoAlaboratorio(request):
     pedido = request.session['pedidoAlaboratorio']
@@ -410,6 +453,7 @@ def detallesPedidoAlaboratorio(request):
 
 
 @json_view
+@permission_required('usuarios.encargado_pedido', login_url='login')
 @login_required(login_url='login')
 def detallePedidoAlaboratorio_add(request):
     success = True 
@@ -441,6 +485,7 @@ def detallePedidoAlaboratorio_add(request):
 
 
 @json_view
+@permission_required('usuarios.encargado_pedido', login_url='login')
 @login_required(login_url='login')
 def detallePedidoAlaboratorio_update(request, id_detalle):
     detalles = request.session['detallesPedidoAlaboratorio']
@@ -462,7 +507,9 @@ def detallePedidoAlaboratorio_update(request, id_detalle):
         form_html = render_crispy_form(form, context=RequestContext(request))
         return {'form_html': form_html}
 
+
 @json_view
+@permission_required('usuarios.encargado_pedido', login_url='login')
 @login_required(login_url='login')
 def detallePedidoAlaboratorio_delete(request, id_detalle):
     detalles = request.session['detallesPedidoAlaboratorio']
@@ -474,7 +521,9 @@ def detallePedidoAlaboratorio_delete(request, id_detalle):
         request.session['detallesPedidoAlaboratorio'] = detalles
     return {'detalles': detalles} 
 
+
 @json_view
+@permission_required('usuarios.encargado_pedido', login_url='login')
 @login_required(login_url='login')
 def pedidoAlaboratorio_registrar(request):
     pedido = request.session['pedidoAlaboratorio'] 
@@ -505,6 +554,7 @@ def pedidoAlaboratorio_registrar(request):
 
 # ====================================== INICIO RECEPCION DE PEDIDO A LABORATORIO ======================================
 
+@permission_required('usuarios.encargado_stock', login_url='login')
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio(request):
     mfilters = get_filtros(request.GET, models.PedidoAlaboratorio)
@@ -516,6 +566,7 @@ def recepcionPedidoAlaboratorio(request):
     return render(request, "recepcionPedidoALaboratorio/pedidos.html", {'pedidos': pedidos, "filtros": request.GET, 'estadisticas': estadisticas})
 
 
+@permission_required('usuarios.encargado_stock', login_url='login')
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_cargarPedido(request, id_pedido):
     limpiar_sesion(['recepcionPedidoAlaboratorio', 'remitoRecepcion'], request.session)
@@ -525,6 +576,7 @@ def recepcionPedidoAlaboratorio_cargarPedido(request, id_pedido):
     return redirect('recepcionPedidoAlaboratorio_registrarRecepcion', id_pedido)
 
 
+@permission_required('usuarios.encargado_stock', login_url='login')
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_controlPedido(request, id_pedido):
     pedido = models.PedidoAlaboratorio.objects.get(pk=id_pedido)
@@ -532,6 +584,7 @@ def recepcionPedidoAlaboratorio_controlPedido(request, id_pedido):
     return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles})
 
 
+@permission_required('usuarios.encargado_stock', login_url='login')
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_registrarRecepcion(request, id_pedido):
     if request.method == 'POST':
@@ -551,6 +604,7 @@ def recepcionPedidoAlaboratorio_registrarRecepcion(request, id_pedido):
     return render(request, "recepcionPedidoALaboratorio/registrarRemito.html", {'form': form})
 
 
+@permission_required('usuarios.encargado_stock', login_url='login')
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_controlDetalle(request, id_pedido, id_detalle):
     if utils.hay_cantidad_pendiente(request.session['recepcionPedidoAlaboratorio']['detalles'], id_detalle):
@@ -578,6 +632,7 @@ def recepcionPedidoAlaboratorio_controlDetalle(request, id_pedido, id_detalle):
         return redirect('recepcionPedidoAlaboratorio_controlPedido', id_pedido)
 
 
+@permission_required('usuarios.encargado_stock', login_url='login')
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_controlDetalleConNuevoLote(request, id_pedido, id_detalle):
     if utils.hay_cantidad_pendiente(request.session['recepcionPedidoAlaboratorio']['detalles'], id_detalle):
@@ -605,6 +660,7 @@ def recepcionPedidoAlaboratorio_controlDetalleConNuevoLote(request, id_pedido, i
         return redirect('recepcionPedidoAlaboratorio_controlPedido', id_pedido)
 
 
+@permission_required('usuarios.encargado_stock', login_url='login')
 @login_required(login_url='login')
 def recepcionPedidoAlaboratorio_registrar(request, id_pedido):
     pedido = models.PedidoAlaboratorio.objects.get(pk=id_pedido)
@@ -633,6 +689,7 @@ class remitoDeLaboratorio(PDFTemplateView):
         )
 
 
+@permission_required('usuarios.encargado_medicamentos_vencidos', login_url='login')
 @login_required(login_url='login')
 def devolucionMedicamentosVencidos(request):
     if request.method == 'POST':
@@ -644,6 +701,7 @@ def devolucionMedicamentosVencidos(request):
         form = forms.DevolucionMedicamentosForm()
     return render(request, 'devolucionMedicamentosVencidos/devolucionMedicamentosVencidos.html', {'form': form})
 
+@permission_required('usuarios.encargado_medicamentos_vencidos', login_url='login')
 @login_required(login_url='login')
 def devolucionMedicamentosVencidos_detalle(request, id_laboratorio):
     laboratorio = omodels.Laboratorio.objects.get(pk=id_laboratorio)
@@ -661,6 +719,7 @@ def devolucionMedicamentosVencidos_detalle(request, id_laboratorio):
                   'numero': utils.get_next_nro_pedido_laboratorio(models.RemitoMedicamentosVencidos, "numero")})
 
 
+@permission_required('usuarios.encargado_medicamentos_vencidos', login_url='login')
 @login_required(login_url='login')
 def devolucionMedicamentosVencidos_registrar(request, id_laboratorio):
     laboratorio = omodels.Laboratorio.objects.get(pk=id_laboratorio)

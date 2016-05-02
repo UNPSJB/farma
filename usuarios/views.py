@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import *
 from django.contrib.auth.models import Permission
 from . import models, forms
+from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.decorators import permission_required
 
 # Create your views here.
 
@@ -23,6 +25,8 @@ def get_permiso(tipoCargo):
 	if tipoCargo == 'Empleado de Despacho de Pedido':
 		return Permission.objects.get(codename="empleado_despacho_pedido")
 
+@csrf_protect
+@permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def usuario_add(request):
 	if request.method == 'POST':

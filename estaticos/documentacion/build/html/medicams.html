@@ -151,7 +151,7 @@
   <div class="section" id="medicamentos">
 <h1>Medicamentos<a class="headerlink" href="#medicamentos" title="Enlazar permanentemente con este título">¶</a></h1>
 <p>Se presentará una pantalla que contendrá un listado con todos los medicamentos que se encuentren registrados en el sistema hasta la fecha. Junto con el listado, se presentarán un conjunto de funcionalidades que permitirá manipular estos medicamentos.</p>
-<p>CAPTURA</p>
+<img alt="_images/medicamentos.png" src="_images/medicamentos.png" />
 <p>Estas funcionalidades son:</p>
 <blockquote>
 <div><ul class="simple">
@@ -165,8 +165,8 @@
 </div></blockquote>
 <div class="section" id="alta-de-medicamento">
 <h2>Alta de Medicamento<a class="headerlink" href="#alta-de-medicamento" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>Si el usuario desea agregar un medicamento, deberá presionar el botón de “Alta Medicamento”.</p>
-<p>CAPTURA BOTÓN</p>
+<p>Si el usuario desea agregar un medicamento, deberá presionar el botón de “Alta”.</p>
+<img alt="_images/botonalta.png" src="_images/botonalta.png" />
 <p>Una vez realizado el paso, el sistema lo redirigirá a la siguiente pantalla:</p>
 <p>CAPTURA</p>
 <p>En esta parte el usuario se le presentará un formulario y deberá ingresar la información solicitada para dar de alta un nuevo medicamento.
@@ -186,9 +186,9 @@ El botón “Guardar y continuar” permito guardar el medicamento en el sistema
 <div class="section" id="modificar-stock-minimo">
 <h2>Modificar Stock Mínimo<a class="headerlink" href="#modificar-stock-minimo" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Si el usuario desea modificar el stock mínimo de un medicamento, deberá seleccionar el botón de “Acción” asociado al medicamento y presionar la pestaña “Modificar Stock Mínimo”.</p>
-<p>CAPTURA BOTÓN</p>
+<img alt="_images/modifstockmin.png" src="_images/modifstockmin.png" />
 <p>Una vez realizado el paso anterior, el sistema lo redirigirá a la siguiente pantalla:</p>
-<p>CAPTURA</p>
+<img alt="_images/modifstockmed.png" src="_images/modifstockmed.png" />
 <p>En esta parte el usuario se le presentará un formulario y deberá actualizar la información del stock asociado al medicamento.
 El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
 En este punto, las posibles causas de errores son:</p>
@@ -204,9 +204,9 @@ En este punto, las posibles causas de errores son:</p>
 <div class="section" id="modificar-precio-de-venta">
 <h2>Modificar Precio de Venta<a class="headerlink" href="#modificar-precio-de-venta" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Si el usuario desea modificar el precio de venta de un medicamento, deberá seleccionar el botón de “Acción” asociado al medicamento y presionar la pestaña “Modificar Precio Venta”.</p>
-<p>CAPTURA BOTÓN</p>
+<img alt="_images/modifprecioventa.png" src="_images/modifprecioventa.png" />
 <p>Una vez realizado el paso anterior, el sistema lo redirigirá a la siguiente pantalla:</p>
-<p>CAPTURA</p>
+<img alt="_images/modifpreciomed.png" src="_images/modifpreciomed.png" />
 <p>En esta parte el usuario se le presentará un formulario y deberá actualizar la información del precio de venta asociado al medicamento.
 El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
 En este punto, las posibles causas de errores son:</p>
@@ -222,23 +222,27 @@ En este punto, las posibles causas de errores son:</p>
 <div class="section" id="ver-lotes">
 <h2>Ver Lotes<a class="headerlink" href="#ver-lotes" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Si el usuario desea ver los lotes de un medicamento, deberá seleccionar el botón de “Acción” asociado al medicamento y presionar la pestaña “Ver Lotes”.</p>
-<p>CAPTURA</p>
+<img alt="_images/verlotes.png" src="_images/verlotes.png" />
 <p>Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):</p>
-<p>CAPTURA</p>
+<img alt="_images/lotesmed.png" src="_images/lotesmed.png" />
 <p>Esta ventana mostrará todos los lotes que estén asociados al medicamento.</p>
+<p>En caso de que el medicamento seleccionado no posea lotes activos, es decir que tengan stock, o que no se encuentren dentro del rango de vencimento, el sistema mostrara la siguiente ventana emergente (modal):</p>
+<img alt="_images/nolotes.png" src="_images/nolotes.png" />
 </div>
 <div class="section" id="eliminar-medicamento">
 <h2>Eliminar Medicamento<a class="headerlink" href="#eliminar-medicamento" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Si el usuario desea eliminar un medicamento, deberá seleccionar el botón de “Acción” asociado al medicamento y presionar la pestaña “Eliminar”.</p>
-<p>CAPTURA BOTÓN</p>
+<img alt="_images/eliminar.png" src="_images/eliminar.png" />
 <p>Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):</p>
-<p>CAPTURA</p>
+<img alt="_images/eliminarmed.png" src="_images/eliminarmed.png" />
 <p>En esta parte el usuario deberá decidir si confirma la eliminación del medicamento o no. Si desea confirmar la eliminación deberá presionar el botón “Confirmar”, caso contrario, presionará el botón “Cancelar”.</p>
+<p>En caso de que el medicamento posea referencias activas que impidan la eliminacion, el sistema mostrara una ventana emergente (modal) del tipo:</p>
+<img alt="_images/noeliminarmed.png" src="_images/noeliminarmed.png" />
 </div>
 <div class="section" id="formulario-de-busqueda">
 <h2>Formulario de Búsqueda<a class="headerlink" href="#formulario-de-busqueda" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Si el usuario desea visualizar solo aquellos medicamentos que cumplan determinados criterios, deberá utilizar el formulario de búsqueda.</p>
-<p>CAPTURA</p>
+<img alt="_images/busquedamed.png" src="_images/busquedamed.png" />
 <p>Este formulario cuenta con dos modalidades:</p>
 <blockquote>
 <div><ul class="simple">

@@ -8,7 +8,7 @@
     <li class="active">Pedidos a laboratorios</li>
 {% endblock %}
 
-{% block header-title %} Pedidos a laboratorios {% endblock%}
+{% block header-title %} Pedidos a laboratorios {% endblock %}
 
 {% block form-field-simple %} 
     <input class="form-control form-field form-field-simple" id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" placeholder="Laboratorio" type="text" />
@@ -20,7 +20,9 @@
 {% endblock %}
 
 {% block botones-header-tabla %} 
-    <a class="btn-alta" href="{% url 'pedidoAlaboratorio_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% if perms.usuarios.encargado_pedido %}
+        <a class="btn-alta" href="{% url 'pedidoAlaboratorio_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% endif %}
 {% endblock %}
 
 {% block tabla %}
@@ -57,9 +59,9 @@
                                     <span class="action-link-icon animated glyphicon glyphicon-eye-open"></span> Ver Remitos
                                 </a>
                             </li>
-                            {% if pedido.estado == "Pendiente" %}
+                            {% if pedido.estado == "Pendiente" and perms.usuarios.encargado_general %}
                             <li>
-                                <a class="action-link btn-eliminar" data-url="{% url 'pedidoAlaboratorio_cancelar' pedido.pk %}">
+                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'pedidoAlaboratorio_cancelar' pedido.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon-remove"></span> Cancelar
                                 </a>
                             </li>
@@ -126,6 +128,10 @@
                         <tbody>
                         </tbody>
                     </table>
+
+                    <div class="mensaje-sin-remitos">
+                        <p>Este pedido aún no posee remitos</p>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -136,10 +142,11 @@
 {% endblock %}
 
 {% block more-scripts %}
+    <script src="{% static 'js/modalAjax.js' %}"></script>
     <script>
         (function(){
-            var $modalRemitos = $('#modal-ver-remitos'),
-                $modalDetalles = $('#modal-ver-detalles');
+            var modal = modalAjax();
+            modal.init();
 
             $(document).on("keyup", function(e){
                 if(e.keyCode == 112){
@@ -147,108 +154,7 @@
                 }
             });
 
-            $('.btn-ver-detalles').on('click', function() {
-                $.ajax({
-                    type: 'GET',
-                    url: $(this).data('url'),
-                    dataType: 'json',
-                    success: function(data){
-                        if(data) {
-                            console.log(data['detalles']);
-                            fillDataDetalles(data['detalles']);
-                            $modalDetalles.modal('show');
-                        }
-                        
-                    },
-                    error: function(err){
-                        alert("Fallo Ajax");
-                    },
-                });
-            });
-
-            function fillDataDetalles(detalles) {
-                var $tabla = $modalDetalles.find('table tbody'),
-                    rows = document.createDocumentFragment(),
-                    i, max;
-                $tabla.empty();
-
-                for(i = 0, max = detalles.length; i < max; i+=1) {  
-                    var tr = document.createElement('tr'),
-                    medicamento = document.createElement('td'),
-                    cantidad = document.createElement('td'),
-                    txtMedicamento = document.createTextNode(detalles[i]['medicamento']['descripcion']),
-                    txtCantidad = document.createTextNode(detalles[i]['cantidad']);
-
-                    medicamento.appendChild(txtMedicamento);
-                    cantidad.appendChild(txtCantidad);
-                    tr.appendChild(medicamento);
-                    tr.appendChild(cantidad);
-
-                    rows.appendChild(tr);
-                }
-                console.log(rows);
-                $tabla.append(rows);
-            }
-
-
-            $('.btn-ver-remitos').on('click', function() {
-                $.ajax({
-                    type: 'GET',
-                    url: $(this).data('url'),
-                    dataType: 'json',
-                    success: function(data){
-                        if(data) {
-                            fillDataRemitos(data['remitos']);
-                            $modalRemitos.modal('show');
-                        }
-                        
-                    },
-                    error: function(err){
-                        alert("Fallo Ajax");
-                    },
-                });
-            });
-
-
-            function fillDataRemitos(remitos) {
-                var $tabla = $modalRemitos.find('table tbody'),
-                    rows = document.createDocumentFragment(),
-                    i, max;
-                $tabla.empty();
-
-                for(i = 0, max = remitos.length; i < max; i+=1) {  
-                    var tr = document.createElement('tr'),
-                    nroRemito = document.createElement('td'),
-                    fecha = document.createElement('td'),
-                    pdf = document.createElement('td'),
-                    linkPdf = document.createElement('a'),
-                    iconPdf = document.createElement('span'),
-                    txtNroRemito = document.createTextNode(remitos[i]['nroRemito']),
-                    txtFecha = document.createTextNode(remitos[i]['fecha']),
-                    urlRemito = "/pedidosAlaboratorio/remitoDeLaboratorio/id_remito/";
-
-                    urlRemito = urlRemito.replace(/\bid_remito\b/, remitos[i]['nroRemito']);
-                    linkPdf.href = urlRemito;
-                    linkPdf.target = '_blank';
-                    iconPdf.className = 'glyphicon glyphicon-floppy-disk';
-                    linkPdf.style = 'color: #F11;';
-
-
-                    nroRemito.appendChild(txtNroRemito);
-                    fecha.appendChild(txtFecha);
-                    linkPdf.appendChild(iconPdf);
-                    pdf.appendChild(linkPdf);
-
-                    tr.appendChild(nroRemito);
-                    tr.appendChild(fecha);
-                    tr.appendChild(pdf)
-
-                    rows.appendChild(tr);
-                }
-                console.log(rows);
-                $tabla.append(rows);
-            }
-
+            
         })();
     </script>
 {% endblock %}

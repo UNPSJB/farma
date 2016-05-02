@@ -19,7 +19,9 @@
 {% endblock %}
 
 {% block botones-header-tabla %} 
-    <a class="btn-alta" href="{% url 'farmacia_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% if perms.usuarios.encargado_general %}
+        <a class="btn-alta" href="{% url 'farmacia_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
+    {% endif %}
 {% endblock %}
 
 {% block tabla %}
@@ -29,7 +31,9 @@
             <th>Localidad</th>
             <th>Dirección</th>        
             <th>Nombre Encargado</th>
+            {% if perms.usuarios.encargado_general %}
             <th>Acción</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -39,6 +43,7 @@
                 <td>{{farmacia.localidad}}</td>
                 <td>{{farmacia.direccion}}</td>               
                 <td>{{farmacia.nombreEncargado}}</td>
+                {% if perms.usuarios.encargado_general %}
                 <td class="action">
                     <div class="dropdown">
                         <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -52,13 +57,14 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="action-link btn-eliminar" href="#" data-url="{% url 'farmacia_delete' farmacia.pk %}">
+                                <a class="action-link btn-eliminar-ajax" href="#" data-url="{% url 'farmacia_delete' farmacia.pk %}" data-url-ajax="{% url 'farmacia_try_delete' farmacia.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon-trash"></span> Eliminar
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </td>
+                {% endif %}
             </tr>
 
         {% endfor %}
@@ -70,6 +76,8 @@
 {% block modal-eliminar-mensaje %}
     La farmacia seleccionada se eliminará permanentemente ¿Está seguro?
 {% endblock %}
+
+{% block mensaje-fallo-eliminacion %}Esta farmacia no puede ser eliminada por las siguientes razones:{% endblock %}
 
 {% block more-scripts %}
     <script>
