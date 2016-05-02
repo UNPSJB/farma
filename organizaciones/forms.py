@@ -31,7 +31,8 @@ class FarmaciaFormGenerico(forms.ModelForm):
 
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
-
+        if models.Clinica.objects.filter(cuit=cuit) or models.Laboratorio.objects.filter(cuit=cuit):
+            raise forms.ValidationError('Ya existe una organizacion con este CUIT')
         if cuit:
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
                 raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
@@ -126,6 +127,8 @@ class ClinicaFormGenerico(forms.ModelForm):
 
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
+        if models.Farmacia.objects.filter(cuit=cuit) or models.Laboratorio.objects.filter(cuit=cuit):
+            raise forms.ValidationError('Ya existe una organizacion con este CUIT')
         if cuit:
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
                 raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
@@ -220,6 +223,8 @@ class LaboratorioFormGenerico(forms.ModelForm):
 
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
+        if models.Farmacia.objects.filter(cuit=cuit) or models.Clinica.objects.filter(cuit=cuit):
+            raise forms.ValidationError('Ya existe una organizacion con este CUIT')
         if cuit:
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
                 raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
