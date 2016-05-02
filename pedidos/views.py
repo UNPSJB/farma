@@ -386,7 +386,7 @@ def pedidoAlaboratorio_verDetalles(request, id_pedido):
     return {'detalles': detalles_json}
     
 @json_view
-def pedidoAlaboratorio_verRemitos(request, id_pedido):
+def pedidoAlaboratorio_verRemitos(id_pedido):
     remitos_json = []
     remitos = models.RemitoLaboratorio.objects.filter(pedidoLaboratorio__pk=id_pedido)
     for remito in remitos:

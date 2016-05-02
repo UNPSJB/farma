@@ -45,11 +45,9 @@ ul, ol{
     list-style: none;
 }
 
-/*
 body {
     padding-top: 62px;
 }
-*/
 
 ._breadcrumb_ {
 	background-color: rgba(255,255,255,0.1);

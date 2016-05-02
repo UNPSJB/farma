@@ -33,5 +33,13 @@
             },
             dropdownParent: 'body'
         });
+
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                var url = "{% static 'documentacion/build/html/pedidosfarmacia.html' %}";
+                url += "#alta-de-pedido";
+                window.open(url);
+            }
+        });
     </script>
 {% endblock %}

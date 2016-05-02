@@ -31,6 +31,7 @@ class FarmaciaFormGenerico(forms.ModelForm):
 
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
+
         if cuit:
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
                 raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')

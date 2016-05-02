@@ -1,4 +1,5 @@
 {% extends "base/base-add-update.html" %}
+{% load staticfiles %}
 
 {% block title %}Alta de Farmacia{% endblock %}
 
@@ -15,3 +16,14 @@
 
 {% block url-previous %}{% url 'farmacias' %}{% endblock %}
 
+{% block more-scripts %}
+    <script>
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                var url = "{% static 'documentacion/build/html/farmacias.html' %}";
+                url += "#alta-de-farmacia";
+                window.open(url);
+            }
+        });
+    </script>
+{% endblock %}

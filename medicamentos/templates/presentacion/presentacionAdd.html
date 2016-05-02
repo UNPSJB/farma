@@ -1,4 +1,5 @@
 {% extends "base/base-add-update.html" %}
+{% load staticfiles %}
 
 {% block title %}Alta de Presentacion{% endblock %}
 
@@ -15,3 +16,14 @@
 
 {% block url-previous %}{% url 'presentaciones' %}{% endblock %}
 
+{% block more-scripts %}
+    <script>
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                var url = "{% static 'documentacion/build/html/presentaciones.html' %}";
+                url += "#alta-de-presentacion";
+                window.open(url);
+            }
+        });
+    </script>
+{% endblock %}

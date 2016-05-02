@@ -1,14 +1,15 @@
 {% extends "base/base-add-update.html" %}
+{% load staticfiles %}
 
-{% block title %}Modificacion de Nombre Fantasia{% endblock %}
+{% block title %}Modificar Nombre Fantasia{% endblock %}
 
 {% block more-crumbs %}
     <li><a href="{% url 'nombresFantasia' %}">Nombres fantasia</a></li>
-    <li class="active">Modificacion de nombre fantasia</li>
+    <li class="active">Modificar Nombre fantasia</li>
 {% endblock %}
 
 {% block panel-heading-add %}
-    <h3 class="panel-title">Modificacion de Nombre Fantasia</h3>
+    <h3 class="panel-title">Modificar Nombre Fantasia</h3>
 {% endblock %}
 
 {% block url-form-action %}{% url 'nombreFantasia_update' id %}{% endblock %}
@@ -18,3 +19,15 @@
 {% endblock%}
 
 {% block url-previous %}{% url 'nombresFantasia' %}{% endblock %}
+
+{% block more-scripts %}
+    <script>
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                var url = "{% static 'documentacion/build/html/nombresfantasia.html' %}";
+                url += "#modificar-nombre-fantasia";
+                window.open(url);
+            }
+        });
+    </script>
+{% endblock %}

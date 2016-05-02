@@ -24,7 +24,7 @@
         }
 
         .pre-scrollable {
-            max-height: 490px;
+            max-height: 470px;
         }
     </style>
 {% endblock %}
@@ -53,7 +53,7 @@
                         {{ medicamento_form.non_field_errors }}
                         <form class="form-horizontal col-xs-12 col-md-12" method="post">
                             <div class="row">
-                                <div class="meds col-xs-6 col-md-6" style="margin: 0 35px 0 30px;">
+                                <div class="meds col-xs-6 col-md-6" style="margin: 0 35px 18px 30px;">
                                     {% csrf_token %}
                                     {% bootstrap_form medicamento_form %}
                                 </div>
@@ -62,18 +62,18 @@
                                     {{ dosis_formset.non_form_errors }}
                                     {% bootstrap_dynamic_formset dosis_formset can_order=True can_delete=True layout='inline'  %}
                                 </div>
-                                <div class="pull-right" style="margin-top: 20px;">
-                                    <button type="submit" id="btn-guardar-continuar" class="btn btn-success pull-right" style="margin-left:10px;" value="_continuar" name="_continuar">
-                                        {% bootstrap_icon "ok" %} Guardar y Continuar
-                                    </button>
-                                    <button type="submit" id="btn-guardar-volver" class="btn btn-primary pull-right" value="_volver" name="_volver">
-                                        {% bootstrap_icon "ok" %} Guardar y Volver
-                                    </button>
-                                    <div class="clearfix"></div>
-                                </div>
                             </div>
                         </form>
                     </div>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" id="btn-guardar-continuar" class="btn btn-success pull-right" style="margin-left:10px;" value="_continuar" name="_continuar">
+                        {% bootstrap_icon "ok" %} Guardar y Continuar
+                    </button>
+                    <button type="submit" id="btn-guardar-volver" class="btn btn-primary pull-right" value="_volver" name="_volver">
+                        {% bootstrap_icon "ok" %} Guardar y Volver
+                    </button>
+                    <div class="clearfix"></div>
                 </div>
             </div>
         </div>
@@ -90,6 +90,14 @@
                 direction: 'asc'
             },
             dropdownParent: 'body'
+        });
+
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                var url = "{% static 'documentacion/build/html/medicams.html' %}";
+                url += "#alta-de-medicamento";
+                window.open(url);
+            }
         });
     </script>
 {% endblock %}

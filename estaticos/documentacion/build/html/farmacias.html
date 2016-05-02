@@ -34,7 +34,7 @@
   
     <link rel="top" title="documentación de Farma - " href="index.html"/>
         <link rel="up" title="Organizaciones" href="organizaciones.html"/>
-        <link rel="next" title="Clinicas" href="clinicas.html"/>
+        <link rel="next" title="Clínicas" href="clinicas.html"/>
         <link rel="prev" title="Organizaciones" href="organizaciones.html"/> 
 
   
@@ -86,8 +86,14 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="pedidos.html">Pedidos</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="organizaciones.html">Organizaciones</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Farmacias</a></li>
-<li class="toctree-l2"><a class="reference internal" href="clinicas.html">Clinicas</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Farmacias</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#alta-de-farmacia">Alta de Farmacia</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#baja-de-farmacia">Baja de Farmacia</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modificacion-de-farmacia">Modificacion de Farmacia</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#formulario-de-busqueda">Formulario de Búsqueda</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="clinicas.html">Clínicas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="laboratorios.html">Laboratorios</a></li>
 <li class="toctree-l2"><a class="reference internal" href="obras.html">Obras Sociales</a></li>
 </ul>
@@ -142,6 +148,96 @@
             
   <div class="section" id="farmacias">
 <h1>Farmacias<a class="headerlink" href="#farmacias" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Se presentará una pantalla que contendrá un listado con todas las farmacias que se encuentren registradas en el sistema hasta la fecha. Junto con el listado, se presentarán un conjunto de funcionalidades que permitirán manipular estas farmacias.</p>
+<p>CAPTURA</p>
+<p>Estas funcionalidades son:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Alta de Farmacia</li>
+<li>Baja de Farmacia</li>
+<li>Modificacion de Farmacia</li>
+<li>Formulario de Búsqueda</li>
+</ul>
+</div></blockquote>
+<div class="section" id="alta-de-farmacia">
+<h2>Alta de Farmacia<a class="headerlink" href="#alta-de-farmacia" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea crear una nueva farmacia, deberá presionar el botón “Alta”. Una vez presionado este botón el sistema lo redirigirá a la siguiente pantalla.</p>
+<p>CAPTURA</p>
+<p>En este punto el usuario deberá ingresar los datos de la nueva farmacia. Estos datos son:</p>
+<p>Campos Obligatorios:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Razón</span> <span class="n">social</span>
+<span class="o">-</span> <span class="n">Cuit</span>
+<span class="o">-</span> <span class="n">Localidad</span>
+<span class="o">-</span> <span class="n">Dirección</span>
+</pre></div>
+</div>
+<p>Campos opcionales:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Nombre</span> <span class="n">de</span> <span class="n">encargado</span>
+<span class="o">-</span> <span class="n">Teléfono</span>
+<span class="o">-</span> <span class="n">Email</span>
+</pre></div>
+</div>
+<p>Luego de ingresar todos los datos, el usuario podra confirmar su grabación. Para esto cuenta con los botones “Guardar y volver” que redirige al listado inicial de una organización, y “Guardar y continuar” que mantiene la pantalla activa para crear una nueva farmacia.</p>
+<p>El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
+En este punto, las posibles causas de errores son:</p>
+<blockquote>
+<div><ul class="simple">
+<li>No se ingreso una razon social.</li>
+<li>La razon social ingresada no posee un formato correcto.</li>
+<li>No se ingreso un CUIT.</li>
+<li>El CUIT ingresado no posee un formato correcto.</li>
+<li>No se ingreso una localidad.</li>
+<li>La localidad ingresada no posee un formato correcto.</li>
+<li>No se ingreso una direccion.</li>
+<li>La direccion ingresada no posee un formato correcto.</li>
+<li>El nombre de encargado ingresado no posee un formato correcto.</li>
+<li>El telefono ingresado no posee un formato correcto.</li>
+<li>El email ingresado no posee un formato correcto.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="baja-de-farmacia">
+<h2>Baja de Farmacia<a class="headerlink" href="#baja-de-farmacia" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea eliminar una farmacia, deberá hacer “click” en la fila correspondiente y presionar el botón de “Acción” y seleccionar la opción eliminar.</p>
+<p>CAPTURA BOTÓN</p>
+<p>Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):</p>
+<p>CAPTURA</p>
+<p>En esta parte el usuario deberá decidir si confirma la eliminación de la farmacia. Si desea confirmar la eliminación deberá presionar el botón “Confirmar”, caso contrario, presionará el botón “Cancelar”.</p>
+</div>
+<div class="section" id="modificacion-de-farmacia">
+<h2>Modificacion de Farmacia<a class="headerlink" href="#modificacion-de-farmacia" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea modificar una farmacia, deberá hacer “click” en la fila correspondiente y presionar el botón de “Acción” y seleccionar la opción modificar.
+Una vez presionado este botón el sistema lo redirigirá a la siguiente pantalla.</p>
+<p>CAPTURA</p>
+<p>En esta parte el usuario se le presentará un formulario con la información modificable de la farmacia, y podra actualizar la información que considere necesaria.</p>
+<p>Una vez modificado el formulario, el usuario deberá presionar el botón “Guardar cambios” y el sistema se encargara de actualizar la información de la farmacia seleccionada.</p>
+<p>El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
+En este punto, las posibles causas de errores son:</p>
+<blockquote>
+<div><ul class="simple">
+<li>No se ingreso una localidad.</li>
+<li>La localidad ingresada no posee un formato correcto.</li>
+<li>No se ingreso una direccion.</li>
+<li>La direccion ingresada no posee un formato correcto.</li>
+<li>El nombre de encargado ingresado no posee un formato correcto.</li>
+<li>El telefono ingresado no posee un formato correcto.</li>
+<li>El email ingresado no posee un formato correcto.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="formulario-de-busqueda">
+<h2>Formulario de Búsqueda<a class="headerlink" href="#formulario-de-busqueda" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea visualizar solo aquellas farmacias que cumplan determinados criterios, deberá utilizar el formulario de búsqueda.</p>
+<p>CAPTURA</p>
+<p>Este formulario cuenta con dos modalidades:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Búsqueda simple: permite buscar las farmacias por razon social.</li>
+<li>Búsqueda avanzada: permite buscar las farmacias por razon social y/o localidad.</li>
+</ul>
+</div></blockquote>
+<p>Todos los campos son opcionales, de no especificarse ningún criterio de búsqueda el sistema mostrará todos los pedidos de farmacia.</p>
+</div>
 </div>
 
 
@@ -151,7 +247,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="clinicas.html" class="btn btn-neutral float-right" title="Clinicas" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="clinicas.html" class="btn btn-neutral float-right" title="Clínicas" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="organizaciones.html" class="btn btn-neutral" title="Organizaciones" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

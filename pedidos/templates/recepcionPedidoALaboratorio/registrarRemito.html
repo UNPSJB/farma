@@ -24,4 +24,13 @@
 {% block more-scripts %}
     <script src="{% static 'js/datepicker.js' %}"></script>
     {{ form.media.js }}
+    <script>
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                var url = "{% static 'documentacion/build/html/pedidosalab.html' %}";
+                url += "#alta-de-pedido";
+                window.open(url);
+            }
+        });
+    </script>
 {% endblock %}

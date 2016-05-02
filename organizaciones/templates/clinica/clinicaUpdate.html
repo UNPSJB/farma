@@ -1,14 +1,15 @@
 {% extends "base/base-add-update.html" %}
+{% load staticfiles %}
 
-{% block title %}Modificacion de Clinica{% endblock %}
+{% block title %}Modificación de Clinica{% endblock %}
 
 {% block more-crumbs %}
     <li><a href="{% url 'clinicas' %}">Clinicas</a></li>
-    <li class="active">Modificacion de clinica</li>
+    <li class="active">Modificación de clinica</li>
 {% endblock %}
 
 {% block panel-heading-add %}
-    <h3 class="panel-title">Modificacion de Clinica</h3>
+    <h3 class="panel-title">Modificación de Clinica</h3>
 {% endblock %}
 
 {% block url-form-action %} {% url 'clinica_update' id %} {% endblock %}
@@ -18,3 +19,15 @@
 {% endblock%}
 
 {% block url-previous %} {% url 'clinicas' %} {% endblock %}
+
+{% block more-scripts %}
+    <script>
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                var url = "{% static 'documentacion/build/html/clinicas.html' %}";
+                url += "#modificacion-de-clinica";
+                window.open(url);
+            }
+        });
+    </script>
+{% endblock %}

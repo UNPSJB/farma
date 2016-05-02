@@ -1,14 +1,15 @@
 {% extends "base/base-add-update.html" %}
+{% load staticfiles %}
 
-{% block title %}Modificacion de Monodroga{% endblock %}
+{% block title %}Modificar Monodroga{% endblock %}
 
 {% block more-crumbs %}
     <li><a href="{% url 'monodrogas' %}">Monodrogas</a></li>
-    <li class="active">Modificacion de monodroga</li>
+    <li class="active">Modificar monodroga</li>
 {% endblock %}
 
 {% block panel-heading-add %}
-    <h3 class="panel-title">Modificacion de Monodroga</h3>
+    <h3 class="panel-title">Modificar Monodroga</h3>
 {% endblock %}
 
 {% block url-form-action %}{% url 'monodroga_update' id %}{% endblock %}
@@ -18,3 +19,15 @@
 {% endblock%}
 
 {% block url-previous %}{% url 'monodrogas' %}{% endblock %}
+
+{% block more-scripts %}
+    <script>
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                var url = "{% static 'documentacion/build/html/monodrogas.html' %}";
+                url += "#modificar-monodroga";
+                window.open(url);
+            }
+        });
+    </script>
+{% endblock %}

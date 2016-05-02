@@ -190,6 +190,14 @@
                 }
                 //e.stockPropagation();            
             }
+
+            $(document).on("keyup", function(e){
+                if(e.keyCode == 112){
+                    var url = "{% static 'documentacion/build/html/pedidosclinica.html' %}";
+                    url += "#alta-detalle";
+                    window.open(url);
+                }
+            });
         })();
     </script>
 {% endblock %}

@@ -1,10 +1,11 @@
 {% extends "base/base-add-update.html" %}
+{% load staticfiles %}
 
 {% block title %}Alta de Nombre Fantasia{% endblock %}
 
 {% block more-crumbs %}
     <li><a href="{% url 'nombresFantasia' %}">Nombres fantasia</a></li>
-    <li class="active">Modificacion de nombre fantasia</li>
+    <li class="active">Alta de nombre fantasia</li>
 {% endblock %}
 
 {% block panel-heading-add %}
@@ -15,3 +16,14 @@
 
 {% block url-previous %}{% url 'nombresFantasia' %}{% endblock %}
 
+{% block more-scripts %}
+    <script>
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                var url = "{% static 'documentacion/build/html/nombresfantasia.html' %}";
+                url += "#alta-de-nombre-fantasia";
+                window.open(url);
+            }
+        });
+    </script>
+{% endblock %}

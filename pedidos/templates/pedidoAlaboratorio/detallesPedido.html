@@ -77,7 +77,6 @@
 
             /****************************** Botones Alta Detalle ***************************************/
 
-
             var id;
 
             $("#btn-update-detalle").on("click", function(e){
@@ -133,6 +132,14 @@
                     $btn.addClass("hidden");
                 }else{
                     $btn.removeClass("hidden");
+                }
+            });
+
+            $(document).on("keyup", function(e){
+                if(e.keyCode == 112){
+                    var url = "{% static 'documentacion/build/html/pedidosalab.html' %}";
+                    url += "#alta-de-pedido";
+                    window.open(url);
                 }
             });
         })();

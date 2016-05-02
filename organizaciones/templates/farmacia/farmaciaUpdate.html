@@ -1,14 +1,15 @@
 {% extends "base/base-add-update.html" %}
+{% load staticfiles %}
 
-{% block title %}Modificacion de Farmacia{% endblock %}
+{% block title %}Modificación de Farmacia{% endblock %}
 
 {% block more-crumbs %}
     <li><a href="{% url 'farmacias' %}">Farmacias</a></li>
-    <li class="active">Modificacion de farmacia</li>
+    <li class="active">Modificación de farmacia</li>
 {% endblock %}
 
 {% block panel-heading-add %}
-    <h3 class="panel-title">Modificacion de Farmacia</h3>
+    <h3 class="panel-title">Modificación de Farmacia</h3>
 {% endblock %}
 
 {% block url-form-action %}{% url 'farmacia_update' id %}{% endblock %}
@@ -18,3 +19,15 @@
 {% endblock%}
 
 {% block url-previous %}{% url 'farmacias' %}{% endblock %}
+
+{% block more-scripts %}
+    <script>
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                var url = "{% static 'documentacion/build/html/farmacias.html' %}";
+                url += "#modificacion-de-farmacia";
+                window.open(url);
+            }
+        });
+    </script>
+{% endblock %}

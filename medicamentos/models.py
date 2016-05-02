@@ -29,8 +29,8 @@ class Medicamento(models.Model):
 
 class Presentacion(models.Model):
     FILTROS = ["descripcion__icontains"]
-    descripcion = models.TextField(max_length=95)
-    cantidad = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1),MaxValueValidator(9999)])
+    descripcion = models.CharField(max_length=45)
+    cantidad = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(9999)])
     unidadMedida = models.CharField("Unidad de medida", max_length=45)
 
     def __str__(self):

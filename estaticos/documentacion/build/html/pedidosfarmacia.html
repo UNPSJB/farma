@@ -34,7 +34,7 @@
   
     <link rel="top" title="documentación de Farma - " href="index.html"/>
         <link rel="up" title="Pedidos" href="pedidos.html"/>
-        <link rel="next" title="Pedidos de Clinica" href="pedidosclinica.html"/>
+        <link rel="next" title="Pedidos de Clínica" href="pedidosclinica.html"/>
         <link rel="prev" title="Pedidos" href="pedidos.html"/> 
 
   
@@ -86,18 +86,22 @@
                 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="pedidos.html">Pedidos</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Pedidos de Farmacia</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#alta-de-pedido-de-farmacia">Alta de Pedido de Farmacia</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#modo-alta">1. Modo Alta:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#alta-de-pedido">Alta de Pedido</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#alta-detalle">Alta Detalle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#baja-detalle">Baja Detalle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modificar-detalle">Modificar Detalle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#registrar-pedido">Registrar Pedido</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#filtrar-pedidos">Filtrar Pedidos</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ver-detalles-y-remitos-de-un-pedido">Ver Detalles y Remitos de un Pedido</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#formulario-de-busqueda">Formulario de Búsqueda</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ver-detalles-del-pedido">Ver detalles del Pedido</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ver-remitos-del-pedido">Ver Remitos del Pedido</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pedidosclinica.html">Pedidos de Clinica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pedidosclinica.html">Pedidos de Clínica</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pedidosalab.html">Pedidos a Laboratorio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="receppedidosdelab.html">Recepcion de Pedidos de Laboratorio</a></li>
-<li class="toctree-l2"><a class="reference internal" href="devolucionvencidos.html">Registrar Devolucion de Medicamentos Vencidos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devolucionvencidos.html">Registrar Devolución de Medicamentos Vencidos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reemplazovencidos.html">Registrar Recepcion de Medicamentos para Reemplazar Vencidos</a></li>
 </ul>
 </li>
@@ -152,92 +156,136 @@
             
   <div class="section" id="pedidos-de-farmacia">
 <h1>Pedidos de Farmacia<a class="headerlink" href="#pedidos-de-farmacia" title="Enlazar permanentemente con este título">¶</a></h1>
-<p>Al usuario se le presentará una pantalla donde se observará como regla general el listado de todos los pedidos registrados en el sistema hasta la fecha.
-El usuario contara con las opciones de:</p>
-<ul class="simple">
-<li>Crear un nuevo pedido (Alta)</li>
-<li>Filtrar pedidos</li>
-<li>Ver Detalles y Remitos de un Pedido</li>
+<p>Se presentará una pantalla que contendrá un listado con todos los pedidos de farmacia que se encuentren registrados en el sistema hasta la fecha. Junto con el listado, se presentarán un conjunto de funcionalidades que permitirán manipular estos pedidos.</p>
+<p>CAPTURA</p>
+<p>Estas funcionalidades son:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Alta de Pedido</li>
+<li>Ver detalles del Pedido</li>
+<li>Ver Remitos del Pedido</li>
+<li>Formulario de Búsqueda</li>
 </ul>
-<p>CAPTURA</p>
-<div class="section" id="alta-de-pedido-de-farmacia">
-<h2>Alta de Pedido de Farmacia<a class="headerlink" href="#alta-de-pedido-de-farmacia" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>Si el usuario decide dar de alta un nuevo pedido, deberá hacer “click” en el botón “Alta”, el cual permitirá crear uno nuevo. El sistema presentará la siguiente pantalla:</p>
-<p>CAPTURA</p>
-<p>Para poder crear un nuevo pedido, el usuario escribirá el nombre de la farmacia, a fin de mantener la integridad de los datos, se auto-completará con el nombre de farmacias existentes, ingresará una fecha y pulsará “Crear pedido”.
-En caso de que la información ingresada sea errónea, el sistema lo informará, e imposibilitara la creación del pedido. Estos errores se producirán a causa de:
-No existir una farmacia registrada en el sistema.
-Formato de fecha incorrecto o fuera de rango.
-Uno o mas campos obligatorios vacíos.</p>
-<p>En caso de que la información ingresada sea correcta, el sistema nos dirigirá a una nueva pantalla:</p>
-<p>CAPTURA 2</p>
-<p>En esta pantalla se especifican los detalles del pedido de farmacia. A su vez se cuenta con un conjunto de funcionalidades que permiten manipular el pedido. Estas funcionalidades pueden ser utilizadas mediante los siguientes botones:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="100%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><ol class="first last arabic simple">
-<li>Modo Alta.</li>
-<li>Modo Baja.</li>
-<li>Modo Modificación.</li>
-<li>Modo Registrar.</li>
-</ol>
-</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<div><ol class="arabic simple">
-<li>Modo Alta.</li>
-<li>Modo Baja.</li>
-<li>Modo Modificación.</li>
-<li>Modo Registrar.</li>
-</ol>
 </div></blockquote>
-<div class="section" id="modo-alta">
-<h3>1. Modo Alta:<a class="headerlink" href="#modo-alta" title="Enlazar permanentemente con este título">¶</a></h3>
-<p>Si usuario decide dar de alta un nuevo detalle, deberá hacer “click” en el botón “Alta”, el cual permitirá crear uno nuevo. El sistema presentará la siguiente pantalla:</p>
+<div class="section" id="alta-de-pedido">
+<h2>Alta de Pedido<a class="headerlink" href="#alta-de-pedido" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea crear un nuevo pedido de farmacia, deberá presionar el botón “Alta”. Una vez presionado este botón el sistema lo redirigirá a la siguiente pantalla</p>
+<p>CAPTURA</p>
+<p>En este punto el usuario deberá seleccionar la farmacia que solicito el pedido y la correspondiente fecha en que fue solicitado a la empresa; luego presionar el botón “Crear pedido”.</p>
+<p>El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
+En este punto, las posibles causas de errores son:</p>
 <blockquote>
-<div>CAPTURA 3</div></blockquote>
-<p>Para poder crear un nuevo detalle, el usuario, escribirá el nombre del medicamento, y la cantidad solicitada, y pulsará “Guardar”.</p>
-<p>En caso de que la información ingresada sea errónea, el sistema lo informará, e imposibilitara la creación del detalle. Estos errores se producirán a causa de:
--Medicamento no seleccionado.
--Cantidad no ingresada.
--La cantidad ingresada no posee un formato correcto.</p>
-<p>En caso de que la información ingresada sea correcta, se agregara el nuevo detalle al pedido, y dará la opción de ingresar un nuevo detalle hasta que se presione el botón “Cerrar”.</p>
-<ol class="arabic simple" start="2">
-<li>Modo Baja:</li>
-</ol>
-<p>Si usuario decide dar de baja un detalle existente, deberá hacer “click” en el renglón del detalle a eliminar, y presionar el botón “Baja”, el cual permitirá eliminar el detalle seleccionado. El sistema presentará la siguiente pantalla:</p>
+<div><ul class="simple">
+<li>La farmacia ingresada no existe.</li>
+<li>La fecha no es válida.</li>
+<li>La fecha es incorrecta en un sentido “temporal”</li>
+</ul>
+</div></blockquote>
+<p>Una vez presionado el botón “Crear pedido”, se mostrará la siguiente pantalla:</p>
+<p>CAPTURA</p>
+<p>Esta pantalla es la encargada de visualizar los detalles que se correspondan con el pedido de farmacia.
+Esta pantalla ofrece las siguientes funcionalidades para manipular el pedido de farmacia:</p>
 <blockquote>
-<div>CAPTURA 4</div></blockquote>
-<p>El sistema solicitara una confirmación de la baja. Si se presiona el botón “Confirmar”, el detalle sera eliminado del pedido. Caso contrario, se deberá presionar el botón “Cancelar”, el cual deja sin efecto la eliminación.</p>
-<ol class="arabic simple">
-<li>Modo Modificar:</li>
-</ol>
-<p>Si usuario decide modificar la cantidad pedida de un detalle existente, deberá hacer “click” en el renglón del detalle a modificar, y presionar el botón “Modificar”, el cual permitirá actualizar la cantidad solicitada del detalle seleccionado. El sistema presentará la siguiente pantalla:</p>
+<div><ul class="simple">
+<li>Alta Detalle.</li>
+<li>Modificación Detalle.</li>
+<li>Baja Detalle.</li>
+<li>Registrar Pedido.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="alta-detalle">
+<h3>Alta Detalle<a class="headerlink" href="#alta-detalle" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si el usuario desea agregar un detalle al pedido de farmacia, deberá presionar el botón de “Alta detalle”.</p>
+<p>CAPTURA BOTÓN</p>
+<p>Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):</p>
+<p>CAPTURA</p>
+<p>En esta parte el usuario se le presentará un formulario y deberá ingresar la información solicitada para dar de alta un nuevo detalle.
+El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
+En este punto, las posibles causas de errores son:</p>
 <blockquote>
-<div>CAPTURA 5</div></blockquote>
-<p>Para poder actualizar la cantidad solicitada del detalle, el usuario escribirá la nueva cantidad a solicitar, y pulsará “Guardar”.</p>
-<p>En caso de que la información ingresada sea errónea, el sistema lo informará, e imposibilitara la modificación del detalle. Esto producirse a causa de:
-- Cantidad ingresada menor o igual a 0.
-- Cantidad ingresada no posee un formato correcto.</p>
-<p>En caso de que la información ingresada sea correcta, se modificara el detalle.</p>
-<ol class="arabic simple" start="4">
-<li>Modo Registrar:</li>
-</ol>
-<p>Si usuario decide registrar el pedido, deberá hacer “click” en el botón “Registrar”, el cual dará de alta un pedido con los detalles ingresados. El sistema presentará la siguiente pantalla informando que el pedido se creo correctamente.</p>
-<p>CAPTURA 5</p>
-<p>Esta pantalla pedirá confirmación al usuario y lo redirigirá al listado de pedidos registrados.</p>
-<p>En caso de no existir detalles, el sistema informara que no es posible registrar un pedido sin detalles.</p>
+<div><ul class="simple">
+<li>No se seleccionó un medicamento.</li>
+<li>No se ingresó una cantidad.</li>
+<li>La cantidad ingresada no posee un formato correcto.</li>
+<li>La cantidad ingresada es menor a cero.</li>
+</ul>
+</div></blockquote>
+<p>Una vez completado el formulario, el usuario deberá presionar el botón “Guardar” y el sistema se encargara de agregar el nuevo detalle al pedido.
+El usuario podrá seguir dando de alta nuevos detalles, hasta donde considere necesario. Una vez que esto suceda deberá presionar el botón “Cerrar” y la ventana emergente desaparecerá.</p>
+</div>
+<div class="section" id="baja-detalle">
+<h3>Baja Detalle<a class="headerlink" href="#baja-detalle" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si el usuario desea eliminar un detalle del pedido de farmacia, deberá seleccionar el detalle que desea eliminar y presionar el botón de “Baja detalle”.</p>
+<p>CAPTURA BOTÓN</p>
+<p>Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):</p>
+<p>CAPTURA</p>
+<p>En esta parte el usuario deberá decidir si confirma la eliminación del detalle o no. Si desea confirmar la eliminación deberá presionar el botón “Confirmar”, caso contrario, presionará el botón “Cancelar”.</p>
+</div>
+<div class="section" id="modificar-detalle">
+<h3>Modificar Detalle<a class="headerlink" href="#modificar-detalle" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si el usuario desea modificar un detalle del pedido de farmacia, deberá seleccionar el detalle que desea actualizar y presionar el botón de “Modificar detalle”.</p>
+<p>CAPTURA</p>
+<p>Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):</p>
+<p>CAPTURA</p>
+<p>En esta parte el usuario se le presentará un formulario con la información actual del detalle y deberá modificar la información que considere necesaria.
+El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
+En este punto, las posibles causas de errores son:</p>
+<blockquote>
+<div><ul class="simple">
+<li>No se ingresó una cantidad.</li>
+<li>La cantidad ingresada no posee un formato correcto.</li>
+<li>La cantidad ingresada es menor a cero.</li>
+</ul>
+</div></blockquote>
+<p>Una vez completado el formulario, el usuario deberá presionar el botón “Guardar” y el sistema se encargara de actualizar la información del detalle seleccionado.</p>
+</div>
+<div class="section" id="registrar-pedido">
+<h3>Registrar Pedido<a class="headerlink" href="#registrar-pedido" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si el usuario desea registrar el pedido de farmacia, deberá presionar el botón “Registrar”.</p>
+<p>CAPTURA</p>
+<p>El sistema siempre validará que la información del pedido A de farmacia sea correcta. En caso de que esta información sea incorrecta el sistema lo informará.
+En este punto, las posibles causas de errores son:</p>
+<blockquote>
+<div><ul class="simple">
+<li>El pedido no contiene detalles</li>
+<li>El pedido ya ha sido registrado anteriormente</li>
+</ul>
+</div></blockquote>
+<p>Una vez presionado el botón “Registrar”, el sistema se encargará de crear el pedido de farmacia y se mostrará la siguiente ventana emergente (modal).</p>
+<p>CAPTURA</p>
 </div>
 </div>
-<div class="section" id="filtrar-pedidos">
-<h2>Filtrar Pedidos<a class="headerlink" href="#filtrar-pedidos" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="formulario-de-busqueda">
+<h2>Formulario de Búsqueda<a class="headerlink" href="#formulario-de-busqueda" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea visualizar solo aquellos pedidos de farmacia que cumplan determinados criterios, deberá utilizar el formulario de búsqueda.</p>
+<p>CAPTURA</p>
+<p>Este formulario cuenta con dos modalidades:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Búsqueda simple: permite buscar los pedidos de farmacia por farmacia.</li>
+<li>Búsqueda avanzada: permite buscar los pedidos de farmacia por farmacia y/o  fecha desde y/o fecha hasta y/o estado del pedido.</li>
+</ul>
+</div></blockquote>
+<p>Todos los campos son opcionales, de no especificarse ningún criterio de búsqueda el sistema mostrará todos los pedidos de farmacia.</p>
 </div>
-<div class="section" id="ver-detalles-y-remitos-de-un-pedido">
-<h2>Ver Detalles y Remitos de un Pedido<a class="headerlink" href="#ver-detalles-y-remitos-de-un-pedido" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="ver-detalles-del-pedido">
+<h2>Ver detalles del Pedido<a class="headerlink" href="#ver-detalles-del-pedido" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea ver los detalles de un pedido, deberá seleccionar el botón de “Acción” asociado al pedido de farmacia y presionar la pestaña “Ver detalles”.</p>
+<p>CAPTURA</p>
+<p>Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):</p>
+<p>CAPTURA</p>
+<p>Esta ventana mostrará todos los detalles que estén asociados al pedido de farmacia.</p>
+</div>
+<div class="section" id="ver-remitos-del-pedido">
+<h2>Ver Remitos del Pedido<a class="headerlink" href="#ver-remitos-del-pedido" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea ver los remitos asociados a un pedido, deberá seleccionar el botón de “Acción” asociado al pedido de farmacia y presionar la pestaña “Ver Remitos”.</p>
+<p>CAPTURA</p>
+<p>Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):</p>
+<p>CAPTURA</p>
+<p>Esta ventana mostrará todos los remitos  que estén asociados al pedido de farmacia.</p>
+<p>En caso de que el pedido no tenga remitos asociados el sistema lo informará.</p>
+<p>Si se desea generar el remito en un pdf, el usuario deberá seleccionar el botón asociado al remito correspondiente y el sistema se encargará de generar el mismo.</p>
+<p>CAPTURA</p>
 </div>
 </div>
 
@@ -248,7 +296,7 @@ Uno o mas campos obligatorios vacíos.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="pedidosclinica.html" class="btn btn-neutral float-right" title="Pedidos de Clinica" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="pedidosclinica.html" class="btn btn-neutral float-right" title="Pedidos de Clínica" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="pedidos.html" class="btn btn-neutral" title="Pedidos" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

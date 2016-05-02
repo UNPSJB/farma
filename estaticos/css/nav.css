@@ -5,7 +5,6 @@ hr {
     margin-top: 0px;
 }
 /*Clases*/
-
 .contenedor-principal{
     padding-left: 0px;
     padding-right: 0px;
@@ -99,17 +98,13 @@ hr {
     margin-right: 15px;
 }
 
-<<<<<<< HEAD
 .navbar-principal {
   width: 100%;
-  position: relative;
+  position: fixed;
   left: 0;
   top: 0;
-  z-index: 10000;
+  z-index: 1000;
 }
-=======
-
->>>>>>> ef153857a951f484d92e897a1b6d9c1300a17338
 
 
 
