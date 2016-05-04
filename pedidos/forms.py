@@ -265,7 +265,8 @@ class UpdateDetallePedidoAlaboratorioForm(forms.ModelForm):
 
 def get_lotes(id_medicamento, lotesEnSesion):
     listaLotes = []
-    lotesDb = mmodels.Lote.objects.filter(medicamento__id=id_medicamento)
+    lt = datetime.date.today() + datetime.timedelta(weeks=config.SEMANAS_LIMITE_VENCIDOS)
+    lotesDb = mmodels.Lote.objects.filter(medicamento__id=id_medicamento, fechaVencimiento__gt=lt)
     for lote in lotesDb:
         listaLotes.append((lote.numero, str(lote.numero)))
 

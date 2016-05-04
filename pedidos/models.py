@@ -2,7 +2,8 @@ from django.db import models
 import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-#******************CLASES ABSTRACTAS******************#
+
+# ******************CLASES ABSTRACTAS******************#
 
 class PedidoVenta(models.Model):
     FILTROS = "farmacia__razonSocial__icontains"
@@ -25,7 +26,8 @@ class DetallePedidoVenta(models.Model):
     def __str__(self):
         return str(self.id)
 
-#******************REMITOS Y DETALLES REMITOS DE FARMACIA******************#
+
+# ******************REMITOS Y DETALLES REMITOS DE FARMACIA******************#
 class RemitoDeFarmacia(models.Model):
     pedidoFarmacia = models.ForeignKey('PedidoDeFarmacia', on_delete=models.CASCADE)
     fecha = models.DateField()
@@ -51,7 +53,8 @@ class DetalleRemitoDeFarmacia(models.Model):
     def set_detalle_pedido(self, detalle):
         self.detallePedidoDeFarmacia = detalle
 
-#******************REMITO Y DETALLES REMITO DE PEDIDO DE CLINICA******************#
+
+# ******************REMITO Y DETALLES REMITO DE PEDIDO DE CLINICA******************#
 
 class RemitoDeClinica(models.Model):
     pedidoDeClinica = models.ForeignKey('PedidoDeClinica', on_delete=models.CASCADE)
@@ -83,7 +86,7 @@ class DetalleRemitoDeClinica(models.Model):
         self.detallePedidoDeClinica = detalle
 
 
-#******************REMITO Y DETALLES REMITO DE DEVOLUCION DE MEDICAMENTOS VENCIDOS******************#
+# ******************REMITO Y DETALLES REMITO DE DEVOLUCION DE MEDICAMENTOS VENCIDOS******************#
 
 class RemitoMedicamentosVencidos(models.Model):
     numero = models.BigIntegerField()
@@ -112,7 +115,7 @@ class DetalleRemitoMedicamentosVencido(models.Model):
         return str(self.id)
 
 
-#******************REMITO Y DETALLES REMITO DE LABORATORIO******************#
+# ******************REMITO Y DETALLES REMITO DE LABORATORIO******************#
 
 class RemitoLaboratorio(models.Model):
     nroRemito = models.BigIntegerField(primary_key=True, unique=True)
@@ -130,6 +133,7 @@ class RemitoLaboratorio(models.Model):
                 'fecha': self.fecha
             }
 
+
 class DetalleRemitoLaboratorio(models.Model):
     remito = models.ForeignKey('RemitoLaboratorio', on_delete=models.CASCADE)
     lote = models.ForeignKey('medicamentos.Lote')
@@ -140,7 +144,7 @@ class DetalleRemitoLaboratorio(models.Model):
         return str(self.id)
 
 
-#******************PEDIDO DE FARMACIA Y DETALLE PEDIDO DE FARMACIA******************#
+# ******************PEDIDO DE FARMACIA Y DETALLE PEDIDO DE FARMACIA******************#
 
 class PedidoDeFarmacia(PedidoVenta):
     FILTROS = ["farmacia", "desde", "hasta","estado"]
@@ -197,7 +201,8 @@ class DetallePedidoDeFarmacia(DetallePedidoVenta):
     def set_pedido(self, pedido):
         self.pedidoDeFarmacia = pedido
 
-#******************PEDIDO DE CLINICA Y DETALLE PEDIDO DE CLINICA******************#
+
+# ******************PEDIDO DE CLINICA Y DETALLE PEDIDO DE CLINICA******************#
 
 class PedidoDeClinica(PedidoVenta):
     FILTROS = ["clinica", "obraSocial", "desde", "hasta"]
@@ -229,6 +234,7 @@ class PedidoDeClinica(PedidoVenta):
             response = DetallePedidoDeClinica.objects.filter(pedidoDeClinica=self)
         return response
 
+
 class DetallePedidoDeClinica(DetallePedidoVenta):
     pedidoDeClinica = models.ForeignKey('PedidoDeClinica')
     cantidadPendiente = models.PositiveIntegerField(default=0)
@@ -252,7 +258,8 @@ class DetallePedidoDeClinica(DetallePedidoVenta):
     def set_pedido(self, pedido):
         self.pedidoDeClinica = pedido
 
-# ================================================PEDIDO A LABORATORIO===================================================
+
+# ================================================ PEDIDO A LABORATORIO ================================================
 
 # PEDIDO A LABORATORIO
 

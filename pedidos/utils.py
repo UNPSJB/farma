@@ -1,22 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from django.db.models import Q
-
 import datetime
-import re
-
 from medicamentos import models as mmodels
-from organizaciones import models as omodels
-from pedidos import models
+from pedidos import models, config
 
 
-#**********************
+# **********************
 # FUNCIONES COMPARTIDAS
-#**********************
+# **********************
 def crear_pedido_para_sesion(m, pedido):
     p = pedido.to_json()
     p['nroPedido'] = get_next_nro_pedido(m)
     return p
+
 
 def get_next_nro_pedido(m):
     nro = 1
@@ -26,11 +23,13 @@ def get_next_nro_pedido(m):
         pass
     return nro
 
+
 def existe_medicamento_en_pedido(detalles, id_med):
     for detalle in detalles:
         if detalle['medicamento']['id'] == id_med: #no puede haber dos detalles con el mismo medicamento
             return True
     return False
+
 
 def crear_detalle_json(detalle, renglon):
     d = detalle.to_json()
@@ -38,9 +37,9 @@ def crear_detalle_json(detalle, renglon):
     return d
 
 
-#**********************
+# **********************
 # PEDIDO DE FARMACIA
-#**********************
+# **********************
 
 def procesar_pedido_de_farmacia(pedido):
     detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) #obtengo todos los detalles del pedido
@@ -59,7 +58,8 @@ def procesar_pedido_de_farmacia(pedido):
             detalle.save()
     pedido.save()
 
-"""FUNCIONES INTERNAS PEDIDO DE FARMACIA"""
+
+# FUNCIONES INTERNAS PEDIDO DE FARMACIA
 
 def procesar_detalle_de_farmacia(detalle, remito):
     stockTotal = detalle.medicamento.get_stock()
@@ -110,22 +110,23 @@ def procesar_detalle_de_farmacia(detalle, remito):
             i += 1
         return True
 
+
 def es_pendiente(pedido):
-    detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) #obtengo todos los detalles del pedido
+    detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) # obtengo todos los detalles del pedido
     for detalle in detalles:
         if detalle.medicamento.get_stock() > 0:
             return False
     return True
 
 
-
-#**********************
+# **********************
 # PEDIDO DE CLINICA
-#**********************
+# **********************
 
 def get_medicamentos_con_stock():
     medicamentos_con_stock = []
-    medicamentos = mmodels.Medicamento.objects.all()
+    lt = datetime.date.today() + datetime.timedelta(weeks=config.SEMANAS_LIMITE_VENCIDOS)
+    medicamentos = mmodels.Medicamento.objects.filter(lote__fechaVencimiento__gt=lt)
     for medicamento in medicamentos:
         lotes = mmodels.Lote.objects.filter(medicamento=medicamento)
         if lotes.count() > 0:
@@ -138,14 +139,16 @@ def get_medicamentos_con_stock():
                 medicamentos_con_stock.append(medicamento.id)
     return mmodels.Medicamento.objects.filter(pk__in=medicamentos_con_stock)
 
+
 def procesar_pedido_de_clinica(pedido):
-    detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica=pedido.nroPedido) #obtengo todos los detalles del pedido
+    detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica=pedido.nroPedido) # obtengo todos los detalles del pedido
     remito = models.RemitoDeClinica(pedidoDeClinica=pedido, fecha=pedido.fecha)
     remito.save()
     for detalle in detalles:
         procesar_detalle_de_clinica(detalle, remito)
 
-"""FUNCIONES INTERNAS PEDIDO DE CLINICA"""
+
+# FUNCIONES INTERNAS PEDIDO DE CLINICA
 
 def procesar_detalle_de_clinica(detalle, remito):
     lotes = mmodels.Lote.objects.filter(medicamento__id=detalle.medicamento.id).order_by('fechaVencimiento')
@@ -176,12 +179,9 @@ def procesar_detalle_de_clinica(detalle, remito):
         i += 1
 
 
-
-
-
-#**********************
+# **********************
 # PEDIDO A LABORATORIO
-#**********************
+# **********************
 
 def get_next_nro_pedido_laboratorio(m, nombrePk):
     nro = None
@@ -190,6 +190,7 @@ def get_next_nro_pedido_laboratorio(m, nombrePk):
     except m.DoesNotExist:
         nro = 1
     return nro
+
 
 def get_detalles_a_pedir(pkLaboratorio):
     detalles_a_pedir = []
@@ -219,16 +220,17 @@ def cancelar_pedido_a_laboratorio(pedido):
         pedido.estado = "Cancelado"
         pedido.save()
 
+
 def existe_medicamento_en_detalle_suelto(detalles, id_medicamento):
     for detalle in detalles:
         if detalle['detallePedidoFarmacia'] == -1 and detalle['medicamento']['id'] == id_medicamento:
             return True
     return False
 
-#*******************************
-# RECEPCION PEDIDO A LABORATORIO
-#*******************************
 
+# *******************************
+# RECEPCION PEDIDO A LABORATORIO
+# *******************************
 
 def cargar_detalles(id_pedido, session):
     detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido=id_pedido, cantidadPendiente__gt=0)
@@ -246,7 +248,8 @@ def cargar_detalles(id_pedido, session):
 
 
 def medicamento_tiene_lotes(medicamento, lotesSesion):
-    if mmodels.Lote.objects.filter(medicamento=medicamento).count() > 0:
+    lt = datetime.date.today() + datetime.timedelta(weeks=config.SEMANAS_LIMITE_VENCIDOS)
+    if mmodels.Lote.objects.filter(medicamento=medicamento, fechaVencimiento__gt=lt).count() > 0:
         return True
     for numeroLote, infoLote in lotesSesion.items():
         if infoLote['medicamento'] == medicamento.id:
@@ -347,12 +350,14 @@ def crear_nuevos_lotes(nuevosLotes):
         lote.medicamento = mmodels.Medicamento.objects.get(pk=info['medicamento'])
         lote.save()        
 
+
 def actualizar_lotes(lotes):
     for numeroLote, cantidadRecibida in lotes.items():
         if cantidadRecibida > 0:
             lote = mmodels.Lote.objects.get(numero=numeroLote)
             lote.stock += cantidadRecibida
             lote.save()
+
 
 def actualizar_pedido(pedido, detalles):
     recepcionDelPedidoCompleta = True
@@ -376,7 +381,7 @@ def actualizar_pedido(pedido, detalles):
 def actualizar_pedidos_farmacia(remitoLab):
 
     detalles = models.DetalleRemitoLaboratorio.objects.filter(remito=remitoLab)
-    #todos los pedidos de farmacia a los que se les realiza el remito y que luego deben actualizar su estado
+    # todos los pedidos de farmacia a los que se les realiza el remito y que luego deben actualizar su estado
     listaPedidosDeFarmacia = []
 
     remitosDeFarmacia = {}
@@ -385,7 +390,7 @@ def actualizar_pedidos_farmacia(remitoLab):
         if detallePedidoFarmacia:
             detallesRemito = remitosDeFarmacia.setdefault(detallePedidoFarmacia.pedidoDeFarmacia.nroPedido, [])
             detallesRemito.append(detalle)
-            #detallesRemito[detallePedidoFarmacia.pedidoDeFarmacia.nroPedido] = detallesRemito
+            # detallesRemito[detallePedidoFarmacia.pedidoDeFarmacia.nroPedido] = detallesRemito
     for pkPedido, detallesRemitoLaboratorio in remitosDeFarmacia.items():
         pedidoDeFarmacia = models.PedidoDeFarmacia.objects.get(pk=pkPedido)
         listaPedidosDeFarmacia.append(pedidoDeFarmacia)
@@ -394,7 +399,7 @@ def actualizar_pedidos_farmacia(remitoLab):
         remitoFarmacia.fecha = remitoLab.fecha
         remitoFarmacia.save()
         for detalle in detallesRemitoLaboratorio:
-            #actualiza la cantidad pendiente del detalle pedido farmacia
+            # actualiza la cantidad pendiente del detalle pedido farmacia
             detallePedidoFarmacia = models.DetallePedidoDeFarmacia.objects.get(pk=detalle.detallePedidoLaboratorio.detallePedidoFarmacia.pk)
            
             detallePedidoFarmacia.cantidadPendiente -= detalle.cantidad
@@ -407,7 +412,7 @@ def actualizar_pedidos_farmacia(remitoLab):
             detalleRemitoFarmacia.remito = remitoFarmacia
             detalleRemitoFarmacia.save()
 
-    #se actualiza el estado del pedido de farmacia
+    # se actualiza el estado del pedido de farmacia
     for pedido in listaPedidosDeFarmacia:
         cantidadTotalDetalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido).count()
         cantidadDetallesCompletamenteSatisfechos = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido, cantidadPendiente=0).count()
@@ -449,9 +454,9 @@ def procesar_recepcion(sesion, pedido):
     actualizar_pedidos_farmacia(remito)
 
 
-#************************
+# ************************
 # DEVOLUCION MEDICAMENTOS
-#************************
+# ************************
 
 def procesar_devolucion(laboratorio, lotes):
     remito = models.RemitoMedicamentosVencidos()
@@ -471,24 +476,9 @@ def procesar_devolucion(laboratorio, lotes):
         lote.save()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 def hay_medicamentos_con_stock():
     medicamentos = mmodels.Medicamento.objects.all()
     for medicamento in medicamentos:
         if medicamento.get_stock() > 0:
             return True     
     return False
-
-

@@ -3,7 +3,6 @@
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, RequestContext
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import decorators as authd
 from django.contrib.auth.decorators import permission_required
 from django.db.models import Q
 
