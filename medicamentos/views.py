@@ -3,6 +3,7 @@ from . import models, forms, utils
 from django.contrib.auth.decorators import login_required
 from jsonview.decorators import json_view
 from django.contrib.auth.decorators import permission_required
+from pedidos import models as pmodels
 
 def get_filtros(get, modelo):
     mfilter = {}
@@ -53,7 +54,7 @@ def monodroga_update(request, id_monodroga):
             return redirect('monodrogas')
     else:
         form = forms.MonodrogaFormUpdate(instance=monodroga)
-    return render(request, "monodroga/monodrogaUpdate.html", {'form': form, 'id': id_monodroga})
+    return render(request, "monodroga/monodrogaUpdate.html", {'form': form, 'monodroga': monodroga})
 
 
 @json_view
@@ -105,15 +106,15 @@ def nombresFantasia_add(request):
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def nombresFantasia_update(request, id_nombreFantasia):
-    nombresFantasias = get_object_or_404(models.NombreFantasia, pk=id_nombreFantasia)
+    nombreFantasia = get_object_or_404(models.NombreFantasia, pk=id_nombreFantasia)
     if request.method == "POST":
-        form = forms.NombreFantasiaFormUpdate(request.POST, instance=nombresFantasias)
+        form = forms.NombreFantasiaFormUpdate(request.POST, instance=nombreFantasia)
         if form.is_valid():
             form.save()
             return redirect('nombresFantasia')
     else:
-        form = forms.NombreFantasiaFormUpdate(instance=nombresFantasias)
-    return render(request, "nombreFantasia/nombreFantasiaUpdate.html", {'form': form, 'id': id_nombreFantasia})
+        form = forms.NombreFantasiaFormUpdate(instance=nombreFantasia)
+    return render(request, "nombreFantasia/nombreFantasiaUpdate.html", {'form': form, 'nombreFantasia': nombreFantasia})
 
 
 @json_view
@@ -172,7 +173,7 @@ def presentacion_update(request, id_presentacion):
             return redirect('presentaciones')
     else:
         form = forms.PresentacionFormUpdate(instance=presentacion)
-    return render(request, "presentacion/presentacionUpdate.html", {'form': form, 'id': id_presentacion})
+    return render(request, "presentacion/presentacionUpdate.html", {'form': form, 'presentacion': presentacion})
 
 
 @json_view
@@ -244,7 +245,7 @@ def medicamento_updateStockMinimo(request, id_medicamento):
             return redirect('medicamentos')
     else:
         form = forms.MedicamentoFormUpdateStockMinimo(instance=medicamento)
-    return render(request, "medicamento/medicamentoUpdateStockMinimo.html", {'form': form, 'id': id_medicamento})
+    return render(request, "medicamento/medicamentoUpdateStockMinimo.html", {'form': form, 'medicamento': medicamento})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -258,7 +259,7 @@ def medicamento_updatePrecioVenta(request, id_medicamento):
             return redirect('medicamentos')
     else:
         form = forms.MedicamentoFormUpdatePrecioVenta(instance=medicamento)
-    return render(request, "medicamento/medicamentoUpdatePrecioVenta.html", {'form': form, 'id': id_medicamento})
+    return render(request, "medicamento/medicamentoUpdatePrecioVenta.html", {'form': form, 'medicamento': medicamento})
 
 
 @json_view
@@ -285,6 +286,43 @@ def medicamento_delete(request, id_medicamento):
     infoBaja = utils.puedo_eliminar_medicamento(id_medicamento)
     if infoBaja['success']:
         medicamento = models.Medicamento.objects.get(pk=id_medicamento)
-        medicamento.delete()
+
+        detallesPedidoAlaboratorio = pmodels.DetallePedidoAlaboratorio.objects.filter(medicamento=medicamento)
+        pedidosAlaboratorio = set()
+        for detalle in detallesPedidoAlaboratorio:
+            pedidosAlaboratorio.add(detalle.pedido)
+
+        for pedido in pedidosAlaboratorio:
+            print pedido
+            print "cantidad detalles ",pedido.get_detalles().count() 
+            detallesDelPedido = pedido.get_detalles()
+            if detallesDelPedido.count() <= 2:
+                deletePedido = True
+                if detallesDelPedido.count() == 2:
+                    deletePedido = detallesDelPedido.filter(medicamento=medicamento).count() == 2
+
+                if deletePedido:
+                    p = pmodels.PedidoAlaboratorio.objects.get(pk=pedido.pk)
+                    p.delete()
+
+
+        detallesPedidoDeFarmacia = pmodels.DetallePedidoDeFarmacia.objects.filter(medicamento=medicamento)
+        for detalle in detallesPedidoDeFarmacia:
+            pedido = detalle.pedidoDeFarmacia
+
+            if pedido.get_detalles().count() <= 1:
+                p = pmodels.PedidoDeFarmacia.objects.get(pk=pedido.pk)
+                p.delete()
+
+
+        detallesPedidoDeClinica = pmodels.DetallePedidoDeClinica.objects.filter(medicamento=medicamento)
+        for detalle in detallesPedidoDeClinica:
+            pedido = detalle.pedidoDeClinica
+            if pedido.get_detalles().count() <= 1:
+                p = pmodels.PedidoDeClinica.objects.filter(pk=pedido.pk)
+                p.delete()
+
+        medicamento.delete()    
+           
         return redirect('medicamentos')
 

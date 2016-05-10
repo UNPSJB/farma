@@ -9,27 +9,16 @@
 
 {% block title %}{% endblock %}
 
+{% block url-volver %} {% url 'inicio' %}{% endblock %}
+
 {% block content %}
-	<ol id="breadcrumb-page" class="breadcrumb _breadcrumb_">
-		{% block breadcrumb-items %}
-		{% endblock %}
-	</ol>
-	
-	<header id="header-page" class="header">
-	    <a href="{% url 'inicio' %}" class="btn-volver">
-	    <span class="glyphicon glyphicon-arrow-left animated"></span>
-	    </a>
-	    <h1 class="header-title pull-right">
-	    	{% block header-title %} {% endblock %}
-	    </h1>
-	</header>
 	<div class="container-fluid container-main">
 		<div class="row">
 	        <aside id="aside" class="aside col-md-3 hidden-xs hidden-sm">
 	            <form id="form-busqueda" class="form-busqueda" action="">
 	                <div class="form-simple">
-	                	{% block form-field-simple %} {% endblock %}
 	                    <button type="submit" class="btn-form-simple"><span class="glyphicon glyphicon-search"></span></button>
+	                	{% block form-field-simple %} {% endblock %}
 	                </div>
 	                {% block form-sin-busqueda-avanzada %}
 	                	<div class="form-avanzado">

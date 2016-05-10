@@ -1,0 +1,56 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{% static 'css/base-add-update.css' %}">
+
+	{% block more-stylesheets %} {% endblock %}
+{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block breadcrumb-items %}{% endblock %}
+
+{% block header-title %} {% endblock %}
+
+{% block url-volver %}{% endblock %}
+
+{% block content %} 
+	<div class="container container-main">
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
+				<div class="page-header">
+					<h2 class="page-header-title">
+						{% block title-header-form %}{% endblock %}
+						<div class="pull-right">{% block icon-header-form %}{% endblock %}</div>
+						<div class="clearfix"></div>
+					</h2>
+					<p class="page-header-sub">
+						{% block sub-header-form %}{% endblock %}
+					</p>
+				</div>
+
+				{% crispy form %}
+			</div>
+			
+			
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block scripts %} 
+	<script>
+        /*Limpia campos del formulario con una cadena vacia <espacio, tab, etc> */
+
+        document.forms[0].addEventListener("submit", function(e){
+                var i, length;
+                for(i = 0, length = this.elements.length; i < length; i++){
+                    this.elements[i].value = this.elements[i].value.replace(/^[\s]+$/, '');
+                }
+            });
+    </script>
+	{% block more-scripts %}{% endblock %}
+{% endblock %}

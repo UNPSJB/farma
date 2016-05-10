@@ -6,8 +6,9 @@ from .models import Usuario
 from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
-from crispy_forms.bootstrap import StrictButton, FormActions
+from crispy_forms.bootstrap import StrictButton, FormActions, PrependedText
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 
 class UsuarioAddForm(forms.ModelForm):
@@ -58,5 +59,42 @@ class UsuarioAddForm(forms.ModelForm):
             self.add_error(None, "Las contraseñas no coinciden")
 
 
+class UsuarioLoginForm(forms.Form):
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'login-form'
+    helper.form_action = 'login'
+    helper.layout = Layout(
+        PrependedText('username', '<span class="glyphicon glyphicon-user"></span>', placeholder='Nombre de Usuario'),
+        PrependedText('password', '<span class="glyphicon glyphicon-lock"></span>', placeholder='Contraseña'),
+        FormActions(
+            StrictButton('Acceder', type="submit", css_class="btn btn-primary center-block")
+        )
+    )
 
+    username = forms.CharField(label='Usuario', max_length=30)
+    password = forms.CharField(widget=forms.PasswordInput, label='Contraseña')
 
+    def __init__(self, *args, **kwargs):
+        super(UsuarioLoginForm, self).__init__(*args, **kwargs)
+        self.fields['username'].label = ''
+        self.fields['password'].label = ''
+
+    def is_valid(self):
+        valid = super(UsuarioLoginForm, self).is_valid()
+        if not valid:
+            return valid
+
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if not user:
+            self.add_error(None, 'Usuario o contraseña incorrectos')
+            return False
+        else:
+            if not user.is_active:
+                self.add_error(None, 'Usuario inactivo')
+                return False
+        return True

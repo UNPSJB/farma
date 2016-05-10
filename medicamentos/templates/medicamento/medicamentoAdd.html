@@ -22,14 +22,17 @@
 
 {% block title %} Alta de Medicamento {% endblock%}
 
+{% block breadcrumb-items %}
+        <li><a href="{% url 'inicio' %}">Inicio</a></li>
+        <li><a href="{% url 'medicamentos' %}">Medicamentos</a></li>
+        <li class="active">Alta</li>
+{% endblock %}
+
+{% block url-volver %}{% url 'medicamentos' %}{% endblock %}
+
+{% block header-title %} Alta de Medicamento {% endblock %}
+
 {% block content %}
-    {% block breadcrumbs %}
-        <ol id="breadcrumb-page" class="breadcrumb _breadcrumb_">
-            <li><a href="{% url 'inicio' %}">Inicio</a></li>
-            <li><a href="{% url 'medicamentos' %}">Medicamentos</a></li>
-            <li class="active">Alta</li>
-        </ol>
-    {% endblock %}
     <div style="margin: 30px 20px 90px 20px;">
         <div class="container">
             <div class="col-xs-12 col-md-12">
@@ -85,7 +88,7 @@
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 var url = "{% static 'documentacion/build/html/medicams.html' %}";
-                url += "#alta-de-medicamento";
+                url += "#alta-medicamento";
                 window.open(url);
             }
         });

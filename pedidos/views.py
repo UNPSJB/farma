@@ -30,7 +30,7 @@ def get_filtros(get, modelo):
                 value = int(value)
             elif re.match(r"^[0-9]{2}/[0-9]{2}/[0-9]{4}$", value):
                 fechaAux = value.split("/") # fecha separada por /
-                fechaModificada = datetime.date(month=int(fechaAux[0]), day=int(fechaAux[1]), year=int(fechaAux[2]))
+                fechaModificada = datetime.date(month=int(fechaAux[1]), day=int(fechaAux[0]), year=int(fechaAux[2]))
                 value = fechaModificada
             mfilter[attr] = value
     return mfilter
@@ -425,7 +425,7 @@ def pedidoAlaboratorio_verDetalles(request, id_pedido):
     return {'detalles': detalles_json}
     
 @json_view
-def pedidoAlaboratorio_verRemitos(id_pedido):
+def pedidoAlaboratorio_verRemitos(request, id_pedido):
     remitos_json = []
     remitos = models.RemitoLaboratorio.objects.filter(pedidoLaboratorio__pk=id_pedido)
     for remito in remitos:
@@ -740,7 +740,9 @@ class remitoDevolucion(PDFTemplateView):
     template_name = "devolucionMedicamentosVencidos/remitoDevolucion.html"
 
     def get_context_data(self, id_remito):
-        remito = models.RemitoMedicamentosVencidos.objects.get(id=id_remito)
+        print id_remito
+        remito = models.RemitoMedicamentosVencidos.objects.get(numero=id_remito)
+
         detallesRemito = models.DetalleRemitoMedicamentosVencido.objects.filter(remito=remito)
         return super(remitoDevolucion, self).get_context_data(
             pagesize="A4",

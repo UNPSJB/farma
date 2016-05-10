@@ -3,7 +3,7 @@ from django import forms
 from organizaciones import models
 from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field
+from crispy_forms.layout import Layout, Field, HTML
 from crispy_forms.bootstrap import StrictButton, FormActions
 import re
 
@@ -31,9 +31,16 @@ class FarmaciaFormGenerico(forms.ModelForm):
 
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
-        if models.Clinica.objects.filter(cuit=cuit) or models.Laboratorio.objects.filter(cuit=cuit):
-            raise forms.ValidationError('Ya existe una organizacion con este CUIT')
         if cuit:
+            if models.Farmacia.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe una farmacia con este CUIT')
+
+            if models.Clinica.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe una clínica con este CUIT')
+
+            if models.Laboratorio.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe un laboratorio con este CUIT')
+                
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
                 raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
@@ -62,11 +69,9 @@ class FarmaciaFormGenerico(forms.ModelForm):
 
 class FarmaciaFormAdd(FarmaciaFormGenerico):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
     helper.form_action = 'farmacia_add'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('razonSocial', placeholder='Razon Social'),
         Field('cuit', placeholder='CUIT',),
@@ -77,19 +82,19 @@ class FarmaciaFormAdd(FarmaciaFormGenerico):
         Field('email', placeholder='Email'),
         FormActions(
             StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
-                        css_class="btn btn-success pull-right"),
+                        css_class="btn btn-primary"),
             StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
-                        css_class="btn btn-primary pull-right"),
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
+        
         )
     )  
 
 
 class FarmaciaFormUpdate(FarmaciaFormGenerico):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('razonSocial', placeholder='Razon social', readonly=True),
         Field('cuit', placeholder='CUIT', readonly=True),
@@ -99,7 +104,9 @@ class FarmaciaFormUpdate(FarmaciaFormGenerico):
         Field('telefono', placeholder='Telefono'),
         Field('email', placeholder='Email'),
         FormActions(
-            StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
+            StrictButton('Guardar Cambios', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     )  
 
@@ -127,9 +134,17 @@ class ClinicaFormGenerico(forms.ModelForm):
 
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
-        if models.Farmacia.objects.filter(cuit=cuit) or models.Laboratorio.objects.filter(cuit=cuit):
-            raise forms.ValidationError('Ya existe una organizacion con este CUIT')
+
         if cuit:
+            if models.Farmacia.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe una farmacia con este CUIT')
+
+            if models.Clinica.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe una clínica con este CUIT')
+
+            if models.Laboratorio.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe un laboratorio con este CUIT')
+
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
                 raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
@@ -158,11 +173,9 @@ class ClinicaFormGenerico(forms.ModelForm):
 
 class ClinicaFormAdd(ClinicaFormGenerico):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
     helper.form_action = 'clinica_add'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('razonSocial', placeholder='Razon social'),
         Field('cuit', placeholder='CUIT'),
@@ -173,19 +186,18 @@ class ClinicaFormAdd(ClinicaFormGenerico):
         Field('email', placeholder='Email'),
         FormActions(
             StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
-                        css_class="btn btn-success pull-right"),
+                        css_class="btn btn-primary"),
             StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
-                        css_class="btn btn-primary pull-right"),
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     )  
 
 
 class ClinicaFormUpdate(ClinicaFormGenerico):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('razonSocial', placeholder='Razon social', readonly=True),
         Field('cuit', placeholder='CUIT', readonly=True),
@@ -195,8 +207,9 @@ class ClinicaFormUpdate(ClinicaFormGenerico):
         Field('telefono', placeholder='Telefono'),
         Field('email', placeholder='Email'),
         FormActions(
-            StrictButton('Guardar Cambios', type="submit", id="btn-guardar-continuar", 
-                        css_class="btn btn-primary pull-right"),
+            StrictButton('Guardar Cambios', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     )  
 
@@ -223,9 +236,16 @@ class LaboratorioFormGenerico(forms.ModelForm):
 
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
-        if models.Farmacia.objects.filter(cuit=cuit) or models.Clinica.objects.filter(cuit=cuit):
-            raise forms.ValidationError('Ya existe una organizacion con este CUIT')
         if cuit:
+            if models.Farmacia.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe una farmacia con este CUIT')
+
+            if models.Clinica.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe una clínica con este CUIT')
+
+            if models.Laboratorio.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe un laboratorio con este CUIT')
+
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
                 raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
@@ -247,11 +267,9 @@ class LaboratorioFormGenerico(forms.ModelForm):
 
 class LaboratorioFormAdd(LaboratorioFormGenerico):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
     helper.form_action = 'laboratorio_add'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('razonSocial', placeholder='Razon social'),
         Field('cuit', placeholder='CUIT'),
@@ -261,19 +279,18 @@ class LaboratorioFormAdd(LaboratorioFormGenerico):
         Field('email', placeholder='Email'),
         FormActions(
             StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
-                        css_class="btn btn-success pull-right"),
+                        css_class="btn btn-primary"),
             StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
-                        css_class="btn btn-primary pull-right"),
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     ) 
 
 
 class LaboratorioFormUpdate(LaboratorioFormGenerico):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('razonSocial', placeholder='Razon social', readonly=True),
         Field('cuit', placeholder='CUIT', readonly=True),
@@ -282,7 +299,8 @@ class LaboratorioFormUpdate(LaboratorioFormGenerico):
         Field('telefono', placeholder='Telefono'),
         Field('email', placeholder='Email'),
         FormActions(
-            StrictButton('Guardar Cambios', type="submit", id="btn-guardar-continuar", 
-                        css_class="btn btn-primary pull-right"),
+            StrictButton('Guardar Cambios', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     )  

@@ -1,0 +1,49 @@
+body {
+	margin-bottom: calc(80px + 1.5rem);
+}
+
+.page-header-title {
+	font-weight: 800;
+	color: #333;
+}
+
+.page-header-sub{
+	color: #AAA;
+		font-size: 2rem;
+}
+
+.page-header-icon {
+	color: rgb(222,174,58);
+}
+
+.asteriskField {
+	color: rgb(222,174,58);
+	margin-left: 0.5rem;
+	font-size: 1.5rem; 
+}
+
+.page-header-icon:hover {
+	color: rgb(0,70,147);
+	//color: rgb(222,174,58);
+}
+
+.controls {
+	position: relative;
+}
+
+.campos-obligatorios {
+  	color: #AAA;
+		font-style: italic;
+	position: absolute;
+	right: 0; top: 50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+}
+
+.campos-obligatorios span{
+	color: rgb(222,174,58);
+}
+
+.element-update {
+	font-size: 2rem;
+}

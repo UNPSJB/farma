@@ -27,7 +27,7 @@ def puedo_eliminar_medicamento(id_medicamento):
 		if contador > 0:
 			contadorPendientesDeFarmacia += 1
 
-	contadorLotesActivos = medicamento.get_lotes_activos().count()
+	contadorLotesActivos = medicamento.get_lotes_con_stock().count()
 
 	if contadorPendientesAlaboratorio > 0:
 		mensajeInforme += "Hay " + str(contadorPendientesAlaboratorio)

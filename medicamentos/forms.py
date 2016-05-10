@@ -11,7 +11,7 @@ from . import lookups
 from django.forms.formsets import BaseFormSet, formset_factory
 from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field
+from crispy_forms.layout import Layout, Field, HTML
 from crispy_forms.bootstrap import StrictButton, FormActions
 from selectable import forms as selectable
 import re
@@ -35,32 +35,31 @@ class MonodrogaFormGenerico(forms.ModelForm):
 
 class MonodrogaFormAdd(MonodrogaFormGenerico):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
     helper.form_action = 'monodroga_add'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('nombre', placeholder='Nombre'),
         FormActions(
             StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
-                        css_class="btn btn-success pull-right"),
+                        css_class="btn btn-primary"),
             StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
-                        css_class="btn btn-primary pull-right"),
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     )  
 
 
 class MonodrogaFormUpdate(MonodrogaFormGenerico):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('nombre', placeholder='Nombre'),
         FormActions(
-            StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
+            StrictButton('Guardar Cambios', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     )  
 
@@ -76,39 +75,38 @@ class NombreFantasiaFormGenerico(forms.ModelForm):
     def clean_nombreF(self):
         nombreF = self.cleaned_data['nombreF']
         if nombreF:
-            if not re.match(r"^\[a-zA-Z\d]+((\s[a-zA-Z\d]+)+)?$", nombreF):
+            if not re.match(r"^[a-zA-Z\d]+((\s[a-zA-Z\d]+)+)?$", nombreF):
                 raise forms.ValidationError('El nombre fantasia no puede contener caracteres especiales')
         return nombreF
 
 
 class NombreFantasiaFormAdd(NombreFantasiaFormGenerico):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
     helper.form_action = 'nombreFantasia_add'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('nombreF', placeholder='Nombre'),
         FormActions(
             StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
-                        css_class="btn btn-success pull-right"),
+                        css_class="btn btn-primary"),
             StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
-                        css_class="btn btn-primary pull-right"),
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     )  
 
 
 class NombreFantasiaFormUpdate(NombreFantasiaFormGenerico):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('nombreF', placeholder='Nombre'),
         FormActions(
-            StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
+            StrictButton('Guardar Cambios', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     )  
 
@@ -141,36 +139,35 @@ class PresentacionFormGenerico(forms.ModelForm):
 
 class PresentacionFormAdd(PresentacionFormGenerico):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
     helper.form_action = 'presentacion_add'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('descripcion', placeholder='Descripcion'),
         Field('unidadMedida', placeholder='Unidad de Medida'),
         Field('cantidad', placeholder='Cantidad'),
         FormActions(
             StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
-                        css_class="btn btn-success pull-right"),
+                        css_class="btn btn-primary"),
             StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
-                        css_class="btn btn-primary pull-right"),
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     ) 
 
 
 class PresentacionFormUpdate(PresentacionFormGenerico):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('descripcion', placeholder='Descripcion'),
         Field('unidadMedida', placeholder='Unidad de Medida'),
         Field('cantidad', placeholder='Cantidad'),
         FormActions(
-            StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
+            StrictButton('Guardar Cambios', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     )  
 
@@ -230,14 +227,14 @@ class MedicamentoForm(forms.ModelForm):
 
 class MedicamentoFormUpdateStockMinimo(forms.ModelForm):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('stockMinimo', placeholder='Stock Minimo'),
-        FormActions(
-            StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
+        FormActions( 
+            StrictButton('Guardar Cambios', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     ) 
 
@@ -250,14 +247,14 @@ class MedicamentoFormUpdateStockMinimo(forms.ModelForm):
 
 class MedicamentoFormUpdatePrecioVenta(forms.ModelForm):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('precioDeVenta', placeholder='Precio de Venta'),
-        FormActions(
-            StrictButton('Guardar cambios', type="submit", id="btn-guardar", css_class="btn btn-primary pull-right"),
+        FormActions( 
+            StrictButton('Guardar Cambios', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
+                        css_class="btn btn-primary"),
+            HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     ) 
 

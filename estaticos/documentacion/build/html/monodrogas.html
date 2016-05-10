@@ -33,7 +33,7 @@
 
   
     <link rel="top" title="documentación de Farma - " href="index.html"/>
-        <link rel="up" title="Medicamentos" href="medicamentos.html"/>
+        <link rel="up" title="1. Medicamentos" href="medicamentos.html"/>
         <link rel="next" title="Presentaciones" href="presentaciones.html"/>
         <link rel="prev" title="Medicamentos" href="medicams.html"/> 
 
@@ -84,12 +84,10 @@
             
             
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="pedidos.html">Pedidos</a></li>
-<li class="toctree-l1"><a class="reference internal" href="organizaciones.html">Organizaciones</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="medicamentos.html">Medicamentos</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="medicamentos.html">1. Medicamentos</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="medicams.html">Medicamentos</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Monodrogas</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#alta-de-monodroga">Alta de Monodroga</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#alta-monodroga">Alta Monodroga</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#modificar-monodroga">Modificar Monodroga</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#eliminar-monodroga">Eliminar Monodroga</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#formulario-de-busqueda">Formulario de Búsqueda</a></li>
@@ -99,7 +97,9 @@
 <li class="toctree-l2"><a class="reference internal" href="nombresfantasia.html">Nombres Fantasia</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="perfil.html">Perfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="organizaciones.html">2. Organizaciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pedidos.html">3. Pedidos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="perfil.html">4. Perfil</a></li>
 </ul>
 
             
@@ -130,7 +130,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-          <li><a href="medicamentos.html">Medicamentos</a> &raquo;</li>
+          <li><a href="medicamentos.html">1. Medicamentos</a> &raquo;</li>
       
     <li>Monodrogas</li>
       <li class="wy-breadcrumbs-aside">
@@ -148,69 +148,97 @@
             
   <div class="section" id="monodrogas">
 <h1>Monodrogas<a class="headerlink" href="#monodrogas" title="Enlazar permanentemente con este título">¶</a></h1>
-<p>Se presentará una pantalla que contendrá un listado con todas las monodrogas que se encuentren registrados en el sistema hasta la fecha. Junto con el listado, se presentarán un conjunto de funcionalidades que permitirá manipular estas monodrogas.</p>
+<p>Se presentará una pantalla que contendrá un listado con todas las <em>Monodrogas</em> que se encuentren registradas en el sistema hasta la fecha.</p>
 <p>CAPTURA</p>
+<p>Junto con el listado, se ofrecerán un conjunto de funcionalidades que permitirán manipular estas <em>Monodrogas</em></p>
 <p>Estas funcionalidades son:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Alta de Monodroga</li>
-<li>Modificar Monodroga</li>
-<li>Eliminar Monodroga</li>
-<li>Formulario de Búsqueda</li>
+<li><a class="reference internal" href="#alta-monodroga"><span class="std std-ref">Alta Monodroga</span></a></li>
+<li><a class="reference internal" href="#modificar-monodroga"><span class="std std-ref">Modificar Monodroga</span></a></li>
+<li><a class="reference internal" href="#eliminar-monodroga"><span class="std std-ref">Eliminar Monodroga</span></a></li>
+<li><a class="reference internal" href="#formulario-busqueda-monodroga"><span class="std std-ref">Formulario de Búsqueda</span></a></li>
 </ul>
 </div></blockquote>
-<div class="section" id="alta-de-monodroga">
-<h2>Alta de Monodroga<a class="headerlink" href="#alta-de-monodroga" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>Si el usuario desea agregar una monodroga, deberá presionar el botón de “Alta Monodroga”.</p>
+<div class="section" id="alta-monodroga">
+<span id="id1"></span><h2>Alta Monodroga<a class="headerlink" href="#alta-monodroga" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea crear una nueva <em>Monodroga</em>, deberá presionar el botón <code class="docutils literal"><span class="pre">Alta</span></code>.</p>
 <p>CAPTURA BOTÓN</p>
-<p>Una vez realizado el paso, el sistema lo redirigirá a la siguiente pantalla:</p>
+<p>A continuación el sistema lo redirigirá a la siguiente pantalla:</p>
 <p>CAPTURA</p>
-<p>En esta parte el usuario se le presentará un formulario y deberá ingresar la información solicitada para dar de alta una nueva monodroga.
-El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
+<p>En esta parte el usuario se le presentará un formulario y deberá ingresar los datos solicitados para dar de alta una nueva <em>Monodroga</em>.</p>
+<div class="admonition attention">
+<p class="first admonition-title">Atención</p>
+<p>El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
 En este punto, las posibles causas de errores son:</p>
-<blockquote>
+<blockquote class="last">
 <div><ul class="simple">
 <li>No se ingresó un nombre de monodroga.</li>
 <li>El nombre de monodroga contiene caracteres especiales o números.</li>
 <li>El nombre de la monodroga ya existe en el sistema.</li>
 </ul>
 </div></blockquote>
-<p>Una vez completado el formulario, el usuario tendrá dos opciones: presionar el botón “Guardar y volver” o presionar el botón “Guardar y continuar”.
-El botón “Guardar y volver” permite guardar la monodroga en el sistema y volver a la pantalla principal de monodrogas.
-El botón “Guardar y continuar” permito guardar la monodroga en el sistema y seguir dando de alta nuevos medicamentos.</p>
+</div>
+<p>Una vez completado el formulario, el usuario tendrá dos opciones:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Presionar el botón <code class="docutils literal"><span class="pre">Guardar</span> <span class="pre">y</span> <span class="pre">Volver</span></code>.</li>
+<li>Presionar el botón <code class="docutils literal"><span class="pre">Guardar</span> <span class="pre">y</span> <span class="pre">Continuar</span></code>.</li>
+</ul>
+</div></blockquote>
+<p>El botón <code class="docutils literal"><span class="pre">Guardar</span> <span class="pre">y</span> <span class="pre">Volver</span></code> permite guardar la <em>Monodroga</em> en el sistema y volver a la pantalla
+principal de <em>Monodrogas</em>..</p>
+<p>El botón <code class="docutils literal"><span class="pre">Guardar</span> <span class="pre">y</span> <span class="pre">Continuar</span></code> permite guardar la <em>Monodroga</em> en el sistema y seguir dando de alta nuevas <em>Monodrogas</em>.</p>
 </div>
 <div class="section" id="modificar-monodroga">
-<h2>Modificar Monodroga<a class="headerlink" href="#modificar-monodroga" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>Si el usuario desea modificar una monodroga, deberá seleccionar el botón de “Acción” asociado a la monodroga y presionar la pestaña “Modificar”.</p>
+<span id="id2"></span><h2>Modificar Monodroga<a class="headerlink" href="#modificar-monodroga" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea modificar los datos de una <em>Monodroga</em>, deberá seleccionar el botón de <strong>Acción</strong> asociado a la <em>Monodroga</em> y presionar la pestaña <code class="docutils literal"><span class="pre">Modificar</span></code>.</p>
 <p>CAPTURA BOTÓN</p>
 <p>Una vez realizado el paso anterior, el sistema lo redirigirá a la siguiente pantalla:</p>
 <p>CAPTURA</p>
-<p>En esta parte el usuario se le presentará un formulario y deberá actualizar la información asociada a la monodroga.
-El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
+<p>En esta parte al usuario se le presentará un formulario y deberá actualizar los datos asociados a la <em>Monodroga</em>.</p>
+<div class="admonition attention">
+<p class="first admonition-title">Atención</p>
+<p>El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
 En este punto, las posibles causas de errores son:</p>
-<blockquote>
+<blockquote class="last">
 <div><ul class="simple">
 <li>No se ingresó un nombre de monodroga.</li>
 <li>El nombre de monodroga contiene caracteres especiales o números.</li>
 <li>El nombre de la monodroga ya existe en el sistema.</li>
 </ul>
 </div></blockquote>
-<p>Una vez completado el formulario, el usuario deberá presionar el botón “Guardar Cambios” y el sistema se encargara de actualizar la información de la monodroga seleccionada.</p>
+</div>
+<p>Una vez completado el formulario, el usuario deberá presionar el botón <code class="docutils literal"><span class="pre">Guardar</span> <span class="pre">Cambios</span></code> y el sistema se encargara de actualizar los datos de la <em>Monodroga</em> seleccionada.</p>
 </div>
 <div class="section" id="eliminar-monodroga">
-<h2>Eliminar Monodroga<a class="headerlink" href="#eliminar-monodroga" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>Si el usuario desea eliminar una monodroga, deberá seleccionar el botón de “Acción” asociado a la monodroga y presionar la pestaña “Eliminar”.</p>
+<span id="id3"></span><h2>Eliminar Monodroga<a class="headerlink" href="#eliminar-monodroga" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea eliminar una <em>Monodroga</em>, deberá seleccionar el botón de <strong>Acción</strong> asociado a la <em>Monodroga</em> y presionar la pestaña <code class="docutils literal"><span class="pre">Eliminar</span></code>.</p>
 <p>CAPTURA BOTÓN</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p>Aquellas <em>Monodrogas</em> que cumplan las siguientes condiciones <strong>NO</strong> podrán ser eliminadas:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Esten asociadas a un medicamento.</li>
+</ul>
+</div></blockquote>
+<p class="last">El sistema se encargará de informar al usuario las razones por las cuales la <em>Monodroga</em> seleccionada no puede eliminarse.</p>
+</div>
 <p>Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):</p>
 <p>CAPTURA</p>
-<p>En esta parte el usuario deberá decidir si confirma la eliminación de la monodroga o no. Si desea confirmar la eliminación deberá presionar el botón “Confirmar”, caso contrario, presionará el botón “Cancelar”.</p>
+<p>En esta parte el usuario deberá decidir si confirma la eliminación de la <em>Monodroga</em> o no. Si desea confirmar la eliminación deberá presionar el botón <code class="docutils literal"><span class="pre">Confirmar</span></code>, caso contrario, presionará el botón <code class="docutils literal"><span class="pre">Cancelar</span></code>.</p>
 </div>
 <div class="section" id="formulario-de-busqueda">
-<h2>Formulario de Búsqueda<a class="headerlink" href="#formulario-de-busqueda" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>Si el usuario desea visualizar solo aquellas monodrogas que cumplan determinados criterios, deberá utilizar el formulario de búsqueda.</p>
+<span id="formulario-busqueda-monodroga"></span><h2>Formulario de Búsqueda<a class="headerlink" href="#formulario-de-busqueda" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea visualizar sólo aquellas <em>Monodrogas</em> que cumplan con algunos criterios en específico, deberá utilizar el formulario de búsqueda.</p>
 <p>CAPTURA</p>
-<p>Este formulario sólo cuenta con la opción de buscar por el nombre de la monodroga.</p>
-<p>Este campo es opcional y de no especificarse ningún criterio de búsqueda el sistema mostrará todas las monodrogas.</p>
+<p>Este formulario sólo cuenta con la opción de búsqueda simple en base al nombre de la <em>Monodroga</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Este campo es opcional, de no especificarse ningún criterio de búsqueda el sistema mostrará todas las <em>Monodrogas</em>.</p>
+</div>
+<p>El usuario tendrá que ingresar los parámetros de búsqueda en el formulario, y presionar el botón <code class="docutils literal"><span class="pre">Buscar</span></code>. El sistema visualizará aquellas <em>Monodrogas</em> que cumplan con todas las condiciones especificadas.</p>
 </div>
 </div>
 

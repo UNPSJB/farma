@@ -7,13 +7,18 @@
 {% endblock %}
 
 {% block title %}
-	Alta Remito
+	Alta Recepción Pedido a Laboratorio
 {% endblock %}
 
-{% block more-crumbs %}
-    <li><a href="{% url 'recepcionPedidoAlaboratorio' %}">Recepcion de pedidos de laboratorio</a></li>
-    <li class="active">Recepcion de pedido</li>
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'recepcionPedidoAlaboratorio' %}">Recepción de Pedidos a Laboratorio</a></li>
+    <li class="active">Alta</li>
 {% endblock %}
+
+{% block header-title %} Alta Recepción Pedido a Laboratorio {% endblock%}
+
+{% block url-volver %}{% url 'recepcionPedidoAlaboratorio' %}{% endblock %}
 
 {% block panel-title-pedido %}
 	Registrar Recepcion

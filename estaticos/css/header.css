@@ -1,0 +1,27 @@
+._breadcrumb_ {
+	background-color: rgba(255,255,255,0.1);
+	border-radius: 0;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	margin-bottom: 0;
+}
+
+.header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.7rem 15px;
+  overflow: hidden;
+}
+
+.header-title,
+.btn-volver span {
+  font-size: 2rem;
+}
+
+.btn-volver span:hover {
+	/*efecto*/
+}
+
+.header-title {
+	color: rgb(0,70,147);
+	font-weight: bolder;
+  	margin: 0;
+}

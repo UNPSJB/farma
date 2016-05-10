@@ -12,14 +12,6 @@ import datetime
 import config
 
 
-# *******************************VALIDACION***************************************#
-
-def validarCantidad(cantidad):
-    if cantidad == 0:
-            raise forms.ValidationError('La cantidad debe ser mayor a cero')
-    return cantidad
-
-
 # *******************************PEDIDO DE FARMACIA*******************************#
 
 class PedidoDeFarmaciaForm(forms.ModelForm):
@@ -40,9 +32,15 @@ class PedidoDeFarmaciaForm(forms.ModelForm):
 
     def clean_fecha(self):
         fecha = self.cleaned_data['fecha']
-        lim = datetime.date.today() - datetime.timedelta(weeks=config.SEMANAS_LIMITE_PEDIDO)
-        if fecha and not (datetime.date.today() >= fecha > lim):
-            raise forms.ValidationError('La fecha debe ser como maximo una semana anterior al dia actual')
+        fechaActual = datetime.date.today()
+        lim = fechaActual - datetime.timedelta(weeks=config.SEMANAS_LIMITE_PEDIDO)
+
+        if fecha:
+            if fecha > fechaActual:
+                raise forms.ValidationError('La fecha no puede ser mayor que la actual')
+
+            if fecha < lim:
+                raise forms.ValidationError('La fecha minima permitida es el ' + lim.strftime('%d/%m/%Y'))
         return fecha
 
 
@@ -61,9 +59,6 @@ class DetallePedidoDeFarmaciaForm(forms.ModelForm):
         model = models.DetallePedidoDeFarmacia
         fields = ["medicamento", "cantidad"]
 
-    def clean_cantidad(self):
-        return validarCantidad(self.cleaned_data['cantidad'])
-
 
 class UpdateDetallePedidoDeFarmaciaForm(forms.ModelForm):
     helper = FormHelper()
@@ -78,9 +73,6 @@ class UpdateDetallePedidoDeFarmaciaForm(forms.ModelForm):
     class Meta:
         model = models.DetallePedidoDeFarmacia
         fields = ["cantidad"]
-
-    def clean_cantidad(self):
-        return validarCantidad(self.cleaned_data['cantidad'])
 
 
 # *******************************PEDIDO DE CLINICA*******************************#
@@ -109,10 +101,17 @@ class PedidoDeClinicaForm(forms.ModelForm):
 
     def clean_fecha(self):
         fecha = self.cleaned_data['fecha']
-        lim = datetime.date.today() - datetime.timedelta(weeks=config.SEMANAS_LIMITE_PEDIDO)
-        if fecha and not (datetime.date.today() >= fecha > lim):
-            raise forms.ValidationError('La fecha debe ser como maximo una semana anterior al dia actual')
+        fechaActual = datetime.date.today()
+        lim = fechaActual - datetime.timedelta(weeks=config.SEMANAS_LIMITE_PEDIDO)
+
+        if fecha:
+            if fecha > fechaActual:
+                raise forms.ValidationError('La fecha no puede ser mayor que la actual')
+
+            if fecha < lim:
+                raise forms.ValidationError('La fecha minima permitida es el ' + lim.strftime('%d/%m/%Y'))
         return fecha
+
 
 
 class DetallePedidoDeClinicaForm(forms.ModelForm):
@@ -136,8 +135,6 @@ class DetallePedidoDeClinicaForm(forms.ModelForm):
         super(DetallePedidoDeClinicaForm, self).__init__(*args, **kwargs)
         self.fields['medicamento'].queryset = utils.get_medicamentos_con_stock()
 
-    def clean_cantidad(self):
-        return validarCantidad(self.cleaned_data['cantidad'])
 
     def is_valid(self):
         valid = super(DetallePedidoDeClinicaForm, self).is_valid()
@@ -148,7 +145,7 @@ class DetallePedidoDeClinicaForm(forms.ModelForm):
         cantidad = self.cleaned_data.get('cantidad')
 
         if cantidad > medicamento.get_stock():
-            self.add_error('cantidad', 'No hay suficiente stock para cubrir la cantidad indicada')
+            self.add_error('cantidad', 'No hay suficiente stock para cubrir la cantidad solicitada')
             return False
         return True
 
@@ -167,9 +164,6 @@ class UpdateDetallePedidoDeClinicaForm(forms.ModelForm):
         model = models.DetallePedidoDeClinica
         fields = ["cantidad"]
 
-    def clean_cantidad(self):
-        return validarCantidad(self.cleaned_data['cantidad'])
-
     def is_valid(self, id_medicamento):
         valid = super(UpdateDetallePedidoDeClinicaForm, self).is_valid()
         if not valid:
@@ -178,7 +172,7 @@ class UpdateDetallePedidoDeClinicaForm(forms.ModelForm):
         cantidad = self.cleaned_data.get('cantidad')
         medicamento = mmodels.Medicamento.objects.get(pk=id_medicamento)
         if cantidad > medicamento.get_stock():
-            self.add_error('cantidad', 'No hay suficiente stock para cubrir la cantidad indicada')
+            self.add_error('cantidad', 'No hay suficiente stock para cubrir la cantidad solicitada')
             return False
         return True
 
@@ -241,6 +235,7 @@ def DetallePedidoAlaboratorioFormFactory(laboratorio_id):
             if not cantidad:
                 raise forms.ValidationError('Debe ingresar una cantidad a pedir')
             return cantidad
+
     return DetallePedidoAlaboratorioForm
 
 class UpdateDetallePedidoAlaboratorioForm(forms.ModelForm):
@@ -256,9 +251,6 @@ class UpdateDetallePedidoAlaboratorioForm(forms.ModelForm):
     class Meta:
         model = models.DetallePedidoAlaboratorio
         fields = ["cantidad"]
-
-    def clean_cantidad(self):
-        return validarCantidad(self.cleaned_data['cantidad'])
 
 
 # ===================================== FIN FORMULARIOS DE PEDIDOS A LABORATORIOS =====================================
@@ -355,7 +347,8 @@ class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
 
     def clean_fechaVencimiento(self):
         fechaVencimiento = self.cleaned_data['fechaVencimiento']
-        lim = datetime.date.today() + datetime.timedelta(weeks=config.SEMANAS_LIMITE_VENCIDOS)
+        fechaActual = datetime.date.today() 
+        lim = fechaActual + datetime.timedelta(weeks=config.SEMANAS_LIMITE_VENCIDOS)
         if fechaVencimiento and fechaVencimiento <= lim:
             raise forms.ValidationError('No se puede ingresar lotes cuya fecha de vencimiento este dentro de los proximos 6 meses')
         return fechaVencimiento
@@ -417,7 +410,14 @@ class RegistrarRecepcionForm(forms.Form):
 
     def clean_fechaRemito(self):
         fechaRemito = self.cleaned_data['fechaRemito']
-        lim = datetime.date.today() - datetime.timedelta(weeks=config.SEMANAS_LIMITE_PEDIDO)
-        if fechaRemito and not (datetime.date.today() >= fechaRemito > lim):
-            raise forms.ValidationError('La fecha debe ser como maximo una semana anterior al dia actual')
+        fechaActual = datetime.date.today()
+        lim = fechaActual - datetime.timedelta(weeks=config.SEMANAS_LIMITE_PEDIDO)
+        
+        if fechaRemito:
+            if fechaRemito > fechaActual:
+                raise forms.ValidationError('La fecha no puede ser mayor que la actual')
+
+            if fechaRemito < lim:
+                raise forms.ValidationError('La fecha minima permitida es el ' + lim.strftime('%d/%m/%Y'))
         return fechaRemito
+

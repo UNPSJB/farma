@@ -41,20 +41,20 @@ def usuario_add(request):
 		form = forms.UsuarioAddForm()
 	return render(request, 'usuarioAdd.html', {'form': form})
 
-
-
 def login_user(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-               if user.is_active:
-                   login(request, user)
-                   return redirect('inicio')
-               else:
-                   return HttpResponse('inactive')
-    return render(request, "login.html")
+        form = forms.UsuarioLoginForm(request.POST)
+        if form.is_valid():
+	        username = request.POST['username']
+        	password = request.POST['password']
+        	user = authenticate(username=username, password=password)
+        	login(request, user)
+        	return redirect('inicio')
+        else:
+        	return render(request, "login.html", {'form':form})
+    else: 
+    	form = forms.UsuarioLoginForm()
+	return render(request, "login.html", {'form':form})
 
 @login_required(login_url='login')
 def logout_user(request):

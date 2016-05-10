@@ -2,11 +2,15 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
-{% block title %}Devolucion de medicamentos vencidos{% endblock %}
+{% block title %}Devolución de medicamentos vencidos{% endblock %}
 
-{% block more-crumbs %}
-    <li class="active">Detalles de devolucion de medicamentos vencidos</li>
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'devolucionMedicamentosVencidos' %}">Crear Devolución</a></li>
+    <li class="active">Detalles</li>
 {% endblock %}
+
+{% block header-title %} Devolución de medicamentos vencidos {% endblock%}
 
 {% block tipo-pedido %}Devolucion de medicamentos vencidos{% endblock %}
 

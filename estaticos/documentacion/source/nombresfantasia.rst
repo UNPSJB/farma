@@ -1,40 +1,58 @@
 Nombres Fantasia
 ================
-Se presentará una pantalla que contendrá un listado con todos los nombres fantasía que se encuentren registradas en el sistema hasta la fecha. Junto con el listado, se presentarán un conjunto de funcionalidades que permitirá manipular estas Presentaciones.
+
+Se presentará una pantalla que contendrá un listado con todos los *Nombres Fantasía* que se encuentren registrados en el sistema hasta la fecha. 
 
 CAPTURA
+
+Junto con el listado, se ofrecerán un conjunto de funcionalidades que permitirán manipular estos *Nombres Fantasía*
+
 
 Estas funcionalidades son:
 
-    - Alta de Nombre Fantasía
-    - Modificar Nombre Fantasía
-    - Eliminar Nombre Fantasía
-    - Formulario de Búsqueda
+    - :ref:`Alta Nombre Fantasía <alta-nombre-fantasia>`
+    - :ref:`Modificar Nombre Fantasía <modificar-nombre-fantasia>`
+    - :ref:`Eliminar Nombre Fantasía <eliminar-nombre-fantasia>`
+    - :ref:`Formulario de Búsqueda <formulario-busqueda-nombre-fantasia>`
 
-Alta de Nombre Fantasía
------------------------
-Si el usuario desea agregar un nombre fantasía, deberá presionar el botón de “Alta Nombre Fantasía”. 
+.. _alta-nombre-fantasia:
+
+Alta Nombre Fantasía
+--------------------
+
+Si el usuario desea crear un nuevo *Nombre Fantasía*, deberá presionar el botón ``Alta``. 
 
 CAPTURA BOTÓN
 
-Una vez realizado el paso, el sistema lo redirigirá a la siguiente pantalla:
+A continuación el sistema lo redirigirá a la siguiente pantalla:
 
 CAPTURA
 
-En esta parte el usuario se le presentará un formulario y deberá ingresar la información solicitada para dar de alta un nuevo nombre fantasía.
-El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará. 
-En este punto, las posibles causas de errores son:
+En esta parte el usuario se le presentará un formulario y deberá ingresar los datos solicitados para dar de alta un nuevo *Nombre Fantasía*.
 
-    - No se ingresó un nombre fantasía.
-    - El nombre fantasía ingresado ya existe en el sistema.
+.. ATTENTION::
+	El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará. 
+	En este punto, las posibles causas de errores son:
 
-Una vez completado el formulario, el usuario tendrá dos opciones: presionar el botón “Guardar y volver” o presionar el botón “Guardar y continuar”.
-El botón “Guardar y volver” permite guardar el nombre fantasía en el sistema y volver a la pantalla principal de nombres fantasía.
-El botón “Guardar y continuar” permito guardar el nombre fantasía en el sistema y seguir dando de alta nuevos nombres fantasía.
+	    - No se ingresó un nombre fantasía.
+	    - El nombre fantasía ingresado ya existe en el sistema.
+
+Una vez completado el formulario, el usuario tendrá dos opciones: 
+    
+    - Presionar el botón ``Guardar y Volver``.
+    - Presionar el botón ``Guardar y Continuar``.
+
+El botón ``Guardar y Volver`` permite guardar el *Nombre Fantasía* en el sistema y volver a la pantalla 
+principal de *Nombres Fantasía*.
+
+El botón ``Guardar y Continuar`` permite guardar el *Nombre Fantasía* en el sistema y seguir dando de alta nuevos *Nombres Fantasía*.
+
+.. _modificar-nombre-fantasia:
 
 Modificar Nombre Fantasía
 -------------------------
-Si el usuario desea modificar un nombre fantasía, deberá seleccionar el botón de “Acción” asociado al nombre fantasía y presionar la pestaña “Modificar”.
+
+Si el usuario desea modificar los datos de un *Nombre Fantasía*, deberá seleccionar el botón de **Acción** asociado al *Nombre Fantasía* y presionar la pestaña ``Modificar``.
 
 CAPTURA BOTÓN
 
@@ -42,33 +60,52 @@ Una vez realizado el paso anterior, el sistema lo redirigirá a la siguiente pan
 
 CAPTURA
 
-En esta parte el usuario se le presentará un formulario y deberá actualizar la información asociada al nombre fantasía.
-El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará. 
-En este punto, las posibles causas de errores son:
+En esta parte al usuario se le presentará un formulario y deberá actualizar los datos asociados al *Nombre Fantasía*.
 
-    - No se ingresó un nombre fantasía.
-    - El nombre fantasía ingresado ya existe en el sistema.
+.. ATTENTION::
+	El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará. 
+	En este punto, las posibles causas de errores son:
 
-Una vez completado el formulario, el usuario deberá presionar el botón “Guardar Cambios” y el sistema se encargara de actualizar la información del nombre fantasía seleccionado.
+	    - No se ingresó un nombre fantasía.
+	    - El nombre fantasía ingresado ya existe en el sistema.
+
+Una vez completado el formulario, el usuario deberá presionar el botón ``Guardar Cambios`` y el sistema se encargara de actualizar los datos del *Nombre Fantasía* seleccionado.
+
+.. _eliminar-nombre-fantasia:
 
 Eliminar Nombre Fantasía
 ------------------------
-Si el usuario desea eliminar un nombre fantasía, deberá seleccionar el botón de “Acción” asociado al nombre fantasía y presionar la pestaña “Eliminar”.
+
+Si el usuario desea eliminar un *Nombre Fantasía*, deberá seleccionar el botón de **Acción** asociado al *Nombre Fantasía* y presionar la pestaña ``Eliminar``.
 
 CAPTURA BOTÓN
+
+.. NOTE::
+    Aquellos *Nombres Fantasía* que cumplan las siguientes condiciones **NO** podrán ser eliminadas:
+
+        - Esten asociadas a un medicamento.
+
+    El sistema se encargará de informar al usuario las razones por las cuales el *Nombre Fantasía* seleccionado no puede eliminarse.
+
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
 CAPTURA
 
-En esta parte el usuario deberá decidir si confirma la eliminación del nombre fantasía o no. Si desea confirmar la eliminación deberá presionar el botón “Confirmar”, caso contrario, presionará el botón “Cancelar”.
+En esta parte el usuario deberá decidir si confirma la eliminación del *Nombre Fantasía* o no. Si desea confirmar la eliminación deberá presionar el botón ``Confirmar``, caso contrario, presionará el botón ``Cancelar``.
+
+.. _formulario-busqueda-nombre-fantasia:
 
 Formulario de Búsqueda
 ----------------------
-Si el usuario desea visualizar solo aquellos nombres fantasía que cumplan determinados criterios, deberá utilizar el formulario de búsqueda.
+
+Si el usuario desea visualizar sólo aquellos *Nombre Fantasía* que cumplan con algunos criterios en específico, deberá utilizar el formulario de búsqueda.
 
 CAPTURA
 
-Este formulario sólo cuenta con la opción de buscar por el campo nombre del nombre fantasía. 
+Este formulario sólo cuenta con la opción de búsqueda simple en base al nombre del *Nombre Fantasía*. 
 
-Este campo es opcional y de no especificarse ningún criterio de búsqueda el sistema mostrará todos los nombres fantasía.
+.. NOTE::
+    Este campo es opcional, de no especificarse ningún criterio de búsqueda el sistema mostrará todos los *Nombres Fantasía*.
+
+El usuario tendrá que ingresar los parámetros de búsqueda en el formulario, y presionar el botón ``Buscar``. El sistema visualizará aquellos *Nombres Fantasía* que cumplan con todas las condiciones especificadas.

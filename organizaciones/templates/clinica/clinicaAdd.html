@@ -1,20 +1,25 @@
-{% extends "base/base-add-update.html" %}
+{% extends "base/base-add-update-2.html" %}
 {% load staticfiles %}
 
-{% block title %}Alta de Clinica{% endblock %}
+{% block title %}Alta de Clínica{% endblock %}
 
-{% block more-crumbs %}
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
     <li><a href="{% url 'clinicas' %}">Clinicas</a></li>
-    <li class="active">Alta de clinica</li>
+    <li class="active">Alta</li>
 {% endblock %}
 
-{% block panel-heading-add %}
-    <h3 class="panel-title">Alta de Clinica</h3>
-{% endblock %}
+{% block url-volver %}{% url 'clinicas' %}{% endblock %}
 
-{% block url-form-action %}{% url 'clinica_add' %}{% endblock %}
+{% block header-title %} Alta de Clínica {% endblock %}
 
-{% block url-previous %}{% url 'clinicas' %}{% endblock %}
+{% block title-header-form %}Agregar nueva clínica{% endblock %}
+
+{% block icon-header-form %}
+    <span class="glyphicon glyphicon-plus page-header-icon"></span>
+{% endblock%}
+
+{% block sub-header-form %}Complete los siguientes campos{% endblock %}
 
 {% block more-scripts %}
     <script>

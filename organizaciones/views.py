@@ -3,6 +3,7 @@ from organizaciones import models, forms, utils
 from django.contrib.auth.decorators import login_required
 from jsonview.decorators import json_view
 from django.contrib.auth.decorators import permission_required
+from pedidos import models as pmodels
 
 def get_filtros(get, modelo):
     mfilter = {}
@@ -57,7 +58,7 @@ def farmacia_update(request, id_farmacia):
             return redirect('farmacias')
     else:
         form = forms.FarmaciaFormUpdate(instance=farmacia)
-    return render(request, "farmacia/farmaciaUpdate.html", {'form': form, 'id': id_farmacia})
+    return render(request, "farmacia/farmaciaUpdate.html", {'form': form, 'farmacia': farmacia})
 
 
 @json_view
@@ -73,6 +74,23 @@ def farmacia_delete(request, id_farmacia):
     infoBaja = utils.puedo_eliminar_farmacia(id_farmacia)
     if infoBaja['success']:
         farmacia = get_object_or_404(models.Farmacia, pk=id_farmacia)
+
+        pedidosAlaboratorio = set()
+
+        pedidosDeFarmacia = pmodels.PedidoDeFarmacia.objects.filter(farmacia=farmacia)
+
+        for pedido in pedidosDeFarmacia:
+            detallesPedidoDeFarmacia = pedido.get_detalles()
+            for detalle in detallesPedidoDeFarmacia:
+                detallesPedidoAlaboratorio = pmodels.DetallePedidoAlaboratorio.objects.filter(detallePedidoFarmacia=detalle)
+                for detallePedidoAlaboratorio in detallesPedidoAlaboratorio:
+                    pedidosAlaboratorio.add(detallePedidoAlaboratorio.pedido)
+
+        for pedido in pedidosAlaboratorio:
+            if pedido.get_detalles().count() <= 1:
+                p = pmodels.PedidoAlaboratorio.objects.get(pk=pedido.pk)
+                p.delete()
+
         farmacia.delete()
         return redirect('farmacias')
 
@@ -118,13 +136,18 @@ def clinica_update(request, id_clinica):
             return redirect('clinicas')
     else:
         form = forms.ClinicaFormUpdate(instance=clinica)
-    return render(request, "clinica/clinicaUpdate.html", {'form': form, 'id': id_clinica})
+    return render(request, "clinica/clinicaUpdate.html", {'form': form, 'clinica': clinica})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def clinica_delete(request, id_clinica):
     clinica = models.Clinica.objects.get(pk=id_clinica)
+
+    pedidosDeClinica = pmodels.PedidoDeClinica.objects.filter(clinica=clinica)
+    for pedido in pedidosDeClinica:
+        pedido.delete()
+
     clinica.delete()
     return redirect('clinicas')
 
@@ -171,7 +194,7 @@ def laboratorio_update(request, id_laboratorio):
             return redirect('laboratorios')
     else:
         form = forms.LaboratorioFormUpdate(instance=laboratorio)
-    return render(request, "laboratorio/laboratorioUpdate.html", {'form': form, 'id': id_laboratorio})
+    return render(request, "laboratorio/laboratorioUpdate.html", {'form': form, 'laboratorio': laboratorio})
 
 
 @json_view
@@ -187,5 +210,10 @@ def laboratorio_delete(request, id_laboratorio):
     infoBaja = utils.puedo_eliminar_laboratorio(id_laboratorio)
     if infoBaja['success']:
         laboratorio = models.Laboratorio.objects.get(pk=id_laboratorio)
+
+        pedidosAlaboratorio = pmodels.PedidoAlaboratorio.objects.filter(laboratorio=laboratorio)
+        for pedido in pedidosAlaboratorio:
+            pedido.delete()
+
         laboratorio.delete()
         return redirect('laboratorios')

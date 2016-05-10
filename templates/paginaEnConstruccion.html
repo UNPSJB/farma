@@ -1,7 +1,14 @@
 {% extends "base/base.html"%}
 {% load staticfiles %}
 
+{% block no-header-css %}
+{% endblock%}
+
 {% block title%}Página en Construcción{% endblock%}
+
+{% block no-header %}
+{% endblock%}
+
 {% block content %}
 	<div style="text-align: center;">
 		<img class="img-responsive" src="{% static 'images/paginaEnConstruccion.jpg'%}" width= 100%>

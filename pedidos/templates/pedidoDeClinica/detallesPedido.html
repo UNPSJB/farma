@@ -2,12 +2,18 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
-{% block title %}Pedido de Clinica{% endblock %}
+{% block title %}Detalles del Pedido de Clinica{% endblock %}
 
-{% block more-crumbs %}
-    <li><a href="{% url 'pedidosDeClinica' %}">Pedidos de clinica</a></li>
-    <li class="active">Detalles de pedido de clinica</li>
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'pedidosDeClinica' %}">Pedidos de Clínica</a></li>
+    <li><a href="{% url 'pedidoDeClinica_add' %}">Alta</a></li>
+    <li class="active">Detalles</li>
 {% endblock %}
+
+{% block header-title %} Detalles del Pedido de Clínica {% endblock%}
+
+{% block url-volver %}{% url 'pedidoDeClinica_add' %}{% endblock %}
 
 {% block panel-heading-right %}
     <div class="btn-group btn-group-xs">
@@ -163,7 +169,7 @@
             $(document).on("keyup", function(e){
                 if(e.keyCode == 112){
                     var url = "{% static 'documentacion/build/html/pedidosclinica.html' %}";
-                    url += "#alta-detalle";
+                    url += "#alta-pedido";
                     window.open(url);
                 }
             });

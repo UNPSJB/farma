@@ -2,12 +2,18 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
-{% block title %}Pedido de Laboratorio{% endblock %}
+{% block title %}Detalles Pedido de Laboratorio{% endblock %}
 
-{% block more-crumbs %}
-    <li><a href="{% url 'pedidosAlaboratorio' %}">Pedidos a laboratorio</a></li>
-    <li class="active">Detalles de pedido a laboratorio</li>
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'pedidosAlaboratorio' %}">Pedidos a Laboratorio</a></li>
+    <li><a href="{% url 'pedidoAlaboratorio_add' %}">Alta</a></li>
+    <li class="active">Detalles</li>
 {% endblock %}
+
+{% block header-title %} Detalles del Pedido a Laboratorio {% endblock%}
+
+{% block url-volver %}{% url 'pedidoAlaboratorio_add' %}{% endblock %}
 
 {% block panel-heading-right %}
     <div class="btn-group btn-group-xs">
@@ -138,7 +144,7 @@
             $(document).on("keyup", function(e){
                 if(e.keyCode == 112){
                     var url = "{% static 'documentacion/build/html/pedidosalab.html' %}";
-                    url += "#alta-de-pedido";
+                    url += "#alta-pedido";
                     window.open(url);
                 }
             });

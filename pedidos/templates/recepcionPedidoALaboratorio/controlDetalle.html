@@ -8,13 +8,19 @@
     <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
 {% endblock %}
 
-{% block title %}Control de Detalle de Pedido{% endblock %}
+{% block title %}Recepción del Detalle de Pedido{% endblock %}
 
-{% block more-crumbs %}
-    <li><a href="{% url 'recepcionPedidoAlaboratorio' %}">Recepcion de pedidos de laboratorio</a></li>
-    <li><a href="{% url 'recepcionPedidoAlaboratorio_controlPedido' pedido.nroPedido %}">Control del pedido</a></li>
-    <li class="active">Control de detalle</li>
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'recepcionPedidoAlaboratorio' %}">Recepción de Pedidos a Laboratorio</a></li>
+    <li><a href="{% url 'recepcionPedidoAlaboratorio_cargarPedido' pedido.pk %}">Alta</a></li>
+    <li><a href="{% url 'recepcionPedidoAlaboratorio_controlPedido' pedido.pk %}">Detalles</a></li>
+    <li class="active">Recepción</li>
 {% endblock %}
+
+{% block header-title %} Recepción del Detalle de Pedido {% endblock%}
+
+{% block url-volver %}{% url 'recepcionPedidoAlaboratorio_controlPedido' pedido.pk %}{% endblock %}
 
 {% block panel-title-pedido %}
 	Control Detalle Nº {{detalle.renglon}}

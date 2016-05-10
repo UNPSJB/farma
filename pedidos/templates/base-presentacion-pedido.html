@@ -51,13 +51,14 @@
 {% block title %}
 {% endblock %}
 
+{% block breadcrumb-items %}
+{% endblock %}
+
+{% block header-title %}{% endblock%}
+
+{% block url-volver %}{% endblock %}
+
 {% block content %}
-    {% block breadcrumbs %}
-        <ol id="breadcrumb-page" class="breadcrumb _breadcrumb_">
-           <li><a href="{% url 'inicio' %}">Inicio</a></li>
-           {% block more-crumbs %}{% endblock %}
-        </ol>
-    {% endblock %}
     <div class="jumbotron">
         <div class="container-fluid">
             <div class="row">

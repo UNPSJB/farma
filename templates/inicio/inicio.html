@@ -1,9 +1,12 @@
 {% extends "base/base.html" %}
 {% load staticfiles %}
 
+{% block no-header-css %} {% endblock %}
 {% block title %}
 	Farma S.R.L
 {% endblock %}
+
+{% block no-header %} {% endblock %}
 
 {% block content %}
 	{% include 'inicio/carousel.html' %}

@@ -2,12 +2,18 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
-{% block title %}Pedido de Farmacia{% endblock %}
+{% block title %}Detalles del Pedido de Farmacia{% endblock %}
 
-{% block more-crumbs %}
-    <li><a href="{% url 'pedidosDeFarmacia' %}">Pedidos de farmacia</a></li>
-    <li class="active">Detalles de pedido de farmacia</li>
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'pedidosDeFarmacia' %}">Pedidos de Farmacia</a></li>
+    <li><a href="{% url 'pedidoDeFarmacia_add' %}">Alta</a></li>
+    <li class="active">Detalles</li>
 {% endblock %}
+
+{% block header-title %} Detalles del Pedido de Farmacia {% endblock%}
+
+{% block url-volver %}{% url 'pedidoDeFarmacia_add' %}{% endblock %}
 
 {% block panel-heading-right %}
     <div class="btn-group btn-group-xs">
@@ -116,14 +122,18 @@
             /****************************** Boton Registrar Pedido ***************************************/
 
             $("#btn-registrar").on("click", function(e){
-                registrar_pedido_ajax("{% url 'pedidoDeFarmacia_registrar' %}");
+                if($('.table tbody tr').length > 0){
+                    $(this).prop('disabled', true)
+                    registrar_pedido_ajax("{% url 'pedidoDeFarmacia_registrar' %}");
+                }
+                
                 e.stopPropagation();
             });
 
             $(document).on("keyup", function(e){
                 if(e.keyCode == 112){
                     var url = "{% static 'documentacion/build/html/pedidosfarmacia.html' %}";
-                    url += "#alta-detalle";
+                    url += "#alta-pedido";
                     window.open(url);
                 }
             });

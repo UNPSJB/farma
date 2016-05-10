@@ -1,26 +1,32 @@
-{% extends "base/base-add-update.html" %}
+{% extends "base/base-add-update-2.html" %}
 {% load staticfiles %}
 
-{% block title %}Actualizar Precio de Venta{% endblock %}
+{% block title %}Modificar Precio de Venta{% endblock %}
 
-{% block panel-heading-add %}
-    <h3 class="panel-title">Modificacion del Precio de Venta del Medicamento</h3>
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'medicamentos' %}">Medicamentos</a></li>
+    <li class="active">Modificar Precio de Venta</li>
 {% endblock %}
 
-{% block url-form-action %}{% url 'medicamento_update_precioVenta' id %}{% endblock %}
+{% block url-volver %}{% url 'medicamentos' %}{% endblock %}
 
-{% block boton-form %}
-    <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
+{% block header-title %} Modificar Precio de Venta {% endblock %}
+
+{% block title-header-form %}Actualizar <span class="element-update">"{{medicamento}}"</span>{% endblock %}
+
+{% block icon-header-form %}
+    <span class="glyphicon glyphicon-edit page-header-icon"></span>
 {% endblock%}
 
-{% block url-previous %}{% url 'medicamentos' %}{% endblock %}
+{% block sub-header-form %}Actualice el precio de venta{% endblock %}
 
 {% block more-scripts %}
     <script>
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 var url = "{% static 'documentacion/build/html/medicams.html' %}";
-                url += "#modificar-precio-de-venta";
+                url += "#modificar-precio-venta";
                 window.open(url);
             }
         });

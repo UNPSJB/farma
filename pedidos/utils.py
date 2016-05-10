@@ -280,7 +280,19 @@ def guardar_recepcion_detalle(session, detalle, infoRecepcionDetalle):
     infoDetalle = detalles[posDetalle]
     numeroLote = str(infoRecepcionDetalle['lote'])
     #informacion del detalle de remito
-    detallesRemitoRecepcion.append({'detallePedidoLaboratorio':detalle.pk,'lote':numeroLote,'cantidad':infoRecepcionDetalle['cantidad']})
+
+    agregarDetalleRemito = True
+    for detalleRemito in detallesRemitoRecepcion:
+        if detalleRemito['detallePedidoLaboratorio'] == detalle.pk and detalleRemito['lote'] == numeroLote:
+            print "ENTREEEEEEEEEEEEEEEEE"
+            detalleRemito['cantidad'] += infoRecepcionDetalle['cantidad']
+            agregarDetalleRemito = False
+            break
+            
+    if agregarDetalleRemito:
+        detallesRemitoRecepcion.append({'detallePedidoLaboratorio':detalle.pk,'lote':numeroLote,'cantidad':infoRecepcionDetalle['cantidad']})
+    
+
     session['remitoRecepcion']['detalles']=detallesRemitoRecepcion
 
     cantidadStockLote = 0
@@ -336,7 +348,15 @@ def guardar_recepcion_detalle_con_nuevo_lote(session, detalle, infoRecepcionDeta
 
     session['recepcionPedidoAlaboratorio'] = recepcionPedidoAlaboratorio
 
-    detallesRemitoRecepcion.append({'detallePedidoLaboratorio': detalle.pk, 'lote': numeroLote, 'cantidad': infoRecepcionDetalle['cantidad']})
+    agregarDetalleRemito = True
+    for detalleRemito in detallesRemitoRecepcion:
+        if detalleRemito['detallePedidoLaboratorio'] == detalle.pk and detalleRemito['lote'] == numeroLote:
+            detalleRemito['cantidad'] += infoRecepcionDetalle['cantidad']
+            agregarDetalleRemito = False
+            break
+
+    if agregarDetalleRemito:
+        detallesRemitoRecepcion.append({'detallePedidoLaboratorio': detalle.pk, 'lote': numeroLote, 'cantidad': infoRecepcionDetalle['cantidad']})
     session['remitoRecepcion']['detalles'] = detallesRemitoRecepcion
 
 

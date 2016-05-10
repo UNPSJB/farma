@@ -1,6 +1,7 @@
 from django.db import models
 import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
+from pedidos import config
 
 
 # ******************CLASES ABSTRACTAS******************#
@@ -17,7 +18,8 @@ class PedidoVenta(models.Model):
         return str(self.nroPedido)
 
 class DetallePedidoVenta(models.Model):
-    cantidad = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(9999)])
+    cantidad = models.PositiveIntegerField(validators=[MinValueValidator(1), 
+                                           MaxValueValidator(config.MAXIMA_CANTIDAD_MEDICAMENTOS)])
     medicamento = models.ForeignKey('medicamentos.Medicamento')
 
     class Meta:
@@ -44,7 +46,7 @@ class RemitoDeFarmacia(models.Model):
 class DetalleRemitoDeFarmacia(models.Model):
     remito = models.ForeignKey(RemitoDeFarmacia, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()
-    detallePedidoDeFarmacia = models.ForeignKey('DetallePedidoDeFarmacia')
+    detallePedidoDeFarmacia = models.ForeignKey('DetallePedidoDeFarmacia', on_delete=models.CASCADE)
     lote = models.ForeignKey('medicamentos.Lote')
 
     def __str__(self):
@@ -76,7 +78,7 @@ class RemitoDeClinica(models.Model):
 class DetalleRemitoDeClinica(models.Model):
     remito = models.ForeignKey('RemitoDeClinica', on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()
-    detallePedidoDeClinica = models.ForeignKey('DetallePedidoDeClinica')
+    detallePedidoDeClinica = models.ForeignKey('DetallePedidoDeClinica', on_delete=models.CASCADE)
     lote = models.ForeignKey('medicamentos.Lote')
 
     def __str__(self):
@@ -91,7 +93,7 @@ class DetalleRemitoDeClinica(models.Model):
 class RemitoMedicamentosVencidos(models.Model):
     numero = models.BigIntegerField()
     fecha = models.DateField()
-    laboratorio = models.ForeignKey('organizaciones.Laboratorio')
+    laboratorio = models.ForeignKey('organizaciones.Laboratorio', on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.numero)
@@ -120,8 +122,8 @@ class DetalleRemitoMedicamentosVencido(models.Model):
 class RemitoLaboratorio(models.Model):
     nroRemito = models.BigIntegerField(primary_key=True, unique=True)
     fecha = models.DateField()
-    laboratorio = models.ForeignKey('organizaciones.Laboratorio')
-    pedidoLaboratorio = models.ForeignKey('PedidoAlaboratorio')
+    laboratorio = models.ForeignKey('organizaciones.Laboratorio', on_delete=models.CASCADE)
+    pedidoLaboratorio = models.ForeignKey('PedidoAlaboratorio', on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.nroRemito)
@@ -154,7 +156,7 @@ class PedidoDeFarmacia(PedidoVenta):
         'farmacia': "farmacia__razonSocial__icontains",
         'estado': "estado__istartswith"
     }
-    farmacia = models.ForeignKey('organizaciones.Farmacia')
+    farmacia = models.ForeignKey('organizaciones.Farmacia', on_delete=models.CASCADE)
     estado = models.CharField(max_length=25, blank=True)
 
     class Meta(PedidoVenta.Meta):
@@ -179,7 +181,7 @@ class PedidoDeFarmacia(PedidoVenta):
 
 
 class DetallePedidoDeFarmacia(DetallePedidoVenta):
-    pedidoDeFarmacia = models.ForeignKey('PedidoDeFarmacia')
+    pedidoDeFarmacia = models.ForeignKey('PedidoDeFarmacia', on_delete=models.CASCADE)
     cantidadPendiente = models.PositiveIntegerField(default=0)
     estaPedido = models.BooleanField(default=False)
 
@@ -211,7 +213,7 @@ class PedidoDeClinica(PedidoVenta):
         'hasta': "fecha__lte",
         'clinica': "clinica__razonSocial__icontains"
     }
-    clinica = models.ForeignKey('organizaciones.Clinica')
+    clinica = models.ForeignKey('organizaciones.Clinica', on_delete=models.CASCADE)
     obraSocial = models.CharField(max_length=80)
     medicoAuditor = models.CharField(max_length=80)
 
@@ -236,7 +238,7 @@ class PedidoDeClinica(PedidoVenta):
 
 
 class DetallePedidoDeClinica(DetallePedidoVenta):
-    pedidoDeClinica = models.ForeignKey('PedidoDeClinica')
+    pedidoDeClinica = models.ForeignKey('PedidoDeClinica', on_delete=models.CASCADE)
     cantidadPendiente = models.PositiveIntegerField(default=0)
     estaPedido = models.BooleanField(default=False)
 
@@ -272,7 +274,7 @@ class PedidoAlaboratorio(models.Model):
     }
     nroPedido = models.AutoField(primary_key=True)
     fecha = models.DateField(auto_now_add=True)
-    laboratorio = models.ForeignKey('organizaciones.Laboratorio')
+    laboratorio = models.ForeignKey('organizaciones.Laboratorio', on_delete=models.CASCADE)
 
     estado = models.CharField(max_length=25, blank=True, default="Pendiente")# cancelado, parcialmente recibido, pendiente, completo
 
@@ -287,15 +289,23 @@ class PedidoAlaboratorio(models.Model):
         else:
             return {}
 
+    def get_detalles(self):
+        response = []
+        if self.nroPedido:
+            response = DetallePedidoAlaboratorio.objects.filter(pedido=self)
+        return response
+
+
 # DETALLE PEDIDO A LABORATORIO
 
 class DetallePedidoAlaboratorio(models.Model):
     renglon = models.AutoField(primary_key=True)
-    pedido = models.ForeignKey('PedidoAlaboratorio', null=True)
-    cantidad = models.PositiveIntegerField()
+    pedido = models.ForeignKey('PedidoAlaboratorio', null=True, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(validators=[MinValueValidator(1), 
+                                           MaxValueValidator(config.MAXIMA_CANTIDAD_MEDICAMENTOS)])
     cantidadPendiente = models.PositiveIntegerField()
     medicamento = models.ForeignKey('medicamentos.Medicamento')
-    detallePedidoFarmacia = models.ForeignKey('DetallePedidoDeFarmacia', blank=True, null=True)
+    detallePedidoFarmacia = models.ForeignKey('DetallePedidoDeFarmacia', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "Pedido Nro %s - Detalle %s"%(self.pedido.nroPedido, self.renglon)

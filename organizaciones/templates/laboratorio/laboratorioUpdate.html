@@ -1,24 +1,25 @@
-{% extends "base/base-add-update.html" %}
+{% extends "base/base-add-update-2.html" %}
 {% load staticfiles %}
 
-{% block title %}Modificación de Laboratorio{% endblock %}
+{% block title %}Modificar Laboratorio{% endblock %}
 
-{% block more-crumbs %}
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
     <li><a href="{% url 'laboratorios' %}">Laboratorios</a></li>
-    <li class="active">Modificación de laboratorio</li>
+    <li class="active">Modificar</li>
 {% endblock %}
 
-{% block panel-heading-add %}
-    <h3 class="panel-title">Modificación de Laboratorio</h3>
-{% endblock %}
+{% block url-volver %}{% url 'laboratorios' %}{% endblock %}
 
-{% block url-form-action %}{% url 'laboratorio_update' id %}{% endblock %}
+{% block header-title %} Modificar Laboratorio {% endblock %}
 
-{% block boton-form %}
-    <button id="btn-guardar" type="submit" class="btn btn-primary pull-right">Guardar Cambios</button>
-{% endblock %}
+{% block title-header-form %}Actualizar <span class="element-update">"{{laboratorio}}"</span>{% endblock %}
 
-{% block url-previous %}{% url 'laboratorios' %}{% endblock %}
+{% block icon-header-form %}
+    <span class="glyphicon glyphicon-edit page-header-icon"></span>
+{% endblock%}
+
+{% block sub-header-form %}Actualice los datos deseados{% endblock %}
 
 {% block more-scripts %}
     <script>

@@ -12,10 +12,15 @@
 	Alta de Pedido De Farmacia
 {% endblock %}
 
-{% block more-crumbs %}
-    <li><a href="{% url 'pedidosDeFarmacia' %}">Pedidos de farmacia</a></li>
-    <li class="active">Alta de pedido de farmacia</li>
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li><a href="{% url 'pedidosDeFarmacia' %}">Pedidos de Farmacia</a></li>
+    <li class="active">Alta</li>
 {% endblock %}
+
+{% block header-title %} Alta Pedido de Farmacia {% endblock%}
+
+{% block url-volver %}{% url 'pedidosDeFarmacia' %}{% endblock %}
 
 {% block panel-title-pedido %}
 	Pedido de Farmacia
@@ -37,7 +42,7 @@
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 var url = "{% static 'documentacion/build/html/pedidosfarmacia.html' %}";
-                url += "#alta-de-pedido";
+                url += "#alta-pedido";
                 window.open(url);
             }
         });

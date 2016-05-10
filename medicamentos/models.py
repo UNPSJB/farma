@@ -2,7 +2,8 @@
 from django.db import models
 from organizaciones.models import Laboratorio
 from django.core.validators import MaxValueValidator, MinValueValidator
-from pedidos import config
+from pedidos import config as pconfig
+from . import config
 import datetime
 
 
@@ -13,8 +14,9 @@ class Medicamento(models.Model):
     presentacion = models.ForeignKey('Presentacion')
     codigoBarras = models.CharField("Codigo de barras", max_length=17, unique=True, error_messages={'unique': "Este codigo de barras ya esta cargado"})
     laboratorio = models.ForeignKey(Laboratorio, related_name="medicamentos")
-    stockMinimo = models.PositiveIntegerField("Stock minimo de reposicion",validators=[MinValueValidator(0), MaxValueValidator(9999)])
-    precioDeVenta = models.FloatField("Precio de venta", validators=[MinValueValidator(0.0), MaxValueValidator(9999)])
+    stockMinimo = models.PositiveIntegerField("Stock minimo de reposicion",validators=[MinValueValidator(1), 
+                                                                            MaxValueValidator(config.MAXIMO_STOCK_MINIMO)])
+    precioDeVenta = models.DecimalField("Precio de venta", max_digits=12, decimal_places=2)
 
     def __str__(self):
         return "%s %s" % (self.nombreFantasia, self.presentacion)
@@ -27,10 +29,14 @@ class Medicamento(models.Model):
                 stockTotal += lote.stock
             return stockTotal
 
+    def get_lotes_con_stock(self):
+        lotes = self.get_lotes_activos()
+        return lotes.filter(stock__gt=0)
+        
     def get_lotes_activos(self):
         if self.id:
-            lim = datetime.date.today() + datetime.timedelta(weeks=config.SEMANAS_LIMITE_VENCIDOS)
-            return Lote.objects.filter(medicamento=self, stock__gt=0, fechaVencimiento__gte=lim)
+            lim = datetime.date.today() + datetime.timedelta(weeks=pconfig.SEMANAS_LIMITE_VENCIDOS)
+            return Lote.objects.filter(medicamento=self, fechaVencimiento__gte=lim)
         return None
 
 
@@ -38,7 +44,8 @@ class Medicamento(models.Model):
 class Presentacion(models.Model):
     FILTROS = ["descripcion__icontains"]
     descripcion = models.CharField(max_length=45)
-    cantidad = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(9999)])
+    cantidad = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1), 
+                                                      MaxValueValidator(config.MAXIMA_CANTIDAD_PRESENTACION)])
     unidadMedida = models.CharField("Unidad de medida", max_length=45)
 
     def __str__(self):
@@ -66,7 +73,8 @@ class Dosis(models.Model):
     medicamento = models.ForeignKey(Medicamento)
     monodroga = models.ForeignKey(Monodroga)
     unidad = models.PositiveIntegerField(choices=UNIDADES)
-    cantidad = models.PositiveIntegerField(default=1,validators=[MinValueValidator(1), MaxValueValidator(9999)])
+    cantidad = models.PositiveIntegerField(default=1,validators=[MinValueValidator(1), 
+                                                     MaxValueValidator(config.MAXIMA_CANTIDAD_DOSIS)])
 
     def __str__(self):
         return "%s - %s" % (self.cantidad, self.get_unidad_display())

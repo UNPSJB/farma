@@ -9,9 +9,12 @@
 
 {% block title %}Devolucion de Medicamentos Vencidos{% endblock %}
 
-{% block more-crumbs %}
-    <li class="active">Devolucion de medicamentos vencidos</li>
+{% block breadcrumb-items %}
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li class="active">Crear Devolución</li>
 {% endblock %}
+
+{% block header-title %} Devolución de medicamentos vencidos {% endblock%}
 
 {% block panel-title-pedido %}
 	Devolucion de medicamentos vencidos
