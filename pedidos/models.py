@@ -212,7 +212,7 @@ class PedidoDeClinica(PedidoVenta):
         'clinica': "clinica__razonSocial__icontains"
     }
     clinica = models.ForeignKey('organizaciones.Clinica')
-    obraSocial = models.CharField(max_length=80)
+    obraSocial = models.ForeignKey('organizaciones.ObraSocial')
     medicoAuditor = models.CharField(max_length=80)
 
     class Meta(PedidoVenta.Meta):

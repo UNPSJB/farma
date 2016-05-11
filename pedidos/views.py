@@ -79,7 +79,7 @@ def pedidoDeFarmacia_ver(request, id_pedido):
 
 @json_view
 @login_required(login_url='login')
-def pedidoDeFarmacia_verDetalles(request, id_pedido):
+def pedidoDeFarmacia_verDetalles(id_pedido):
     detalles_json = []
     detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia__pk=id_pedido)
     for detalle in detalles:
@@ -88,7 +88,7 @@ def pedidoDeFarmacia_verDetalles(request, id_pedido):
     
 @json_view
 @login_required(login_url='login')
-def pedidoDeFarmacia_verRemitos(request, id_pedido):
+def pedidoDeFarmacia_verRemitos(id_pedido):
     remitos_json = []
     remitos = models.RemitoDeFarmacia.objects.filter(pedidoFarmacia__pk=id_pedido)
     for remito in remitos:
@@ -246,7 +246,7 @@ def pedidoDeClinica_ver(request, id_pedido):
 
 @json_view
 @login_required(login_url='login')
-def pedidoDeClinica_verDetalles(request, id_pedido):
+def pedidoDeClinica_verDetalles(id_pedido):
     detalles_json = []
     detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
     for detalle in detalles:
@@ -255,7 +255,7 @@ def pedidoDeClinica_verDetalles(request, id_pedido):
     
 @json_view
 @login_required(login_url='login')
-def pedidoDeClinica_verRemitos(request, id_pedido):
+def pedidoDeClinica_verRemitos(id_pedido):
     remitos_json = []
     remitos = models.RemitoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
     for remito in remitos:
@@ -301,7 +301,7 @@ def detallesPedidoDeClinica(request):
     medicamentos_stock = []
     for medicamento in medicamentos:
         medicamentos_stock.append({'id': medicamento.id, 'stock': medicamento.get_stock()})
-    return render(request, "pedidoDeClinica/detallesPedido.html", {'pedido': pedido, 'detalles': detalles, 
+    return render(request, "pedidoDeClinica/detallesPedido.html", {'pedido': pedido, 'detalles': detalles,
                   'medicamentosStock': medicamentos_stock})
 
 
@@ -378,7 +378,6 @@ class remitoDeClinica(PDFTemplateView):
 
 # =================VISTAS DE PEDIDO A LABORATORIO NUEVAS=================#
 
-
 @login_required(login_url='login')
 def pedidosAlaboratorio(request):
     mfilters = get_filtros(request.GET, models.PedidoAlaboratorio)
@@ -410,14 +409,14 @@ def pedidoAlaboratorio_add(request):
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def pedidoAlaboratorio_cancelar(request, id_pedido):
+def pedidoAlaboratorio_cancelar(id_pedido):
     pedido = models.PedidoAlaboratorio.objects.get(pk=id_pedido)
     utils.cancelar_pedido_a_laboratorio(pedido);
     return redirect('pedidosAlaboratorio')
 
 @json_view
 @login_required(login_url='login')
-def pedidoAlaboratorio_verDetalles(request, id_pedido):
+def pedidoAlaboratorio_verDetalles(id_pedido):
     detalles_json = []
     detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido__pk=id_pedido)
     for detalle in detalles:
@@ -668,7 +667,6 @@ def recepcionPedidoAlaboratorio_registrar(request, id_pedido):
     actualizarLotes = request.session['recepcionPedidoAlaboratorio']['actualizarLotes']
 
     if len(nuevosLotes) > 0 or len(actualizarLotes) > 0:
-        #print "**************\n",request.session['recepcionPedidoAlaboratorio'],"\n**************"
         utils.procesar_recepcion(request.session, pedido)
         return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles, 'modalSuccess': True})
 

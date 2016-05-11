@@ -22,9 +22,15 @@ class Farmacia(Organizacion):
         return self.razonSocial
 
 
+class ObraSocial(Organizacion):
+
+    def __str__(self):
+        return self.razonSocial
+
+
 class Clinica(Organizacion):
     FILTROS = ["razonSocial__icontains", "localidad__icontains", "obraSocial__icontains"]
-    obraSocial = models.CharField(max_length=80)
+    obraSocial = models.ManyToManyField(ObraSocial)
 
     def __str__(self):
         return self.razonSocial
@@ -34,6 +40,5 @@ class Laboratorio(Organizacion):
 
     def __str__(self):
         return self.razonSocial
-
 
 

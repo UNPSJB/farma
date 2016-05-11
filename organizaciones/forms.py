@@ -31,7 +31,8 @@ class FarmaciaFormGenerico(forms.ModelForm):
 
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
-        if models.Clinica.objects.filter(cuit=cuit) or models.Laboratorio.objects.filter(cuit=cuit):
+        if models.Clinica.objects.filter(cuit=cuit) or models.Laboratorio.objects.filter(cuit=cuit) or \
+                models.ObraSocial.objects.filter(cuit=cuit):
             raise forms.ValidationError('Ya existe una organizacion con este CUIT')
         if cuit:
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
@@ -104,6 +105,94 @@ class FarmaciaFormUpdate(FarmaciaFormGenerico):
     )  
 
 
+class ObraSocialFormGenerico(forms.ModelForm):
+    class Meta:
+        model = models.ObraSocial
+        fields = ["razonSocial", "cuit", "localidad", "direccion", "telefono", "email"]
+        labels = {
+            'razonSocial': _('Razon social'),
+            'cuit': _('CUIT'),
+            'localidad': _('Localidad'),
+            'direccion': _('Direccion'),
+            'telefono': _('Telefono'),
+            'email': _('Email'),
+        }
+
+    def clean_razonSocial(self):
+        razonSocial = self.cleaned_data['razonSocial']
+        if razonSocial:
+            if not re.match(r"^[a-zA-Z\d]+((\s[a-zA-Z\d]+)+)?$", razonSocial):
+                raise forms.ValidationError('La razon social no puede contener caracteres especiales')
+        return razonSocial
+
+    def clean_cuit(self):
+        cuit = self.cleaned_data['cuit']
+        if models.Farmacia.objects.filter(cuit=cuit) or models.Clinica.objects.filter(cuit=cuit) or \
+                models.Laboratorio.objects.filter(cuit=cuit):
+            raise forms.ValidationError('Ya existe una organizacion con este CUIT')
+        if cuit:
+            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
+                raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
+        return cuit
+
+    def clean_localidad(self):
+        localidad = self.cleaned_data['localidad']
+        if localidad:
+            if not re.match(r"^[a-zA-Z]+((\s[a-zA-Z]+)+)?$", localidad):
+                raise forms.ValidationError('La localidad solo puede contener letras y espacios')
+        return localidad
+
+    def clean_direccion(self):
+        direccion = self.cleaned_data['direccion']
+        if direccion:
+            if not re.match(r"^[a-zA-Z\d°]+((\s[a-zA-Z\d°]+)+)?$", direccion):
+                raise forms.ValidationError('La direccion no puede contener caracteres especiales, excepto "°"')
+        return direccion
+
+
+class ObraSocialFormAdd(ObraSocialFormGenerico):
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.form_action = 'obraSocial_add'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('razonSocial', placeholder='Razon social'),
+        Field('cuit', placeholder='CUIT'),
+        Field('localidad', placeholder='Localidad'),
+        Field('direccion', placeholder='Direccion'),
+        Field('telefono', placeholder='Telefono'),
+        Field('email', placeholder='Email'),
+        FormActions(
+            StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar",
+                        css_class="btn btn-success pull-right"),
+            StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver",
+                        css_class="btn btn-primary pull-right"),
+        )
+    )
+
+
+class ObraSocialFormUpdate(ObraSocialFormGenerico):
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.form_id = 'my-form'
+    helper.label_class = 'col-md-3'
+    helper.field_class = 'col-md-8'
+    helper.layout = Layout(
+        Field('razonSocial', placeholder='Razon social', readonly=True),
+        Field('cuit', placeholder='CUIT', readonly=True),
+        Field('localidad', placeholder='Localidad'),
+        Field('direccion', placeholder='Direccion'),
+        Field('telefono', placeholder='Telefono'),
+        Field('email', placeholder='Email'),
+        FormActions(
+            StrictButton('Guardar Cambios', type="submit", id="btn-guardar-continuar",
+                        css_class="btn btn-primary pull-right"),
+        )
+    )
+
+
 class ClinicaFormGenerico(forms.ModelForm):
     class Meta:
         model = models.Clinica
@@ -127,7 +216,8 @@ class ClinicaFormGenerico(forms.ModelForm):
 
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
-        if models.Farmacia.objects.filter(cuit=cuit) or models.Laboratorio.objects.filter(cuit=cuit):
+        if models.Farmacia.objects.filter(cuit=cuit) or models.Laboratorio.objects.filter(cuit=cuit) or \
+                models.ObraSocial.objects.filter(cuit=cuit):
             raise forms.ValidationError('Ya existe una organizacion con este CUIT')
         if cuit:
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
@@ -148,13 +238,15 @@ class ClinicaFormGenerico(forms.ModelForm):
                 raise forms.ValidationError('La direccion no puede contener caracteres especiales, excepto "°"')
         return direccion
 
+'''
     def clean_obraSocial(self):
-        obraSocial = self.cleaned_data['obraSocial']
-        if obraSocial:
+        obrasSociales = self.cleaned_data['obraSocial']
+        print(obrasSociales)
+        for obraSocial in obrasSociales:
             if not re.match(r"^[a-zA-Z\d]+((\s[a-zA-Z\d]+)+)?$", obraSocial):
                 raise forms.ValidationError('La obra social no puede contener caracteres especiales')
-        return obraSocial
-
+        return obrasSociales
+'''
 
 class ClinicaFormAdd(ClinicaFormGenerico):
     helper = FormHelper()
@@ -223,7 +315,8 @@ class LaboratorioFormGenerico(forms.ModelForm):
 
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
-        if models.Farmacia.objects.filter(cuit=cuit) or models.Clinica.objects.filter(cuit=cuit):
+        if models.Farmacia.objects.filter(cuit=cuit) or models.Clinica.objects.filter(cuit=cuit) or \
+                models.ObraSocial.objects.filter(cuit=cuit):
             raise forms.ValidationError('Ya existe una organizacion con este CUIT')
         if cuit:
             if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):

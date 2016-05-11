@@ -3,6 +3,11 @@
 
 {% block title %}Alta de Clinica{% endblock %}
 
+{% block more-stylesheets %}
+    <link rel="stylesheet" href="{%  static 'css/selectize.css' %}">
+    <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
+{% endblock %}
+
 {% block more-crumbs %}
     <li><a href="{% url 'clinicas' %}">Clinicas</a></li>
     <li class="active">Alta de clinica</li>
@@ -17,12 +22,23 @@
 {% block url-previous %}{% url 'clinicas' %}{% endblock %}
 
 {% block more-scripts %}
+    <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
     <script>
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 var url = "{% static 'documentacion/build/html/clinicas.html' %}";
                 url += "#alta-de-clinica";
                 window.open(url);
+            }
+        });
+
+        $('select').selectize({
+            plugins: ['remove_button'],
+            persist: false,
+            render: {
+                item: function(data, escape) {
+                    return '<div>"' + escape(data.text) + '"</div>';
+                }
             }
         });
     </script>

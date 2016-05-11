@@ -4,6 +4,7 @@ from django.db.models import Q
 from . import models
 from pedidos import models as pmodels
 from medicamentos import models as mmodels
+from organizaciones import models as omodels
 
 
 def puedo_eliminar_farmacia(id_farmacia):
@@ -56,5 +57,23 @@ def puedo_eliminar_laboratorio(id_laboratorio):
             mensajeInforme += " Medicamentos con stock vinculados a este laboratorio;"
 
     infoBaja['success'] = contadorPedidosPendientesAlaboratorio == 0 and contadorMedicamentosConStock == 0
+    infoBaja['informe'] = mensajeInforme
+    return infoBaja
+
+def puedo_eliminar_obraSocial(id_obraSocial):
+    infoBaja = {'success': True, 'informe': ''}
+    obraSocial = models.ObraSocial.objects.get(pk=id_obraSocial)
+    clinicas = []
+    contadorClinicas = 0
+    mensajeInforme = ''
+
+    clinicas = omodels.Clinica.objects.all()
+
+    for clinica in clinicas:
+        if obraSocial in clinica.obraSocial:
+            contadorClinicas += 1
+            infoBaja['success'] = False
+            mensajeInforme = "Hay " + contadorClinicas + " Clinicas activas vinculadas a la obra social"
+
     infoBaja['informe'] = mensajeInforme
     return infoBaja

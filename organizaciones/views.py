@@ -77,6 +77,68 @@ def farmacia_delete(request, id_farmacia):
         return redirect('farmacias')
 
 
+# ****** OBRAS SOCIALES ******
+
+@login_required(login_url='login')
+def obrasSociales(request):
+    filters = get_filtros(request.GET, models.ObraSocial)
+    mfilters = dict(filter(lambda v: v[0] in models.ObraSocial.FILTROS, filters.items()))
+    obrasSociales = models.ObraSocial.objects.filter(**mfilters)
+    estadisticas = {
+        'total': models.ObraSocial.objects.all().count(),
+        'filtrados': obrasSociales.count()
+    }
+    return render(request, "obraSocial/obrasSociales.html", {"obrasSociales": obrasSociales, "filtros": filters, 'estadisticas': estadisticas})
+
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def obraSocial_add(request):
+    if request.method == "POST":
+        form = forms.ObraSocialFormAdd(request.POST)
+        if form.is_valid():
+            form.save()
+            if '_volver' in request.POST:
+                return redirect('obrasSociales')
+            else:
+                return redirect('obraSocial_add')
+    else:
+        form = forms.ObraSocialFormAdd()
+    return render(request, "obraSocial/obraSocialAdd.html", {"form": form})
+
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def obraSocial_update(request, id_obraSocial):
+    obraSocial = get_object_or_404(models.ObraSocial, pk=id_obraSocial)
+    if request.method == "POST":
+        form = forms.ObraSocialFormUpdate(request.POST, instance=obraSocial)
+        if form.is_valid():
+            form.save()
+            return redirect('obrasSociales')
+    else:
+        form = forms.ObraSocialFormUpdate(instance=obraSocial)
+    return render(request, "obraSocial/obraSocialUpdate.html", {'form': form, 'id': id_obraSocial})
+
+
+@json_view
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def obraSocial_try_delete(id_obraSocial):
+    infoBaja = utils.puedo_eliminar_obraSocial(id_obraSocial)
+    return infoBaja
+
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def obraSocial_delete(id_obraSocial):
+    infoBaja = utils.puedo_eliminar_obraSocial(id_obraSocial)
+    if infoBaja['success']:
+        obraSocial = models.ObraSocial.objects.get(pk=id_obraSocial)
+        obraSocial.delete()
+        return redirect('obrasSociales')
+
+
 # ****** CLINICAS ******
 
 @login_required(login_url='login')
@@ -88,7 +150,7 @@ def clinicas(request):
         'total': models.Clinica.objects.all().count(),
         'filtrados': clinicas.count()
     }
-    return render(request, "clinica/clinicas.html",{"clinicas": clinicas, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "clinica/clinicas.html", {"clinicas": clinicas, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -123,14 +185,13 @@ def clinica_update(request, id_clinica):
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def clinica_delete(request, id_clinica):
+def clinica_delete(id_clinica):
     clinica = models.Clinica.objects.get(pk=id_clinica)
     clinica.delete()
     return redirect('clinicas')
 
 
 # ******* LABORATORIOS ******
-
 
 @login_required(login_url='login')
 def laboratorios(request):
@@ -141,7 +202,7 @@ def laboratorios(request):
         'total': models.Laboratorio.objects.all().count(),
         'filtrados': laboratorios.count()
     }
-    return render(request, "laboratorio/laboratorios.html",{"laboratorios": laboratorios, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "laboratorio/laboratorios.html", {"laboratorios": laboratorios, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -177,13 +238,14 @@ def laboratorio_update(request, id_laboratorio):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def laboratorio_try_delete(request, id_laboratorio):
+def laboratorio_try_delete(id_laboratorio):
     infoBaja = utils.puedo_eliminar_laboratorio(id_laboratorio)
     return infoBaja
 
+
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def laboratorio_delete(request, id_laboratorio):
+def laboratorio_delete(id_laboratorio):
     infoBaja = utils.puedo_eliminar_laboratorio(id_laboratorio)
     if infoBaja['success']:
         laboratorio = models.Laboratorio.objects.get(pk=id_laboratorio)

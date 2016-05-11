@@ -1,6 +1,11 @@
 {% extends "base/base-add-update.html" %}
 {% load staticfiles %}
 
+{% block more-stylesheets %}
+    <link rel="stylesheet" href="{%  static 'css/selectize.css' %}">
+    <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
+{% endblock %}
+
 {% block title %}Modificación de Clinica{% endblock %}
 
 {% block more-crumbs %}
@@ -21,6 +26,7 @@
 {% block url-previous %} {% url 'clinicas' %} {% endblock %}
 
 {% block more-scripts %}
+    <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
     <script>
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
@@ -28,6 +34,16 @@
                 url += "#modificacion-de-clinica";
                 window.open(url);
             }
+        });
+
+        $('select').selectize({
+            plugins: ['remove_button'],
+            persist: false,
+            render: {
+                item: function(data, escape) {
+                    return '<div>"' + escape(data.text) + '"</div>';
+                }
+            },
         });
     </script>
 {% endblock %}
