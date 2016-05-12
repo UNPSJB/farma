@@ -150,10 +150,17 @@
                 $selectMedicamento.on('change', load_stock.bind(this));
             });
 
+            $('#modal-add-detalle').on('hidden.bs.modal', function(){
+                $(this).find(".medicamento-stock").text("");
+            });
+
             $('#modal-update-detalle').on('show.bs.modal', function(e){
                 var idMedicamento = $('.clickeable.active').data('medicamento');
                 $(this).find('.medicamento-stock').text(medicamentos[idMedicamento])
-                //e.stockPropagation();
+            });
+
+            $('#modal-update-detalle').on('hidden.bs.modal', function(){
+                $(this).find(".medicamento-stock").text("");
             });
 
             function load_stock(e) {
@@ -163,7 +170,6 @@
                 }else{
                     $(this).find('.medicamento-stock').text('-');
                 }
-                //e.stockPropagation();            
             }
 
             $(document).on("keyup", function(e){

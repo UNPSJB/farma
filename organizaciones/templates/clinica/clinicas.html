@@ -30,8 +30,7 @@
         <tr>
             <th>Razón Social </th>
             <th>Localidad</th> 
-            <th>Dirección</th>         
-            <th>Obra Social</th>
+            <th>Dirección</th>
             {% if perms.usuarios.encargado_general %}
             <th>Acción</th>
             {% endif %}
@@ -42,8 +41,7 @@
             <tr class="clickeable" data-id="{{ clinica.id }}">
                 <td>{{clinica.razonSocial}}</td>
                 <td>{{clinica.localidad}}</td>
-                <td>{{clinica.direccion}}</td>              
-                <td>{{clinica.obraSocial}}</td>
+                <td>{{clinica.direccion}}</td>
                 {% if perms.usuarios.encargado_general %}
                 <td class="action">
                     <div class="dropdown">
@@ -52,6 +50,11 @@
                         <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a class="action-link ver-obras-sociales" href="#" data-id="{{ clinica.pk }}">
+                                    <span class="action-link-icon animated glyphicon glyphicon-edit"></span> Ver Obras Sociales
+                                </a>
+                            </li>
                             <li>
                                 <a class="action-link" href="{% url 'clinica_update' clinica.pk %}">
                                     <span class="action-link-icon animated glyphicon glyphicon-edit"></span> Modificar
@@ -80,12 +83,63 @@
     La clínica seleccionada se eliminará permanentemente ¿Está seguro?
 {% endblock %}
 
+{% block more-content %}
+    <div class="modal fade" id="modal-ver-obras" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Obras Sociales</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                   </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block more-scripts %}
     <script>
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 window.open("{% static 'documentacion/build/html/clinicas.html' %}");
             }
+        });
+
+        var obrasSociales = {
+            {% for clinica in clinicas %}
+                {{ clinica.pk }}: "{{ clinica.obraSocial }}",
+            {% endfor %}
+        };
+
+        $(".ver-obras-sociales").on('click',function(){
+            var tabla = $("#modal-ver-obras").find("tbody");
+            tabla.empty();
+            var idClinica = $(this).data("id");
+            var obras = obrasSociales[idClinica].split(",");
+            obras.forEach(function(val){
+                tabla.append('<tr><td>'+val+'</td></tr>');
+            });
+            $("#modal-ver-obras").modal("show");
         });
     </script>
 {% endblock %}

@@ -306,7 +306,6 @@ def pedidoDeClinica_registrar(request):
 def detallesPedidoDeClinica(request):
     detalles = request.session.setdefault("detallesPedidoDeClinica", [])
     pedido = request.session["pedidoDeClinica"]
-    print "******",pedido,"*************"
     medicamentos = utils.get_medicamentos_con_stock()
     medicamentos_stock = []
     for medicamento in medicamentos:
@@ -626,7 +625,6 @@ def recepcionPedidoAlaboratorio_controlDetalle(request, id_pedido, id_detalle):
             infoDetalle = request.session['recepcionPedidoAlaboratorio']['detalles'][posDetalle]
             if form.is_valid(infoDetalle['cantidadPendiente']):
                 utils.guardar_recepcion_detalle(request.session, detalle, form.clean())
-                #print "**************\n",request.session['recepcionPedidoAlaboratorio'],"\n**************"
                 if '_volver' in request.POST:
                     return redirect('recepcionPedidoAlaboratorio_controlPedido', pedido.nroPedido)
                 else:
@@ -653,7 +651,6 @@ def recepcionPedidoAlaboratorio_controlDetalleConNuevoLote(request, id_pedido, i
             infoDetalle = request.session['recepcionPedidoAlaboratorio']['detalles'][posDetalle]
             if form.is_valid(infoDetalle['cantidadPendiente'], request.session['recepcionPedidoAlaboratorio']['nuevosLotes']):
                 utils.guardar_recepcion_detalle_con_nuevo_lote(request.session, detalle, form.clean())
-                #print "**************\n",request.session['recepcionPedidoAlaboratorio'],"\n**************"
                 if '_volver' in request.POST:
                     return redirect('recepcionPedidoAlaboratorio_controlPedido', pedido.nroPedido)
                 else:
@@ -678,7 +675,6 @@ def recepcionPedidoAlaboratorio_registrar(request, id_pedido):
     actualizarLotes = request.session['recepcionPedidoAlaboratorio']['actualizarLotes']
 
     if len(nuevosLotes) > 0 or len(actualizarLotes) > 0:
-        #print "**************\n",request.session['recepcionPedidoAlaboratorio'],"\n**************"
         utils.procesar_recepcion(request.session, pedido)
         return render(request, "recepcionPedidoALaboratorio/controlPedido.html", {'pedido': pedido, 'detalles': detalles, 'modalSuccess': True})
 
@@ -746,13 +742,12 @@ def devolucionMedicamentosVencidos_registrar(request, id_laboratorio):
                   {'laboratorioId': id_laboratorio, 'abrirModal': True, 'fecha': datetime.datetime.now(),
                   'numero': utils.get_next_nro_pedido_laboratorio(models.RemitoMedicamentosVencidos, "numero")-1})
 
+
 class remitoDevolucion(PDFTemplateView):
     template_name = "devolucionMedicamentosVencidos/remitoDevolucion.html"
 
     def get_context_data(self, id_remito):
-        print id_remito
         remito = models.RemitoMedicamentosVencidos.objects.get(numero=id_remito)
-
         detallesRemito = models.DetalleRemitoMedicamentosVencido.objects.filter(remito=remito)
         return super(remitoDevolucion, self).get_context_data(
             pagesize="A4",
