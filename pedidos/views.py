@@ -235,7 +235,16 @@ def pedidoDeClinica_add(request):
            form = forms.PedidoDeClinicaForm()
     return render(request, "pedidoDeClinica/pedidoAdd.html", {"form": form})
 
-
+@json_view
+@permission_required('usuarios.empleado_despacho_pedido', login_url='login')
+@login_required(login_url='login')
+def get_obrasSociales(request, id_clinica):
+    clinica = omodels.Clinica.objects.get(pk=id_clinica)
+    obrasSociales = clinica.obraSocial.split(',')
+    options = []
+    for obraSocial in obrasSociales:
+        options.append({'text':obraSocial, 'value':obraSocial})
+    return options
 
 @login_required(login_url='login')
 def pedidoDeClinica_ver(request, id_pedido):
@@ -297,6 +306,7 @@ def pedidoDeClinica_registrar(request):
 def detallesPedidoDeClinica(request):
     detalles = request.session.setdefault("detallesPedidoDeClinica", [])
     pedido = request.session["pedidoDeClinica"]
+    print "******",pedido,"*************"
     medicamentos = utils.get_medicamentos_con_stock()
     medicamentos_stock = []
     for medicamento in medicamentos:

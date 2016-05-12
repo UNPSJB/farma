@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>3.4. Recepcion de Pedidos de Laboratorio &mdash; documentación de Farma - </title>
+  <title>Recepcion de Pedidos de Laboratorio &mdash; documentación de Farma - </title>
   
 
   
@@ -34,8 +34,8 @@
   
     <link rel="top" title="documentación de Farma - " href="index.html"/>
         <link rel="up" title="3. Pedidos" href="pedidos.html"/>
-        <link rel="next" title="3.5. Registrar Devolución de Medicamentos Vencidos" href="devolucionvencidos.html"/>
-        <link rel="prev" title="3.3. Pedidos a Laboratorio" href="pedidosalab.html"/> 
+        <link rel="next" title="Registrar Devolución de Medicamentos Vencidos" href="devolucionvencidos.html"/>
+        <link rel="prev" title="Pedidos a Laboratorio" href="pedidosalab.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -87,11 +87,19 @@
 <li class="toctree-l1"><a class="reference internal" href="medicamentos.html">1. Medicamentos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="organizaciones.html">2. Organizaciones</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="pedidos.html">3. Pedidos</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="pedidosfarmacia.html">3.1. Pedidos de Farmacia</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pedidosclinica.html">3.2. Pedidos de Clínica</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pedidosalab.html">3.3. Pedidos a Laboratorio</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">3.4. Recepcion de Pedidos de Laboratorio</a></li>
-<li class="toctree-l2"><a class="reference internal" href="devolucionvencidos.html">3.5. Registrar Devolución de Medicamentos Vencidos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pedidosfarmacia.html">Pedidos de Farmacia</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pedidosclinica.html">Pedidos de Clínica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pedidosalab.html">Pedidos a Laboratorio</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Recepcion de Pedidos de Laboratorio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#registrar-recepcion">Registrar Recepción</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#acusar-recepcion-de-un-detalle">Acusar Recepción de un Detalle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#registrar-pedido">Registrar Pedido</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#formulario-de-busqueda">Formulario de Búsqueda</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="devolucionvencidos.html">Registrar Devolución de Medicamentos Vencidos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reemplazovencidos.html">3.6. Registrar Recepcion de Medicamentos para Reemplazar Vencidos</a></li>
 </ul>
 </li>
@@ -128,7 +136,7 @@
       
           <li><a href="pedidos.html">3. Pedidos</a> &raquo;</li>
       
-    <li>3.4. Recepcion de Pedidos de Laboratorio</li>
+    <li>Recepcion de Pedidos de Laboratorio</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -143,7 +151,138 @@
            <div itemprop="articleBody">
             
   <div class="section" id="recepcion-de-pedidos-de-laboratorio">
-<h1>3.4. Recepcion de Pedidos de Laboratorio<a class="headerlink" href="#recepcion-de-pedidos-de-laboratorio" title="Enlazar permanentemente con este título">¶</a></h1>
+<h1>Recepcion de Pedidos de Laboratorio<a class="headerlink" href="#recepcion-de-pedidos-de-laboratorio" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Se presentará una pantalla que contendrá un listado con todos los <em>Pedidos a Laboratorio</em> que no hayan sido completamente recepcionados hasta la fecha.</p>
+<p>CAPTURA</p>
+<p>Junto con el listado, se ofrecerán una un conjunto de funcionalidades que permitirán manipular estos Pedidos de Laboratorio. Estas funcionalidades son:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#registrar-recepcion-rpl"><span class="std std-ref">Registrar Recepción</span></a></li>
+<li><a class="reference internal" href="#formulario-busqueda-rpl"><span class="std std-ref">Formulario de Búsqueda</span></a></li>
+</ul>
+<div class="section" id="registrar-recepcion">
+<span id="registrar-recepcion-rpl"></span><h2>Registrar Recepción<a class="headerlink" href="#registrar-recepcion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea comenzar a registrar la recepción de un <em>Pedido a Laboratorio</em>, deberá presionar el botón <code class="docutils literal"><span class="pre">Registrar</span></code>. A continuación el sistema lo redirigirá a la siguiente pantalla:</p>
+<p>CAPTURA</p>
+<p>En este punto el usuario deberá ingresar los datos del remito asociado al <em>Pedido a Laboratorio</em> del cual se quiere registrar recepción. Los datos solicitados son el número de remito y su correspondiente fecha. A continuación deberá presionar el botón <code class="docutils literal"><span class="pre">Continuar</span></code>.</p>
+<div class="admonition attention">
+<p class="first admonition-title">Atención</p>
+<p>El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
+En este punto, las posibles causas de errores son:</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Uno o más campos vacios.</li>
+<li>El número de remito ya está cargado en el sistema.</li>
+<li>La fecha no existe.</li>
+<li>La fecha ingresada esta fuera del rango válido.</li>
+</ul>
+</div></blockquote>
+</div>
+<p>Una vez presionado el botón <code class="docutils literal"><span class="pre">Continuar</span></code>, se mostrará la siguiente pantalla:</p>
+<p>CAPTURA</p>
+<p>Esta pantalla es la encargada de visualizar aquellos detalles asociados al <em>Pedido a Laboratorio</em> que aún no han sido completamente recepcionados.</p>
+<p>Esta pantalla ofrece las siguientes funcionalidades:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#recepcion-detalle-rpl"><span class="std std-ref">Acusar Recepción de un Detalle</span></a></li>
+<li><a class="reference internal" href="#registrar-pedido-rpl"><span class="std std-ref">Registrar Pedido</span></a></li>
+</ul>
+</div></blockquote>
+<div class="section" id="acusar-recepcion-de-un-detalle">
+<span id="recepcion-detalle-rpl"></span><h3>Acusar Recepción de un Detalle<a class="headerlink" href="#acusar-recepcion-de-un-detalle" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si el usuario desea acusar la recepción de un detalle del <em>Pedido a Laboratorio</em>, deberá presionar el botón <code class="docutils literal"><span class="pre">Acusar</span> <span class="pre">Recepción</span> <span class="pre">de</span> <span class="pre">un</span> <span class="pre">Detalle</span></code> que se encuentra asociado al mismo (detalle).</p>
+<p>CAPTURA BOTÓN</p>
+<p>Una vez realizado el paso anterior el sistema lo redirigirá a la siguiente pantalla:</p>
+<p>CAPTURA</p>
+<p>En esta parte, se presentará el formulario que el usuario deberá completar para poder acusar la recepción del detalle seleccionado.</p>
+<p>El sistema ofrece dos formularios para acusar recepción de un detalle:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Acusar Recepción con un lote existente en el sistema.</li>
+<li>Acusar Recepción con un nuevo lote.</li>
+</ul>
+</div></blockquote>
+<p>El usuario podrá &#8220;navegar&#8221; entre estas dos opciones y seleccionar la que más le convenga.</p>
+<p>CAPTURA BOTÓN</p>
+<div class="admonition important">
+<p class="first admonition-title">Importante</p>
+<p class="last">El sistema habilitará estas dos opciones siempre y cuando el medicamento asociado al detalle posea lotes activos en el sistema. Es decir, si un medicamento no posee lotes registrados, el sistema solo habilitará la opción para <em>Acusar Recepción con un nuevo lote</em>.</p>
+</div>
+<p>Si el usuario selecciona la modalidad de <em>Acusar Recepción con un lote existente en el sistema</em> deberá proceder a ingresar los datos solicitados.</p>
+<div class="admonition attention">
+<p class="first admonition-title">Atención</p>
+<p>El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
+En este punto, las posibles causas de errores son:</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Uno o más campos vacios.</li>
+<li>No se ingresó una cantidad.</li>
+<li>La cantidad ingresada es superior a la cantidad pendiente del detalle.</li>
+</ul>
+</div></blockquote>
+</div>
+<p>Si el usuario selecciona la modalidad de <em>Acusar Recepción con un nuevo lote</em> deberá proceder a ingresar los datos solicitados (se le suman los datos correspondientes al nuevo lote).</p>
+<div class="admonition attention">
+<p class="first admonition-title">Atención</p>
+<p>El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
+En este punto, las posibles causas de errores son:</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Uno o más campos vacios.</li>
+<li>La fecha de vencimiento del lote esta en el rango que el sistema considera como &#8220;lote vencido&#8221;.</li>
+<li>La cantidad ingresada es superior a la cantidad pendiente del detalle.</li>
+</ul>
+</div></blockquote>
+</div>
+<p>Una vez completado formulario elegido, el usuario tendrá dos opciones:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Presionar el botón <code class="docutils literal"><span class="pre">Guardar</span> <span class="pre">y</span> <span class="pre">Volver</span></code>.</li>
+<li>Presionar el botón <code class="docutils literal"><span class="pre">Guardar</span> <span class="pre">y</span> <span class="pre">Continuar</span></code>.</li>
+</ul>
+</div></blockquote>
+<p>El botón <code class="docutils literal"><span class="pre">Guardar</span> <span class="pre">y</span> <span class="pre">Volver</span></code> permite guardar la <em>recepción del detalle</em> en el pedido y volver a la pantalla que muestra los detalles con cantidad pendiente del <em>Pedido a Laboratorio</em>.</p>
+<p>El botón <code class="docutils literal"><span class="pre">Guardar</span> <span class="pre">y</span> <span class="pre">Continuar</span></code> permite guardar la <em>recepción del detalle</em> en el pedido y seguir acusando recibos del mismo.</p>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Si el sistema detecta que el detalle ha sido completamente recepcionado automáticamente redirijirá a la pantalla anterior (la que se encarga de visualizar los detalles del <em>Pedidos a Laboratorio</em> que aún no han sido completamente recepcionados). Además deshabilitará el botón <code class="docutils literal"><span class="pre">Acusar</span> <span class="pre">Recepción</span> <span class="pre">de</span> <span class="pre">un</span> <span class="pre">Detalle</span></code> asociado a este detalle.</p>
+</div>
+</div>
+<div class="section" id="registrar-pedido">
+<span id="registrar-pedido-rpl"></span><h3>Registrar Pedido<a class="headerlink" href="#registrar-pedido" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Si el usuario desea registrar la recepción del <em>Pedido a Laboratorio</em>, deberá presionar el botón <code class="docutils literal"><span class="pre">Registrar</span></code>.</p>
+<p>CAPTURA</p>
+<div class="admonition attention">
+<p class="first admonition-title">Atención</p>
+<p>El sistema siempre validará que la información del <em>Pedido a de Farmacia</em> sea correcta. En caso de que esta información sea incorrecta el sistema lo informará.
+En este punto, las posibles causas de errores son:</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>El pedido no contiene detalles</li>
+<li>El pedido ya ha sido registrado anteriormente</li>
+</ul>
+</div></blockquote>
+</div>
+<p>Una vez presionado el botón <code class="docutils literal"><span class="pre">Registrar</span></code>, el sistema se encargará de actualizar los detalles del <em>Pedido a Laboratorio</em> (de ser necesario también el estado del pedido) y se mostrará la siguiente ventana emergente (modal).</p>
+<p>CAPTURA</p>
+</div>
+</div>
+<div class="section" id="formulario-de-busqueda">
+<span id="formulario-busqueda-rpl"></span><h2>Formulario de Búsqueda<a class="headerlink" href="#formulario-de-busqueda" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Si el usuario desea visualizar sólo aquellos <em>Pedidos a Laboratorio</em> que cumplan con algunos criterios en específico, deberá utilizar el formulario de búsqueda.</p>
+<p>CAPTURA</p>
+<p>Este formulario cuenta con dos modalidades:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Búsqueda simple: permite buscar los <em>Pedidos a Laboratorio</em> (que no hayan sido completamente recepcionados) por laboratorio.</li>
+<li>Búsqueda avanzada: permite buscar los <em>Pedidos a Laboratorio</em> (que no hayan sido completamente recepcionados) por laboratorio, fecha desde, fecha hasta.</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Todos los campos son opcionales, de no especificarse ningún criterio de búsqueda el sistema mostrará todos los <em>Pedidos a Laboratorio</em>.</p>
+</div>
+<p>El usuario tendrá que ingresar los parámetros de búsqueda en el formulario, y presionar el botón <code class="docutils literal"><span class="pre">Buscar</span></code>. El sistema visualizará aquellos <em>Pedidos a Laboratorio</em> (que no hayan sido completamente recepcionados) que cumplan con todas las condiciones especificadas.</p>
+</div>
 </div>
 
 
@@ -153,10 +292,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="devolucionvencidos.html" class="btn btn-neutral float-right" title="3.5. Registrar Devolución de Medicamentos Vencidos" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="devolucionvencidos.html" class="btn btn-neutral float-right" title="Registrar Devolución de Medicamentos Vencidos" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="pedidosalab.html" class="btn btn-neutral" title="3.3. Pedidos a Laboratorio" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="pedidosalab.html" class="btn btn-neutral" title="Pedidos a Laboratorio" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

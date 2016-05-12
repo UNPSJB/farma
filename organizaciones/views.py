@@ -114,7 +114,7 @@ def clinicas(request):
 def clinica_add(request):
     if request.method == "POST":
         form = forms.ClinicaFormAdd(request.POST)
-        if form.is_valid():
+        if form.is_valid(): 
             form.save()
             if '_volver' in request.POST:
                 return redirect('clinicas')
@@ -172,7 +172,7 @@ def laboratorios(request):
 def laboratorio_add(request):
     if request.method == "POST":
         form = forms.LaboratorioFormAdd(request.POST)
-        if form.is_valid():
+        if form.is_valid():    
             form.save()
             if '_volver' in request.POST:
                 return redirect('laboratorios')

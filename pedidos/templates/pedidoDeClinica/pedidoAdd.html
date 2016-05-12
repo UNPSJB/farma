@@ -40,6 +40,35 @@
             dropdownParent: 'body'
         });
 
+
+        var $selectClinica = $('#id_clinica'),
+            $selectObraSocial = $('#id_obraSocial');
+
+        $selectClinica.on('change', setOptionsSelect);
+        setOptionsSelect();
+
+        function setOptionsSelect() {
+            var id_clinica = $selectClinica.val()
+            if(id_clinica) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/getObrasSociales/' + id_clinica + '/',
+                    dataType: 'json',
+                    success: function(data){
+                        console.log(data)
+                        var selectize =   $('select')[1].selectize;
+                        selectize.clearOptions();
+                        $.each(data, function(key, opt) {
+                            selectize.addOption({value: opt['value'], text: opt['text']});
+                        })
+                    },
+                    error: function(err){
+                        alert("Fallo Ajax");
+                    }
+                });
+            }
+        }
+
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 var url = "{% static 'documentacion/build/html/pedidosclinica.html' %}";

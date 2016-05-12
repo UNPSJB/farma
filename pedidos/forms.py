@@ -91,12 +91,16 @@ class PedidoDeClinicaForm(forms.ModelForm):
         Field('fecha', placeholder='Fecha', css_class='datepicker'),
     )
 
+
     class Meta:
         model = models.PedidoDeClinica
         fields = ["clinica", "obraSocial", "medicoAuditor", "fecha"]
         labels = {
             'obraSocial': _('Obra social'),
             'medicoAuditor': _('Medico auditor'),
+        }
+        widgets = {
+            'obraSocial': forms.Select()
         }
 
     def clean_fecha(self):

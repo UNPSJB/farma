@@ -1,6 +1,11 @@
 {% extends "base/base-add-update-2.html" %}
 {% load staticfiles %}
 
+{% block more-stylesheets %}
+    <link rel="stylesheet" href="{%  static 'css/selectize.css' %}">
+    <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
+{% endblock %}
+
 {% block title %}Alta de Clínica{% endblock %}
 
 {% block breadcrumb-items %}
@@ -22,7 +27,18 @@
 {% block sub-header-form %}Complete los siguientes campos{% endblock %}
 
 {% block more-scripts %}
+    <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
     <script>
+        $('#id_obraSocial').selectize({
+            sortField: {
+                field: 'text',
+                direction: 'asc'
+            },
+            create: true,
+            dropdownParent: 'body',
+            maxItems: 200
+        });
+        
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 var url = "{% static 'documentacion/build/html/clinicas.html' %}";

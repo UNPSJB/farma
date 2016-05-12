@@ -1,96 +1,119 @@
 Laboratorios
 ============
-Se presentará una pantalla que contendrá un listado con todas las laboratorios que se encuentren registradas en el sistema hasta la fecha. Junto con el listado, se presentarán un conjunto de funcionalidades que permitirán manipular estas laboratorios.
+
+Se presentará una pantalla que contendrá un listado con todos los *Laboratorios* que se encuentren registradas en el sistema hasta la fecha. 
 
 CAPTURA
+
+Junto con el listado, se presentarán un conjunto de funcionalidades que permitirán manipular estos *Laboratorios*.
 
 Estas funcionalidades son:
 
-    - Alta de Laboratorio
-    - Baja de Laboratorio
-    - Modificacion de Laboratorio
-    - Formulario de Búsqueda
+    - :ref:`Alta Laboratorio <alta-laboratorio>`
+    - :ref:`Modificar Laboratorio <modificar-laboratorio>`
+    - :ref:`Eliminar Laboratorio <eliminar-laboratorio>`
+    - :ref:`Formulario de Búsqueda <formulario-busqueda-laboratorio>`
     
-Alta de Laboratorio
--------------------
-Si el usuario desea crear una nueva laboratorio, deberá presionar el botón “Alta”. Una vez presionado este botón el sistema lo redirigirá a la siguiente pantalla.
+.. _alta-laboratorio:
+
+Alta Laboratorio
+----------------
+
+Si el usuario desea crear un nuevo *Laboratorio*, deberá presionar el botón ``Alta``. 
+
+CAPTURA BOTÓN
+
+A continuación el sistema lo redirigirá a la siguiente pantalla:
 
 CAPTURA
 
-En este punto el usuario deberá ingresar los datos de la nueva laboratorio. Estos datos son:
-    
-Campos Obligatorios:
-::
+En esta parte el usuario se le presentará un formulario y deberá ingresar los datos solicitados para dar de alta un nuevo *Laboratorio*.
 
-    - Razón Social
-    - Cuit
-    - Localidad
-    - Dirección
+.. ATTENTION::
+    El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará. 
+    En este punto, las posibles causas de errores son:
 
-Campos opcionales:
-::
+        - Uno o más campos obligatorios vacíos.
+        - Uno o más campos con un formato incorrecto.
+        - El CUIT ingresado ya se encuentra asociado a otra organización.
+     
+Una vez completado el formulario, el usuario tendrá dos opciones: 
+    
+    - Presionar el botón ``Guardar y Volver``.
+    - Presionar el botón ``Guardar y Continuar``.
 
-    - Teléfono
-    - Email
-    
-Luego de ingresar todos los datos, el usuario podra confirmar su grabación. Para esto cuenta con los botones “Guardar y volver” que redirige al listado inicial de una organización, y “Guardar y continuar” que mantiene la pantalla activa para crear una nueva laboratorio.
-    
-El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará. 
-En este punto, las posibles causas de errores son:
+El botón ``Guardar y Volver`` permite guardar el *Laboratorio* en el sistema y volver a la pantalla 
+principal de *Laboratorios*..
 
-    - No se ingreso una razon social.
-    - La razon social ingresada no posee un formato correcto.
-    - No se ingreso un CUIT.
-    - El CUIT ingresado no posee un formato correcto.
-    - No se ingreso una localidad.
-    - La localidad ingresada no posee un formato correcto.
-    - No se ingreso una direccion.
-    - La direccion ingresada no posee un formato correcto.
-    - El telefono ingresado no posee un formato correcto.
-    - El email ingresado no posee un formato correcto.
-    
-Baja de Laboratorio
--------------------
-Si el usuario desea eliminar una laboratorio, deberá hacer “click” en la fila correspondiente y presionar el botón de “Acción” y seleccionar la opción eliminar.
+El botón ``Guardar y Continuar`` permite guardar el *Laboratorio* en el sistema y seguir dando de alta nuevos *Laboratorios*.
+
+
+.. _modificar-laboratorio:
+
+Modificar Laboratorio
+---------------------
+
+Si el usuario desea modificar los datos de un *Laboratorio*, deberá seleccionar el botón de **Acción** asociado al *Laboratorio* y presionar la pestaña ``Modificar``.
 
 CAPTURA BOTÓN
+
+Una vez realizado el paso anterior, el sistema lo redirigirá a la siguiente pantalla:
+
+CAPTURA
+
+En esta parte al usuario se le presentará un formulario y deberá actualizar los datos asociados al *Laboratorio*.
+
+.. ATTENTION::
+    El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará. 
+    En este punto, las posibles causas de errores son:
+
+        - Uno o más campos obligatorios vacíos.
+        - Uno o más campos con un formato incorrecto.
+
+Una vez completado el formulario, el usuario deberá presionar el botón ``Guardar Cambios`` y el sistema se encargara de actualizar los datos del *Laboratorio* seleccionado.
+
+
+.. _eliminar-laboratorio:
+   
+Eliminar Laboratorio
+--------------------
+
+
+Si el usuario desea eliminar un *Laboratorio*, deberá seleccionar el botón de **Acción** asociado al *Laboratorio* y presionar la pestaña ``Eliminar``.
+
+CAPTURA BOTÓN
+
+.. NOTE::
+    Aquellos *Laboratorios* que cumplan las siguientes condiciones **NO** podrán ser eliminadas:
+
+        - Esten asociados a un Pedido a Laboratorio que aún no ha sido completamente recepcionado
+        - Esten asociados a un medicamento que se encuentre en un detalle de un Pedido de Farmacia que aún no haya sido completamente enviado.
+        - Esten asociados a un medicamento que posee stock.
+
+    El sistema se encargará de informar al usuario las razones por las cuales el *Laboratorio* seleccionado no puede eliminarse.
+
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
 CAPTURA
 
-En esta parte el usuario deberá decidir si confirma la eliminación de la laboratorio. Si desea confirmar la eliminación deberá presionar el botón “Confirmar”, caso contrario, presionará el botón “Cancelar”.
+En esta parte el usuario deberá decidir si confirma la eliminación del *Laboratorio* o no. Si desea confirmar la eliminación deberá presionar el botón ``Confirmar``, caso contrario, presionará el botón ``Cancelar``.
 
-Modificacion de Laboratorio
----------------------------
-Si el usuario desea modificar una laboratorio, deberá hacer “click” en la fila correspondiente y presionar el botón de “Acción” y seleccionar la opción modificar.
-Una vez presionado este botón el sistema lo redirigirá a la siguiente pantalla.
-
-CAPTURA
-
-En esta parte el usuario se le presentará un formulario con la información modificable de la laboratorio, y podra actualizar la información que considere necesaria.
-
-Una vez modificado el formulario, el usuario deberá presionar el botón “Guardar cambios” y el sistema se encargara de actualizar la información de la laboratorio seleccionada.
-
-El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará. 
-En este punto, las posibles causas de errores son:
-
-    - No se ingreso una localidad.
-    - La localidad ingresada no posee un formato correcto.
-    - No se ingreso una direccion.
-    - La direccion ingresada no posee un formato correcto.
-    - El telefono ingresado no posee un formato correcto.
-    - El email ingresado no posee un formato correcto.
+.. _formulario-busqueda-laboratorio:
 
 Formulario de Búsqueda
 ----------------------
-Si el usuario desea visualizar solo aquellas laboratorios que cumplan determinados criterios, deberá utilizar el formulario de búsqueda.
+
+Si el usuario desea visualizar sólo aquellos *Laboratorios* que cumplan con algunos criterios en específico, deberá utilizar el formulario de búsqueda.
 
 CAPTURA
 
 Este formulario cuenta con dos modalidades:
 
-    - Búsqueda simple: permite buscar las laboratorios por razon social.
-    - Búsqueda avanzada: permite buscar las laboratorios por razon social y/o localidad.
+    - Búsqueda simple: permite buscar los *Laboratorios* por razon social.
+    - Búsqueda avanzada: permite buscar los *Laboratorios* por razon social, localidad.
 
-Todos los campos son opcionales, de no especificarse ningún criterio de búsqueda el sistema mostrará todos los pedidos de laboratorio.
+.. NOTE::
+    Todos los campos son opcionales, de no especificarse ningún criterio de búsqueda el sistema mostrará todos los *Laboratorios*.
+
+El usuario tendrá que ingresar los parámetros de búsqueda en el formulario, y presionar el botón ``Buscar``. El sistema visualizará aquellos *Laboratorios* que cumplan con todas las condiciones especificadas.

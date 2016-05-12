@@ -29,22 +29,6 @@ class FarmaciaFormGenerico(forms.ModelForm):
                 raise forms.ValidationError('La razon social no puede contener caracteres especiales')
         return razonSocial
 
-    def clean_cuit(self):
-        cuit = self.cleaned_data['cuit']
-        if cuit:
-            if models.Farmacia.objects.filter(cuit=cuit).exists():
-                raise forms.ValidationError('Ya existe una farmacia con este CUIT')
-
-            if models.Clinica.objects.filter(cuit=cuit).exists():
-                raise forms.ValidationError('Ya existe una clínica con este CUIT')
-
-            if models.Laboratorio.objects.filter(cuit=cuit).exists():
-                raise forms.ValidationError('Ya existe un laboratorio con este CUIT')
-                
-            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
-                raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
-        return cuit
-
     def clean_localidad(self):
         localidad = self.cleaned_data['localidad']
         if localidad:
@@ -88,7 +72,23 @@ class FarmaciaFormAdd(FarmaciaFormGenerico):
             HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         
         )
-    )  
+    ) 
+
+    def clean_cuit(self):
+        cuit = self.cleaned_data['cuit']
+        if cuit:
+            if models.Farmacia.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe una farmacia con este CUIT')
+
+            if models.Clinica.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe una clínica con este CUIT')
+
+            if models.Laboratorio.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe un laboratorio con este CUIT')
+                
+            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
+                raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
+        return cuit 
 
 
 class FarmaciaFormUpdate(FarmaciaFormGenerico):
@@ -132,23 +132,6 @@ class ClinicaFormGenerico(forms.ModelForm):
                 raise forms.ValidationError('La razon social no puede contener caracteres especiales')
         return razonSocial
 
-    def clean_cuit(self):
-        cuit = self.cleaned_data['cuit']
-
-        if cuit:
-            if models.Farmacia.objects.filter(cuit=cuit).exists():
-                raise forms.ValidationError('Ya existe una farmacia con este CUIT')
-
-            if models.Clinica.objects.filter(cuit=cuit).exists():
-                raise forms.ValidationError('Ya existe una clínica con este CUIT')
-
-            if models.Laboratorio.objects.filter(cuit=cuit).exists():
-                raise forms.ValidationError('Ya existe un laboratorio con este CUIT')
-
-            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
-                raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
-        return cuit
-
     def clean_localidad(self):
         localidad = self.cleaned_data['localidad']
         if localidad:
@@ -166,8 +149,12 @@ class ClinicaFormGenerico(forms.ModelForm):
     def clean_obraSocial(self):
         obraSocial = self.cleaned_data['obraSocial']
         if obraSocial:
-            if not re.match(r"^[a-zA-Z\d]+((\s[a-zA-Z\d]+)+)?$", obraSocial):
-                raise forms.ValidationError('La obra social no puede contener caracteres especiales')
+            obraSocial.upper()
+            obrasSociales = obraSocial.split(',')
+            for obrasSocial in obrasSociales:
+                if not re.match(r"^[a-zA-Z\d]+((\s[a-zA-Z\d]+)+)?$", obrasSocial):
+                    raise forms.ValidationError('La Obra Social no puede contener carácteres especiales')
+            return obraSocial.upper()
         return obraSocial
 
 
@@ -192,6 +179,23 @@ class ClinicaFormAdd(ClinicaFormGenerico):
             HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     )  
+
+    def clean_cuit(self):
+        cuit = self.cleaned_data['cuit']
+
+        if cuit:
+            if models.Farmacia.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe una farmacia con este CUIT')
+
+            if models.Clinica.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe una clínica con este CUIT')
+
+            if models.Laboratorio.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe un laboratorio con este CUIT')
+
+            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
+                raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
+        return cuit
 
 
 class ClinicaFormUpdate(ClinicaFormGenerico):
@@ -234,22 +238,6 @@ class LaboratorioFormGenerico(forms.ModelForm):
                 raise forms.ValidationError('La razon social no puede contener caracteres especiales')
         return razonSocial
 
-    def clean_cuit(self):
-        cuit = self.cleaned_data['cuit']
-        if cuit:
-            if models.Farmacia.objects.filter(cuit=cuit).exists():
-                raise forms.ValidationError('Ya existe una farmacia con este CUIT')
-
-            if models.Clinica.objects.filter(cuit=cuit).exists():
-                raise forms.ValidationError('Ya existe una clínica con este CUIT')
-
-            if models.Laboratorio.objects.filter(cuit=cuit).exists():
-                raise forms.ValidationError('Ya existe un laboratorio con este CUIT')
-
-            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
-                raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
-        return cuit
-
     def clean_localidad(self):
         localidad = self.cleaned_data['localidad']
         if localidad:
@@ -284,7 +272,23 @@ class LaboratorioFormAdd(LaboratorioFormGenerico):
                         css_class="btn btn-primary"),
             HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
-    ) 
+    )
+
+    def clean_cuit(self):
+        cuit = self.cleaned_data['cuit']
+        if cuit:
+            if models.Farmacia.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe una farmacia con este CUIT')
+
+            if models.Clinica.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe una clínica con este CUIT')
+
+            if models.Laboratorio.objects.filter(cuit=cuit).exists():
+                raise forms.ValidationError('Ya existe un laboratorio con este CUIT')
+
+            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
+                raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
+        return cuit 
 
 
 class LaboratorioFormUpdate(LaboratorioFormGenerico):

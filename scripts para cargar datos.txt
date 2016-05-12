@@ -13,15 +13,15 @@ INSERT INTO organizaciones_farmacia VALUES ( 5, 'Economed',  '30-45879153-8', 'P
 
 /*Clinicas*/
 
-INSERT INTO organizaciones_clinica VALUES ( 1, 'Medica del Valle',  '30-25879459-5', 'Trelew', 'Pellegrini 631', ' ', 'SEROS', ' ');
+INSERT INTO organizaciones_clinica VALUES ( 1, 'Medica del Valle',  '30-25879459-5', 'Trelew', 'Pellegrini 631', ' ', ' ', 'SEROS');
 
-INSERT INTO organizaciones_clinica VALUES ( 2, 'Uno Salud',  '30-15897456-6', 'Comodoro Rivadavia ', 'Av H Yrigoyen 675 ', ' ', 'SEROS', ' ');
+INSERT INTO organizaciones_clinica VALUES ( 2, 'Uno Salud',  '30-15897456-6', 'Comodoro Rivadavia ', 'Av H Yrigoyen 675 ', ' ', ' ', 'SEROS');
 
-INSERT INTO organizaciones_clinica VALUES ( 3, 'San Miguel',  '30-23659412-1', 'Trelew', 'T A Edison 898', ' ', 'SEROS', ' ');
+INSERT INTO organizaciones_clinica VALUES ( 3, 'San Miguel',  '30-23659412-1', 'Trelew', 'T A Edison 898', ' ', ' ', 'SEROS');
 
-INSERT INTO organizaciones_clinica VALUES ( 4, 'Los Alerces',  '30-35478687-9', 'Esquel', 'Antartida Argentina 586', ' ', 'SEROS', ' ');
+INSERT INTO organizaciones_clinica VALUES ( 4, 'Los Alerces',  '30-35478687-9', 'Esquel', 'Antartida Argentina 586', ' ', ' ', 'SEROS');
 
-INSERT INTO organizaciones_clinica VALUES ( 5, 'Maria S Sanchez',  '30-16735913-7', 'Puerto Madryn', 'Av J A Roca 2644', ' ', 'SEROS', ' ');
+INSERT INTO organizaciones_clinica VALUES ( 5, 'Maria S Sanchez',  '30-16735913-7', 'Puerto Madryn', 'Av J A Roca 2644', ' ', ' ', 'SEROS');
 
 
 /*Laboratorios*/

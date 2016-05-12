@@ -1,60 +1,80 @@
 Clínicas
 ========
-Se presentará una pantalla que contendrá un listado con todas las clínicas que se encuentren registradas en el sistema hasta la fecha. Junto con el listado, se presentarán un conjunto de funcionalidades que permitirán manipular estas clínicas.
+Se presentará una pantalla que contendrá un listado con todas las *Clínicas* que se encuentren registradas en el sistema hasta la fecha. 
 
 CAPTURA
+
+Junto con el listado, se presentarán un conjunto de funcionalidades que permitirán manipular estas *Clínicas*.
 
 Estas funcionalidades son:
 
-    - Alta de Clínica
-    - Baja de Clínica
-    - Modificacion de Clínica
-    - Formulario de Búsqueda
+    - :ref:`Alta Clínica <alta-clinica>`
+    - :ref:`Modificar Clínica <modificar-clinica>`
+    - :ref:`Eliminar Clínica <eliminar-clinica>`
+    - :ref:`Formulario de Búsqueda <formulario-busqueda-clinica>`
     
-Alta de Clínica
----------------
-Si el usuario desea crear una nueva clínica, deberá presionar el botón “Alta”. Una vez presionado este botón el sistema lo redirigirá a la siguiente pantalla.
+.. _alta-clinica:
+
+Alta Clínica
+------------
+Si el usuario desea crear una nueva *Clínica*, deberá presionar el botón ``Alta``. 
+
+CAPTURA BOTÓN
+
+A continuación el sistema lo redirigirá a la siguiente pantalla:
 
 CAPTURA
 
-En este punto el usuario deberá ingresar los datos de la nueva clínica. Estos datos son:
-    
-Campos Obligatorios:
-::
+En esta parte el usuario se le presentará un formulario y deberá ingresar los datos solicitados para dar de alta una nueva *Clínica*.
 
-    - Razón social
-    - Cuit
-    - Localidad
-    - Dirección
-    - Obra social
+.. ATTENTION::
+    El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará. 
+    En este punto, las posibles causas de errores son:
 
-Campos opcionales:
-::
+        - Uno o más campos obligatorios vacíos.
+        - Uno o más campos con un formato incorrecto.
+        - El CUIT ingresado ya se encuentra asociado a otra organización.
+     
+Una vez completado el formulario, el usuario tendrá dos opciones: 
+    
+    - Presionar el botón ``Guardar y Volver``.
+    - Presionar el botón ``Guardar y Continuar``.
 
-    - Teléfono
-    - Email
-    
-Luego de ingresar todos los datos, el usuario podra confirmar su grabación. Para esto cuenta con los botones “Guardar y volver” que redirige al listado inicial de una organización, y “Guardar y continuar” que mantiene la pantalla activa para crear una nueva clínica.
-    
-El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará. 
-En este punto, las posibles causas de errores son:
+El botón ``Guardar y Volver`` permite guardar la *Clínica* en el sistema y volver a la pantalla 
+principal de *Clínicas*..
 
-    - No se ingreso una razon social.
-    - La razon social ingresada no posee un formato correcto.
-    - No se ingreso un CUIT.
-    - El CUIT ingresado no posee un formato correcto.
-    - No se ingreso una localidad.
-    - La localidad ingresada no posee un formato correcto.
-    - No se ingreso una direccion.
-    - La direccion ingresada no posee un formato correcto.
-    - No se ingreso una obra social.
-    - La obra social ingresada no posee un formato correcto.
-    - El telefono ingresado no posee un formato correcto.
-    - El email ingresado no posee un formato correcto.
-    
-Baja de Clínica
----------------
-Si el usuario desea eliminar una clínica, deberá hacer “click” en la fila correspondiente y presionar el botón de “Acción” y seleccionar la opción eliminar.
+El botón ``Guardar y Continuar`` permite guardar la *Clínica* en el sistema y seguir dando de alta nuevas *Clínicas*.
+
+.. _modificar-clinica:
+
+Modificar Clínica
+-----------------
+
+Si el usuario desea modificar los datos de una *Clínica*, deberá seleccionar el botón de **Acción** asociado a la *Clínica* y presionar la pestaña ``Modificar``.
+
+CAPTURA BOTÓN
+
+Una vez realizado el paso anterior, el sistema lo redirigirá a la siguiente pantalla:
+
+CAPTURA
+
+En esta parte al usuario se le presentará un formulario y deberá actualizar los datos asociados a la *Clínica*.
+
+.. ATTENTION::
+    El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará. 
+    En este punto, las posibles causas de errores son:
+
+        - Uno o más campos obligatorios vacíos.
+        - Uno o más campos con un formato incorrecto.
+
+Una vez completado el formulario, el usuario deberá presionar el botón ``Guardar Cambios`` y el sistema se encargara de actualizar los datos de la *Clínica* seleccionada.
+
+.. _eliminar-clinica:
+
+Eliminar Clínica
+-----------------
+
+Si el usuario desea eliminar una *Clínica*, deberá seleccionar el botón de **Acción** asociado a la *Clínica* y presionar la pestaña ``Eliminar``.
 
 CAPTURA BOTÓN
 
@@ -62,40 +82,24 @@ Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (mo
 
 CAPTURA
 
-En esta parte el usuario deberá decidir si confirma la eliminación de la clínica. Si desea confirmar la eliminación deberá presionar el botón “Confirmar”, caso contrario, presionará el botón “Cancelar”.
+En esta parte el usuario deberá decidir si confirma la eliminación de la *Clínica* o no. Si desea confirmar la eliminación deberá presionar el botón ``Confirmar``, caso contrario, presionará el botón ``Cancelar``.
 
-Modificacion de Clínica
------------------------
-Si el usuario desea modificar una clínica, deberá hacer “click” en la fila correspondiente y presionar el botón de “Acción” y seleccionar la opción modificar.
-Una vez presionado este botón el sistema lo redirigirá a la siguiente pantalla.
-
-CAPTURA
-
-En esta parte el usuario se le presentará un formulario con la información modificable de la clínica, y podra actualizar la información que considere necesaria.
-
-Una vez modificado el formulario, el usuario deberá presionar el botón “Guardar cambios” y el sistema se encargara de actualizar la información de la clínica seleccionada.
-
-El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará. 
-En este punto, las posibles causas de errores son:
-
-    - No se ingreso una localidad.
-    - La localidad ingresada no posee un formato correcto.
-    - No se ingreso una direccion.
-    - La direccion ingresada no posee un formato correcto.
-    - No se ingreso una obra social.
-    - La obra social ingresada no posee un formato correcto.
-    - El telefono ingresado no posee un formato correcto.
-    - El email ingresado no posee un formato correcto.
+.. _formulario-busqueda-clinica:
 
 Formulario de Búsqueda
 ----------------------
-Si el usuario desea visualizar solo aquellas clínicas que cumplan determinados criterios, deberá utilizar el formulario de búsqueda.
+
+Si el usuario desea visualizar sólo aquellas *Clínicas* que cumplan con algunos criterios en específico, deberá utilizar el formulario de búsqueda.
+
 
 CAPTURA
 
 Este formulario cuenta con dos modalidades:
 
-    - Búsqueda simple: permite buscar las clínicas por razon social.
-    - Búsqueda avanzada: permite buscar las clínicas por razon social y/o localidad y/u obra social.
+    - Búsqueda simple: permite buscar las *Clínicas* por razon social.
+    - Búsqueda avanzada: permite buscar las *Clínicas* por razon social, localidad, obra social.
 
-Todos los campos son opcionales, de no especificarse ningún criterio de búsqueda el sistema mostrará todos los pedidos de clínica.
+.. NOTE::
+    Todos los campos son opcionales, de no especificarse ningún criterio de búsqueda el sistema mostrará todas las *Clínicas*.
+
+El usuario tendrá que ingresar los parámetros de búsqueda en el formulario, y presionar el botón ``Buscar``. El sistema visualizará aquellas *Clínicas* que cumplan con todas las condiciones especificadas.

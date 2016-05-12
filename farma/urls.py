@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^selectable/', include('selectable.urls')),
     url(r'^$', views.inicio, name="inicio"),
 
+
     # =============================================================================================== #
     #                                       USUARIOS
     # =============================================================================================== #
@@ -44,7 +45,6 @@ urlpatterns = [
     url(r'^presentaciones/tryDelete/(?P<id_presentacion>\d+)/$', mviews.presentacion_try_delete, name="presentacion_try_delete"),
     url(r'^presentaciones/delete/(?P<id_presentacion>\d+)/$', mviews.presentacion_delete, name="presentacion_delete"),
 
-        
     # **************************************** Medicamento ******************************************
     url(r'^medicamentos/$', mviews.medicamentos, name="medicamentos"),
     url(r'^medicamentos/add/$', mviews.medicamento_add, name="medicamento_add"),
@@ -84,9 +84,8 @@ urlpatterns = [
     
     
     # *************************************** Obra Social *****************************************
-    url(r'^obrasSociales/$',views.paginaEnConstruccion, name="paginaEnConstruccion"),
-    
-    
+    url(r'^obrasSociales/$', views.paginaEnConstruccion, name="paginaEnConstruccion"),
+
     # =============================================================================================== #
     #                                           PEDIDOS
     # =============================================================================================== #
@@ -119,7 +118,8 @@ urlpatterns = [
     url(r'^pedidosDeClinica/verRemitos/(?P<id_pedido>\d+)/$', pviews.pedidoDeClinica_verRemitos, name="pedidoDeClinica_verRemitos"),
     url(r'^pedidosDeClinica/remitoDeClinica/(?P<id_remito>\d+)/$', pviews.remitoDeClinica.as_view(), name="remitoDeClinica"),
 
-    
+    url(r'^getObrasSociales/(?P<id_clinica>\d+)/$', pviews.get_obrasSociales, name="get_obrasSociales"),    
+
     # ************************************** Pedido a Laboratorio ***************************************
     url(r'^pedidosAlaboratorio/$', pviews.pedidosAlaboratorio, name="pedidosAlaboratorio"),
     url(r'^pedidosAlaboratorio/add/$', pviews.pedidoAlaboratorio_add, name="pedidoAlaboratorio_add"),
@@ -154,3 +154,4 @@ urlpatterns = [
     
       # **************************************** PDFs ******************************************
 ]
+    
