@@ -25,9 +25,12 @@
 		                	{% block form-fields-avanzados %} {% endblock %}
 						    <button class="btn btn-default button-hover btn-form-avanzado" type="submit">Buscar</button>
 		                </div>
-		                <div class="form-toggle">
-		                    <a class="btn-form-toggle" href="#"><span class="glyphicon glyphicon-triangle-right"></span><span class="txt-toggle">Búsqueda Avanzada</span></a>
-		                </div>
+                        <div class="form-controls">
+                            <a class="btn-form-limpiar" href="#"><span class="glyphicon glyphicon-trash"></span> Limpiar</a>
+                            <div class="form-toggle">
+                                <a class="btn-form-toggle" href="#"><span class="glyphicon glyphicon-triangle-right"></span><span class="txt-toggle">Búsqueda Avanzada</span></a>
+                            </div>
+                        </div>
 	                {% endblock %}
 	            </form>
 	        </aside>
@@ -155,11 +158,13 @@
 			        this.$formAvanzadoFields = this.$formAvanzado.find('.form-field');
 			        this.$btnFormAvanzado = this.$formAvanzado.find('.btn-form-avanzado');
 			        this.$btnFormToggle = this.$form.find('.btn-form-toggle');
+			        this.$btnFormLimpiar = this.$form.find('.btn-form-limpiar');
 			    },
 			    bindEvents: function() {
 			        this.$btnFormToggle.on('click', this.formToggle.bind(this));
 			        this.$btnFormSimple.on('click', this.sendForm.bind(this));
 			        this.$btnFormAvanzado.on('click', this.sendForm.bind(this));
+			        this.$btnFormLimpiar.on('click', this.cleanFilters.bind(this));
 			    },
 			    init: function() {
 			        this.getElements();
@@ -184,6 +189,11 @@
 			                $(this).val('');
 			            });
 			        }
+			    },
+			    cleanFilters: function() {
+			        this.$formSimpleField.val('');
+			        this.$formAvanzadoFields.val('');
+			        this.$form.submit();
 			    }
 			},
 			main = {

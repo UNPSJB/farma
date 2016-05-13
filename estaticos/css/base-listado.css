@@ -63,18 +63,26 @@ body {
   display: none;
 }
 .form-busqueda .form-avanzado .btn-form-avanzado {
-  /*height: 34px;*/
   width: 100%;
-  /*padding: 6px 12px;
-  background-color: transparent;
-  border: 1px solid #cccccc;
-  border-radius: 4px;*/
 }
 .form-busqueda .form-toggle {
   text-align: right;
 }
 .form-busqueda .form-toggle .btn-form-toggle {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+}
+
+.form-controls {
+    position: relative;
+}
+
+.btn-form-limpiar {
+    position: absolute;
+    left: 0;
+    font-size: 1.3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
 }
 
 /*TABLA*/

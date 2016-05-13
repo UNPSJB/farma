@@ -27,11 +27,11 @@
 {% block breadcrumb-items %}
     <li><a href="{% url 'inicio' %}">Inicio</a></li>
     <li><a href="{% url 'recepcionPedidoAlaboratorio' %}">Recepción de Pedidos a Laboratorio</a></li>
-    <li><a href="{% url 'recepcionPedidoAlaboratorio_cargarPedido' pedido.pk %}">Alta</a></li>
+    <li><a href="{% url 'recepcionPedidoAlaboratorio_cargarPedido' pedido.pk %}">Alta de Recepción</a></li>
     <li class="active">Detalles</li>
 {% endblock %}
 
-{% block header-title %} Detalles Recepción Pedido a Laboratorio {% endblock%}
+{% block header-title %} Detalles Recepción de Pedido a Laboratorio {% endblock%}
 
 {% block url-volver %}{% url 'recepcionPedidoAlaboratorio_cargarPedido' pedido.pk %}{% endblock %}
 

@@ -40,7 +40,6 @@ class Medicamento(models.Model):
         return None
 
 
-
 class Presentacion(models.Model):
     FILTROS = ["descripcion__icontains"]
     descripcion = models.CharField(max_length=45)
@@ -79,9 +78,10 @@ class Dosis(models.Model):
     def __str__(self):
         return "%s - %s" % (self.cantidad, self.get_unidad_display())
 
+
 class NombreFantasia(models.Model):
     FILTROS = ["nombreF__icontains"]
-    nombreF = models.CharField(max_length=75,unique=True,error_messages={'unique': "Este nombre de fantasia ya esta cargado!"})
+    nombreF = models.CharField(max_length=75,  unique=True,error_messages={'unique': "Este nombre de fantasia ya esta cargado"})
 
     def __str__(self):
         return "%s" % self.nombreF
@@ -89,7 +89,7 @@ class NombreFantasia(models.Model):
 
 class Lote(models.Model):
     FILTROS = ["numero__icontains"]
-    numero = models.PositiveIntegerField(unique=True, error_messages={'unique': "Este numero de lote ya esta cargado!"})
+    numero = models.PositiveIntegerField(unique=True, error_messages={'unique': "Este numero de lote ya esta cargado"})
     fechaVencimiento= models.DateField()
     stock = models.PositiveIntegerField()
     precio = models.FloatField()
@@ -105,12 +105,3 @@ class Lote(models.Model):
                 'fechaVencimiento': self.fechaVencimiento.strftime("%d/%m/%y"),
                 'stock': self.stock
             }
-
-
-
-
-
-
-
-
-

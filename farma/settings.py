@@ -1,4 +1,5 @@
 import os
+import markdown
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -44,7 +45,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-
 )
 
 ROOT_URLCONF = 'farma.urls'
@@ -60,14 +60,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'farma.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
@@ -99,12 +97,9 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "estaticos"),
-
 )
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'medios')
-
-import markdown
 
 MARKUP_FIELD_TYPES = (
     ('markdown', markdown.markdown),

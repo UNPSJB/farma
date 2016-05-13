@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block form-fields-avanzados %} 
-    <input class="form-control form-field" id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" type="text" placeholder="Laboratorio">
+    <input class="form-control form-field" id="laboratorio" name="laboratorio" value="{{ filtros.laboratorio }}" type="text" placeholder="Laboratorio">
 {% endblock %}
 
 {% block botones-header-tabla %} 
@@ -27,20 +27,18 @@
 {% block tabla %}
     <thead>
         <tr>
-            <th>Código de Barras</th>
             <th>Nombre de Fantasia</th>
             <th>Presentacion</th>
-            <th>Stock Minimo</th>
+            <th>Laboratorio</th>
             <th>Acción</th>
         </tr>
     </thead>
     <tbody>
         {% for medicamento in medicamentos %}
             <tr class="clickeable" data-id="{{ medicamento.id }}">
-                <td>{{medicamento.codigoBarras}}</td>
                 <td>{{medicamento.nombreFantasia}}</td>
                 <td>{{medicamento.presentacion}}</td>
-                <td>{{medicamento.stockMinimo}}</td>
+                <td>{{medicamento.laboratorio}}</td>
                 <td class="action">
                     <div class="dropdown">
                         <button class="btn btn-default button-hover dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

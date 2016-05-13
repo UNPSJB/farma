@@ -1,14 +1,14 @@
 {% extends "base/base-listado.html" %}
 {% load staticfiles %}
 
-{% block title %} Pedidos a laboratorios {% endblock %}
+{% block title %} Pedidos a Laboratorio {% endblock %}
 
 {% block breadcrumb-items %}
     <li><a href="{% url 'inicio' %}">Inicio</a></li>
-    <li class="active">Pedidos a laboratorios</li>
+    <li class="active">Pedidos a laboratorio</li>
 {% endblock %}
 
-{% block header-title %} Pedidos a laboratorios {% endblock %}
+{% block header-title %} Pedidos a Laboratorio {% endblock %}
 
 {% block form-field-simple %} 
     <input class="form-control form-field form-field-simple" id="laboratorio" name="laboratorio" value="{{filtros.laboratorio}}" placeholder="Laboratorio" type="text" />

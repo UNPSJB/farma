@@ -13,7 +13,6 @@ def puedo_eliminar_medicamento(id_medicamento):
 	mensajeInforme = ''
 
 	print medicamento.get_lotes_activos()
-	# Medicamento pendiente en pedidos a laboratorio ?
 	pendienteEnPedidosAlaboratorio = pmodels.PedidoAlaboratorio.objects.filter(Q(estado='Pendiente')|Q(estado='Parcialmente Recibido'))
 	for pedido in pendienteEnPedidosAlaboratorio:
 		contador = pmodels.DetallePedidoAlaboratorio.objects.filter(pedido=pedido, medicamento__pk=id_medicamento, cantidadPendiente__gt = 0).count()
@@ -23,7 +22,6 @@ def puedo_eliminar_medicamento(id_medicamento):
 	pendienteEnPedidosDeFarmacia = pmodels.PedidoDeFarmacia.objects.filter(Q(estado='Pendiente')|Q(estado='Parcialmente Enviado'))
 	for pedido in pendienteEnPedidosDeFarmacia:
 		contador = pmodels.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido, medicamento__pk=id_medicamento, cantidadPendiente__gt = 0).count()
-		print "***************", contador,"****************"
 		if contador > 0:
 			contadorPendientesDeFarmacia += 1
 

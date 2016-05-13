@@ -5,6 +5,7 @@ from jsonview.decorators import json_view
 from django.contrib.auth.decorators import permission_required
 from pedidos import models as pmodels
 
+
 def get_filtros(get, modelo):
     mfilter = {}
     for filtro in modelo.FILTROS:
@@ -25,6 +26,7 @@ def monodrogas(request):
         'filtrados': monodrogas.count()
     }
     return render(request, "monodroga/monodrogas.html", {"monodrogas": monodrogas, "filtros": filters, 'estadisticas': estadisticas})
+
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
@@ -60,13 +62,14 @@ def monodroga_update(request, id_monodroga):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def monodroga_try_delete(request, id_monodroga):
+def monodroga_try_delete(id_monodroga):
     infoBaja = utils.puedo_eliminar_monodroga(id_monodroga)
     return infoBaja
 
+
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def monodroga_delete(request, id_monodroga):
+def monodroga_delete(id_monodroga):
     infoBaja = utils.puedo_eliminar_monodroga(id_monodroga)
     if infoBaja['success']:
         monodroga = models.Monodroga.objects.get(pk=id_monodroga)
@@ -120,13 +123,14 @@ def nombresFantasia_update(request, id_nombreFantasia):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def nombresFantasia_try_delete(request, id_nombreFantasia):
+def nombresFantasia_try_delete(id_nombreFantasia):
     infoBaja = utils.puedo_eliminar_nombreFantasia(id_nombreFantasia)
     return infoBaja
 
+
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def nombresFantasia_delete(request, id_nombreFantasia):
+def nombresFantasia_delete(id_nombreFantasia):
     infoBaja = utils.puedo_eliminar_nombreFantasia(id_nombreFantasia)
     if infoBaja['success']:
         nombreFantasia = models.NombreFantasia.objects.get(pk=id_nombreFantasia)
@@ -179,13 +183,14 @@ def presentacion_update(request, id_presentacion):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def presentacion_try_delete(request, id_presentacion):
+def presentacion_try_delete(id_presentacion):
     infoBaja = utils.puedo_eliminar_presentacion(id_presentacion)
     return infoBaja
 
+
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def presentacion_delete(request, id_presentacion):
+def presentacion_delete(id_presentacion):
     infoBaja = utils.puedo_eliminar_presentacion(id_presentacion)
     if infoBaja['success']:
         clinica = models.Presentacion.objects.get(pk=id_presentacion)
@@ -234,6 +239,7 @@ def medicamento_add(request):
         "dosis_formset": dosis_formset,
     })
 
+
 @permission_required('usuarios.encargado_stock', login_url='login')
 @login_required(login_url='login')
 def medicamento_updateStockMinimo(request, id_medicamento):
@@ -264,7 +270,7 @@ def medicamento_updatePrecioVenta(request, id_medicamento):
 
 @json_view
 @login_required(login_url='login')
-def medicamento_verLotes(request, id_medicamento):
+def medicamento_verLotes(id_medicamento):
     lotes_json = []
     medicamento = models.Medicamento.objects.get(pk=id_medicamento)
     lotes = medicamento.get_lotes_activos()
@@ -273,20 +279,21 @@ def medicamento_verLotes(request, id_medicamento):
 
     return {'lotes': lotes_json}
 
+
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def medicamento_try_delete(request, id_medicamento):
+def medicamento_try_delete(id_medicamento):
     infoBaja = utils.puedo_eliminar_medicamento(id_medicamento)
     return infoBaja
-    
+
+
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def medicamento_delete(request, id_medicamento):
+def medicamento_delete(id_medicamento):
     infoBaja = utils.puedo_eliminar_medicamento(id_medicamento)
     if infoBaja['success']:
         medicamento = models.Medicamento.objects.get(pk=id_medicamento)
-
         detallesPedidoAlaboratorio = pmodels.DetallePedidoAlaboratorio.objects.filter(medicamento=medicamento)
         pedidosAlaboratorio = set()
         for detalle in detallesPedidoAlaboratorio:
@@ -305,15 +312,12 @@ def medicamento_delete(request, id_medicamento):
                     p = pmodels.PedidoAlaboratorio.objects.get(pk=pedido.pk)
                     p.delete()
 
-
         detallesPedidoDeFarmacia = pmodels.DetallePedidoDeFarmacia.objects.filter(medicamento=medicamento)
         for detalle in detallesPedidoDeFarmacia:
             pedido = detalle.pedidoDeFarmacia
-
             if pedido.get_detalles().count() <= 1:
                 p = pmodels.PedidoDeFarmacia.objects.get(pk=pedido.pk)
                 p.delete()
-
 
         detallesPedidoDeClinica = pmodels.DetallePedidoDeClinica.objects.filter(medicamento=medicamento)
         for detalle in detallesPedidoDeClinica:

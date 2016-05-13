@@ -70,7 +70,6 @@ class FarmaciaFormAdd(FarmaciaFormGenerico):
             StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
                         css_class="btn btn-primary"),
             HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
-        
         )
     ) 
 

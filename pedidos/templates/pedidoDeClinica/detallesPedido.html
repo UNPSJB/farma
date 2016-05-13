@@ -156,7 +156,7 @@
 
             $('#modal-update-detalle').on('show.bs.modal', function(e){
                 var idMedicamento = $('.clickeable.active').data('medicamento');
-                $(this).find('.medicamento-stock').text(medicamentos[idMedicamento])
+                $(this).find('.medicamento-stock').text("Disponible: " + medicamentos[idMedicamento])
             });
 
             $('#modal-update-detalle').on('hidden.bs.modal', function(){

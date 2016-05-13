@@ -211,6 +211,7 @@ class PedidoDeClinica(PedidoVenta):
     FILTERMAPPER = {
         'desde': "fecha__gte",
         'hasta': "fecha__lte",
+        'obraSocial': "obraSocial__icontains",
         'clinica': "clinica__razonSocial__icontains"
     }
     clinica = models.ForeignKey('organizaciones.Clinica', on_delete=models.CASCADE)
