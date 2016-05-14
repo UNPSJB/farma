@@ -63,13 +63,13 @@ def farmacia_update(request, id_farmacia):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def farmacia_try_delete(id_farmacia):
+def farmacia_try_delete(request, id_farmacia):
     infoBaja = utils.puedo_eliminar_farmacia(id_farmacia)
     return infoBaja
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def farmacia_delete(id_farmacia):
+def farmacia_delete(request, id_farmacia):
     infoBaja = utils.puedo_eliminar_farmacia(id_farmacia)
     if infoBaja['success']:
         farmacia = get_object_or_404(models.Farmacia, pk=id_farmacia)
@@ -137,7 +137,7 @@ def clinica_update(request, id_clinica):
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def clinica_delete(id_clinica):
+def clinica_delete(request, id_clinica):
     clinica = models.Clinica.objects.get(pk=id_clinica)
 
     pedidosDeClinica = pmodels.PedidoDeClinica.objects.filter(clinica=clinica)
@@ -195,13 +195,13 @@ def laboratorio_update(request, id_laboratorio):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def laboratorio_try_delete(id_laboratorio):
+def laboratorio_try_delete(request, id_laboratorio):
     infoBaja = utils.puedo_eliminar_laboratorio(id_laboratorio)
     return infoBaja
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def laboratorio_delete(id_laboratorio):
+def laboratorio_delete(request, id_laboratorio):
     infoBaja = utils.puedo_eliminar_laboratorio(id_laboratorio)
     if infoBaja['success']:
         laboratorio = models.Laboratorio.objects.get(pk=id_laboratorio)

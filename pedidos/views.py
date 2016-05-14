@@ -77,7 +77,7 @@ def pedidoDeFarmacia_ver(request, id_pedido):
 
 @json_view
 @login_required(login_url='login')
-def pedidoDeFarmacia_verDetalles(id_pedido):
+def pedidoDeFarmacia_verDetalles(request, id_pedido):
     detalles_json = []
     detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia__pk=id_pedido)
     for detalle in detalles:
@@ -87,7 +87,7 @@ def pedidoDeFarmacia_verDetalles(id_pedido):
 
 @json_view
 @login_required(login_url='login')
-def pedidoDeFarmacia_verRemitos(id_pedido):
+def pedidoDeFarmacia_verRemitos(request, id_pedido):
     remitos_json = []
     remitos = models.RemitoDeFarmacia.objects.filter(pedidoFarmacia__pk=id_pedido)
     for remito in remitos:
@@ -240,12 +240,12 @@ def pedidoDeClinica_add(request):
 @json_view
 @permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
-def get_obrasSociales(id_clinica):
+def get_obrasSociales(request, id_clinica):
     clinica = omodels.Clinica.objects.get(pk=id_clinica)
     obrasSociales = clinica.obraSocial.split(',')
     options = []
     for obraSocial in obrasSociales:
-        options.append({'text':obraSocial, 'value':obraSocial})
+        options.append({'text': obraSocial, 'value': obraSocial})
     return options
 
 
@@ -259,7 +259,7 @@ def pedidoDeClinica_ver(request, id_pedido):
 
 @json_view
 @login_required(login_url='login')
-def pedidoDeClinica_verDetalles(id_pedido):
+def pedidoDeClinica_verDetalles(request, id_pedido):
     detalles_json = []
     detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
     for detalle in detalles:
@@ -269,7 +269,7 @@ def pedidoDeClinica_verDetalles(id_pedido):
 
 @json_view
 @login_required(login_url='login')
-def pedidoDeClinica_verRemitos(id_pedido):
+def pedidoDeClinica_verRemitos(request, id_pedido):
     remitos_json = []
     remitos = models.RemitoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
     for remito in remitos:
@@ -425,7 +425,7 @@ def pedidoAlaboratorio_add(request):
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def pedidoAlaboratorio_cancelar(id_pedido):
+def pedidoAlaboratorio_cancelar(request, id_pedido):
     pedido = models.PedidoAlaboratorio.objects.get(pk=id_pedido)
     utils.cancelar_pedido_a_laboratorio(pedido)
     return redirect('pedidosAlaboratorio')
@@ -433,7 +433,7 @@ def pedidoAlaboratorio_cancelar(id_pedido):
 
 @json_view
 @login_required(login_url='login')
-def pedidoAlaboratorio_verDetalles(id_pedido):
+def pedidoAlaboratorio_verDetalles(request, id_pedido):
     detalles_json = []
     detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido__pk=id_pedido)
     for detalle in detalles:
@@ -442,7 +442,7 @@ def pedidoAlaboratorio_verDetalles(id_pedido):
 
 
 @json_view
-def pedidoAlaboratorio_verRemitos(id_pedido):
+def pedidoAlaboratorio_verRemitos(request, id_pedido):
     remitos_json = []
     remitos = models.RemitoLaboratorio.objects.filter(pedidoLaboratorio__pk=id_pedido)
     for remito in remitos:
