@@ -76,7 +76,7 @@ Una vez completado el formulario, el usuario deberá presionar el botón ``Guard
 .. _eliminar-farmacia:
    
 Eliminar Farmacia
-------------------
+-----------------
 
 Si el usuario desea eliminar una *Farmacia*, deberá seleccionar el botón de **Acción** asociado a la *Farmacia* y presionar la pestaña ``Eliminar``.
 

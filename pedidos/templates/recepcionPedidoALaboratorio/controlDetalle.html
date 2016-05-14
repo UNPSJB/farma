@@ -28,10 +28,10 @@
 
 {% block form-pedido %}
     {% if btnNuevoLote %}
-        <a class="pull-right "href="{% url 'recepcionPedidoAlaboratorio_controlDetalleConNuevoLote' pedido.pk detalle.renglon %}">+ Nuevo Lote</a>
+        <a class="pull-right " href="{% url 'recepcionPedidoAlaboratorio_controlDetalleConNuevoLote' pedido.pk detalle.renglon %}">+ Nuevo Lote</a>
     {% else %}
         {% if existenLotes %}
-            <a class="pull-right "href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.pk detalle.renglon %}">- Sin Nuevo Lote</a>
+            <a class="pull-right" href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.pk detalle.renglon %}">- Sin Nuevo Lote</a>
         {% endif %}
     {% endif %}
     <div class="clearfix"></div>

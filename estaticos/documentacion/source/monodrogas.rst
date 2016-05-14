@@ -18,7 +18,7 @@ Estas funcionalidades son:
 .. _alta-monodroga:
 
 Alta Monodroga
------------------
+--------------
 
 Si el usuario desea crear una nueva *Monodroga*, deberá presionar el botón ``Alta``. 
 

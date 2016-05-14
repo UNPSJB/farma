@@ -20,12 +20,12 @@ def get_filtros(get, modelo):
 def monodrogas(request):
     filters = get_filtros(request.GET, models.Monodroga)
     mfilters = dict(filter(lambda v: v[0] in models.Monodroga.FILTROS, filters.items()))
-    monodrogas = models.Monodroga.objects.filter(**mfilters)
+    lmonodrogas = models.Monodroga.objects.filter(**mfilters)
     estadisticas = {
         'total': models.Monodroga.objects.all().count(),
-        'filtrados': monodrogas.count()
+        'filtrados': lmonodrogas.count()
     }
-    return render(request, "monodroga/monodrogas.html", {"monodrogas": monodrogas, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "monodroga/monodrogas.html", {"monodrogas": lmonodrogas, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -34,7 +34,6 @@ def monodroga_add(request):
     if request.method == "POST":
         form = forms.MonodrogaFormAdd(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             form.save()
             if '_volver' in request.POST:
                 return redirect('monodrogas')
@@ -81,12 +80,12 @@ def monodroga_delete(id_monodroga):
 def nombresFantasia(request):
     filters = get_filtros(request.GET, models.NombreFantasia)
     mfilters = dict(filter(lambda v: v[0] in models.NombreFantasia.FILTROS, filters.items()))
-    nombresFantasia = models.NombreFantasia.objects.filter(**mfilters)
+    lnombresFantasia = models.NombreFantasia.objects.filter(**mfilters)
     estadisticas = {
         'total': models.NombreFantasia.objects.all().count(),
-        'filtrados': nombresFantasia.count()
+        'filtrados': lnombresFantasia.count()
     }
-    return render(request, "nombreFantasia/nombresFantasia.html", {"nombresFantasia": nombresFantasia, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "nombreFantasia/nombresFantasia.html", {"nombresFantasia": lnombresFantasia, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -95,7 +94,6 @@ def nombresFantasia_add(request):
     if request.method == "POST":
         form = forms.NombreFantasiaFormAdd(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             form.save()
             if '_volver' in request.POST:
                 return redirect('nombresFantasia')
@@ -142,12 +140,12 @@ def nombresFantasia_delete(id_nombreFantasia):
 def presentaciones(request):
     filters = get_filtros(request.GET, models.Presentacion)
     mfilters = dict(filter(lambda v: v[0] in models.Presentacion.FILTROS, filters.items()))
-    presentaciones = models.Presentacion.objects.filter(**mfilters)
+    lpresentaciones = models.Presentacion.objects.filter(**mfilters)
     estadisticas = {
         'total': models.Presentacion.objects.all().count(),
-        'filtrados': presentaciones.count()
+        'filtrados': lpresentaciones.count()
     }
-    return render(request, "presentacion/presentaciones.html",{"presentaciones": presentaciones, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "presentacion/presentaciones.html",{"presentaciones": lpresentaciones, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -202,12 +200,12 @@ def presentacion_delete(id_presentacion):
 def medicamentos(request):
     filters = get_filtros(request.GET, models.Medicamento)
     mfilters = dict(filter(lambda v: v[0] in models.Medicamento.FILTROS, filters.items()))
-    medicamentos = models.Medicamento.objects.filter(**mfilters)
+    lmedicamentos = models.Medicamento.objects.filter(**mfilters)
     estadisticas = {
         'total': models.Medicamento.objects.all().count(),
-        'filtrados': medicamentos.count()
+        'filtrados': lmedicamentos.count()
     }
-    return render(request, "medicamento/medicamentos.html", {"medicamentos": medicamentos, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "medicamento/medicamentos.html", {"medicamentos": lmedicamentos, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -220,7 +218,6 @@ def medicamento_add(request):
             medicamento = medicamento_form.save()
             for dosis_form in dosis_formset:
                 if dosis_form.cleaned_data:
-                    print "***", dosis_form.cleaned_data
                     dosis = dosis_form.save(commit=False)
                     dosis.medicamento = medicamento
                     dosis.save()
@@ -231,8 +228,6 @@ def medicamento_add(request):
     else:
         dosis_formset = forms.DosisFormSet()
         medicamento_form = forms.MedicamentoForm()
-    print dosis_formset.errors 
-    print medicamento_form.errors
 
     return render(request, "medicamento/medicamentoAdd.html", {
         "medicamento_form": medicamento_form,
@@ -300,8 +295,6 @@ def medicamento_delete(id_medicamento):
             pedidosAlaboratorio.add(detalle.pedido)
 
         for pedido in pedidosAlaboratorio:
-            print pedido
-            print "cantidad detalles ",pedido.get_detalles().count() 
             detallesDelPedido = pedido.get_detalles()
             if detallesDelPedido.count() <= 2:
                 deletePedido = True

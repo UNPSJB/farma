@@ -51,10 +51,10 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">      
                 <li>
-                    <a alt="Ayuda" href="{% static 'documentacion/build/html/index.html' %}" target="_blank">Ayuda</a>
+                    <a href="{% static 'documentacion/build/html/index.html' %}" target="_blank">Ayuda</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span style="top:2px;"class="glyphicon glyphicon-user"></span> {{ user.get_username }} <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span style="top:2px;" class="glyphicon glyphicon-user"></span> {{ user.get_username }} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         {% if perms.usuarios.encargado_general %}
                             <li><a href="{% url 'usuario_add' %}">Agregar Usuario</a></li>

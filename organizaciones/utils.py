@@ -11,9 +11,7 @@ def puedo_eliminar_farmacia(id_farmacia):
     farmacia = models.Farmacia.objects.get(pk=id_farmacia)
     contadorPedidosDeFarmacia = 0
     mensajeInforme = ''
-
-    contadorPedidosDeFarmacia = pmodels.PedidoDeFarmacia.objects.filter(farmacia=farmacia).filter(Q(estado='Pendiente')|Q(estado='Parcialmente Enviado')).count()
-
+    contadorPedidosDeFarmacia = pmodels.PedidoDeFarmacia.objects.filter(farmacia=farmacia).filter(Q(estado='Pendiente') | Q(estado='Parcialmente Enviado')).count()
     if contadorPedidosDeFarmacia > 0:
         mensajeInforme += "Hay " + str(contadorPedidosDeFarmacia)
         if contadorPedidosDeFarmacia == 1:
@@ -33,11 +31,10 @@ def puedo_eliminar_laboratorio(id_laboratorio):
     contadorMedicamentosConStock = 0
     mensajeInforme = ''
 
-    contadorPedidosPendientesAlaboratorio = pmodels.PedidoAlaboratorio.objects.filter(laboratorio=laboratorio).filter(Q(estado='Pendiente')|Q(estado='Parcialmente Recibido')).count()
+    contadorPedidosPendientesAlaboratorio = pmodels.PedidoAlaboratorio.objects.filter(laboratorio=laboratorio).filter(Q(estado='Pendiente') | Q(estado='Parcialmente Recibido')).count()
 
     medicamentosDelLaboratorio = mmodels.Medicamento.objects.filter(laboratorio=laboratorio)
     for medicamento in medicamentosDelLaboratorio:
-        print "**************",medicamento.get_stock(),"*****************"
         if medicamento.get_stock() > 0:
             contadorMedicamentosConStock += 1
 

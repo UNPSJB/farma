@@ -9,6 +9,7 @@ from pedidos import models, config
 # **********************
 # FUNCIONES COMPARTIDAS
 # **********************
+
 def crear_pedido_para_sesion(m, pedido):
     p = pedido.to_json()
     p['nroPedido'] = get_next_nro_pedido(m)
@@ -26,7 +27,7 @@ def get_next_nro_pedido(m):
 
 def existe_medicamento_en_pedido(detalles, id_med):
     for detalle in detalles:
-        if detalle['medicamento']['id'] == id_med: #no puede haber dos detalles con el mismo medicamento
+        if detalle['medicamento']['id'] == id_med:  # no puede haber dos detalles con el mismo medicamento
             return True
     return False
 
@@ -42,7 +43,7 @@ def crear_detalle_json(detalle, renglon):
 # **********************
 
 def procesar_pedido_de_farmacia(pedido):
-    detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) #obtengo todos los detalles del pedido
+    detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido)  # obtengo todos los detalles del pedido
     if not es_pendiente(pedido):
         remito = models.RemitoDeFarmacia(pedidoFarmacia=pedido, fecha=pedido.fecha)
         remito.save()
@@ -112,7 +113,7 @@ def procesar_detalle_de_farmacia(detalle, remito):
 
 
 def es_pendiente(pedido):
-    detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido) # obtengo todos los detalles del pedido
+    detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido.nroPedido)  # obtengo todos los detalles del pedido
     for detalle in detalles:
         if detalle.medicamento.get_stock() > 0:
             return False
@@ -141,7 +142,7 @@ def get_medicamentos_con_stock():
 
 
 def procesar_pedido_de_clinica(pedido):
-    detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica=pedido.nroPedido) # obtengo todos los detalles del pedido
+    detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica=pedido.nroPedido)  # obtengo todos los detalles del pedido
     remito = models.RemitoDeClinica(pedidoDeClinica=pedido, fecha=pedido.fecha)
     remito.save()
     for detalle in detalles:
@@ -214,7 +215,7 @@ def cancelar_pedido_a_laboratorio(pedido):
         detallesPedidoAlaboratorio = models.DetallePedidoAlaboratorio.objects.filter(pedido=pedido)
         for detallePedidoAlaboratorio in detallesPedidoAlaboratorio:
             detallePedidoDeFarmacia = detallePedidoAlaboratorio.detallePedidoFarmacia
-            if(detallePedidoDeFarmacia):
+            if detallePedidoDeFarmacia:
                 detallePedidoDeFarmacia.estaPedido = False
                 detallePedidoDeFarmacia.save()
         pedido.estado = "Cancelado"
@@ -234,14 +235,10 @@ def existe_medicamento_en_detalle_suelto(detalles, id_medicamento):
 
 def cargar_detalles(id_pedido, session):
     detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido=id_pedido, cantidadPendiente__gt=0)
-    recepcionPedidoAlaboratorio = {}
-    recepcionPedidoAlaboratorio['nuevosLotes'] = {}
-    recepcionPedidoAlaboratorio['actualizarLotes'] = {}
-    recepcionPedidoAlaboratorio['detalles'] = []
-
+    recepcionPedidoAlaboratorio = {'nuevosLotes': {}, 'actualizarLotes': {}, 'detalles': []}
     for detalle in detalles:
         infoDetalle = detalle.to_json()
-        infoDetalle['actualizado'] = False #cuando se actualize el detalle este campo es True
+        infoDetalle['actualizado'] = False  # cuando se actualize el detalle este campo es True
         recepcionPedidoAlaboratorio['detalles'].append(infoDetalle)
 
     session['recepcionPedidoAlaboratorio'] = recepcionPedidoAlaboratorio
@@ -279,19 +276,17 @@ def guardar_recepcion_detalle(session, detalle, infoRecepcionDetalle):
     posDetalle = get_pos_detalle(detalles, detalle.renglon)
     infoDetalle = detalles[posDetalle]
     numeroLote = str(infoRecepcionDetalle['lote'])
-    #informacion del detalle de remito
+    # informacion del detalle de remito
 
     agregarDetalleRemito = True
     for detalleRemito in detallesRemitoRecepcion:
         if detalleRemito['detallePedidoLaboratorio'] == detalle.pk and detalleRemito['lote'] == numeroLote:
-            print "ENTREEEEEEEEEEEEEEEEE"
             detalleRemito['cantidad'] += infoRecepcionDetalle['cantidad']
             agregarDetalleRemito = False
             break
             
     if agregarDetalleRemito:
-        detallesRemitoRecepcion.append({'detallePedidoLaboratorio':detalle.pk,'lote':numeroLote,'cantidad':infoRecepcionDetalle['cantidad']})
-    
+        detallesRemitoRecepcion.append({'detallePedidoLaboratorio':detalle.pk, 'lote': numeroLote, 'cantidad': infoRecepcionDetalle['cantidad']})
 
     session['remitoRecepcion']['detalles']=detallesRemitoRecepcion
 
@@ -302,22 +297,22 @@ def guardar_recepcion_detalle(session, detalle, infoRecepcionDetalle):
     if numeroLote in recepcionPedidoAlaboratorio['nuevosLotes']:
         lote = recepcionPedidoAlaboratorio['nuevosLotes'][numeroLote]
         lote['stock'] += cantidadStockLote
-        recepcionPedidoAlaboratorio['nuevosLotes'][numeroLote] = lote # guardo cambios
+        recepcionPedidoAlaboratorio['nuevosLotes'][numeroLote] = lote  # guardo cambios
     else:
         if numeroLote in recepcionPedidoAlaboratorio['actualizarLotes']:
             stock = recepcionPedidoAlaboratorio['actualizarLotes'][numeroLote]
             stock += cantidadStockLote
-            recepcionPedidoAlaboratorio['actualizarLotes'][numeroLote] = stock # guardo cambios
+            recepcionPedidoAlaboratorio['actualizarLotes'][numeroLote] = stock  # guardo cambios
         else:
             recepcionPedidoAlaboratorio['actualizarLotes'][numeroLote] = cantidadStockLote
 
     infoDetalle['cantidadPendiente'] -= infoRecepcionDetalle['cantidad']
     infoDetalle['actualizado'] = True
     
-    detalles[posDetalle] = infoDetalle # guardo cambios
-    recepcionPedidoAlaboratorio['detalles'] = detalles # guardo cambios
+    detalles[posDetalle] = infoDetalle  # guardo cambios
+    recepcionPedidoAlaboratorio['detalles'] = detalles  # guardo cambios
 
-    session['recepcionPedidoAlaboratorio'] = recepcionPedidoAlaboratorio # guardo todos los cambios
+    session['recepcionPedidoAlaboratorio'] = recepcionPedidoAlaboratorio  # guardo todos los cambios
 
 
 def guardar_recepcion_detalle_con_nuevo_lote(session, detalle, infoRecepcionDetalle):
@@ -386,10 +381,10 @@ def actualizar_pedido(pedido, detalles):
             detalleDb = models.DetallePedidoAlaboratorio.objects.get(pk=detalle['renglon'])
             detalleDb.cantidadPendiente = detalle['cantidadPendiente']
             if detalleDb.cantidadPendiente > 0:
-                recepcionDelPedidoCompleta = False # xq hay al menos un detalle que aún falta satisfacer
+                recepcionDelPedidoCompleta = False  # Porque hay al menos un detalle que aún falta satisfacer
             detalleDb.save()
         else:
-            recepcionDelPedidoCompleta = False # xq hay al menos un detalle que no acusó ningún tipo de recibo
+            recepcionDelPedidoCompleta = False  # Porque hay al menos un detalle que no acusó ningún tipo de recibo
 
     if recepcionDelPedidoCompleta:
         pedido.estado = "Completo"
@@ -436,8 +431,6 @@ def actualizar_pedidos_farmacia(remitoLab):
     for pedido in listaPedidosDeFarmacia:
         cantidadTotalDetalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido).count()
         cantidadDetallesCompletamenteSatisfechos = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido, cantidadPendiente=0).count()
-        print "cantidadTotalDetalles", cantidadTotalDetalles, "\n"
-        print "cantidadDetallesCompletamenteSatisfechos", cantidadDetallesCompletamenteSatisfechos, "\n"
 
         if cantidadTotalDetalles == cantidadDetallesCompletamenteSatisfechos:
             pedido.estado = "Enviado"

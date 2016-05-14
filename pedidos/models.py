@@ -17,6 +17,7 @@ class PedidoVenta(models.Model):
     def __str__(self):
         return str(self.nroPedido)
 
+
 class DetallePedidoVenta(models.Model):
     cantidad = models.PositiveIntegerField(validators=[MinValueValidator(1), 
                                            MaxValueValidator(config.MAXIMA_CANTIDAD_MEDICAMENTOS)])
@@ -30,6 +31,7 @@ class DetallePedidoVenta(models.Model):
 
 
 # ******************REMITOS Y DETALLES REMITOS DE FARMACIA******************#
+
 class RemitoDeFarmacia(models.Model):
     pedidoFarmacia = models.ForeignKey('PedidoDeFarmacia', on_delete=models.CASCADE)
     fecha = models.DateField()
@@ -42,7 +44,9 @@ class RemitoDeFarmacia(models.Model):
             return {
                 'nroRemito': self.pk,
                 'fecha': self.fecha
-        }
+            }
+
+
 class DetalleRemitoDeFarmacia(models.Model):
     remito = models.ForeignKey(RemitoDeFarmacia, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()
@@ -73,7 +77,8 @@ class RemitoDeClinica(models.Model):
             return {
                 'nroRemito': self.pk,
                 'fecha': self.fecha
-        }
+            }
+
 
 class DetalleRemitoDeClinica(models.Model):
     remito = models.ForeignKey('RemitoDeClinica', on_delete=models.CASCADE)

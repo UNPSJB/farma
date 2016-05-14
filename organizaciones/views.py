@@ -5,6 +5,7 @@ from jsonview.decorators import json_view
 from django.contrib.auth.decorators import permission_required
 from pedidos import models as pmodels
 
+
 def get_filtros(get, modelo):
     mfilter = {}
     for filtro in modelo.FILTROS:
@@ -17,17 +18,16 @@ def get_filtros(get, modelo):
 
 # ****** FARMACIAS ******
 
-
 @login_required(login_url='login')
 def farmacias(request):
     filters = get_filtros(request.GET, models.Farmacia)
     mfilters = dict(filter(lambda v: v[0] in models.Farmacia.FILTROS, filters.items()))
-    farmacias = models.Farmacia.objects.filter(**mfilters) 
+    lfarmacias = models.Farmacia.objects.filter(**mfilters)
     estadisticas = {
         'total': models.Farmacia.objects.all().count(),
-        'filtrados': farmacias.count()
+        'filtrados': lfarmacias.count()
     }
-    return render(request, "farmacia/farmacias.html", {"farmacias": farmacias, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "farmacia/farmacias.html", {"farmacias": lfarmacias, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -50,7 +50,6 @@ def farmacia_add(request):
 @login_required(login_url='login')
 def farmacia_update(request, id_farmacia):
     farmacia = get_object_or_404(models.Farmacia, pk=id_farmacia)
-
     if request.method == "POST":
         form = forms.FarmaciaFormUpdate(request.POST, instance=farmacia)
         if form.is_valid():
@@ -64,21 +63,18 @@ def farmacia_update(request, id_farmacia):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def farmacia_try_delete(request, id_farmacia):
+def farmacia_try_delete(id_farmacia):
     infoBaja = utils.puedo_eliminar_farmacia(id_farmacia)
     return infoBaja
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def farmacia_delete(request, id_farmacia):
+def farmacia_delete(id_farmacia):
     infoBaja = utils.puedo_eliminar_farmacia(id_farmacia)
     if infoBaja['success']:
         farmacia = get_object_or_404(models.Farmacia, pk=id_farmacia)
-
         pedidosAlaboratorio = set()
-
         pedidosDeFarmacia = pmodels.PedidoDeFarmacia.objects.filter(farmacia=farmacia)
-
         for pedido in pedidosDeFarmacia:
             detallesPedidoDeFarmacia = pedido.get_detalles()
             for detalle in detallesPedidoDeFarmacia:
@@ -101,12 +97,12 @@ def farmacia_delete(request, id_farmacia):
 def clinicas(request):
     filters = get_filtros(request.GET, models.Clinica)
     mfilters = dict(filter(lambda v: v[0] in models.Clinica.FILTROS, filters.items()))
-    clinicas = models.Clinica.objects.filter(**mfilters)
+    lclinicas = models.Clinica.objects.filter(**mfilters)
     estadisticas = {
         'total': models.Clinica.objects.all().count(),
-        'filtrados': clinicas.count()
+        'filtrados': lclinicas.count()
     }
-    return render(request, "clinica/clinicas.html",{"clinicas": clinicas, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "clinica/clinicas.html", {"clinicas": lclinicas, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -141,7 +137,7 @@ def clinica_update(request, id_clinica):
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def clinica_delete(request, id_clinica):
+def clinica_delete(id_clinica):
     clinica = models.Clinica.objects.get(pk=id_clinica)
 
     pedidosDeClinica = pmodels.PedidoDeClinica.objects.filter(clinica=clinica)
@@ -154,17 +150,16 @@ def clinica_delete(request, id_clinica):
 
 # ******* LABORATORIOS ******
 
-
 @login_required(login_url='login')
 def laboratorios(request):
     filters = get_filtros(request.GET, models.Laboratorio)
     mfilters = dict(filter(lambda v: v[0] in models.Laboratorio.FILTROS, filters.items()))
-    laboratorios = models.Laboratorio.objects.filter(**mfilters)
+    llaboratorios = models.Laboratorio.objects.filter(**mfilters)
     estadisticas = {
         'total': models.Laboratorio.objects.all().count(),
-        'filtrados': laboratorios.count()
+        'filtrados': llaboratorios.count()
     }
-    return render(request, "laboratorio/laboratorios.html",{"laboratorios": laboratorios, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "laboratorio/laboratorios.html",{"laboratorios": llaboratorios, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -200,17 +195,16 @@ def laboratorio_update(request, id_laboratorio):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def laboratorio_try_delete(request, id_laboratorio):
+def laboratorio_try_delete(id_laboratorio):
     infoBaja = utils.puedo_eliminar_laboratorio(id_laboratorio)
     return infoBaja
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def laboratorio_delete(request, id_laboratorio):
+def laboratorio_delete(id_laboratorio):
     infoBaja = utils.puedo_eliminar_laboratorio(id_laboratorio)
     if infoBaja['success']:
         laboratorio = models.Laboratorio.objects.get(pk=id_laboratorio)
-
         pedidosAlaboratorio = pmodels.PedidoAlaboratorio.objects.filter(laboratorio=laboratorio)
         for pedido in pedidosAlaboratorio:
             pedido.delete()

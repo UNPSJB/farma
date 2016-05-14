@@ -16,7 +16,7 @@ Estas funcionalidades son:
 .. _alta-pl:
 
 Alta Pedido
---------------
+-----------
 
 Si el usuario desea crear un nuevo *Pedido a Laboratorio*, deberá presionar el botón ``Alta``. A continuación el sistema lo redirigirá a la siguiente pantalla:
 

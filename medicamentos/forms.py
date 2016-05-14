@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
-
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.forms import widgets
@@ -121,7 +120,6 @@ class PresentacionFormGenerico(forms.ModelForm):
             'cantidad': _('Cantidad')
         }
 
-
     def clean_descripcion(self):
         descripcion = self.cleaned_data['descripcion']
         if descripcion:
@@ -183,10 +181,11 @@ class RelatedFieldWidgetCanAdd(widgets.Select):
 
     def render(self, name, value, *args, **kwargs):
         self.related_url = reverse(self.related_url)
-        output = [super(RelatedFieldWidgetCanAdd, self).render(name, value, *args, **kwargs)]
-        output.append(u'<a href="%s" class="add-another" id="add_id_%s" onclick="return showAddAnotherPopup(this);"> ' % \
-            (self.related_url, name))
-        output.append(u'<img src="%sadmin/img/icon_addlink.gif" width="15" height="15" align="right" margin-top="10px" alt="%s"/></a>' % (settings.STATIC_URL, ('Add Another')))
+        output = [super(RelatedFieldWidgetCanAdd, self).render(name, value, *args, **kwargs),
+                  u'<a href="%s" class="add-another" id="add_id_%s" onclick="return showAddAnotherPopup(this);"> ' %
+                  (self.related_url, name),
+                  u'<img src="%sadmin/img/icon_addlink.gif" width="15" height="15" align="right" margin-top="10px" alt="%s"/></a>' % (
+                  settings.STATIC_URL, 'Add Another')]
         return mark_safe(u''.join(output))
 
 
@@ -245,6 +244,7 @@ class MedicamentoFormUpdateStockMinimo(forms.ModelForm):
             'stockMinimo': _('Stock Minimo')
         }
 
+
 class MedicamentoFormUpdatePrecioVenta(forms.ModelForm):
     helper = FormHelper()
     helper.form_class = 'form'
@@ -279,13 +279,6 @@ class DosisForm(forms.ModelForm):
         if not monodroga:
             raise forms.ValidationError('Error monodroga')
         return monodroga
-
-#    def clean_cantidad(self):
-#        cantidad = self.cleaned_data['cantidad']
-#        if ((not cantidad) and ((cantidad<1) or (cantidad>999))):
-#            raise forms.ValidationError('La cantidad debe ser mayor a 1 o menor a 9999')
-#        return cantidad
-
 
 
 class DosisFormSetBase(BaseFormSet):

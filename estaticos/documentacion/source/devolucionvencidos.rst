@@ -7,10 +7,10 @@ CAPTURA
 .. ATTENTION::
 	El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará. En este punto, las posibles causas de errores son:
 
-	    - No se ingresó un laboratorio.
+        - No se ingresó un laboratorio.
 
 .. NOTE::
-	En caso de que no existan laboratorios con medicamentos vencidos, el selector no mostrara opciones.
+    En caso de que no existan laboratorios con medicamentos vencidos, el selector no mostrara opciones.
 
 Una vez realizado el paso anterior el usuario sera redirigido a la siguiente pantalla:
 

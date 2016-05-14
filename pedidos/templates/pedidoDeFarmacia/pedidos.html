@@ -19,9 +19,9 @@
     <input class="datepicker form-control form-field" type="text" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="FechaHasta"> 
     <select id="selectEstado" class="form-control form-field" name="estado">
         <option value = "">-----</option>
-        <option value= "Pendiente" {% if filtros.estado == 'Pendiente' %}selected ="selected"{% endif %} >Pendiente</option>
-        <option value = "Enviado" {%  if filtros.estado == 'Enviado' %}selected ="selected"{% endif %}>Enviado</option>
-        <option value = "Parcial" {% if filtros.estado == 'Parcial' %}selected ="selected"{% endif %}>Parcialmente Enviado</option>      
+        <option value= "Pendiente" {% if filtros.estado = 'Pendiente' %} selected="selected" {% endif %}>Pendiente</option>
+        <option value = "Enviado" {%  if filtros.estado = 'Enviado' %} selected="selected" {% endif %}>Enviado</option>
+        <option value = "Parcial" {% if filtros.estado = 'Parcial' %} selected="selected" {% endif %}>Parcialmente Enviado</option>
     </select>
 {% endblock %}
 
@@ -81,7 +81,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Detalles del Pedido</h4>
+                    <h4 class="modal-title">Detalles del Pedido</h4>
                 </div>
                 <div class="modal-body">
                     <table class="table table-striped">
@@ -102,14 +102,12 @@
             </div>
         </div>
     </div>
-
-
     <div class="modal fade" id="modal-ver-remitos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Remitos del Pedido</h4>
+                    <h4 class="modal-title">Remitos del Pedido</h4>
                 </div>
                 <div class="modal-body">
                     <table class="table table-striped">
@@ -136,12 +134,10 @@
     </div>
 {% endblock %}
 
-
 {% block more-scripts %}
     <script src="{% static 'js/modalAjax.js' %}"></script>
     <script>
         (function() {
-
             var modal = modalAjax();
             modal.init();
 
@@ -150,7 +146,6 @@
                     window.open("{% static 'documentacion/build/html/pedidosfarmacia.html' %}");
                 }
             });
-
         })();
     </script>
 {% endblock %}

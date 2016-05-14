@@ -5,14 +5,11 @@ from django.shortcuts import render, redirect, RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.db.models import Q
-
 from easy_pdf.views import PDFTemplateView
 from jsonview.decorators import json_view
 from crispy_forms.utils import render_crispy_form
-
 import datetime
 import re
-
 from medicamentos import models as mmodels
 from organizaciones import models as omodels
 from pedidos import forms, models, utils
@@ -29,15 +26,15 @@ def get_filtros(get, modelo):
             if value.isdigit():
                 value = int(value)
             elif re.match(r"^[0-9]{2}/[0-9]{2}/[0-9]{4}$", value):
-                fechaAux = value.split("/") # fecha separada por /
+                fechaAux = value.split("/")  # fecha separada por /
                 fechaModificada = datetime.date(month=int(fechaAux[1]), day=int(fechaAux[0]), year=int(fechaAux[2]))
                 value = fechaModificada
             mfilter[attr] = value
     return mfilter
 
 
-def limpiar_sesion(list, session):
-    for item in list:
+def limpiar_sesion(lista, session):
+    for item in lista:
         if item in session:
             del session[item]
 
@@ -66,7 +63,7 @@ def pedidoDeFarmacia_add(request):
             request.session['pedidoDeFarmacia'] = utils.crear_pedido_para_sesion(models.PedidoDeFarmacia, pedido)
             return redirect('detallesPedidoDeFarmacia')
     else:
-           form = forms.PedidoDeFarmaciaForm()
+            form = forms.PedidoDeFarmaciaForm()
     return render(request, "pedidoDeFarmacia/pedidoAdd.html", {"form": form})
 
 
@@ -75,20 +72,22 @@ def pedidoDeFarmacia_ver(request, id_pedido):
     pedido = models.PedidoDeFarmacia.objects.get(pk=id_pedido)
     detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido)
     remitos = models.RemitoDeFarmacia.objects.filter(pedidoFarmacia__pk=id_pedido)
-    return render(request, "pedidoDeFarmacia/pedidoVer.html",{"pedido": pedido, "detalles": detalles, "remitos": remitos})
+    return render(request, "pedidoDeFarmacia/pedidoVer.html", {"pedido": pedido, "detalles": detalles, "remitos": remitos})
+
 
 @json_view
 @login_required(login_url='login')
-def pedidoDeFarmacia_verDetalles(request, id_pedido):
+def pedidoDeFarmacia_verDetalles(id_pedido):
     detalles_json = []
     detalles = models.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia__pk=id_pedido)
     for detalle in detalles:
         detalles_json.append(detalle.to_json())
     return {'detalles': detalles_json}
-    
+
+
 @json_view
 @login_required(login_url='login')
-def pedidoDeFarmacia_verRemitos(request, id_pedido):
+def pedidoDeFarmacia_verRemitos(id_pedido):
     remitos_json = []
     remitos = models.RemitoDeFarmacia.objects.filter(pedidoFarmacia__pk=id_pedido)
     for remito in remitos:
@@ -96,6 +95,7 @@ def pedidoDeFarmacia_verRemitos(request, id_pedido):
         json['urlPdf'] = reverse('remitoDeFarmacia', args=[remito.pk])
         remitos_json.append(json)
     return {'remitos': remitos_json}
+
 
 @json_view
 @permission_required('usuarios.empleado_despacho_pedido', login_url='login')
@@ -149,7 +149,7 @@ def detallePedidoDeFarmacia_add(request):
             if not utils.existe_medicamento_en_pedido(detalles, det.medicamento.id):
                 detalles.append(utils.crear_detalle_json(det, len(detalles) + 1))
                 request.session['detallesPedidoDeFarmacia'] = detalles
-                form = forms.DetallePedidoDeFarmaciaForm() #Nuevo form para seguir dando de alta
+                form = forms.DetallePedidoDeFarmaciaForm()  # Nuevo form para seguir dando de alta
                 form_html = render_crispy_form(form, context=RequestContext(request))
                 return {'success': success, 'form_html': form_html, 'detalles': detalles}
             else:  # medicamento ya existe en el pedido
@@ -219,6 +219,7 @@ def pedidosDeClinica(request):
     }
     return render(request, "pedidoDeClinica/pedidos.html", {"pedidos": pedidos, "filtros": request.GET, 'estadisticas': estadisticas})
 
+
 @permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
 def pedidoDeClinica_add(request):
@@ -232,13 +233,14 @@ def pedidoDeClinica_add(request):
             request.session["pedidoDeClinica"] = pedido_json
             return redirect('detallesPedidoDeClinica')
     else:
-           form = forms.PedidoDeClinicaForm()
+            form = forms.PedidoDeClinicaForm()
     return render(request, "pedidoDeClinica/pedidoAdd.html", {"form": form})
+
 
 @json_view
 @permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
-def get_obrasSociales(request, id_clinica):
+def get_obrasSociales(id_clinica):
     clinica = omodels.Clinica.objects.get(pk=id_clinica)
     obrasSociales = clinica.obraSocial.split(',')
     options = []
@@ -246,25 +248,28 @@ def get_obrasSociales(request, id_clinica):
         options.append({'text':obraSocial, 'value':obraSocial})
     return options
 
+
 @login_required(login_url='login')
 def pedidoDeClinica_ver(request, id_pedido):
     pedido = models.PedidoDeClinica.objects.get(pk=id_pedido)
     detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica=pedido)
     remitos = models.RemitoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
-    return render(request, "pedidoDeClinica/pedidoVer.html", {"pedido": pedido, "detalles": detalles, "remitos":remitos})
+    return render(request, "pedidoDeClinica/pedidoVer.html", {"pedido": pedido, "detalles": detalles, "remitos": remitos})
+
 
 @json_view
 @login_required(login_url='login')
-def pedidoDeClinica_verDetalles(request, id_pedido):
+def pedidoDeClinica_verDetalles(id_pedido):
     detalles_json = []
     detalles = models.DetallePedidoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
     for detalle in detalles:
         detalles_json.append(detalle.to_json())
     return {'detalles': detalles_json}
-    
+
+
 @json_view
 @login_required(login_url='login')
-def pedidoDeClinica_verRemitos(request, id_pedido):
+def pedidoDeClinica_verRemitos(id_pedido):
     remitos_json = []
     remitos = models.RemitoDeClinica.objects.filter(pedidoDeClinica__pk=id_pedido)
     for remito in remitos:
@@ -272,6 +277,7 @@ def pedidoDeClinica_verRemitos(request, id_pedido):
         json['urlPdf'] = reverse('remitoDeClinica', args=[remito.pk])
         remitos_json.append(json)
     return {'remitos': remitos_json}
+
 
 @json_view
 @permission_required('usuarios.empleado_despacho_pedido', login_url='login')
@@ -301,6 +307,7 @@ def pedidoDeClinica_registrar(request):
         mensaje_error = "No se puede registrar un pedido sin detalles"
     return {'success': False, 'mensaje-error': mensaje_error}
 
+
 @permission_required('usuarios.empleado_despacho_pedido', login_url='login')
 @login_required(login_url='login')
 def detallesPedidoDeClinica(request):
@@ -327,7 +334,7 @@ def detallePedidoDeClinica_add(request):
             if not utils.existe_medicamento_en_pedido(detalles, det.medicamento.id):
                 detalles.append(utils.crear_detalle_json(det, len(detalles) + 1))
                 request.session["detallesPedidoDeClinica"] = detalles
-                form = forms.DetallePedidoDeClinicaForm() #Nuevo form para seguir dando de alta
+                form = forms.DetallePedidoDeClinicaForm()  # Nuevo form para seguir dando de alta
                 form_html = render_crispy_form(form, context=RequestContext(request))
                 return {'success': success, 'form_html': form_html, 'detalles': detalles}
             else:  # medicamento ya existe en el pedido
@@ -387,7 +394,6 @@ class remitoDeClinica(PDFTemplateView):
 
 # =================VISTAS DE PEDIDO A LABORATORIO NUEVAS=================#
 
-
 @login_required(login_url='login')
 def pedidosAlaboratorio(request):
     mfilters = get_filtros(request.GET, models.PedidoAlaboratorio)
@@ -419,22 +425,24 @@ def pedidoAlaboratorio_add(request):
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def pedidoAlaboratorio_cancelar(request, id_pedido):
+def pedidoAlaboratorio_cancelar(id_pedido):
     pedido = models.PedidoAlaboratorio.objects.get(pk=id_pedido)
-    utils.cancelar_pedido_a_laboratorio(pedido);
+    utils.cancelar_pedido_a_laboratorio(pedido)
     return redirect('pedidosAlaboratorio')
+
 
 @json_view
 @login_required(login_url='login')
-def pedidoAlaboratorio_verDetalles(request, id_pedido):
+def pedidoAlaboratorio_verDetalles(id_pedido):
     detalles_json = []
     detalles = models.DetallePedidoAlaboratorio.objects.filter(pedido__pk=id_pedido)
     for detalle in detalles:
         detalles_json.append(detalle.to_json())
     return {'detalles': detalles_json}
-    
+
+
 @json_view
-def pedidoAlaboratorio_verRemitos(request, id_pedido):
+def pedidoAlaboratorio_verRemitos(id_pedido):
     remitos_json = []
     remitos = models.RemitoLaboratorio.objects.filter(pedidoLaboratorio__pk=id_pedido)
     for remito in remitos:
@@ -473,11 +481,11 @@ def detallePedidoAlaboratorio_add(request):
             detalles = request.session["detallesPedidoAlaboratorio"] 
             if not utils.existe_medicamento_en_detalle_suelto(detalles, det.medicamento.id):
                 detallePedidoAlaboratorio_json = utils.crear_detalle_json(det, len(detalles) + 1) 
-                #detalle suelto no se corresponde con ningun detalle de pedido de farmacia
+                # detalle suelto no se corresponde con ningun detalle de pedido de farmacia
                 detallePedidoAlaboratorio_json['detallePedidoFarmacia'] = -1 
                 detalles.append(detallePedidoAlaboratorio_json) 
                 request.session["detallesPedidoAlaboratorio"] = detalles 
-                #Nuevo form para seguir dando de alta
+                # Nuevo form para seguir dando de alta
                 form = forms.DetallePedidoAlaboratorioFormFactory(id_laboratorio)() 
                 form_html = render_crispy_form(form, context=RequestContext(request)) 
                 return {'success': success, 'form_html': form_html, 'detalles': detalles}
@@ -489,7 +497,6 @@ def detallePedidoAlaboratorio_add(request):
         form = forms.DetallePedidoAlaboratorioFormFactory(id_laboratorio)() 
     form_html = render_crispy_form(form, context=RequestContext(request)) 
     return {'success': success, 'form_html': form_html} 
-
 
 
 @json_view
@@ -521,8 +528,8 @@ def detallePedidoAlaboratorio_update(request, id_detalle):
 @login_required(login_url='login')
 def detallePedidoAlaboratorio_delete(request, id_detalle):
     detalles = request.session['detallesPedidoAlaboratorio']
-    id = int(id_detalle)
-    if id > 0 and id <= len(detalles):
+    idDet = int(id_detalle)
+    if 0 < idDet <= len(detalles):
         del detalles[int(id_detalle) - 1]
         for i in range(0, len(detalles)):
             detalles[i]['renglon'] = i + 1
@@ -706,11 +713,12 @@ def devolucionMedicamentosVencidos(request):
         form = forms.DevolucionMedicamentosForm()
     return render(request, 'devolucionMedicamentosVencidos/devolucionMedicamentosVencidos.html', {'form': form})
 
+
 @permission_required('usuarios.encargado_medicamentos_vencidos', login_url='login')
 @login_required(login_url='login')
 def devolucionMedicamentosVencidos_detalle(request, id_laboratorio):
     laboratorio = omodels.Laboratorio.objects.get(pk=id_laboratorio)
-    medicamentos = mmodels.Medicamento.objects.filter(laboratorio=laboratorio) # todos los medicamentos
+    medicamentos = mmodels.Medicamento.objects.filter(laboratorio=laboratorio)  # todos los medicamentos
     lista = []
 
     for m in medicamentos:
