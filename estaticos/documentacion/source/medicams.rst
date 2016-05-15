@@ -19,7 +19,7 @@ Estas funcionalidades son:
 .. _alta-medicamento:
 
 Alta Medicamento
--------------------
+----------------
 
 Si el usuario desea crear un nuevo *Medicamento*, deberá presionar el botón ``Alta``. 
 

@@ -90,13 +90,13 @@
             e.stopPropagation();
         })
 
-                    $(document).on("keyup", function(e){
-                if(e.keyCode == 112){
-                    var url = "{% static 'documentacion/build/html/devolucionvencidos.html' %}";
-                    url += "#registrar-devolucion";
-                    window.open(url);
-                }
-            });
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 112){
+                var url = "{% static 'documentacion/build/html/devolucionvencidos.html' %}";
+                url += "#registrar-devolucion";
+                window.open(url);
+            }
+        });
     </script>
 {% endblock %}
 

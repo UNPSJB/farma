@@ -85,7 +85,7 @@ class FarmaciaFormAdd(FarmaciaFormGenerico):
             if models.Laboratorio.objects.filter(cuit=cuit).exists():
                 raise forms.ValidationError('Ya existe un laboratorio con este CUIT')
                 
-            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
+            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]$", cuit):
                 raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit 
 
@@ -181,7 +181,6 @@ class ClinicaFormAdd(ClinicaFormGenerico):
 
     def clean_cuit(self):
         cuit = self.cleaned_data['cuit']
-
         if cuit:
             if models.Farmacia.objects.filter(cuit=cuit).exists():
                 raise forms.ValidationError('Ya existe una farmacia con este CUIT')
@@ -192,7 +191,7 @@ class ClinicaFormAdd(ClinicaFormGenerico):
             if models.Laboratorio.objects.filter(cuit=cuit).exists():
                 raise forms.ValidationError('Ya existe un laboratorio con este CUIT')
 
-            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
+            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]$", cuit):
                 raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit
 
@@ -285,7 +284,7 @@ class LaboratorioFormAdd(LaboratorioFormGenerico):
             if models.Laboratorio.objects.filter(cuit=cuit).exists():
                 raise forms.ValidationError('Ya existe un laboratorio con este CUIT')
 
-            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]{1}$", cuit):
+            if not re.match(r"^[0-9]{2}-[0-9]{8}-[0-9]$", cuit):
                 raise forms.ValidationError('CUIT inválido, por favor siga este formato xx-xxxxxxxx-x')
         return cuit 
 

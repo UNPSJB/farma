@@ -72,7 +72,7 @@ Una vez completado el formulario, el usuario deberá presionar el botón ``Guard
 .. _eliminar-clinica:
 
 Eliminar Clínica
------------------
+----------------
 
 Si el usuario desea eliminar una *Clínica*, deberá seleccionar el botón de **Acción** asociado a la *Clínica* y presionar la pestaña ``Eliminar``.
 

@@ -42,7 +42,7 @@
         <tbody>
             {% for detalle in detalles %}
                 <tr 
-                {% if detalle.detallePedidoFarmacia == -1 %} 
+                {% if detalle.detallePedidoFarmacia = -1 %}
                     class="clickeable editable"
                 {% else %} 
                     class="clickeable"
@@ -144,7 +144,7 @@
             $(document).on("keyup", function(e){
                 if(e.keyCode == 112){
                     var url = "{% static 'documentacion/build/html/pedidosalab.html' %}";
-                    url += "#alta-pedido";
+                    url += "#ver-detalles";
                     window.open(url);
                 }
             });

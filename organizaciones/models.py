@@ -20,7 +20,8 @@ class Farmacia(Organizacion):
 
     def __str__(self):
         return self.razonSocial
-        
+
+
 class Clinica(Organizacion):
     FILTROS = ["razonSocial__icontains", "localidad__icontains", "obraSocial__icontains"]
     obraSocial = models.CharField(max_length=200)
@@ -33,6 +34,3 @@ class Laboratorio(Organizacion):
 
     def __str__(self):
         return self.razonSocial
-
-
-

@@ -34,11 +34,9 @@ class PedidoDeFarmaciaForm(forms.ModelForm):
         fecha = self.cleaned_data['fecha']
         fechaActual = datetime.date.today()
         lim = fechaActual - datetime.timedelta(weeks=config.SEMANAS_LIMITE_PEDIDO)
-
         if fecha:
             if fecha > fechaActual:
                 raise forms.ValidationError('La fecha no puede ser mayor que la actual')
-
             if fecha < lim:
                 raise forms.ValidationError('La fecha minima permitida es el ' + lim.strftime('%d/%m/%Y'))
         return fecha
@@ -91,7 +89,6 @@ class PedidoDeClinicaForm(forms.ModelForm):
         Field('fecha', placeholder='Fecha', css_class='datepicker'),
     )
 
-
     class Meta:
         model = models.PedidoDeClinica
         fields = ["clinica", "obraSocial", "medicoAuditor", "fecha"]
@@ -117,7 +114,6 @@ class PedidoDeClinicaForm(forms.ModelForm):
         return fecha
 
 
-
 class DetallePedidoDeClinicaForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
@@ -138,7 +134,6 @@ class DetallePedidoDeClinicaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DetallePedidoDeClinicaForm, self).__init__(*args, **kwargs)
         self.fields['medicamento'].queryset = utils.get_medicamentos_con_stock()
-
 
     def is_valid(self):
         valid = super(DetallePedidoDeClinicaForm, self).is_valid()
@@ -180,8 +175,8 @@ class UpdateDetallePedidoDeClinicaForm(forms.ModelForm):
             return False
         return True
 
-# ===================================== INICIO FORMULARIOS PEDIDOS A LABORATORIOS =====================================
 
+# ===================================== INICIO FORMULARIOS PEDIDOS A LABORATORIOS =====================================
 
 def get_laboratorios_con_medicamentos():
     laboratorios_con_medicamentos = []
@@ -235,12 +230,12 @@ def DetallePedidoAlaboratorioFormFactory(laboratorio_id):
 
         def clean_cantidad(self):
             cantidad = self.cleaned_data['cantidad']
-            print(cantidad)
             if not cantidad:
                 raise forms.ValidationError('Debe ingresar una cantidad a pedir')
             return cantidad
 
     return DetallePedidoAlaboratorioForm
+
 
 class UpdateDetallePedidoAlaboratorioForm(forms.ModelForm):
     helper = FormHelper()
@@ -424,4 +419,3 @@ class RegistrarRecepcionForm(forms.Form):
             if fechaRemito < lim:
                 raise forms.ValidationError('La fecha minima permitida es el ' + lim.strftime('%d/%m/%Y'))
         return fechaRemito
-
