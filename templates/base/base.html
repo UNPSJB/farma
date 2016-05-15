@@ -1,0 +1,50 @@
+{% load staticfiles %}
+{% load staticfiles bootstrap3 %}
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="shortcut icon" href="{% static 'images/FPIcono.png' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{%  static 'css/base.css' %}">
+    {% block no-header-css %}
+        <link rel="stylesheet" href="{%  static 'css/header.css' %}">
+    {% endblock%}
+
+    {% block stylesheets %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    {% bootstrap_messages %}
+
+    {% include 'inicio/nav.html' %}
+
+    {% block no-header %}
+        <ol id="breadcrumb-page" class="breadcrumb _breadcrumb_">
+            {% block breadcrumb-items %}
+            {% endblock %}
+        </ol>
+        <header id="header-page" class="header">
+            <a href="{% block url-volver %}{% endblock %}" class="btn-volver">
+                <span class="glyphicon glyphicon-arrow-left animated"></span>
+            </a>
+            <h1 class="header-title pull-right">
+                {% block header-title %} {% endblock %}
+            </h1>
+        </header>
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% include 'inicio/footer.html' %}
+
+    {% block no-jquery %}
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    {% endblock %}
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

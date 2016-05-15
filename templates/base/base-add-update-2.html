@@ -4,7 +4,6 @@
 
 {% block stylesheets %}
 	<link rel="stylesheet" href="{% static 'css/base-add-update.css' %}">
-
 	{% block more-stylesheets %} {% endblock %}
 {% endblock %}
 
@@ -40,15 +39,10 @@
 						{% block sub-header-form %}{% endblock %}
 					</p>
 				</div>
-
 				{% crispy form %}
-			</div>
-			
-			
 			</div>
 		</div>
 	</div>
-
 {% endblock %}
 
 {% block scripts %} 

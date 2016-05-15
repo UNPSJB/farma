@@ -35,7 +35,6 @@
 	            </form>
 	        </aside>
 	        <section id="section-table" class="col-md-9 section-table">
-	            <!-- ------------------TABLA----------------- -->
 	            <div class="header-tabla">
 	                <h3 class="header-tabla-title"><span class="glyphicon glyphicon-th-list"></span> Listado</h3>
 					{% block sin-botones-header-tabla %}
@@ -138,7 +137,6 @@
 
 	{% endblock %}
 
-	<!-- Para agregar más contenido -->
 	{% block more-content %}
 	{% endblock %}
 	
@@ -260,7 +258,6 @@
 			                	that.$modalEliminar.find('.confirmar').attr('href', url);
 								that.$modalEliminar.modal('show');
 			                }
-			                
 			            },
 			            error: function(err){
 			                alert("Fallo Ajax");

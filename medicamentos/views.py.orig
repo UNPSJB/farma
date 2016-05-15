@@ -25,12 +25,12 @@ def hubo_alta(session):
 def monodrogas(request):
     filters = get_filtros(request.GET, models.Monodroga)
     mfilters = dict(filter(lambda v: v[0] in models.Monodroga.FILTROS, filters.items()))
-    monodrogas = models.Monodroga.objects.filter(**mfilters)
+    lmonodrogas = models.Monodroga.objects.filter(**mfilters)
     estadisticas = {
         'total': models.Monodroga.objects.all().count(),
-        'filtrados': monodrogas.count()
+        'filtrados': lmonodrogas.count()
     }
-    return render(request, "monodroga/monodrogas.html", {"monodrogas": monodrogas, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "monodroga/monodrogas.html", {"monodrogas": lmonodrogas, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -68,7 +68,11 @@ def monodroga_update(request, id_monodroga):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
+<<<<<<< HEAD
 def monodroga_try_delete(request, id_monodroga):
+=======
+def monodroga_try_delete(reqest, id_monodroga):
+>>>>>>> 5074fa51da6db901515d4f569ee01d28c85e6288
     infoBaja = utils.puedo_eliminar_monodroga(id_monodroga)
     return infoBaja
 
@@ -87,12 +91,12 @@ def monodroga_delete(request, id_monodroga):
 def nombresFantasia(request):
     filters = get_filtros(request.GET, models.NombreFantasia)
     mfilters = dict(filter(lambda v: v[0] in models.NombreFantasia.FILTROS, filters.items()))
-    nombresFantasia = models.NombreFantasia.objects.filter(**mfilters)
+    lnombresFantasia = models.NombreFantasia.objects.filter(**mfilters)
     estadisticas = {
         'total': models.NombreFantasia.objects.all().count(),
-        'filtrados': nombresFantasia.count()
+        'filtrados': lnombresFantasia.count()
     }
-    return render(request, "nombreFantasia/nombresFantasia.html", {"nombresFantasia": nombresFantasia, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "nombreFantasia/nombresFantasia.html", {"nombresFantasia": lnombresFantasia, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -149,12 +153,12 @@ def nombresFantasia_delete(request, id_nombreFantasia):
 def presentaciones(request):
     filters = get_filtros(request.GET, models.Presentacion)
     mfilters = dict(filter(lambda v: v[0] in models.Presentacion.FILTROS, filters.items()))
-    presentaciones = models.Presentacion.objects.filter(**mfilters)
+    lpresentaciones = models.Presentacion.objects.filter(**mfilters)
     estadisticas = {
         'total': models.Presentacion.objects.all().count(),
-        'filtrados': presentaciones.count()
+        'filtrados': lpresentaciones.count()
     }
-    return render(request, "presentacion/presentaciones.html",{"presentaciones": presentaciones, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "presentacion/presentaciones.html",{"presentaciones": lpresentaciones, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -212,12 +216,12 @@ def presentacion_delete(request, id_presentacion):
 def medicamentos(request):
     filters = get_filtros(request.GET, models.Medicamento)
     mfilters = dict(filter(lambda v: v[0] in models.Medicamento.FILTROS, filters.items()))
-    medicamentos = models.Medicamento.objects.filter(**mfilters)
+    lmedicamentos = models.Medicamento.objects.filter(**mfilters)
     estadisticas = {
         'total': models.Medicamento.objects.all().count(),
-        'filtrados': medicamentos.count()
+        'filtrados': lmedicamentos.count()
     }
-    return render(request, "medicamento/medicamentos.html", {"medicamentos": medicamentos, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "medicamento/medicamentos.html", {"medicamentos": lmedicamentos, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')

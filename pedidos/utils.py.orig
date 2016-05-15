@@ -286,8 +286,13 @@ def guardar_recepcion_detalle(session, detalle, infoRecepcionDetalle):
             break
             
     if agregarDetalleRemito:
+<<<<<<< HEAD
+        detallesRemitoRecepcion.append({'detallePedidoLaboratorio':detalle.pk,'lote':numeroLote,'cantidad':infoRecepcionDetalle['cantidad']})
+    
+=======
         detallesRemitoRecepcion.append({'detallePedidoLaboratorio':detalle.pk, 'lote': numeroLote, 'cantidad': infoRecepcionDetalle['cantidad']})
 
+>>>>>>> 5074fa51da6db901515d4f569ee01d28c85e6288
     session['remitoRecepcion']['detalles']=detallesRemitoRecepcion
 
     cantidadStockLote = 0

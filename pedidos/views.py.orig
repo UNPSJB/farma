@@ -154,8 +154,13 @@ def detallePedidoDeFarmacia_add(request):
             if not utils.existe_medicamento_en_pedido(detalles, det.medicamento.id):
                 detalles.append(utils.crear_detalle_json(det, len(detalles) + 1))
                 request.session['detallesPedidoDeFarmacia'] = detalles
+<<<<<<< HEAD
                 form = forms.DetallePedidoDeFarmaciaForm() 
                 form_html = render_crispy_form(form, context=update_csrf(request))
+=======
+                form = forms.DetallePedidoDeFarmaciaForm()  # Nuevo form para seguir dando de alta
+                form_html = render_crispy_form(form, context=RequestContext(request))
+>>>>>>> 5074fa51da6db901515d4f569ee01d28c85e6288
                 return {'success': success, 'form_html': form_html, 'detalles': detalles}
             else:  # medicamento ya existe en el pedido
                 return {'success': False}
@@ -238,7 +243,7 @@ def pedidoDeClinica_add(request):
             request.session["pedidoDeClinica"] = pedido_json
             return redirect('detallesPedidoDeClinica')
     else:
-        form = forms.PedidoDeClinicaForm()
+            form = forms.PedidoDeClinicaForm()
     return render(request, "pedidoDeClinica/pedidoAdd.html", {"form": form})
 
 
@@ -339,8 +344,13 @@ def detallePedidoDeClinica_add(request):
             if not utils.existe_medicamento_en_pedido(detalles, det.medicamento.id):
                 detalles.append(utils.crear_detalle_json(det, len(detalles) + 1))
                 request.session["detallesPedidoDeClinica"] = detalles
+<<<<<<< HEAD
                 form = forms.DetallePedidoDeClinicaForm() #Nuevo form para seguir dando de alta
                 form_html = render_crispy_form(form, context=update_csrf(request)) 
+=======
+                form = forms.DetallePedidoDeClinicaForm()  # Nuevo form para seguir dando de alta
+                form_html = render_crispy_form(form, context=RequestContext(request))
+>>>>>>> 5074fa51da6db901515d4f569ee01d28c85e6288
                 return {'success': success, 'form_html': form_html, 'detalles': detalles}
             else:  
                 return {'success': False}
