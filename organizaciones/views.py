@@ -14,7 +14,12 @@ def get_filtros(get, modelo):
             mfilter[attr] = get[attr]
     return mfilter
 
-
+def hubo_alta(session):
+    if 'successAdd' in session:
+        del session['successAdd']
+        return True
+    return False
+    
 # ****** FARMACIAS ******
 
 
@@ -40,10 +45,12 @@ def farmacia_add(request):
             if '_volver' in request.POST:
                 return redirect('farmacias')
             else:
+                request.session['successAdd'] = True
                 return redirect('farmacia_add')
     else:
         form = forms.FarmaciaFormAdd()
-    return render(request, "farmacia/farmaciaAdd.html", {"form": form})
+    successAdd = hubo_alta(request.session)
+    return render(request, "farmacia/farmaciaAdd.html", {"form": form, 'successAdd': successAdd})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -119,10 +126,12 @@ def clinica_add(request):
             if '_volver' in request.POST:
                 return redirect('clinicas')
             else:
+                request.session['successAdd'] = True
                 return redirect('clinica_add')
     else:
         form = forms.ClinicaFormAdd()
-    return render(request, "clinica/clinicaAdd.html", {"form": form})
+    successAdd = hubo_alta(request.session)
+    return render(request, "clinica/clinicaAdd.html", {"form": form, 'successAdd': successAdd})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -177,10 +186,12 @@ def laboratorio_add(request):
             if '_volver' in request.POST:
                 return redirect('laboratorios')
             else:
+                request.session['successAdd'] = True
                 return redirect('laboratorio_add')
     else:
         form = forms.LaboratorioFormAdd()
-    return render(request, "laboratorio/laboratorioAdd.html", {"form": form})
+    successAdd = hubo_alta(request.session)
+    return render(request, "laboratorio/laboratorioAdd.html", {"form": form, 'successAdd': successAdd})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')

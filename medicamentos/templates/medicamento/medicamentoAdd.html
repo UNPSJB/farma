@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load staticfiles bootstrap3 %}
 {% load staticfiles bootstrap_dynamic_formsets %}
+{% load crispy_forms_tags %}
 
 {% block stylesheets %} 
     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css' %}">
@@ -12,12 +13,6 @@
     {{ dosis_formset.media.js }}
     <link rel="stylesheet" href="{%  static 'css/selectize.css' %}">
     <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
-
-    <style>
-        .pre-scrollable {
-            max-height: 470px;
-        }
-    </style>
 {% endblock %}
 
 {% block title %} Alta de Medicamento {% endblock%}
@@ -32,44 +27,24 @@
 
 {% block header-title %} Alta de Medicamento {% endblock %}
 
-{% block content %}
-    <div style="margin: 30px 20px 90px 20px;">
-        <div class="container">
-            <div class="col-xs-12 col-md-12">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Alta de Medicamentos</h3>
-                    </div>
-                    <div class="panel-body">                    
-                        <form class="form-horizontal col-xs-12 col-md-12" method="post">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="meds col-xs-6 col-md-6">
-                                        {% csrf_token %}
-                                        {% bootstrap_form medicamento_form %}
-                                    </div>
-                                    <div class="pre-scrollable col-xs-6 col-md-6">
-                                        <label class="control-label">Formula</label>
-                                        {{ dosis_formset.non_form_errors }}
-                                        {% bootstrap_dynamic_formset dosis_formset can_order=True can_delete=True layout='inline'  %}
-                                    </div>
-                                    </div>
-                                </div>
-                                <div class="pull-right" style="margin-top: 20px;">
-                                    <button type="submit" id="btn-guardar-continuar" class="btn btn-success pull-right" style="margin-left:10px;" value="_continuar" name="_continuar">
-                                        {% bootstrap_icon "ok" %} Guardar y Continuar
-                                    </button>
-                                    <button type="submit" id="btn-guardar-volver" class="btn btn-primary pull-right" value="_volver" name="_volver">
-                                        {% bootstrap_icon "ok" %} Guardar y Volver
-                                    </button>
-                                <div class="clearfix"></div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+{% block content %}                 
+<div class="container">
+    <div class="row">
+        <div class="col-xs-offset-1 col-xs-10">
+            <form class="form" method="post"> {% csrf_token %}
+    
+                {% crispy medicamento_form %}
+
+                {{ dosis_formset.non_form_errors }}
+                {% bootstrap_dynamic_formset dosis_formset can_delete=True %}
+ {{ formset.management_form }}
+                <button class="btn btn-primary">Guardar</button>
+            </form>
         </div>
     </div>
+
+</div>
+
 {% endblock %}
 
 {% block no-jquery %} {% endblock%}
@@ -77,13 +52,13 @@
 {% block scripts %}
     <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
     <script>
-        $('.meds select').selectize({
+        /*$('select').selectize({
             sortField: {
                 field: 'text',
                 direction: 'asc'
             },
             dropdownParent: 'body'
-        });
+        });*/
 
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
@@ -91,6 +66,20 @@
                 url += "#alta-medicamento";
                 window.open(url);
             }
+        });
+
+
+
+        var $sortItems = $('#sortable .sort-item'),
+            txt;   
+        $sortItems.removeClass('well');
+
+        $sortItems.each(function(i, el){
+            var $errors = $(el).find('.has-error .help-block');
+            $errors.each(function(i, elem){
+                var txt = $(elem).text();
+                $(elem).html('<strong>' + txt + '</strong>')
+            });
         });
     </script>
 {% endblock %}

@@ -15,6 +15,11 @@ def get_filtros(get, modelo):
             mfilter[attr] = get[attr]
     return mfilter
 
+def hubo_alta(session):
+    if 'successAdd' in session:
+        del session['successAdd']
+        return True
+    return False
 
 @login_required(login_url='login')
 def monodrogas(request):
@@ -39,10 +44,12 @@ def monodroga_add(request):
             if '_volver' in request.POST:
                 return redirect('monodrogas')
             else:
+                request.session['successAdd'] = True
                 return redirect('monodroga_add')
     else:
         form = forms.MonodrogaFormAdd()
-    return render(request, "monodroga/monodrogaAdd.html", {"form": form})
+    successAdd = hubo_alta(request.session)
+    return render(request, "monodroga/monodrogaAdd.html", {"form": form, 'successAdd': successAdd})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -62,14 +69,14 @@ def monodroga_update(request, id_monodroga):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def monodroga_try_delete(id_monodroga):
+def monodroga_try_delete(request, id_monodroga):
     infoBaja = utils.puedo_eliminar_monodroga(id_monodroga)
     return infoBaja
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def monodroga_delete(id_monodroga):
+def monodroga_delete(request, id_monodroga):
     infoBaja = utils.puedo_eliminar_monodroga(id_monodroga)
     if infoBaja['success']:
         monodroga = models.Monodroga.objects.get(pk=id_monodroga)
@@ -95,15 +102,16 @@ def nombresFantasia_add(request):
     if request.method == "POST":
         form = forms.NombreFantasiaFormAdd(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             form.save()
             if '_volver' in request.POST:
                 return redirect('nombresFantasia')
             else:
+                request.session['successAdd'] = True
                 return redirect('nombreFantasia_add')
     else:
         form = forms.NombreFantasiaFormAdd()
-    return render(request, "nombreFantasia/nombreFantasiaAdd.html", {"form": form})
+    successAdd = hubo_alta(request.session)
+    return render(request, "nombreFantasia/nombreFantasiaAdd.html", {"form": form, 'successAdd': successAdd})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -123,14 +131,14 @@ def nombresFantasia_update(request, id_nombreFantasia):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def nombresFantasia_try_delete(id_nombreFantasia):
+def nombresFantasia_try_delete(request, id_nombreFantasia):
     infoBaja = utils.puedo_eliminar_nombreFantasia(id_nombreFantasia)
     return infoBaja
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def nombresFantasia_delete(id_nombreFantasia):
+def nombresFantasia_delete(request, id_nombreFantasia):
     infoBaja = utils.puedo_eliminar_nombreFantasia(id_nombreFantasia)
     if infoBaja['success']:
         nombreFantasia = models.NombreFantasia.objects.get(pk=id_nombreFantasia)
@@ -160,10 +168,13 @@ def presentacion_add(request):
             if '_volver' in request.POST:
                 return redirect('presentaciones')
             else:
+                request.session['successAdd'] = True
                 return redirect('presentacion_add')
     else:
         form = forms.PresentacionFormAdd()
-    return render(request, "presentacion/presentacionAdd.html", {"form": form})
+
+    successAdd = hubo_alta(request.session)
+    return render(request, "presentacion/presentacionAdd.html", {'form': form, 'successAdd': successAdd})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -183,14 +194,14 @@ def presentacion_update(request, id_presentacion):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def presentacion_try_delete(id_presentacion):
+def presentacion_try_delete(request, id_presentacion):
     infoBaja = utils.puedo_eliminar_presentacion(id_presentacion)
     return infoBaja
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def presentacion_delete(id_presentacion):
+def presentacion_delete(request, id_presentacion):
     infoBaja = utils.puedo_eliminar_presentacion(id_presentacion)
     if infoBaja['success']:
         clinica = models.Presentacion.objects.get(pk=id_presentacion)
@@ -231,12 +242,10 @@ def medicamento_add(request):
     else:
         dosis_formset = forms.DosisFormSet()
         medicamento_form = forms.MedicamentoForm()
-    print dosis_formset.errors 
-    print medicamento_form.errors
 
     return render(request, "medicamento/medicamentoAdd.html", {
         "medicamento_form": medicamento_form,
-        "dosis_formset": dosis_formset,
+        "dosis_formset": dosis_formset
     })
 
 
@@ -270,7 +279,7 @@ def medicamento_updatePrecioVenta(request, id_medicamento):
 
 @json_view
 @login_required(login_url='login')
-def medicamento_verLotes(id_medicamento):
+def medicamento_verLotes(request, id_medicamento):
     lotes_json = []
     medicamento = models.Medicamento.objects.get(pk=id_medicamento)
     lotes = medicamento.get_lotes_activos()
@@ -283,14 +292,14 @@ def medicamento_verLotes(id_medicamento):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def medicamento_try_delete(id_medicamento):
+def medicamento_try_delete(request, id_medicamento):
     infoBaja = utils.puedo_eliminar_medicamento(id_medicamento)
     return infoBaja
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def medicamento_delete(id_medicamento):
+def medicamento_delete(request, id_medicamento):
     infoBaja = utils.puedo_eliminar_medicamento(id_medicamento)
     if infoBaja['success']:
         medicamento = models.Medicamento.objects.get(pk=id_medicamento)

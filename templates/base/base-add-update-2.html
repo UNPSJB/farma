@@ -17,6 +17,16 @@
 {% block url-volver %}{% endblock %}
 
 {% block content %} 
+
+	{% block no-msg-success %}
+		{% if successAdd %}
+			<div id="alert-success-add" class="alert alert-success text-center" role="alert">
+			    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				{% block msg-success %}{% endblock %}
+			</div>
+		{% endif %}
+	{% endblock %}
+
 	<div class="container container-main">
 		<div class="row">
 			<div class="col-md-offset-1 col-md-10">
@@ -43,8 +53,15 @@
 
 {% block scripts %} 
 	<script>
-        /*Limpia campos del formulario con una cadena vacia <espacio, tab, etc> */
+    	var $alertSuccessAdd = $('#alert-success-add'),
+    		time = 4000;
+    	setTimeout(function() {
+    		$alertSuccessAdd.slideUp('slow', function() {
+    			$alertSuccessAdd.alert('close');
+    		});
+		}, time);
 
+        /*Limpia campos del formulario con una cadena vacia <espacio, tab, etc> */
         document.forms[0].addEventListener("submit", function(e){
                 var i, length;
                 for(i = 0, length = this.elements.length; i < length; i++){

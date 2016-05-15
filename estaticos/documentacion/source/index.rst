@@ -9,5 +9,5 @@ Contenidos:
    medicamentos
    organizaciones
    pedidos
-   perfil
+   usuarios
 

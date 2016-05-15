@@ -36,13 +36,12 @@
 {% block scripts %}
     <script>
         /*Limpia campos del formulario con una cadena vacia <espacio, tab, etc> */
-
         document.forms[0].addEventListener("submit", function(e){
-                var i, length;
-                for(i = 0, length = this.elements.length; i < length; i++){
-                    this.elements[i].value = this.elements[i].value.replace(/^[\s]+$/, '');
-                }
-            });
+            var i, length;
+            for(i = 0, length = this.elements.length; i < length; i++){
+                this.elements[i].value = this.elements[i].value.replace(/^[\s]+$/, '');
+            }
+        });	
     </script>
 	{% block more-scripts %}{% endblock %}
 {% endblock%}
