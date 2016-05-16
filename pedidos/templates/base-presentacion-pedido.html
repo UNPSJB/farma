@@ -9,35 +9,104 @@
         .selectize-dropdown{
             z-index: 10000!important;
         }
-
-        .jumbotron{
-            padding: 28px 30px;
-            max-height: 9.5em;
-        }
-        .jumbotron h3{
-            font-size: 28px;
-        }
-
-        .jumbotron p{
-            font-size: 18px;
-        }
-
-        .jumbotron, .panel{
-            font-family: 'Bree Serif', serif;
-        }
-
-        .panel-nro-pedido{
-            display: inline-block;
-            min-width: 7em;
-            text-align: center;
-        }
-
-        .panel-nro-pedido .panel-body{
-            padding: 8px 10px;
-        }
-
         tr {
             font-size: 16px;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        .header-pedido{
+            margin-top: 3rem;
+            padding: 2rem 1rem; 
+            border-bottom: 1px solid rgba(0,0,0,.1);
+        }
+
+        .header-pedido-nro {
+            background-color: #DEAE3A;
+            float: right;
+            padding: 1rem;
+            font-weight: bold;
+            color: #FFF;
+            border-radius: 5px;
+        }
+
+        .header-pedido-nro:hover {
+            background-color: #004693;
+        }
+
+        .header-pedido-title {
+            margin: 0;
+        }
+
+        .pedido-organizacion {
+            color: #004693;
+        }
+
+        .panel-detalle {
+            margin-top: 3rem;
+        }
+        
+        .header-tabla {
+          margin-top: 2rem;
+          padding: 1rem;
+          background-color: #fafafa;
+          border-radius: 5px;
+          border: 1px solid rgb(214,215,219);
+          box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+        }
+        .header-tabla-title {
+          display: inline-block;
+          margin: 0;
+          color: rgb(51,107,169);
+          font-size: 1.5rem;
+          font-weight: bolder;
+        }
+        
+        .table thead tr {
+            font-style: italic;
+        }
+        .container-btn-registrar{
+            padding-top: 1rem;
+            padding-right: 1rem;
+        }
+
+        .table-empty {
+            position: relative;
+            border: 2px dashed #ccc;
+            padding: 1rem;
+            height: 20rem;
+          overflow: hidden;
+        }
+
+        .table-empty-title,
+        .table-empty-msg {
+            position: absolute;
+            left: 50%; top: 50%;
+          width: 100%;
+          text-align: center;
+        }
+
+        .table-empty-title {
+            margin: 0;
+            -webkit-transform: translate(-50%, -150%);
+            transform: translate(-50%, -150%);
+        }
+
+        .table-empty-title span {
+            color: rgb(228,45,64);
+            top: 0;
+        }
+
+        .table-empty-msg {
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+        }
+
+        .table-responsive {
+            max-height: 25rem;
+            overflow: auto;
         }
     </style>
     {% block more-stylesheets %}{% endblock %}
@@ -54,44 +123,50 @@
 {% block url-volver %}{% endblock %}
 
 {% block content %}
-    <div class="jumbotron">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12 {% block jumbotron-style %}col-md-6{% endblock %}">
-                    <h3>{% block tipo-pedido %}{% endblock %} <small class="text-primary">{% block nombre-organizacion %}{% endblock %}</small></h3>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="header-pedido">
+                    <h2 class="header-pedido-title pull-left">
+                        {% block tipo-pedido %}{% endblock %}
+                        "<span class="pedido-organizacion">{% block pedido-organizacion %}{% endblock %}</span>"
+                    </h2>    
+                    <div class="header-pedido-nro pull-right"><span> Número {% block nro-pedido %}{% endblock %}</span></div>
+                    <div class="clearfix"></div>
                 </div>
-                {% block etiqueta-Numero-Y-fecha %}
-                    <div class="col-sm-12 col-md-6">
-                        <p class="text-right"><span class="glyphicon glyphicon-calendar text-primary"></span> {% block fecha-pedido %}{% endblock %}</p>
-                        <div class="panel panel-default panel-nro-pedido pull-right">
-                            <div class="panel-body">
-                                <span>Numero: {% block nro-pedido %}{% endblock %}</span>
-                            </div>
-                        </div>
-                    </div>
-                {% endblock %}
             </div>
         </div>
-    </div>
-    <div class="container panel-detalle">
-        <div class="col-xs-12 ">
-            {% block panel-detalles %}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title pull-left">Detalles del pedido</h3>
-                        <div class="pull-right">
-                            {% block panel-heading-right %}{% endblock %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="header-tabla">
+                    <h3 class="header-tabla-title"><span class="glyphicon glyphicon-th-list"></span> Detalles</h3>
+                    {% block sin-botones-detalles %}
+                        <div class="header-tabla-botones pull-right">
+                            {% block botones-header-tabla %} 
+                            {% endblock %}
                         </div>
                         <div class="clearfix"></div>
-                    </div>
-                    <div class="panel-body">
-                        {% block grid %}
-                        {% endblock %}
-                    </div>
-                    {% block panel-footer %}{% endblock %}
+                    {% endblock %}
                 </div>
-            {% endblock %}
+                <div class="table-responsive">
+                    {% block table %} {% endblock %}
+                </div>
+                 <div id="table-empty" class="table-empty hidden">                 
+                    <h3 class="table-empty-title"> <span class="glyphicon glyphicon-exclamation-sign"></span> 
+                        El pedido aún no posee detalles.
+                    </h3>
+                    <em class="table-empty-msg">
+                        Puedes agregarlos presionando el botón de alta.
+                    </em>
+                </div>
+                <div class="pull-right container-btn-registrar">
+                    {% block btn-registrar %}
+                        <button id="btn-registrar" class="btn btn-primary" type="submit">Registrar</button>
+                    {% endblock %}
+                </div>
+            </div>
         </div>
+
     </div>
 
     {% block modals-abm %}
@@ -208,7 +283,10 @@
             </div>
         </div>
     {% endblock %}
+
+    {% block more-content %}{% endblock %}
 {% endblock %}
+
 
 {% block scripts %}
     <script src="{% static 'js/utils.js' %}"></script>
@@ -274,6 +352,7 @@
                         if(data['success']){
                             $("#form-add-detalle").replaceWith(data['form_html']);
                             refresh_table(data['detalles']);
+                            controlTable();
                         }else{
                             //Si no viene con el formulario, hubo error con el medicamento
                             if(! data['form_html']){
@@ -335,6 +414,7 @@
                     dataType: 'json',
                     success: function(data){
                         refresh_table(data['detalles']);
+                        controlTable();
                     },
                     error: function(err){
                         alert("Fallo Ajax");
@@ -405,6 +485,16 @@
             $("#btn-pdf").on("click", function(e){
                 $("#modal-registrar-pedido").modal('hide');
             });
+
+            function controlTable() {
+                if ($('.table tbody tr').length == 0){
+                    $('#table-empty').removeClass('hidden');
+                }else{
+                    $('#table-empty').addClass('hidden');
+                }
+            }
+
+            controlTable();
         </script>
     {% endblock %}
 

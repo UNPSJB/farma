@@ -15,7 +15,7 @@
 
 {% block url-volver %}{% url 'pedidoDeFarmacia_add' %}{% endblock %}
 
-{% block panel-heading-right %}
+{% block botones-header-tabla %}
     <div class="btn-group btn-group-xs">
         <a id="btn-add-detalle" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>
         <a id="btn-update-detalle" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
@@ -25,16 +25,14 @@
 
 {% block tipo-pedido %}Pedido de Farmacia{% endblock %}
 
-{% block nombre-organizacion %} {{ pedido.farmacia.razonSocial }} {% endblock %}
-
-{% block fecha-pedido %} {{ pedido.fecha }} {% endblock %}
+{% block pedido-organizacion %} {{ pedido.farmacia.razonSocial }} {% endblock %}
 
 {% block nro-pedido %} {{ pedido.nroPedido }} {% endblock %}
 
-{% block grid %}
-    <table class="table table-condensed table-responsive" >
+{% block table %}
+    <table class="table table-striped table-condensed" >
         <thead>
-            <tr class="info" align="center">
+            <tr align="center">
                 <th>Medicamento</th>
                 <th>Cantidad</th>
             </tr>
@@ -122,17 +120,16 @@
 
             $("#btn-registrar").on("click", function(e){
                 if($('.table tbody tr').length > 0){
-                    $(this).prop('disabled', true)
-                    registrar_pedido_ajax("{% url 'pedidoDeFarmacia_registrar' %}");
+                    $(this).prop('disabled', true)   
                 }
-                
+                registrar_pedido_ajax("{% url 'pedidoDeFarmacia_registrar' %}");
                 e.stopPropagation();
             });
 
             $(document).on("keyup", function(e){
                 if(e.keyCode == 112){
                     var url = "{% static 'documentacion/build/html/pedidosfarmacia.html' %}";
-                    url += "#ver-detalles";
+                    url += "#alta-pedido";
                     window.open(url);
                 }
             });

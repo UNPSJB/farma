@@ -1,4 +1,4 @@
-{% extends "base-add-pedido.html" %}
+{% extends "base/base-add-update-2.html" %}
 {% load staticfiles %}
 
 {% block more-stylesheets %}
@@ -8,9 +8,7 @@
     <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
 {% endblock %}
 
-{% block title %}
-	Alta Pedido De Clinica
-{% endblock %}
+{% block title %}Alta Pedido De Clinica{% endblock %}
 
 {% block breadcrumb-items %}
     <li><a href="{% url 'inicio' %}">Inicio</a></li>
@@ -18,16 +16,23 @@
     <li class="active">Alta</li>
 {% endblock %}
 
-{% block header-title %} Alta Pedido de Clínica {% endblock%}
-
 {% block url-volver %}{% url 'pedidosDeClinica' %}{% endblock %}
 
-{% block panel-title-pedido %}
-	Pedido de Clinica
+{% block header-title %} Alta Pedido de Clínica {% endblock %}
+
+{% block title-header-form %}Agregar nuevo pedido de clínica{% endblock %}
+
+{% block icon-header-form %}
+    <span class="icon-file-text page-header-icon"></span>
+{% endblock%}
+
+{% block sub-header-form %}Complete los siguientes campos{% endblock %}
+
+{% block no-msg-success %}
 {% endblock %}
 
 {% block more-scripts %}
-    <script src="{% static 'js/datepicker.js' %}"></script>
+<script src="{% static 'js/datepicker.js' %}"></script>
     {{ form.media.js }}
     <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
     <script>

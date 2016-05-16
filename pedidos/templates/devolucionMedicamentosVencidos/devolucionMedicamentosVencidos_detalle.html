@@ -14,14 +14,14 @@
 
 {% block tipo-pedido %}Devolucion de medicamentos vencidos{% endblock %}
 
-{% block nombre-organizacion %} {{ laboratorio.razonSocial }} {% endblock %}
+{% block pedido-organizacion %} {{ laboratorio.razonSocial }} {% endblock %}
 
 {% block fecha-pedido %} {{ fecha }} {% endblock %}
 
 {% block nro-pedido %} {{ numero }} {% endblock %}
 
-{% block grid %}
-    <table class="table table-condensed table-responsive" >
+{% block table %}
+    <table class="table table-condensed table-striped" >
         <thead>
             <tr class="info" align="center">
                 <th>Lote</th>
@@ -43,13 +43,8 @@
     </table>
 {% endblock %}
 
-{% block panel-footer %}
-    <div class="panel-footer">
-        <div class="pull-right">
-            <a id="btn-registrar" href="{% url 'devolucionMedicamentosVencidos_registrar' laboratorioId %}" class="btn btn-primary" type="submit">Registrar</a>
-        </div>
-        <div class="clearfix"></div>
-    </div>
+{% block btn-registrar %}
+    <a id="btn-registrar" href="{% url 'devolucionMedicamentosVencidos_registrar'   laboratorioId %}" class="btn btn-primary" type="submit">Registrar</a>
 {% endblock %}
 
 {% block modals-abm %}

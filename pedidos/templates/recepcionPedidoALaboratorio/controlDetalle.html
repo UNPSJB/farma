@@ -1,6 +1,5 @@
-{% extends "base-add-pedido.html" %}
+{% extends "base/base-add-update-2.html" %}
 {% load staticfiles %}
-{% load crispy_forms_tags %}
 
 {% block more-stylesheets %}
     <link rel="stylesheet" href="{% static 'css/jquery-ui.custom.min.css' %}">
@@ -18,15 +17,17 @@
     <li class="active">Control de Detalle</li>
 {% endblock %}
 
-{% block header-title %} Control de Detalle de Recepcion {% endblock%}
-
 {% block url-volver %}{% url 'recepcionPedidoAlaboratorio_controlPedido' pedido.pk %}{% endblock %}
 
-{% block panel-title-pedido %}
-	Control Detalle Nº {{detalle.renglon}}
-{% endblock %}
+{% block header-title %}Control de Detalle de Recepcion{% endblock %}
 
-{% block form-pedido %}
+{% block title-header-form %}Acusar recibo del detalle{% endblock %}
+
+{% block icon-header-form %}
+    <span class="glyphicon glyphicon-pencil page-header-icon"></span>
+{% endblock%}
+
+{% block sub-header-form %}Complete los siguientes campos
     {% if btnNuevoLote %}
         <a class="pull-right " href="{% url 'recepcionPedidoAlaboratorio_controlDetalleConNuevoLote' pedido.pk detalle.renglon %}">+ Nuevo Lote</a>
     {% else %}
@@ -35,13 +36,13 @@
         {% endif %}
     {% endif %}
     <div class="clearfix"></div>
-    {% crispy form %}
 {% endblock %}
 
-{% block footer %}{% endblock %}
+{% block no-msg-success %}
+{% endblock %}
 
-{% block scripts %}
-	<script src="{% static 'js/datepicker.js' %}"></script>
+{% block more-scripts %}
+    <script src="{% static 'js/datepicker.js' %}"></script>
     {{ form.media.js }}
     <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
     <script>

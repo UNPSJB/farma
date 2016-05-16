@@ -39,7 +39,7 @@ En este punto el usuario deberá seleccionar la fecha en que llegó el pedido y 
 
 Una vez presionado el botón ``Crear Pedido``, se mostrará la siguiente pantalla:
 
-.. image:: _static/adddetallespedfarm.png
+.. image:: _static/detallespedfarm.png
    :align: center
 
 Esta pantalla es la encargada de visualizar aquellos detalles que se irán asociando al *Pedido de Farmacia*. 
@@ -152,7 +152,7 @@ Si el usuario desea ver los detalles de un *Pedido de Farmacia*, deberá selecci
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
-.. image:: _static/detallespedfarm.png
+.. image:: _static/verdetallespedfarm.png
    :align: center
 
 Esta ventana mostrará todos los detalles del *Pedido de Farmacia* seleccionado.

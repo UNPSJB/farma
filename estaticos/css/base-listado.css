@@ -10,7 +10,8 @@ body {
 
 .button-hover:hover,
 .button-hover:focus,
-.button-hover:active {
+.button-hover:active,
+.button-hover-inverse {
 	border-color: rgb(222,174,58) !important;
 	background-color: rgb(222,174,58) !important;
 	color: #FFF !important;

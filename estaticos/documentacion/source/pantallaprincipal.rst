@@ -2,7 +2,8 @@ Pantalla Principal
 ==================
 La pantalla principal del sistema ofrece un menú de navegación en el que se encuentran las gestiones generales del sistema.
 
-CAPTURA 
+.. image:: _static/pantallaprincipal.jpg
+   :align: center
 
 Estas gestiones son:
 
@@ -18,7 +19,8 @@ Gestión de Usuarios
 
 La *Gestión de Usuarios* muestra la información relacionada al usuario activo y funcionalidades que esten acordes a los permisos que posea el mismo.
 
-CAPTURA GESTION USUARIOS 
+.. image:: _static/gestionusuarios.jpg
+   :align: center
 
 Estas funcionalidades son:
 	- Entrar al Sistema
@@ -30,9 +32,10 @@ Estas funcionalidades son:
 Gestión de Medicamentos
 +++++++++++++++++++++++
 
-La *Gestión de Medicamentos* muestra la funcionalidades relacionadas a los medicamentos que manejará el sistema.
+La *Gestión de Medicamentos* muestra las funcionalidades relacionadas a los medicamentos que manejará el sistema.
 
-CAPTURA GESTION MEDICAMENTOS 
+.. image:: _static/gestionmedicamentos.jpg
+   :align: center
 
 Estas funcionalidades estan divididas en estas cuatro secciones:
 	- Medicamentos
@@ -46,9 +49,10 @@ Estas funcionalidades estan divididas en estas cuatro secciones:
 Gestión de Organizaciones
 +++++++++++++++++++++++++
 
-La *Gestión de Organizaciones* muestra la funcionalidades relacionadas a las organizaciones que manejará el sistema.
+La *Gestión de Organizaciones* muestra las funcionalidades relacionadas a las organizaciones que manejará el sistema.
 
-CAPTURA GESTION ORGANIZACIONES 
+.. image:: _static/gestionorganizaciones.jpg
+   :align: center
 
 Estas funcionalidades estan divididas en estas cuatro secciones:
 	- Farmacias
@@ -61,9 +65,10 @@ Estas funcionalidades estan divididas en estas cuatro secciones:
 Gestión de Pedidos
 ++++++++++++++++++
 
-La *Gestión de Pedidos* muestra la funcionalidades relacionadas a los pedidos que manejará el sistema.
+La *Gestión de Pedidos* muestra las funcionalidades relacionadas a los pedidos que manejará el sistema.
 
-CAPTURA GESTION PEDIDOS 
+.. image:: _static/gestionpedidos.jpg
+   :align: center 
 
 Estas funcionalidades estan divididas en estas cinco secciones:
 	- Pedido de Farmacia

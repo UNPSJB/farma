@@ -1,14 +1,14 @@
 {% extends "base/base-listado.html" %}
 {% load staticfiles %}
 
-{% block title %} Pedido de Farmacia {% endblock %}
+{% block title %} Pedidos de Farmacia {% endblock %}
 
 {% block breadcrumb-items %}
     <li><a href="{% url 'inicio' %}">Inicio</a></li>
     <li class="active">Pedido de Farmacia</li>
 {% endblock %}
 
-{% block header-title %} Pedido de Farmacia {% endblock%}
+{% block header-title %} Pedidos de Farmacia {% endblock%}
 
 {% block form-field-simple %} 
     <input  class="form-control form-field form-field-simple" type="text" id="farmacia" name="farmacia" value="{{filtros.farmacia}}" placeholder="Farmacia">

@@ -1,6 +1,7 @@
 Registrar Devolución de Medicamentos Vencidos
 =============================================
-Se presentará una pantalla en la cual el usuario deberá seleccionar el laboratorio al cual desea devolverle los medicamentos vencidos. A continuación deberá presionar el botón ``Confirmar``.
+
+Se presentará una pantalla en la cual el usuario deberá seleccionar el laboratorio al cual desea devolverle los medicamentos vencidos. A continuación deberá presionar el botón ``Continuar``.
 
 CAPTURA
 
@@ -17,6 +18,15 @@ Una vez realizado el paso anterior el usuario sera redirigido a la siguiente pan
 CAPTURA
 
 Esta pantalla es la encargada de visualizar los lotes vencidos vinculados a medicamentos producidos por el laboratorio seleccionado. 
+
+Esta pantalla ofrece las siguientes funcionalidades:
+
+    - :ref:`Registrar Devolución <registrar-devolucion>`
+
+.. _registrar-devolucion:
+
+Registrar Devolución
+++++++++++++++++++++
 
 Si el usuario desea registrar la devolución de medicamentos vencidos, deberá presionar el botón ``Registrar``.
 

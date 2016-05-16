@@ -1,6 +1,5 @@
-{% extends "base-add-pedido.html" %}
-{% load staticfiles bootstrap3 %}
-{% load crispy_forms_tags %}
+{% extends "base/base-add-update-2.html" %}
+{% load staticfiles %}
 
 {% block more-stylesheets %}
     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css' %}">
@@ -9,9 +8,7 @@
     <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
 {% endblock %}
 
-{% block title %}
-	Alta Pedido a Laboratorio
-{% endblock %}
+{% block title %}Alta Pedido a Laboratorio{% endblock %}
 
 {% block breadcrumb-items %}
     <li><a href="{% url 'inicio' %}">Inicio</a></li>
@@ -19,16 +16,23 @@
     <li class="active">Alta</li>
 {% endblock %}
 
-{% block header-title %} Alta Pedido a Laboratorio {% endblock%}
-
 {% block url-volver %}{% url 'pedidosAlaboratorio' %}{% endblock %}
 
-{% block panel-title-pedido %}
-	Pedido a Laboratorio
+{% block header-title %} Alta Pedido a Laboratorio {% endblock %}
+
+{% block title-header-form %}Agregar nuevo pedido a laboratorio{% endblock %}
+
+{% block icon-header-form %}
+    <span class="icon-file-text page-header-icon"></span>
+{% endblock%}
+
+{% block sub-header-form %}Seleccione el laboratorio{% endblock %}
+
+{% block no-msg-success %}
 {% endblock %}
 
 {% block more-scripts %}
-    <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
+<script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
     <script>
         $('select').selectize({
             sortField: {

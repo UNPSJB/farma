@@ -27,7 +27,7 @@ Si el usuario desea crear un nuevo *Medicamento*, deberá presionar el botón ``
 
 A continuación el sistema lo redirigirá a la siguiente pantalla:
 
-.. image:: _static/altamed.png
+.. image:: _static/altamed.jpg
    :align: center
 
 En esta parte al usuario se le presentará un formulario y deberá ingresar los datos solicitados para dar de alta un nuevo *Medicamento*.

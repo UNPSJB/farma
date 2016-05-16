@@ -15,7 +15,7 @@
 
 {% block url-volver %}{% url 'pedidoAlaboratorio_add' %}{% endblock %}
 
-{% block panel-heading-right %}
+{% block botones-header-tabla %}
     <div class="btn-group btn-group-xs">
         <a id="btn-add-detalle" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>
         <a id="btn-update-detalle" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
@@ -25,16 +25,14 @@
 
 {% block tipo-pedido %}Pedido A Laboratorio{% endblock %}
 
-{% block nombre-organizacion %} {{ pedido.laboratorio.razonSocial }} {% endblock %}
-
-{% block fecha-pedido %} {{ pedido.fecha }} {% endblock %}
+{% block pedido-organizacion %} {{ pedido.laboratorio.razonSocial }} {% endblock %}
 
 {% block nro-pedido %} {{ pedido.nroPedido }} {% endblock %}
 
-{% block grid %}
-    <table class="table table-condensed table-responsive" >
+{% block table %}
+    <table class="table table-striped table-condensed" >
         <thead>
-            <tr class="info" align="center">
+            <tr align="center">
                 <th>Medicamento</th>
                 <th>Cantidad a pedir</th>
             </tr>
@@ -54,15 +52,6 @@
             {% endfor %}
         </tbody>
     </table>
-{% endblock %}
-
-{% block panel-footer %}
-    <div class="panel-footer">
-        <div class="pull-right">
-            <button id="btn-registrar" class="btn btn-primary" type="submit">Registrar</button>
-        </div>
-        <div class="clearfix"></div>
-    </div>
 {% endblock %}
 
 {% block modal-body-extra %}{% endblock %}
@@ -132,7 +121,17 @@
                 e.stopPropagation();
             });
 
-            $('.clickeable').on('click', function(e){
+
+
+            $(document).on("keyup", function(e){
+                if(e.keyCode == 112){
+                    var url = "{% static 'documentacion/build/html/pedidosalab.html' %}";
+                    url += "#alta-pedido";
+                    window.open(url);
+                }
+            });
+        })();
+            $('tbody').on('click','.clickeable', function(e){
                 var $btn = $('#btn-update-detalle');
                 if(! $(this).hasClass("editable")) {
                     $btn.addClass("hidden");
@@ -140,14 +139,5 @@
                     $btn.removeClass("hidden");
                 }
             });
-
-            $(document).on("keyup", function(e){
-                if(e.keyCode == 112){
-                    var url = "{% static 'documentacion/build/html/pedidosalab.html' %}";
-                    url += "#ver-detalles";
-                    window.open(url);
-                }
-            });
-        })();
     </script>
 {% endblock %}

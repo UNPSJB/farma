@@ -1,16 +1,14 @@
-{% extends "base-add-pedido.html" %}
+{% extends "base/base-add-update-2.html" %}
 {% load staticfiles %}
 
 {% block more-stylesheets %}
-     <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
+    <link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
     {{ form.media.css }}
     <link rel="stylesheet" href="{%  static 'css/selectize.css' %}">
     <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
 {% endblock %}
 
-{% block title %}
-	Alta de Pedido De Farmacia
-{% endblock %}
+{% block title %}Alta Pedido De Farmacia{% endblock %}
 
 {% block breadcrumb-items %}
     <li><a href="{% url 'inicio' %}">Inicio</a></li>
@@ -18,12 +16,19 @@
     <li class="active">Alta</li>
 {% endblock %}
 
-{% block header-title %} Alta Pedido de Farmacia {% endblock%}
-
 {% block url-volver %}{% url 'pedidosDeFarmacia' %}{% endblock %}
 
-{% block panel-title-pedido %}
-	Pedido de Farmacia
+{% block header-title %} Alta Pedido de Farmacia {% endblock %}
+
+{% block title-header-form %}Agregar nuevo pedido de farmacia{% endblock %}
+
+{% block icon-header-form %}
+    <span class="icon-file-text page-header-icon"></span>
+{% endblock%}
+
+{% block sub-header-form %}Complete los siguientes campos{% endblock %}
+
+{% block no-msg-success %}
 {% endblock %}
 
 {% block more-scripts %}

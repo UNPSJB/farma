@@ -137,7 +137,7 @@
                         btnDeleteFormDisabled = true;
                     }else {
                         if(btnDeleteFormDisabled) {
-                            $('.sort-item:eq(0)').find('.delete-form').prop('disabled', false).addClass('disabled');
+                            $('.sort-item:eq(0)').find('.delete-form').prop('disabled', false).removeClass('disabled');
                             btnDeleteFormDisabled = false;
                         }
                     }
