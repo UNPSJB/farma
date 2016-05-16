@@ -2,7 +2,8 @@ Monodrogas
 ==========
 Se presentará una pantalla que contendrá un listado con todas las *Monodrogas* que se encuentren registradas en el sistema hasta la fecha. 
 
-CAPTURA
+.. image:: _static/monodrogas.png
+   :align: center
 
 Junto con el listado, se ofrecerán un conjunto de funcionalidades que permitirán manipular estas *Monodrogas*
 
@@ -18,15 +19,16 @@ Estas funcionalidades son:
 .. _alta-monodroga:
 
 Alta Monodroga
------------------
-
+--------------
 Si el usuario desea crear una nueva *Monodroga*, deberá presionar el botón ``Alta``. 
 
-CAPTURA BOTÓN
+.. image:: _static/btnaltamono.png
+   :align: center
 
 A continuación el sistema lo redirigirá a la siguiente pantalla:
 
-CAPTURA
+.. image:: _static/altamono.png
+   :align: center
 
 En esta parte el usuario se le presentará un formulario y deberá ingresar los datos solicitados para dar de alta una nueva *Monodroga*.
 
@@ -52,14 +54,15 @@ El botón ``Guardar y Continuar`` permite guardar la *Monodroga* en el sistema y
 
 Modificar Monodroga
 -------------------
-
 Si el usuario desea modificar los datos de una *Monodroga*, deberá seleccionar el botón de **Acción** asociado a la *Monodroga* y presionar la pestaña ``Modificar``.
 
-CAPTURA BOTÓN
+.. image:: _static/btnmodificarmono.png
+   :align: center
 
 Una vez realizado el paso anterior, el sistema lo redirigirá a la siguiente pantalla:
 
-CAPTURA
+.. image:: _static/modificarmono.png
+   :align: center
 
 En esta parte al usuario se le presentará un formulario y deberá actualizar los datos asociados a la *Monodroga*.
 
@@ -77,33 +80,36 @@ Una vez completado el formulario, el usuario deberá presionar el botón ``Guard
 
 Eliminar Monodroga
 ------------------
-
 Si el usuario desea eliminar una *Monodroga*, deberá seleccionar el botón de **Acción** asociado a la *Monodroga* y presionar la pestaña ``Eliminar``.
 
-CAPTURA BOTÓN
+.. image:: _static/btneliminarmono.png
+   :align: center
+
+Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
+
+.. image:: _static/eliminarmono.png
+   :align: center
+
+En esta parte el usuario deberá decidir si confirma la eliminación de la *Monodroga* o no. Si desea confirmar la eliminación deberá presionar el botón ``Confirmar``, caso contrario, presionará el botón ``Cancelar``.
 
 .. NOTE::
     Aquellas *Monodrogas* que cumplan las siguientes condiciones **NO** podrán ser eliminadas:
 
         - Esten asociadas a un medicamento.
 
-    El sistema se encargará de informar al usuario las razones por las cuales la *Monodroga* seleccionada no puede eliminarse.
-
-
-Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
-
-CAPTURA
-
-En esta parte el usuario deberá decidir si confirma la eliminación de la *Monodroga* o no. Si desea confirmar la eliminación deberá presionar el botón ``Confirmar``, caso contrario, presionará el botón ``Cancelar``.
+    El sistema se encargará de informar al usuario las razones por las cuales la *Monodroga* seleccionada no puede eliminarse. En dicho caso, el sistema mostrara una ventana emergente (modal) como esta:
+    
+    .. image:: _static/fallaeliminarmono.png
+       :align: center
 
 .. _formulario-busqueda-monodroga:
 
 Formulario de Búsqueda
 ----------------------
-
 Si el usuario desea visualizar sólo aquellas *Monodrogas* que cumplan con algunos criterios en específico, deberá utilizar el formulario de búsqueda.
 
-CAPTURA
+.. image:: _static/busquedamono.png
+   :align: center
 
 Este formulario sólo cuenta con la opción de búsqueda simple en base al nombre de la *Monodroga*. 
 

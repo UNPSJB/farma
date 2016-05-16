@@ -1,8 +1,6 @@
 Grupo Farma
 ===========
 
-Contenidos:
-
 .. toctree::
    :maxdepth: 2
    

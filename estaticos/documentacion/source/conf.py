@@ -117,7 +117,7 @@ html_theme = 'sphinx_rtd_theme'
 
 # The name for this set of Sphinx documents.
 # "<project> v<release> documentation" by default.
-#html_title = u'Farma v1.0'
+html_title = u'Manual de Usuario'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None
@@ -167,7 +167,7 @@ html_static_path = ['_static']
 #html_split_index = False
 
 # If true, links to the reST sources are added to the pages.
-#html_show_sourcelink = True
+html_show_sourcelink = False
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
 html_show_sphinx = False
@@ -205,7 +205,7 @@ htmlhelp_basename = 'Farmadoc'
 
 latex_elements = {
 # The paper size ('letterpaper' or 'a4paper').
-#'papersize': 'a4paper',
+'papersize': 'a4paper',
 
 # The font size ('10pt', '11pt' or '12pt').
 #'pointsize': '10pt',
@@ -221,13 +221,13 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Farma.tex', u'Farma Documentation',
+    (master_doc, 'Farma.tex', u'Grupo Farma - Manual de Usuario',
      u'Murua, Federico - Castro, Lucas Matias - Vergara, Marcos', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-#latex_logo = None
+latex_logo = '_static/logopequeno2.png'
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
@@ -251,7 +251,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'Farma', u'Farma Documentation',
+    (master_doc, 'Farma', u'Grupo Farma - Manual de Usuario',
      [author], 1)
 ]
 
@@ -265,7 +265,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Farma', u'Farma Documentation',
+    (master_doc, 'Farma', u'Grupo Farma - Manual de Usuario',
      author, 'Farma', 'One line description of project.',
      'Miscellaneous'),
 ]

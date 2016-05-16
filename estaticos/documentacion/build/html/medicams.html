@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Medicamentos &mdash; documentación de Farma - </title>
+  <title>Medicamentos &mdash; Manual de Usuario</title>
   
 
   
@@ -32,10 +32,10 @@
   
 
   
-    <link rel="top" title="documentación de Farma - " href="index.html"/>
-        <link rel="up" title="1. Medicamentos" href="medicamentos.html"/>
+    <link rel="top" title="Manual de Usuario" href="index.html"/>
+        <link rel="up" title="Medicamentos" href="medicamentos.html"/>
         <link rel="next" title="Monodrogas" href="monodrogas.html"/>
-        <link rel="prev" title="1. Medicamentos" href="medicamentos.html"/> 
+        <link rel="prev" title="Medicamentos" href="medicamentos.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -84,7 +84,7 @@
             
             
                 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="medicamentos.html">1. Medicamentos</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="medicamentos.html">Medicamentos</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Medicamentos</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#alta-medicamento">Alta Medicamento</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#modificar-stock-minimo">Modificar Stock Mínimo</a></li>
@@ -99,9 +99,9 @@
 <li class="toctree-l2"><a class="reference internal" href="nombresfantasia.html">Nombres Fantasia</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="organizaciones.html">2. Organizaciones</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pedidos.html">3. Pedidos</a></li>
-<li class="toctree-l1"><a class="reference internal" href="perfil.html">4. Perfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="organizaciones.html">Organizaciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pedidos.html">Pedidos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="perfil.html">Perfil</a></li>
 </ul>
 
             
@@ -132,13 +132,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-          <li><a href="medicamentos.html">1. Medicamentos</a> &raquo;</li>
+          <li><a href="medicamentos.html">Medicamentos</a> &raquo;</li>
       
     <li>Medicamentos</li>
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="_sources/medicams.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -167,9 +165,9 @@
 <div class="section" id="alta-medicamento">
 <span id="id1"></span><h2>Alta Medicamento<a class="headerlink" href="#alta-medicamento" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Si el usuario desea crear un nuevo <em>Medicamento</em>, deberá presionar el botón <code class="docutils literal"><span class="pre">Alta</span></code>.</p>
-<img alt="_images/botonalta.png" class="align-center" src="_images/botonalta.png" />
+<img alt="_images/btnaltamed.png" class="align-center" src="_images/btnaltamed.png" />
 <p>A continuación el sistema lo redirigirá a la siguiente pantalla:</p>
-<p>CAPTURA</p>
+<img alt="_images/altamed.png" class="align-center" src="_images/altamed.png" />
 <p>En esta parte al usuario se le presentará un formulario y deberá ingresar los datos solicitados para dar de alta un nuevo <em>Medicamento</em>.</p>
 <div class="admonition attention">
 <p class="first admonition-title">Atención</p>
@@ -237,7 +235,10 @@ En este punto, las posibles causas de errores son:</p>
 <div class="section" id="eliminar-medicamento">
 <span id="id3"></span><h2>Eliminar Medicamento<a class="headerlink" href="#eliminar-medicamento" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Si el usuario desea eliminar un <em>Medicamento</em>, deberá seleccionar el botón de <strong>Acción</strong> asociado al <em>Medicamento</em> y presionar la pestaña <code class="docutils literal"><span class="pre">Eliminar</span></code>.</p>
-<img alt="_images/eliminar.png" class="align-center" src="_images/eliminar.png" />
+<img alt="_images/btneliminarmed.png" class="align-center" src="_images/btneliminarmed.png" />
+<p>Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):</p>
+<img alt="_images/eliminarmed.png" class="align-center" src="_images/eliminarmed.png" />
+<p>En esta parte el usuario deberá decidir si confirma la eliminación del <em>Medicamento</em> o no. Si desea confirmar la eliminación deberá presionar el botón <code class="docutils literal"><span class="pre">Confirmar</span></code>, caso contrario, presionará el botón <code class="docutils literal"><span class="pre">Cancelar</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Nota</p>
 <p>Aquellos <em>Medicamentos</em> que cumplan las siguientes condiciones <strong>NO</strong> podrán ser eliminados:</p>
@@ -248,11 +249,9 @@ En este punto, las posibles causas de errores son:</p>
 <li>Posean lotes activos.</li>
 </ul>
 </div></blockquote>
-<p class="last">El sistema se encargará de informar al usuario las razones por las cuales el <em>Medicamento</em> seleccionado no puede eliminarse.</p>
+<p>El sistema se encargará de informar al usuario las razones por las cuales el <em>Medicamento</em> seleccionado no puede eliminarse. En dicho caso, el sistema mostrara una ventana emergente (modal) como esta:</p>
+<img alt="_images/fallaeliminarmed.png" class="last align-center" src="_images/fallaeliminarmed.png" />
 </div>
-<p>Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):</p>
-<img alt="_images/eliminarmed.png" class="align-center" src="_images/eliminarmed.png" />
-<p>En esta parte el usuario deberá decidir si confirma la eliminación del <em>Medicamento</em> o no. Si desea confirmar la eliminación deberá presionar el botón <code class="docutils literal"><span class="pre">Confirmar</span></code>, caso contrario, presionará el botón <code class="docutils literal"><span class="pre">Cancelar</span></code>.</p>
 </div>
 <div class="section" id="ver-lotes">
 <span id="id4"></span><h2>Ver Lotes<a class="headerlink" href="#ver-lotes" title="Enlazar permanentemente con este título">¶</a></h2>
@@ -283,6 +282,8 @@ En este punto, las posibles causas de errores son:</p>
 <p class="last">Todos los campos son opcionales, de no especificarse ningún criterio de búsqueda el sistema mostrará todos los <em>Medicamentos</em>.</p>
 </div>
 <p>El usuario tendrá que ingresar los parámetros de búsqueda en el formulario, y presionar el botón <code class="docutils literal"><span class="pre">Buscar</span></code>. El sistema visualizará aquellos <em>Medicamentos</em> que cumplan con todas las condiciones especificadas.</p>
+<p>Si el usuario desea limpiar los filtros activos, deberá presionar el boton <code class="docutils literal"><span class="pre">Limpiar</span></code>.</p>
+<img alt="_images/limpiarbusquedamed.png" class="align-center" src="_images/limpiarbusquedamed.png" />
 </div>
 </div>
 
@@ -296,7 +297,7 @@ En este punto, las posibles causas de errores son:</p>
         <a href="monodrogas.html" class="btn btn-neutral float-right" title="Monodrogas" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="medicamentos.html" class="btn btn-neutral" title="1. Medicamentos" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="medicamentos.html" class="btn btn-neutral" title="Medicamentos" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
