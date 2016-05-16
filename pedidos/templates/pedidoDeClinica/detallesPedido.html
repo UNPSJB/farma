@@ -15,7 +15,7 @@
 
 {% block url-volver %}{% url 'pedidoDeClinica_add' %}{% endblock %}
 
-{% block panel-heading-right %}
+{% block botones-header-tabla %}
     <div class="btn-group btn-group-xs">
         <a id="btn-add-detalle" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>
         <a id="btn-update-detalle" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
@@ -25,16 +25,14 @@
 
 {% block tipo-pedido %}Pedido de Clinica{% endblock %}
 
-{% block nombre-organizacion %} {{ pedido.clinica.razonSocial }} {% endblock %}
-
-{% block fecha-pedido %} {{ pedido.fecha }} {% endblock %}
+{% block pedido-organizacion %}{{ pedido.clinica.razonSocial }}{% endblock %}
 
 {% block nro-pedido %} {{ pedido.nroPedido }} {% endblock %}
 
-{% block grid %}
-    <table class="table table-condensed table-responsive" >
+{% block table %}
+    <table class="table table-condensed table-striped" >
         <thead>
-            <tr class="info" align="center">
+            <tr align="center">
                 <th>Medicamento</th>
                 <th>Cantidad</th>
             </tr>
@@ -175,7 +173,7 @@
             $(document).on("keyup", function(e){
                 if(e.keyCode == 112){
                     var url = "{% static 'documentacion/build/html/pedidosclinica.html' %}";
-                    url += "#ver-detalles";
+                    url += "#alta-pedido";
                     window.open(url);
                 }
             });

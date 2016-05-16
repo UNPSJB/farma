@@ -4,7 +4,6 @@
 {% block stylesheets %} 
 	<link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css'  %}">
 	<link rel="stylesheet" href="{% static 'css/base-listado.css' %}">
-	<link rel="stylesheet" href="{% static 'css/introjs.min.css' %}">
 {% endblock %}
 
 {% block title %}{% endblock %}
@@ -145,6 +144,7 @@
 {% block scripts %} 
 	<script src="{% static 'js/datepicker.js' %}"></script>
 	<script>
+
 		(function(){
 			var formBusqueda = {
 			    getElements: function() {
@@ -160,8 +160,7 @@
 			    },
 			    bindEvents: function() {
 			        this.$btnFormToggle.on('click', this.formToggle.bind(this));
-			        this.$btnFormSimple.on('click', this.sendForm.bind(this));
-			        this.$btnFormAvanzado.on('click', this.sendForm.bind(this));
+			        this.$form.on('submit', this.sendForm.bind(this));
 			        this.$btnFormLimpiar.on('click', this.cleanFilters.bind(this));
 			    },
 			    init: function() {
@@ -181,13 +180,33 @@
 			        }
 			        e.preventDefault();
 			    },
-			    sendForm: function() {
-			        if (!this.$form.hasClass('form-is-avanzado')) {
-			            this.$formAvanzadoFields.each(function() {
+			    sendForm: function(e) {
+			    	if(this.$form.hasClass('form-is-avanzado')){
+			    		var $fieldsDate = this.$formAvanzadoFields.filter('.datepicker'),
+			    		regex = /^$|^(\d){2}\/(\d){2}\/(\d){4}$/,
+			    		msgError = '<span style="margin-top:-5px;" class=\"help-block\"><strong>Ingrese una fecha válida. </strong></span>';
+				    	$fieldsDate.each(function(i, el){
+				    		$el = $(el);
+				    		$parent = $el.parent();
+				    		if(! regex.test($el.val())){
+								if(! $parent.hasClass('has-error')){
+									$parent.addClass('has-error').append(msgError)
+								}
+				    			e.preventDefault();
+				    		}else{
+				    			if($parent.hasClass('has-error')) {
+				    				$parent.removeClass('has-error').find('span').remove();
+
+				    			}
+				    		}
+
+				    	});
+			    	}else{
+			    		this.$formAvanzadoFields.each(function() {
 			                $(this).val('');
 			            });
-			        }
-			    },
+			    	}
+			    }, 
 			    cleanFilters: function() {
 			        this.$formSimpleField.val('');
 			        this.$formAvanzadoFields.val('');
@@ -208,7 +227,7 @@
 				bindEvents: function() {
 					$(window).on('resize', this.heightTable.bind(this));
 					$('.btn-eliminar').on('click', this.openModalBaja.bind(this));
-					$('.btn-eliminar-ajax').on('click', this.tryDelete.bind(this))
+					$('.btn-eliminar-ajax').on('click', this.tryDelete.bind(this));
 				},
 				init: function() {
 					this.getElements();
@@ -217,7 +236,8 @@
 					formBusqueda.init();
 				},
 				heightTable: function(e) {
-					var totalHeight = $(window).height() - this.$bread.outerHeight(true) - this.$header.outerHeight(true) - (this.$containerMain.outerHeight(true) - this.$containerTable.outerHeight(true)) - this.$nav.outerHeight(true) -  this.$footer.outerHeight(true) - 10,
+					/*la tenes adentro $(window).height()*/
+					var totalHeight = window.innerHeight - this.$bread.outerHeight(true) - this.$header.outerHeight(true) - (this.$containerMain.outerHeight(true) - this.$containerTable.outerHeight(true)) - this.$nav.outerHeight(true) -  this.$footer.outerHeight(true) - 10,
 						$tableEmpty = $('#table-empty');
 
 					if($tableEmpty.length) {
@@ -226,6 +246,13 @@
 					}else{
 						this.$containerTable.css('height', totalHeight + 'px');
 					}
+					console.log($(window).height());
+					console.log(this.$footer.outerHeight(true));
+					console.log(this.$bread.outerHeight(true));
+					console.log(this.$header.outerHeight(true));
+					console.log(this.$containerMain.outerHeight(true) - this.$containerTable.outerHeight(true));
+					console.log(this.$nav.outerHeight(true));
+					console.log(this.$footer.outerHeight(true));
 				},
 				openModalBaja: function(e) {
 					var url = $(e.target).data('url');
@@ -263,7 +290,7 @@
 			                alert("Fallo Ajax");
 			            },
 			        });
-				},
+				}
 			}
 
 			main.init();

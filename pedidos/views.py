@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, RequestContext
+from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.db.models import Q
@@ -38,6 +39,10 @@ def limpiar_sesion(lista, session):
         if item in session:
             del session[item]
 
+def update_csrf(r):    
+    ctx = {}
+    ctx.update(csrf(r))
+    return ctx
 
 # ******************************* PEDIDOS DE FARMACIA ******************************* #
 
@@ -149,14 +154,14 @@ def detallePedidoDeFarmacia_add(request):
             if not utils.existe_medicamento_en_pedido(detalles, det.medicamento.id):
                 detalles.append(utils.crear_detalle_json(det, len(detalles) + 1))
                 request.session['detallesPedidoDeFarmacia'] = detalles
-                form = forms.DetallePedidoDeFarmaciaForm()  # Nuevo form para seguir dando de alta
-                form_html = render_crispy_form(form, context=RequestContext(request))
+                form = forms.DetallePedidoDeFarmaciaForm() 
+                form_html = render_crispy_form(form, context=update_csrf(request))
                 return {'success': success, 'form_html': form_html, 'detalles': detalles}
             else:  # medicamento ya existe en el pedido
                 return {'success': False}
         else:
             success = False
-    form_html = render_crispy_form(form, context=RequestContext(request))
+    form_html = render_crispy_form(form, context=update_csrf(request))
     return {'success': success, 'form_html': form_html}
 
 
@@ -174,11 +179,11 @@ def detallePedidoDeFarmacia_update(request, id_detalle):
             request.session['detallesPedidoDeFarmacia'] = detalles
             return {'success': True, 'detalles': detalles}
         else:
-            form_html = render_crispy_form(form, context=RequestContext(request))
+            form_html = render_crispy_form(form, context=update_csrf(request)) 
             return {'success': False, 'form_html': form_html}
     else:
         form = forms.UpdateDetallePedidoDeFarmaciaForm(instance=detalle)
-    form_html = render_crispy_form(form, context=RequestContext(request))
+    form_html = render_crispy_form(form, context=update_csrf(request)) 
     return {'form_html': form_html}
 
 
@@ -233,7 +238,7 @@ def pedidoDeClinica_add(request):
             request.session["pedidoDeClinica"] = pedido_json
             return redirect('detallesPedidoDeClinica')
     else:
-            form = forms.PedidoDeClinicaForm()
+        form = forms.PedidoDeClinicaForm()
     return render(request, "pedidoDeClinica/pedidoAdd.html", {"form": form})
 
 
@@ -334,14 +339,14 @@ def detallePedidoDeClinica_add(request):
             if not utils.existe_medicamento_en_pedido(detalles, det.medicamento.id):
                 detalles.append(utils.crear_detalle_json(det, len(detalles) + 1))
                 request.session["detallesPedidoDeClinica"] = detalles
-                form = forms.DetallePedidoDeClinicaForm()  # Nuevo form para seguir dando de alta
-                form_html = render_crispy_form(form, context=RequestContext(request))
+                form = forms.DetallePedidoDeClinicaForm() #Nuevo form para seguir dando de alta
+                form_html = render_crispy_form(form, context=update_csrf(request)) 
                 return {'success': success, 'form_html': form_html, 'detalles': detalles}
-            else:  # medicamento ya existe en el pedido
+            else:  
                 return {'success': False}
         else:
             success = False
-    form_html = render_crispy_form(form, context=RequestContext(request))
+    form_html = render_crispy_form(form, context=update_csrf(request)) 
     return {'success': success, 'form_html': form_html}
 
 
@@ -359,11 +364,11 @@ def detallePedidoDeClinica_update(request, id_detalle):
             request.session['detallesPedidoDeClinica'] = detalles
             return {'success': True, 'detalles': detalles}
         else:
-            form_html = render_crispy_form(form, context=RequestContext(request))
+            form_html = render_crispy_form(form, context=update_csrf(request)) 
             return {'success': False, 'form_html': form_html}
     else:
         form = forms.UpdateDetallePedidoDeClinicaForm(instance=detalle)
-    form_html = render_crispy_form(form, context=RequestContext(request))
+    form_html = render_crispy_form(form, context=update_csrf(request)) 
     return {'form_html': form_html}
 
 
@@ -487,15 +492,15 @@ def detallePedidoAlaboratorio_add(request):
                 request.session["detallesPedidoAlaboratorio"] = detalles 
                 # Nuevo form para seguir dando de alta
                 form = forms.DetallePedidoAlaboratorioFormFactory(id_laboratorio)() 
-                form_html = render_crispy_form(form, context=RequestContext(request)) 
+                form_html = render_crispy_form(form, context=update_csrf(request)) 
                 return {'success': success, 'form_html': form_html, 'detalles': detalles}
             else:
                 return {'success': False} 
         else: 
             success = False 
     else: 
-        form = forms.DetallePedidoAlaboratorioFormFactory(id_laboratorio)() 
-    form_html = render_crispy_form(form, context=RequestContext(request)) 
+        form = forms.DetallePedidoAlaboratorioFormFactory(id_laboratorio)()
+    form_html = render_crispy_form(form, context=update_csrf(request)) 
     return {'success': success, 'form_html': form_html} 
 
 
@@ -515,11 +520,11 @@ def detallePedidoAlaboratorio_update(request, id_detalle):
                 request.session['detallesPedidoAlaboratorio'] = detalles
                 return {'success': True, 'detalles': detalles}
             else:
-                form_html = render_crispy_form(form, context=RequestContext(request))
+                form_html = render_crispy_form(form, context=update_csrf(request)) 
                 return {'success': False, 'form_html': form_html}
         else:
             form = forms.UpdateDetallePedidoAlaboratorioForm(instance=detalle)
-        form_html = render_crispy_form(form, context=RequestContext(request))
+        form_html = render_crispy_form(form, context=update_csrf(request)) 
         return {'form_html': form_html}
 
 
@@ -728,7 +733,7 @@ def devolucionMedicamentosVencidos_detalle(request, id_laboratorio):
     lotes = mmodels.Lote.objects.filter(fechaVencimiento__lte=lt, medicamento__pk__in=lista, stock__gt=0)
 
     return render(request, "devolucionMedicamentosVencidos/devolucionMedicamentosVencidos_detalle.html",
-                  {'lotes': lotes, 'laboratorioId': id_laboratorio, 'fecha': datetime.datetime.now(),
+                  {'lotes': lotes, 'laboratorio': laboratorio, 'laboratorioId': id_laboratorio, 'fecha': datetime.datetime.now(),
                   'numero': utils.get_next_nro_pedido_laboratorio(models.RemitoMedicamentosVencidos, "numero")})
 
 

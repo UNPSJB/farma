@@ -39,54 +39,50 @@
 
 {% block tipo-pedido %}Pedido a Laboratorio{% endblock %}
 
-{% block nombre-organizacion %} {{ pedido.laboratorio.razonSocial }} {% endblock %}
-
-{% block fecha-pedido %} {{ pedido.fecha }} {% endblock %}
+{% block pedido-organizacion %}{{pedido.laboratorio.razonSocial}}{% endblock %}
 
 {% block nro-pedido %} {{ pedido.nroPedido }} {% endblock %}
 
-{% block panel-detalles %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3>Detalles del Pedido</h3>
-        </div>
-        <div class="panel-body">
-            <table class="table table-condensed table-responsive" >
-                <thead>
-                    <tr>
-                        <th>Renglón</th>
-                        <th>Medicamento</th>
-                        <th>Cantidad</th>
-                        <th>Pendiente de entrega</th>
-                        <th>Acusar recepción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for detalle in detalles %}
-                        <tr class="" data-id="{{ detalle.renglon }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{ detalle.medicamento.descripcion }}</td>
-                            <td>{{ detalle.cantidad }}</td>
-                            <td>{{ detalle.cantidadPendiente }}</td>
-                            <td class="action">
-                                {% if detalle.cantidadPendiente == 0 %}
-                                    <a href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.nroPedido detalle.renglon %}" class="table-farma__button text-center disabled" role="button">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a>
-                                {% else %}
-                                    <a href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.nroPedido detalle.renglon %}" class="table-farma__button text-center">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <a href="{% url 'recepcionPedidoAlaboratorio_registrar' pedido.nroPedido %}" class="btn btn-primary pull-right">Registrar</a>
-        </div>
-    </div>
+{% block table %}
+	<table class="table table-condensed table-striped" >
+        <thead>
+            <tr>
+                <th>Renglón</th>
+                <th>Medicamento</th>
+                <th>Cantidad</th>
+                <th>Pendiente de entrega</th>
+                <th>Acusar recepción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles %}
+                <tr class="" data-id="{{ detalle.renglon }}">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ detalle.medicamento.descripcion }}</td>
+                    <td>{{ detalle.cantidad }}</td>
+                    <td>{{ detalle.cantidadPendiente }}</td>
+                    <td class="action">
+                        {% if detalle.cantidadPendiente == 0 %}
+                            <a href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.nroPedido detalle.renglon %}" class="table-farma__button text-center disabled" role="button">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'recepcionPedidoAlaboratorio_controlDetalle' pedido.nroPedido detalle.renglon %}" class="table-farma__button text-center">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
 
+{% block btn-registrar %}
+	<a href="{% url 'recepcionPedidoAlaboratorio_registrar' pedido.nroPedido %}" class="btn btn-primary">Registrar</a>
+{% endblock %}
+
+{% block more-content %}
 	{% if modalError %}
 		<div id="modal-error" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 			<div class="modal-dialog modal-sm">
@@ -96,7 +92,7 @@
 						<h3 class="modal-title">Recepcion de pedido</h3>
 					</div>
 					<div class="modal-body">
-						<p class="text-center text-danger"><span class="glyphicon glyphicon-ok"></span>  No es posible registrar un pedido vacio</p>
+						<p class="text-center text-danger"><span class="glyphicon glyphicon-ok"></span> Debe acusar recibo de al menos un detalle</p>
 					</div>
                     <div class="modal-footer text-center">
                         <button type="button" class="btn btn-default btn-sin-remito" data-dismiss="modal">Ok</button>
@@ -125,7 +121,7 @@
 		</div>
 	{% endif %}
 {% endblock %}
-
+{% block scripts-abm-detalles%}{% endblock%}
 {% block more-scripts %}
 	<script>
 		(function($){

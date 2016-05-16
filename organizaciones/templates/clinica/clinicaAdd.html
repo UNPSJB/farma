@@ -26,20 +26,26 @@
 
 {% block sub-header-form %}Complete los siguientes campos{% endblock %}
 
+{% block msg-success %}
+    La clínica fue agregada exitosamente al sistema.
+{% endblock %}
+
 {% block more-scripts %}
     <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
     <script>
-        $('#id_obraSocial').selectize({
+        var unique = $('#id_obraSocial').selectize({
             plugins: ['remove_button'],
             sortField: {
                 field: 'text',
                 direction: 'asc'
             },
             create: true,
-            dropdownParent: 'body',
-            maxItems: 200
-        });
-        
+            createOnBlur: true,
+            maxItems: 200,
+            highlight: false,
+            persist: false
+        })[0].selectize;
+
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
                 var url = "{% static 'documentacion/build/html/clinicas.html' %}";

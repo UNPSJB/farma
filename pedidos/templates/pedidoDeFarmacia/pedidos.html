@@ -1,22 +1,26 @@
 {% extends "base/base-listado.html" %}
 {% load staticfiles %}
 
-{% block title %} Pedido de Farmacia {% endblock %}
+{% block title %} Pedidos de Farmacia {% endblock %}
 
 {% block breadcrumb-items %}
     <li><a href="{% url 'inicio' %}">Inicio</a></li>
     <li class="active">Pedido de Farmacia</li>
 {% endblock %}
 
-{% block header-title %} Pedido de Farmacia {% endblock%}
+{% block header-title %} Pedidos de Farmacia {% endblock%}
 
 {% block form-field-simple %} 
     <input  class="form-control form-field form-field-simple" type="text" id="farmacia" name="farmacia" value="{{filtros.farmacia}}" placeholder="Farmacia">
 {% endblock %}
 
-{% block form-fields-avanzados %} 
-    <input class="datepicker form-control form-field" type="text" id="desde" name="desde" value="{{filtros.desde}}" placeholder="Fecha Desde">
-    <input class="datepicker form-control form-field" type="text" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="FechaHasta"> 
+{% block form-fields-avanzados %}
+    <div>
+     <input class="datepicker form-control form-field" type="text" id="desde" name="desde" value="{{filtros.desde}}" placeholder="Fecha Desde">   
+    </div> 
+    <div>
+        <input class="datepicker form-control form-field" type="text" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="FechaHasta"> 
+    </div>
     <select id="selectEstado" class="form-control form-field" name="estado">
         <option value = "">-----</option>
         <option value= "Pendiente" {% if filtros.estado = 'Pendiente' %} selected="selected" {% endif %}>Pendiente</option>

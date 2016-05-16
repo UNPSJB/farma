@@ -10,20 +10,22 @@ from medicamentos import models as mmodels
 from organizaciones import models as omodels
 import datetime
 import config
+import re
 
 
 # *******************************PEDIDO DE FARMACIA*******************************#
 
 class PedidoDeFarmaciaForm(forms.ModelForm):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'form-pedido'
     helper.form_action = 'pedidoDeFarmacia_add'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('farmacia', placeholder='Farmacia'),
-        Field('fecha', placeholder='Fecha', css_class='datepicker')
+        Field('fecha', placeholder='Fecha', css_class='datepicker'),
+        FormActions(
+            StrictButton('Crear Pedido', type="submit", css_class="btn btn-success pull-right")
+        )
     )
 
     class Meta:
@@ -77,16 +79,17 @@ class UpdateDetallePedidoDeFarmaciaForm(forms.ModelForm):
 
 class PedidoDeClinicaForm(forms.ModelForm):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'form-pedido'
     helper.form_action = 'pedidoDeClinica_add'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('clinica', placeholder='Clinica'),
         Field('obraSocial', placeholder='Obra social'),
         Field('medicoAuditor', placeholder='Medico auditor'),
         Field('fecha', placeholder='Fecha', css_class='datepicker'),
+        FormActions(
+            StrictButton('Crear Pedido', type="submit", css_class="btn btn-success pull-right")
+        )
     )
 
     class Meta:
@@ -112,6 +115,12 @@ class PedidoDeClinicaForm(forms.ModelForm):
             if fecha < lim:
                 raise forms.ValidationError('La fecha minima permitida es el ' + lim.strftime('%d/%m/%Y'))
         return fecha
+
+    def clean_medicoAuditor(self):
+        medico = self.cleaned_data['medicoAuditor']
+        if medico and not re.match(r"^[a-zA-Z]+((\s[a-zA-Z]+)+)?$", medico):
+            raise forms.ValidationError('El nombre del medico auditor solo puede contener letras y espacios')
+        return medico
 
 
 class DetallePedidoDeClinicaForm(forms.ModelForm):
@@ -190,13 +199,14 @@ def get_laboratorios_con_medicamentos():
 
 class PedidoLaboratorioForm(forms.ModelForm):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'form-pedido'
     helper.form_action = 'pedidoAlaboratorio_add'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('laboratorio'),
+        FormActions(
+            StrictButton('Continuar', type="submit", css_class="btn btn-success pull-right")
+        )
     )
 
     laboratorio = forms.ModelChoiceField(queryset=omodels.Laboratorio.objects.none())
@@ -277,9 +287,9 @@ def ControlDetallePedidoAlaboratorioFormFactory(id_medicamento, lotesEnSesion):
             Field('cantidad', placeholder='Cantidad recibida'),     
             FormActions(
                 StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
-                            css_class="btn btn-success pull-right"),
+                            css_class="btn btn-primary"),
                 StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
-                            css_class="btn btn-primary pull-right"),
+                            css_class="btn btn-primary"),
             )
         )
         lote = forms.ChoiceField(choices=get_lotes(id_medicamento, lotesEnSesion))
@@ -315,9 +325,9 @@ class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
         Field('cantidad', placeholder='Cantidad recibida'),     
         FormActions(
             StrictButton('Guardar y Continuar', type="submit", name="_continuar", value="_continuar", id="btn-guardar-continuar", 
-                        css_class="btn btn-success pull-right"),
+                        css_class="btn btn-primary"),
             StrictButton('Guardar y Volver', type="submit", name="_volver", value="_volver", id="btn-guardar-volver", 
-                        css_class="btn btn-primary pull-right"),
+                        css_class="btn btn-primary"),
         )
     )
 
@@ -372,7 +382,7 @@ class DevolucionMedicamentosForm(forms.ModelForm):
         helper.layout = Layout(
             Field('laboratorio', placeholder="Laboratorio"),
             FormActions(
-                StrictButton('Confirmar', type="submit", name="_confirmar", value="_confirmar", id="btn-confirmar",
+                StrictButton('Continuar', type="submit", name="_confirmar", value="_confirmar", id="btn-confirmar",
                             css_class="btn btn-success pull-right"),
             )
         )

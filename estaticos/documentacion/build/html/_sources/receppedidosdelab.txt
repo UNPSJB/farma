@@ -2,7 +2,8 @@ Recepcion de Pedidos de Laboratorio
 ===================================
 Se presentará una pantalla que contendrá un listado con todos los *Pedidos a Laboratorio* que no hayan sido completamente recepcionados hasta la fecha.
 
-CAPTURA
+.. image:: _static/recepcionpedidolaboratorio.png
+   :align: center
 
 Junto con el listado, se ofrecerán una un conjunto de funcionalidades que permitirán manipular estos Pedidos de Laboratorio. Estas funcionalidades son:
 
@@ -13,7 +14,12 @@ Junto con el listado, se ofrecerán una un conjunto de funcionalidades que permi
 
 Registrar Recepción
 -------------------
-Si el usuario desea comenzar a registrar la recepción de un *Pedido a Laboratorio*, deberá presionar el botón ``Registrar``. A continuación el sistema lo redirigirá a la siguiente pantalla:
+Si el usuario desea comenzar a registrar la recepción de un *Pedido a Laboratorio*, deberá presionar el botón ``Registrar``. 
+
+.. image:: _static/btnregreceppedido.png
+   :align: center
+
+A continuación el sistema lo redirigirá a la siguiente pantalla:   
 
 .. image:: _static/altarecep.png
    :align: center
@@ -35,7 +41,6 @@ Una vez presionado el botón ``Continuar``, se mostrará la siguiente pantalla:
    :align: center
 
 Esta pantalla es la encargada de visualizar aquellos detalles asociados al *Pedido a Laboratorio* que aún no han sido completamente recepcionados.
-
 
 Esta pantalla ofrece las siguientes funcionalidades:
 
@@ -91,7 +96,6 @@ Si el usuario selecciona la modalidad de *Acusar Recepción con un nuevo lote* d
 		- La fecha de vencimiento del lote esta en el rango que el sistema considera como "lote vencido".
 		- La cantidad ingresada es superior a la cantidad pendiente del detalle.
 
-
 Una vez completado formulario elegido, el usuario tendrá dos opciones: 
 
 	- Presionar el botón ``Guardar y Volver``.
@@ -125,14 +129,14 @@ Una vez presionado el botón ``Registrar``, el sistema se encargará de actualiz
 .. image:: _static/regrecep.png
    :align: center
 
-
 .. _formulario-busqueda-rpl:
 
 Formulario de Búsqueda
 ----------------------
 Si el usuario desea visualizar sólo aquellos *Pedidos a Laboratorio* que cumplan con algunos criterios en específico, deberá utilizar el formulario de búsqueda.
 
-CAPTURA
+.. image:: _static/busquedarecep.png
+   :align: center
 
 Este formulario cuenta con dos modalidades:
 
@@ -143,3 +147,8 @@ Este formulario cuenta con dos modalidades:
 	Todos los campos son opcionales, de no especificarse ningún criterio de búsqueda el sistema mostrará todos los *Pedidos a Laboratorio*.
 
 El usuario tendrá que ingresar los parámetros de búsqueda en el formulario, y presionar el botón ``Buscar``. El sistema visualizará aquellos *Pedidos a Laboratorio* (que no hayan sido completamente recepcionados) que cumplan con todas las condiciones especificadas.
+
+Si el usuario desea limpiar los filtros activos, deberá presionar el boton ``Limpiar``.
+
+.. image:: _static/limpiarrecep.png
+   :align: center

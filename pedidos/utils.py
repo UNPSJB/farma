@@ -322,7 +322,7 @@ def guardar_recepcion_detalle_con_nuevo_lote(session, detalle, infoRecepcionDeta
     posDetalle = get_pos_detalle(detalles, detalle.renglon)
     infoDetalle = detalles[posDetalle]
 
-    numeroLote = infoRecepcionDetalle['lote']
+    numeroLote = str(infoRecepcionDetalle['lote'])
     cantidadStockLote = 0
     if infoDetalle['detallePedidoFarmacia'] == -1:
         cantidadStockLote = infoRecepcionDetalle['cantidad']

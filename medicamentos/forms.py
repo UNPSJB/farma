@@ -206,6 +206,19 @@ class MedicamentoForm(forms.ModelForm):
         queryset=models.Laboratorio.objects.all()
     )
 
+    helper = FormHelper()
+    helper.form_class = 'form'
+    helper.form_id = 'my-form'
+    helper.form_tag = False
+    helper.layout = Layout(
+        Field('nombreFantasia', placeholder='Nombre Fantasía'),
+        Field('codigoBarras', placeholder='Código de Barras'),
+        Field('stockMinimo', placeholder='Stock Mínimo'),
+        Field('presentacion', placeholder='Presentacion'),
+        Field('precioDeVenta', placeholder='Precio de Venta'),
+        Field('laboratorio', placeholder='Laboratorio')
+    )  
+
     class Meta:
         model = models.Medicamento
         fields = ["nombreFantasia", "codigoBarras", "stockMinimo","presentacion", "precioDeVenta", "laboratorio"]
@@ -297,4 +310,4 @@ class DosisFormSetBase(BaseFormSet):
         monodroga = self.cleaned_data['monodroga']
         return monodroga
 
-DosisFormSet = formset_factory(DosisForm, formset=DosisFormSetBase, min_num=1, validate_min=True)
+DosisFormSet = formset_factory(DosisForm, formset=DosisFormSetBase, min_num=1)

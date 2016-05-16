@@ -15,17 +15,22 @@ def get_filtros(get, modelo):
             mfilter[attr] = get[attr]
     return mfilter
 
+def hubo_alta(session):
+    if 'successAdd' in session:
+        del session['successAdd']
+        return True
+    return False
 
 @login_required(login_url='login')
 def monodrogas(request):
     filters = get_filtros(request.GET, models.Monodroga)
     mfilters = dict(filter(lambda v: v[0] in models.Monodroga.FILTROS, filters.items()))
-    lmonodrogas = models.Monodroga.objects.filter(**mfilters)
+    monodrogas = models.Monodroga.objects.filter(**mfilters)
     estadisticas = {
         'total': models.Monodroga.objects.all().count(),
-        'filtrados': lmonodrogas.count()
+        'filtrados': monodrogas.count()
     }
-    return render(request, "monodroga/monodrogas.html", {"monodrogas": lmonodrogas, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "monodroga/monodrogas.html", {"monodrogas": monodrogas, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -38,10 +43,12 @@ def monodroga_add(request):
             if '_volver' in request.POST:
                 return redirect('monodrogas')
             else:
+                request.session['successAdd'] = True
                 return redirect('monodroga_add')
     else:
         form = forms.MonodrogaFormAdd()
-    return render(request, "monodroga/monodrogaAdd.html", {"form": form})
+    successAdd = hubo_alta(request.session)
+    return render(request, "monodroga/monodrogaAdd.html", {"form": form, 'successAdd': successAdd})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -61,7 +68,7 @@ def monodroga_update(request, id_monodroga):
 @json_view
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
-def monodroga_try_delete(reqest, id_monodroga):
+def monodroga_try_delete(request, id_monodroga):
     infoBaja = utils.puedo_eliminar_monodroga(id_monodroga)
     return infoBaja
 
@@ -80,12 +87,12 @@ def monodroga_delete(request, id_monodroga):
 def nombresFantasia(request):
     filters = get_filtros(request.GET, models.NombreFantasia)
     mfilters = dict(filter(lambda v: v[0] in models.NombreFantasia.FILTROS, filters.items()))
-    lnombresFantasia = models.NombreFantasia.objects.filter(**mfilters)
+    nombresFantasia = models.NombreFantasia.objects.filter(**mfilters)
     estadisticas = {
         'total': models.NombreFantasia.objects.all().count(),
-        'filtrados': lnombresFantasia.count()
+        'filtrados': nombresFantasia.count()
     }
-    return render(request, "nombreFantasia/nombresFantasia.html", {"nombresFantasia": lnombresFantasia, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "nombreFantasia/nombresFantasia.html", {"nombresFantasia": nombresFantasia, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -98,10 +105,12 @@ def nombresFantasia_add(request):
             if '_volver' in request.POST:
                 return redirect('nombresFantasia')
             else:
+                request.session['successAdd'] = True
                 return redirect('nombreFantasia_add')
     else:
         form = forms.NombreFantasiaFormAdd()
-    return render(request, "nombreFantasia/nombreFantasiaAdd.html", {"form": form})
+    successAdd = hubo_alta(request.session)
+    return render(request, "nombreFantasia/nombreFantasiaAdd.html", {"form": form, 'successAdd': successAdd})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -140,12 +149,12 @@ def nombresFantasia_delete(request, id_nombreFantasia):
 def presentaciones(request):
     filters = get_filtros(request.GET, models.Presentacion)
     mfilters = dict(filter(lambda v: v[0] in models.Presentacion.FILTROS, filters.items()))
-    lpresentaciones = models.Presentacion.objects.filter(**mfilters)
+    presentaciones = models.Presentacion.objects.filter(**mfilters)
     estadisticas = {
         'total': models.Presentacion.objects.all().count(),
-        'filtrados': lpresentaciones.count()
+        'filtrados': presentaciones.count()
     }
-    return render(request, "presentacion/presentaciones.html",{"presentaciones": lpresentaciones, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "presentacion/presentaciones.html",{"presentaciones": presentaciones, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -158,10 +167,13 @@ def presentacion_add(request):
             if '_volver' in request.POST:
                 return redirect('presentaciones')
             else:
+                request.session['successAdd'] = True
                 return redirect('presentacion_add')
     else:
         form = forms.PresentacionFormAdd()
-    return render(request, "presentacion/presentacionAdd.html", {"form": form})
+
+    successAdd = hubo_alta(request.session)
+    return render(request, "presentacion/presentacionAdd.html", {'form': form, 'successAdd': successAdd})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -200,12 +212,12 @@ def presentacion_delete(request, id_presentacion):
 def medicamentos(request):
     filters = get_filtros(request.GET, models.Medicamento)
     mfilters = dict(filter(lambda v: v[0] in models.Medicamento.FILTROS, filters.items()))
-    lmedicamentos = models.Medicamento.objects.filter(**mfilters)
+    medicamentos = models.Medicamento.objects.filter(**mfilters)
     estadisticas = {
         'total': models.Medicamento.objects.all().count(),
-        'filtrados': lmedicamentos.count()
+        'filtrados': medicamentos.count()
     }
-    return render(request, "medicamento/medicamentos.html", {"medicamentos": lmedicamentos, "filtros": filters, 'estadisticas': estadisticas})
+    return render(request, "medicamento/medicamentos.html", {"medicamentos": medicamentos, "filtros": filters, 'estadisticas': estadisticas})
 
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -224,14 +236,18 @@ def medicamento_add(request):
             if '_volver' in request.POST:
                 return redirect('medicamentos')
             else:
+                request.session['successAdd'] = True
                 return redirect('medicamento_add')
     else:
         dosis_formset = forms.DosisFormSet()
         medicamento_form = forms.MedicamentoForm()
 
+    successAdd = hubo_alta(request.session)
+
     return render(request, "medicamento/medicamentoAdd.html", {
         "medicamento_form": medicamento_form,
         "dosis_formset": dosis_formset,
+        "successAdd": successAdd
     })
 
 

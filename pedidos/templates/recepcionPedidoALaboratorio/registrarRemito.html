@@ -1,4 +1,4 @@
-{% extends "base-add-pedido.html" %}
+{% extends "base/base-add-update-2.html" %}
 {% load staticfiles %}
 
 {% block more-stylesheets %}
@@ -6,9 +6,7 @@
     {{ form.media.css }}
 {% endblock %}
 
-{% block title %}
-	Alta Recepción de Pedido a Laboratorio
-{% endblock %}
+{% block title %}Alta Recepción de Pedido a Laboratorio{% endblock %}
 
 {% block breadcrumb-items %}
     <li><a href="{% url 'inicio' %}">Inicio</a></li>
@@ -16,18 +14,23 @@
     <li class="active">Alta</li>
 {% endblock %}
 
-{% block header-title %} Alta Recepción de Pedido a Laboratorio {% endblock%}
-
 {% block url-volver %}{% url 'recepcionPedidoAlaboratorio' %}{% endblock %}
 
-{% block panel-title-pedido %}
-	Registrar Recepcion
+{% block header-title %} Alta Recepción de Pedido a Laboratorio {% endblock %}
+
+{% block title-header-form %}Registrar recepción de pedido a laboratorio{% endblock %}
+
+{% block icon-header-form %}
+    <span class="icon-file-text page-header-icon"></span>
+{% endblock%}
+
+{% block sub-header-form %}Ingrese los datos del remito{% endblock %}
+
+{% block no-msg-success %}
 {% endblock %}
 
-{%block footer%}{% endblock %}
-
 {% block more-scripts %}
-    <script src="{% static 'js/datepicker.js' %}"></script>
+<script src="{% static 'js/datepicker.js' %}"></script>
     {{ form.media.js }}
     <script>
         $(document).on("keyup", function(e){

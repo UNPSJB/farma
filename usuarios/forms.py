@@ -4,7 +4,7 @@ from django import forms
 from .models import Usuario
 from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field
+from crispy_forms.layout import Layout, Field, HTML
 from crispy_forms.bootstrap import StrictButton, FormActions, PrependedText
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
@@ -12,18 +12,17 @@ from django.contrib.auth import authenticate
 
 class UsuarioAddForm(forms.ModelForm):
     helper = FormHelper()
-    helper.form_class = 'form-horizontal'
+    helper.form_class = 'form'
     helper.form_id = 'my-form'
     helper.form_action = 'usuario_add'
-    helper.label_class = 'col-md-3'
-    helper.field_class = 'col-md-8'
     helper.layout = Layout(
         Field('username', placeholder='Nombre de Usuario'),
         Field('password', placeholder='Contraseña'),
         Field('passwordConfirmar', placeholder='Confirmar Contraseña'),
         Field('cargo', placeholder='Cargo'),
         FormActions(
-            StrictButton('Registrar', type="submit", css_class="btn btn-success pull-right")
+            StrictButton('Registrar', type="submit", css_class="btn btn-primary"),
+             HTML("<p class=\"campos-obligatorios pull-right\"><span class=\"glyphicon glyphicon-info-sign\"></span> Estos campos son obligatorios (*)</p>")
         )
     )
 

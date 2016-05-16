@@ -14,7 +14,7 @@ class Medicamento(models.Model):
     presentacion = models.ForeignKey('Presentacion')
     codigoBarras = models.CharField("Codigo de barras", max_length=17, unique=True, error_messages={'unique': "Este codigo de barras ya esta cargado"})
     laboratorio = models.ForeignKey(Laboratorio, related_name="medicamentos")
-    stockMinimo = models.PositiveIntegerField("Stock minimo de reposicion",validators=[MinValueValidator(1), 
+    stockMinimo = models.PositiveIntegerField("Stock minimo de reposicion", validators=[MinValueValidator(1),
                                                                             MaxValueValidator(config.MAXIMO_STOCK_MINIMO)])
     precioDeVenta = models.DecimalField("Precio de venta", max_digits=12, decimal_places=2)
 

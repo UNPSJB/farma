@@ -39,7 +39,7 @@ En este punto el usuario deberá seleccionar la clínica que solicito el pedido,
 
 Una vez presionado el botón ``Crear Pedido``, se mostrará la siguiente pantalla:
 
-.. image:: _static/adddetallespedclin.png
+.. image:: _static/detallespedclin.png
    :align: center
 
 Esta pantalla es la encargada de visualizar aquellos detalles que se irán asociando al *Pedido de Clínica*.

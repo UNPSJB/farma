@@ -1,29 +1,57 @@
 {% extends "base-remito.html" %}
 
-{% block vendedor %}
-    <div>{{ remito.laboratorio.razonSocial }}</div>
-    <div>{{ remito.laboratorio.direccion }}</div>
-    <div>{{ remito.laboratorio.telefono }}</div>
+{% block header %} 
+    <p class="padding-40">
+        <strong>{{remito.pedidoLaboratorio.laboratorio}}</strong> <br />
+        {%if remito.pedidoLaboratorio.laboratorio.direccion %}
+            {{ remito.pedidoLaboratorio.laboratorio.direccion }}<br />
+        {% endif %}
+        {%if remito.pedidoLaboratorio.laboratorio.localidad %}
+            {{ remito.pedidoLaboratorio.laboratorio.localidad }} <br />
+        {% endif %}        
+        {%if remito.pedidoLaboratorio.laboratorio.telefono %}
+            {{ remito.pedidoLaboratorio.laboratorio.telefono }}
+        {% endif %}
+    </p>
+{% endblock%}
+
+{% block cliente %}
+    <p class="bottom-10">
+        <strong>Droguería </strong> <span class="client">"Farma"</span>
+    </p>
+    <p class="bottom-10">
+        Lezama 479 <br/>
+        Trelew, Chubut <br />
+        Tel (02965) 43-4159 <br>
+    </p>
 {% endblock %}
 
-{% block cliente %}Cliente: Drogueria Farma{% endblock %}
-{% block direccion %}Direccion: {% endblock %}
+{% block tipo-remito %}
+    Remito De Laboratorio
+{% endblock %}
 
-{% block grid %}
+{% block remito-cabecera %}
+    <tr>
+        <td class="item-name"><strong>Remito Nº {{ remito.pk }}</strong></td>
+        <td><strong>{{ remito.fecha }}</strong></td>
+    </tr>
+{% endblock %}
+
+{% block remito-detalles %}
     <thead>
-       <tr class="info" align="center">
-           <th>Medicamento</th>
-           <th>Lote</th>
-           <th>Cantidad</th>
-       </tr>
+        <tr>
+            <th class="text-left">Medicamento</th>
+            <th class="text-right">Cantidad</th>
+            <th class="text-right">Lote</th>
+        </tr>
     </thead>
     <tbody>
-       {% for detalle in detallesRemito %}
-          <tr class="col-items">
-              <td class="nombre-med">{{ detalle.detallePedidoLaboratorio.medicamento }}</td>
-              <td class="lote-med">{{ detalle.lote }}</td>
-              <td class="cant-med">{{ detalle.cantidad }}</td>
-          </tr>
-       {% endfor %}
+        {% for detalle in detallesRemito %}
+        <tr>
+            <td class="text-left">{{ detalle.detallePedidoLaboratorio.medicamento }}</td>
+            <td class="text-right">{{ detalle.cantidad }}</td>
+            <td class="text-right">{{ detalle.lote }}</td>
+        </tr>
+        {% endfor %}
     </tbody>
 {% endblock %}

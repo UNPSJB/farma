@@ -141,8 +141,204 @@
 
 
 
+\chapter{Pantalla Principal}
+\label{pantallaprincipal::doc}\label{pantallaprincipal:pantalla-principal}\label{pantallaprincipal:grupo-farma}
+La pantalla principal del sistema ofrece un menú de navegación en el que se encuentran las gestiones generales del sistema.
+
+{\hspace*{\fill}\includegraphics{{pantallaprincipal}.jpg}\hspace*{\fill}}
+
+Estas gestiones son:
+\begin{itemize}
+\item {} 
+{\hyperref[pantallaprincipal:gestion\string-usuarios]{\crossref{\DUrole{std,std-ref}{Gestíón de Usuarios}}}}
+
+\item {} 
+{\hyperref[pantallaprincipal:gestion\string-medicamentos]{\crossref{\DUrole{std,std-ref}{Gestión de Medicamentos}}}}
+
+\item {} 
+{\hyperref[pantallaprincipal:gestion\string-organizaciones]{\crossref{\DUrole{std,std-ref}{Gestión de Organizaciones}}}}
+
+\item {} 
+{\hyperref[pantallaprincipal:gestion\string-pedidos]{\crossref{\DUrole{std,std-ref}{Gestión de Pedidos}}}}
+
+\end{itemize}
+
+
+\section{Gestión de Usuarios}
+\label{pantallaprincipal:gestion-de-usuarios}\label{pantallaprincipal:gestion-usuarios}
+La \emph{Gestión de Usuarios} muestra la información relacionada al usuario activo y funcionalidades que esten acordes a los permisos que posea el mismo.
+
+{\hspace*{\fill}\includegraphics{{gestionusuarios}.jpg}\hspace*{\fill}}
+\begin{description}
+\item[{Estas funcionalidades son:}] \leavevmode\begin{itemize}
+\item {} 
+Entrar al Sistema
+
+\item {} 
+Agregar Usuario
+
+\item {} 
+Cerrar Sesión
+
+\end{itemize}
+
+\end{description}
+
+
+\section{Gestión de Medicamentos}
+\label{pantallaprincipal:gestion-medicamentos}\label{pantallaprincipal:gestion-de-medicamentos}
+La \emph{Gestión de Medicamentos} muestra las funcionalidades relacionadas a los medicamentos que manejará el sistema.
+
+{\hspace*{\fill}\includegraphics{{gestionmedicamentos}.jpg}\hspace*{\fill}}
+\begin{description}
+\item[{Estas funcionalidades estan divididas en estas cuatro secciones:}] \leavevmode\begin{itemize}
+\item {} 
+Medicamentos
+
+\item {} 
+Monodrogas
+
+\item {} 
+Nombres Fantasía
+
+\item {} 
+Presentaciones
+
+\end{itemize}
+
+\end{description}
+
+
+\section{Gestión de Organizaciones}
+\label{pantallaprincipal:gestion-de-organizaciones}\label{pantallaprincipal:gestion-organizaciones}
+La \emph{Gestión de Organizaciones} muestra las funcionalidades relacionadas a las organizaciones que manejará el sistema.
+
+{\hspace*{\fill}\includegraphics{{gestionorganizaciones}.jpg}\hspace*{\fill}}
+\begin{description}
+\item[{Estas funcionalidades estan divididas en estas cuatro secciones:}] \leavevmode\begin{itemize}
+\item {} 
+Farmacias
+
+\item {} 
+Clínicas
+
+\item {} 
+Laboratorios
+
+\item {} 
+Obras Sociales
+
+\end{itemize}
+
+\end{description}
+
+
+\section{Gestión de Pedidos}
+\label{pantallaprincipal:gestion-de-pedidos}\label{pantallaprincipal:gestion-pedidos}
+La \emph{Gestión de Pedidos} muestra las funcionalidades relacionadas a los pedidos que manejará el sistema.
+
+{\hspace*{\fill}\includegraphics{{gestionpedidos}.jpg}\hspace*{\fill}}
+\begin{description}
+\item[{Estas funcionalidades estan divididas en estas cinco secciones:}] \leavevmode\begin{itemize}
+\item {} 
+Pedido de Farmacia
+
+\item {} 
+Pedido de Clínica
+
+\item {} 
+Pedido a Laboratorio
+
+\item {} 
+Recepción Pedido a Laboratorio
+
+\item {} 
+Devolución de Medicamentos Vencidos
+
+\end{itemize}
+
+\end{description}
+
+
+\chapter{Usuarios}
+\label{usuarios:usuarios}\label{usuarios::doc}
+Luego de hacer click en el ítem con el nombre de usuario activo del menú principal el sistema muestra un submenú donde el usuario puede seleccionar la actividad que desea realizar:
+
+
+\section{Entrar al sistema}
+\label{entraralsistema::doc}\label{entraralsistema:entrar-al-sistema}
+Se presentará una pantalla que contendrá un formulario de logueo en el que el usuario deberá ingresar los datos de su cuenta.
+
+{\hspace*{\fill}\includegraphics{{pantallalogin}.jpg}\hspace*{\fill}}
+
+\begin{notice}{attention}{Atención:}
+El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
+En este punto, las posibles causas de errores son:
+\begin{itemize}
+\item {} 
+Uno o más campos obligatorios vacíos.
+
+\item {} 
+El usuario ingresado no existe en el sistema.
+
+\item {} 
+La contraseña ingresada es incorrecta.
+
+\end{itemize}
+\end{notice}
+
+Una vez completado el formulario, el usuario tendrá que presionar el botón \code{Acceder} y será redirigido a la pantalla principal del sistema.
+
+{\hspace*{\fill}\includegraphics{{pantallaprincipal}.jpg}\hspace*{\fill}}
+
+
+\section{Agregar Usuario}
+\label{agregarusuario::doc}\label{agregarusuario:agregar-usuario}
+Si el usuario desea crear un nuevo \emph{Usuario}, deberá presionar el sub-item \code{Agregar Usuario}.
+
+{\hspace*{\fill}\includegraphics{{menuagregarusuario}.jpg}\hspace*{\fill}}
+
+A continuación el sistema lo redirigirá a la siguiente pantalla:
+
+{\hspace*{\fill}\includegraphics{{addusuario}.png}\hspace*{\fill}}
+
+En esta parte el usuario se le presentará un formulario y deberá ingresar los datos solicitados para dar de alta un nuevo \emph{Usuario}.
+
+\begin{notice}{attention}{Atención:}
+El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
+En este punto, las posibles causas de errores son:
+\begin{itemize}
+\item {} 
+Uno o más campos vacíos.
+
+\item {} 
+Uno o más campos con un formato incorrecto.
+
+\item {} 
+El nombre de usuario ya existe.
+
+\item {} 
+Las contraseñas no coinciden.
+
+\end{itemize}
+\end{notice}
+
+Una vez completado el formulario, el usuario tendrá que presionar el boton \code{Registrar} y el sistema se encargará de dar de alta el nuevo usuario.
+
+
+\section{Cerrar Sesión}
+\label{cerrarsesion:cerrar-sesion}\label{cerrarsesion::doc}
+Si el usuario desea desloguearse del sistema, deberá presionar el sub-item \code{Cerrar Sesión}.
+
+{\hspace*{\fill}\includegraphics{{cerrarsesion}.jpg}\hspace*{\fill}}
+
+El sistema se encargará de \textbf{Cerrar la Sesión} del usuario y redirigirlo a la pantalla de ingreso del sistema.
+
+{\hspace*{\fill}\includegraphics{{pantallalogin}.jpg}\hspace*{\fill}}
+
+
 \chapter{Medicamentos}
-\label{medicamentos::doc}\label{medicamentos:medicamentos}\label{medicamentos:grupo-farma}
+\label{medicamentos::doc}\label{medicamentos:medicamentos}
 Luego de hacer ``click'' en el ítem “Medicamentos” del menú principal el sistema muestra un submenú donde el usuario puede seleccionar la actividad que desea realizar:
 
 
@@ -185,7 +381,7 @@ Si el usuario desea crear un nuevo \emph{Medicamento}, deberá presionar el bot�
 
 A continuación el sistema lo redirigirá a la siguiente pantalla:
 
-{\hspace*{\fill}\includegraphics{{altamed}.png}\hspace*{\fill}}
+{\hspace*{\fill}\includegraphics{{altamed}.jpg}\hspace*{\fill}}
 
 En esta parte al usuario se le presentará un formulario y deberá ingresar los datos solicitados para dar de alta un nuevo \emph{Medicamento}.
 
@@ -1303,7 +1499,7 @@ La fecha ingresada esta fuera del rango válido.
 
 Una vez presionado el botón \code{Crear Pedido}, se mostrará la siguiente pantalla:
 
-{\hspace*{\fill}\includegraphics{{adddetallespedfarm}.png}\hspace*{\fill}}
+{\hspace*{\fill}\includegraphics{{detallespedfarm}.png}\hspace*{\fill}}
 
 Esta pantalla es la encargada de visualizar aquellos detalles que se irán asociando al \emph{Pedido de Farmacia}.
 La misma ofrece las siguientes funcionalidades:
@@ -1434,7 +1630,7 @@ Si el usuario desea ver los detalles de un \emph{Pedido de Farmacia}, deberá se
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
-{\hspace*{\fill}\includegraphics{{detallespedfarm}.png}\hspace*{\fill}}
+{\hspace*{\fill}\includegraphics{{verdetallespedfarm}.png}\hspace*{\fill}}
 
 Esta ventana mostrará todos los detalles del \emph{Pedido de Farmacia} seleccionado.
 
@@ -1539,7 +1735,7 @@ La fecha ingresada esta fuera del rango válido.
 
 Una vez presionado el botón \code{Crear Pedido}, se mostrará la siguiente pantalla:
 
-{\hspace*{\fill}\includegraphics{{adddetallespedclin}.png}\hspace*{\fill}}
+{\hspace*{\fill}\includegraphics{{detallespedclin}.png}\hspace*{\fill}}
 
 Esta pantalla es la encargada de visualizar aquellos detalles que se irán asociando al \emph{Pedido de Clínica}.
 
@@ -1738,7 +1934,7 @@ Si el usuario desea limpiar los filtros activos, deberá presionar el boton \cod
 \label{pedidosalab:pedidos-a-laboratorio}\label{pedidosalab::doc}
 Se presentará una pantalla que contendrá un listado con todos los \emph{Pedidos a Laboratorio} que se encuentren registrados en el sistema hasta la fecha.
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{btnregrecep}.png}\hspace*{\fill}}
 
 Junto con el listado, se ofrecerán un conjunto de funcionalidades que permitirán manipular estos \emph{Pedidos a Laboratorio}.
 Estas funcionalidades son:
@@ -1763,9 +1959,13 @@ Estas funcionalidades son:
 
 \subsection{Alta Pedido}
 \label{pedidosalab:alta-pl}\label{pedidosalab:alta-pedido}
-Si el usuario desea crear un nuevo \emph{Pedido a Laboratorio}, deberá presionar el botón \code{Alta}. A continuación el sistema lo redirigirá a la siguiente pantalla:
+Si el usuario desea crear un nuevo \emph{Pedido a Laboratorio}, deberá presionar el botón \code{Alta}.
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{btnaltapedlab}.png}\hspace*{\fill}}
+
+A continuación el sistema lo redirigirá a la siguiente pantalla:
+
+{\hspace*{\fill}\includegraphics{{altapedlab}.png}\hspace*{\fill}}
 
 En este punto el usuario deberá seleccionar el laboratorio al cual desea realizarle el pedido. A continuación deberá presionar el botón \code{Continuar}.
 
@@ -1781,7 +1981,7 @@ No se seleccionó un laboratorio.
 
 Una vez presionado el botón \code{Continuar}, se mostrará la siguiente pantalla:
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{detallespedlab}.png}\hspace*{\fill}}
 
 Esta pantalla es la encargada de visualizar aquellos detalles que se irán asociando al \emph{Pedido a Laboratorio}.
 
@@ -1821,11 +2021,11 @@ Esta pantalla ofrece las siguientes funcionalidades:
 \label{pedidosalab:agregar-detalle-pl}\label{pedidosalab:agregar-detalle}
 Si el usuario desea agregar un detalle al \emph{Pedido a Laboratorio}, deberá presionar el botón \code{Alta Detalle}.
 
-CAPTURA BOTÓN
+{\hspace*{\fill}\includegraphics{{btnadddetallepedlab}.png}\hspace*{\fill}}
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{newdetallepedlab}.png}\hspace*{\fill}}
 
 En esta parte, se presentará un formulario que el usuario deberá completar para poder dar de alta un nuevo detalle.
 
@@ -1856,7 +2056,7 @@ El usuario podrá seguir dando de alta nuevos detalles, hasta donde considere ne
 \label{pedidosalab:modificar-detalle}\label{pedidosalab:modificar-detalle-pl}
 Si el usuario desea modificar un detalle del \emph{Pedido a Laboratorio}, deberá seleccionar el detalle que desea actualizar y presionar el botón \code{Modificar Detalle}.
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{btnupddetallepedlab}.png}\hspace*{\fill}}
 
 \begin{notice}{important}{Importante:}
 \textbf{NO} se podrán actualizar aquellos detalles que se correspondan con Pedidos de Farmacia (aquellos que el sistema agrega automáticamente al ingresar a esta pantalla).
@@ -1864,7 +2064,7 @@ CAPTURA
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{upddetallepedlab}.png}\hspace*{\fill}}
 
 En esta parte, se presentará un formulario con la información actual del detalle y el usuario deberá actualizar aquella que considere necesaria.
 
@@ -1891,11 +2091,11 @@ Una vez completado el formulario, el usuario deberá presionar el botón \code{G
 \label{pedidosalab:eliminar-detalle}\label{pedidosalab:eliminar-detalle-pl}
 Si el usuario desea eliminar un detalle del \emph{Pedido a Laboratorio}, deberá seleccionar el detalle que desea eliminar y presionar el botón \code{Baja Detalle}.
 
-CAPTURA BOTÓN
+{\hspace*{\fill}\includegraphics{{btndeldetallepedlab}.png}\hspace*{\fill}}
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{deldetallepedlab}.png}\hspace*{\fill}}
 
 En esta parte el usuario deberá decidir si confirma la eliminación del detalle o no. Si desea confirmar la eliminación deberá presionar el botón \code{Confirmar}, caso contrario, presionará el botón \code{Cancelar}.
 
@@ -1904,7 +2104,7 @@ En esta parte el usuario deberá decidir si confirma la eliminación del detalle
 \label{pedidosalab:registrar-pedido-pl}\label{pedidosalab:registrar-pedido}
 Si el usuario desea registrar el \emph{Pedido a Laboratorio}, deberá presionar el botón \code{Registrar}.
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{btnregpedlab}.png}\hspace*{\fill}}
 
 \begin{notice}{attention}{Atención:}
 El sistema siempre validará que la información del \emph{Pedido a Laboratorio} sea correcta. En caso de que esta información sea incorrecta el sistema lo informará.
@@ -1921,7 +2121,7 @@ El pedido ya ha sido registrado anteriormente
 
 Una vez presionado el botón \code{Registrar}, el sistema se encargará de crear el \emph{Pedido a Laboratorio} y se mostrará la siguiente ventana emergente (modal).
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{regpedlab}.png}\hspace*{\fill}}
 
 
 \subsection{Cancelar un Pedido}
@@ -1932,11 +2132,11 @@ Si el usuario desea cancelar un \emph{Pedido a Laboratorio}, deberá seleccionar
 Solo se podrán cancelar aquellos \emph{Pedidos a Laboratorio} que se encuentren en un estado “Pendiente”.
 \end{notice}
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{btncancelarpedlab}.png}\hspace*{\fill}}
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{cancelarpedlab}.png}\hspace*{\fill}}
 
 En esta parte el usuario deberá decidir si confirma la eliminación del \emph{Pedido a Laboratorio}. Si desea confirmar la eliminación deberá presionar el botón \code{Confirmar}, caso contrario, presionará el botón \code{Cancelar}.
 
@@ -1945,11 +2145,11 @@ En esta parte el usuario deberá decidir si confirma la eliminación del \emph{P
 \label{pedidosalab:ver-detalles}\label{pedidosalab:ver-detalles-pl}
 Si el usuario desea ver los detalles de un \emph{Pedido A Laboratorio}, deberá seleccionar el botón de \textbf{Acción} asociado a dicho pedido y presionar la pestaña \code{Ver Detalles}.
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{btndetallespedlab}.png}\hspace*{\fill}}
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{verdetallespedlab}.png}\hspace*{\fill}}
 
 Esta ventana mostrará todos los detalles del \emph{Pedido a Laboratorio} seleccionado.
 
@@ -1958,11 +2158,11 @@ Esta ventana mostrará todos los detalles del \emph{Pedido a Laboratorio} selecc
 \label{pedidosalab:ver-remitos}\label{pedidosalab:ver-remitos-pl}
 Si el usuario desea ver los remitos asociados a un \emph{Pedido a Laboratorio}, deberá seleccionar el botón de \textbf{Acción} asociado a dicho pedido y presionar la pestaña \code{Ver Remitos}.
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{btnremitospedlab}.png}\hspace*{\fill}}
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{remitospedlab}.png}\hspace*{\fill}}
 
 Esta ventana mostrará todos los remitos vinculados al \emph{Pedido a Laboratorio} seleccionado.
 
@@ -1972,14 +2172,12 @@ En caso de que el pedido no tenga remitos asociados el sistema lo informará.
 
 El usuario tendra la opción de visualizar un remito en PDF, presionanado el boton \code{Descargar} asociado a él.
 
-CAPTURA
-
 
 \subsection{Formulario de Búsqueda}
 \label{pedidosalab:formulario-de-busqueda}\label{pedidosalab:formulario-busqueda-pl}
 Si el usuario desea visualizar sólo aquellos \emph{Pedidos a Laboratorio} que cumplan con algunos criterios en específico, deberá utilizar el formulario de búsqueda.
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{busquedapedlab}.png}\hspace*{\fill}}
 
 Este formulario cuenta con dos modalidades:
 \begin{itemize}
@@ -1997,12 +2195,16 @@ Todos los campos son opcionales, de no especificarse ningún criterio de búsque
 
 El usuario tendrá que ingresar los parámetros de búsqueda en el formulario, y presionar el botón \code{Buscar}. El sistema visualizará aquellos \emph{Pedidos a Laboratorio} que cumplan con todas las condiciones especificadas.
 
+Si el usuario desea limpiar los filtros activos, deberá presionar el boton \code{Limpiar}.
+
+{\hspace*{\fill}\includegraphics{{limpiarpedlab}.png}\hspace*{\fill}}
+
 
 \section{Recepcion de Pedidos de Laboratorio}
 \label{receppedidosdelab::doc}\label{receppedidosdelab:recepcion-de-pedidos-de-laboratorio}
 Se presentará una pantalla que contendrá un listado con todos los \emph{Pedidos a Laboratorio} que no hayan sido completamente recepcionados hasta la fecha.
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{recepcionpedidolaboratorio}.png}\hspace*{\fill}}
 
 Junto con el listado, se ofrecerán una un conjunto de funcionalidades que permitirán manipular estos Pedidos de Laboratorio. Estas funcionalidades son:
 \begin{itemize}
@@ -2017,7 +2219,11 @@ Junto con el listado, se ofrecerán una un conjunto de funcionalidades que permi
 
 \subsection{Registrar Recepción}
 \label{receppedidosdelab:registrar-recepcion-rpl}\label{receppedidosdelab:registrar-recepcion}
-Si el usuario desea comenzar a registrar la recepción de un \emph{Pedido a Laboratorio}, deberá presionar el botón \code{Registrar}. A continuación el sistema lo redirigirá a la siguiente pantalla:
+Si el usuario desea comenzar a registrar la recepción de un \emph{Pedido a Laboratorio}, deberá presionar el botón \code{Registrar}.
+
+{\hspace*{\fill}\includegraphics{{btnregreceppedido}.png}\hspace*{\fill}}
+
+A continuación el sistema lo redirigirá a la siguiente pantalla:
 
 {\hspace*{\fill}\includegraphics{{altarecep}.png}\hspace*{\fill}}
 
@@ -2172,7 +2378,7 @@ Una vez presionado el botón \code{Registrar}, el sistema se encargará de actua
 \label{receppedidosdelab:formulario-busqueda-rpl}\label{receppedidosdelab:formulario-de-busqueda}
 Si el usuario desea visualizar sólo aquellos \emph{Pedidos a Laboratorio} que cumplan con algunos criterios en específico, deberá utilizar el formulario de búsqueda.
 
-CAPTURA
+{\hspace*{\fill}\includegraphics{{busquedarecep}.png}\hspace*{\fill}}
 
 Este formulario cuenta con dos modalidades:
 \begin{itemize}
@@ -2190,10 +2396,14 @@ Todos los campos son opcionales, de no especificarse ningún criterio de búsque
 
 El usuario tendrá que ingresar los parámetros de búsqueda en el formulario, y presionar el botón \code{Buscar}. El sistema visualizará aquellos \emph{Pedidos a Laboratorio} (que no hayan sido completamente recepcionados) que cumplan con todas las condiciones especificadas.
 
+Si el usuario desea limpiar los filtros activos, deberá presionar el boton \code{Limpiar}.
+
+{\hspace*{\fill}\includegraphics{{limpiarrecep}.png}\hspace*{\fill}}
+
 
 \section{Registrar Devolución de Medicamentos Vencidos}
 \label{devolucionvencidos::doc}\label{devolucionvencidos:registrar-devolucion-de-medicamentos-vencidos}
-Se presentará una pantalla en la cual el usuario deberá seleccionar el laboratorio al cual desea devolverle los medicamentos vencidos. A continuación deberá presionar el botón \code{Confirmar}.
+Se presentará una pantalla en la cual el usuario deberá seleccionar el laboratorio al cual desea devolverle los medicamentos vencidos. A continuación deberá presionar el botón \code{Continuar}.
 
 {\hspace*{\fill}\includegraphics{{altadevolucion}.png}\hspace*{\fill}}
 
@@ -2216,6 +2426,16 @@ Una vez realizado el paso anterior el usuario sera redirigido a la siguiente pan
 
 Esta pantalla es la encargada de visualizar los lotes vencidos vinculados a medicamentos producidos por el laboratorio seleccionado.
 
+Esta pantalla ofrece las siguientes funcionalidades:
+\begin{itemize}
+\item {} 
+{\hyperref[devolucionvencidos:registrar\string-devolucion]{\crossref{\DUrole{std,std-ref}{Registrar Devolución}}}}
+
+\end{itemize}
+
+
+\subsection{Registrar Devolución}
+\label{devolucionvencidos:registrar-devolucion}\label{devolucionvencidos:id1}
 Si el usuario desea registrar la devolución de medicamentos vencidos, deberá presionar el botón \code{Registrar}.
 
 {\hspace*{\fill}\includegraphics{{btnregdevolucion}.png}\hspace*{\fill}}
@@ -2224,12 +2444,6 @@ Una vez presionado el botón \code{Registrar}, el sistema mostrará la siguiente
 
 {\hspace*{\fill}\includegraphics{{regdevolucion}.png}\hspace*{\fill}}
 
-
-\chapter{Perfil}
-\label{perfil:perfil}\label{perfil::doc}
-
-\section{Agregar Usuario}
-\label{agregarusuario::doc}\label{agregarusuario:agregar-usuario}
 
 
 \renewcommand{\indexname}{Índice}

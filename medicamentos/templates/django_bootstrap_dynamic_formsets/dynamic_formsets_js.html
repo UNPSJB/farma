@@ -42,7 +42,7 @@
         $("[id$=DELETE]").parents(".form-group").hide();
 
         //Holds an empty form
-        var $emptyForm = $('#empty-form').remove().children().unwrap();
+        var $emptyForm = $('#empty-form').remove().children().unwrap().removeClass('well');
 
         var $sortItem = $('.sort-item');
 
@@ -133,11 +133,11 @@
 
                 return function() {
                     if($inputTotalForms.attr('value') < 2 && !btnDeleteFormDisabled) {
-                        $('.sort-item:eq(0)').find('.delete-form').prop('disabled', true);
+                        $('.sort-item:eq(0)').find('.delete-form').prop('disabled', true).addClass('disabled');
                         btnDeleteFormDisabled = true;
                     }else {
                         if(btnDeleteFormDisabled) {
-                            $('.sort-item:eq(0)').find('.delete-form').prop('disabled', false);
+                            $('.sort-item:eq(0)').find('.delete-form').prop('disabled', false).removeClass('disabled');
                             btnDeleteFormDisabled = false;
                         }
                     }

@@ -33,8 +33,9 @@
 
   
     <link rel="top" title="Manual de Usuario" href="index.html"/>
-        <link rel="up" title="Perfil" href="perfil.html"/>
-        <link rel="prev" title="Perfil" href="perfil.html"/> 
+        <link rel="up" title="Usuarios" href="usuarios.html"/>
+        <link rel="next" title="Cerrar Sesión" href="cerrarsesion.html"/>
+        <link rel="prev" title="Entrar al sistema" href="entraralsistema.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -83,13 +84,16 @@
             
             
                 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pantallaprincipal.html">Pantalla Principal</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="usuarios.html">Usuarios</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="entraralsistema.html">Entrar al sistema</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Agregar Usuario</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cerrarsesion.html">Cerrar Sesión</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="medicamentos.html">Medicamentos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="organizaciones.html">Organizaciones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pedidos.html">Pedidos</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="perfil.html">Perfil</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Agregar Usuario</a></li>
-</ul>
-</li>
 </ul>
 
             
@@ -120,7 +124,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-          <li><a href="perfil.html">Perfil</a> &raquo;</li>
+          <li><a href="usuarios.html">Usuarios</a> &raquo;</li>
       
     <li>Agregar Usuario</li>
       <li class="wy-breadcrumbs-aside">
@@ -136,6 +140,25 @@
             
   <div class="section" id="agregar-usuario">
 <h1>Agregar Usuario<a class="headerlink" href="#agregar-usuario" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Si el usuario desea crear un nuevo <em>Usuario</em>, deberá presionar el sub-item <code class="docutils literal"><span class="pre">Agregar</span> <span class="pre">Usuario</span></code>.</p>
+<img alt="_images/menuagregarusuario.jpg" class="align-center" src="_images/menuagregarusuario.jpg" />
+<p>A continuación el sistema lo redirigirá a la siguiente pantalla:</p>
+<img alt="_images/addusuario.png" class="align-center" src="_images/addusuario.png" />
+<p>En esta parte el usuario se le presentará un formulario y deberá ingresar los datos solicitados para dar de alta un nuevo <em>Usuario</em>.</p>
+<div class="admonition attention">
+<p class="first admonition-title">Atención</p>
+<p>El sistema siempre validará que la información ingresada sea correcta. En caso de que los datos ingresados sean incorrectos el sistema lo informará.
+En este punto, las posibles causas de errores son:</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Uno o más campos vacíos.</li>
+<li>Uno o más campos con un formato incorrecto.</li>
+<li>El nombre de usuario ya existe.</li>
+<li>Las contraseñas no coinciden.</li>
+</ul>
+</div></blockquote>
+</div>
+<p>Una vez completado el formulario, el usuario tendrá que presionar el boton <code class="docutils literal"><span class="pre">Registrar</span></code> y el sistema se encargará de dar de alta el nuevo usuario.</p>
 </div>
 
 
@@ -145,8 +168,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="cerrarsesion.html" class="btn btn-neutral float-right" title="Cerrar Sesión" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="perfil.html" class="btn btn-neutral" title="Perfil" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="entraralsistema.html" class="btn btn-neutral" title="Entrar al sistema" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

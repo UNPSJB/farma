@@ -1,0 +1,49 @@
+{% extends "base/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+	{% block breadcrumbs %}
+        <ol id="breadcrumb-page" class="breadcrumb _breadcrumb_">
+           <li><a href="{% url 'inicio' %}">Inicio</a></li>
+           {% block more-crumbs %}{% endblock %}
+        </ol>
+    {% endblock %}
+	<div style="margin: 30px 20px 40px 20px;">
+		<div class="container">
+			<div class="col-xs-12 col-md-offset-1 col-md-10">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						{% block panel-heading-add %} {% endblock %}
+					</div>
+                    <div class="panel-body">							
+                        {% block form %}
+                        	{% crispy form %}
+                    	{% endblock %}
+                    </div>
+				</div>
+			</div>
+		</div>
+		<nav>
+			<ul class="pager" style="margin-bottom: 100px;">
+				<li class="previous pull-right">
+					<a href="{% block url-previous %}{% endblock %}"><span aria-hidden="true">&larr;</span> 	Volver</a>
+	    		</li>
+	    	</ul>
+		</nav>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        /*Limpia campos del formulario con una cadena vacia <espacio, tab, etc> */
+        document.forms[0].addEventListener("submit", function(e){
+            var i, length;
+            for(i = 0, length = this.elements.length; i < length; i++){
+                this.elements[i].value = this.elements[i].value.replace(/^[\s]+$/, '');
+            }
+        });	
+    </script>
+	{% block more-scripts %}{% endblock %}
+{% endblock%}
