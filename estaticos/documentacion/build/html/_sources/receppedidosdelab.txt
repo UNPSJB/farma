@@ -1,6 +1,5 @@
 Recepcion de Pedidos de Laboratorio
 ===================================
-
 Se presentará una pantalla que contendrá un listado con todos los *Pedidos a Laboratorio* que no hayan sido completamente recepcionados hasta la fecha.
 
 CAPTURA
@@ -14,10 +13,10 @@ Junto con el listado, se ofrecerán una un conjunto de funcionalidades que permi
 
 Registrar Recepción
 -------------------
-
 Si el usuario desea comenzar a registrar la recepción de un *Pedido a Laboratorio*, deberá presionar el botón ``Registrar``. A continuación el sistema lo redirigirá a la siguiente pantalla:
 
-CAPTURA
+.. image:: _static/altarecep.png
+   :align: center
 
 En este punto el usuario deberá ingresar los datos del remito asociado al *Pedido a Laboratorio* del cual se quiere registrar recepción. Los datos solicitados son el número de remito y su correspondiente fecha. A continuación deberá presionar el botón ``Continuar``.
 
@@ -32,7 +31,8 @@ En este punto el usuario deberá ingresar los datos del remito asociado al *Pedi
 
 Una vez presionado el botón ``Continuar``, se mostrará la siguiente pantalla:
 
-CAPTURA
+.. image:: _static/detallesrecep.png
+   :align: center
 
 Esta pantalla es la encargada de visualizar aquellos detalles asociados al *Pedido a Laboratorio* que aún no han sido completamente recepcionados.
 
@@ -46,14 +46,15 @@ Esta pantalla ofrece las siguientes funcionalidades:
 
 Acusar Recepción de un Detalle
 ++++++++++++++++++++++++++++++
-
 Si el usuario desea acusar la recepción de un detalle del *Pedido a Laboratorio*, deberá presionar el botón ``Acusar Recepción de un Detalle`` que se encuentra asociado al mismo (detalle). 
 
-CAPTURA BOTÓN
+.. image:: _static/btnacusardetallerecep.png
+   :align: center
 
 Una vez realizado el paso anterior el sistema lo redirigirá a la siguiente pantalla:
 
-CAPTURA
+.. image:: _static/acusardetallerecep.png
+   :align: center
 
 En esta parte, se presentará el formulario que el usuario deberá completar para poder acusar la recepción del detalle seleccionado.
 
@@ -64,11 +65,11 @@ El sistema ofrece dos formularios para acusar recepción de un detalle:
 
 El usuario podrá "navegar" entre estas dos opciones y seleccionar la que más le convenga. 
 
-CAPTURA BOTÓN
-
+.. image:: _static/acusardetallesinloterecep.png
+   :align: center
+   
 .. IMPORTANT::
 	El sistema habilitará estas dos opciones siempre y cuando el medicamento asociado al detalle posea lotes activos en el sistema. Es decir, si un medicamento no posee lotes registrados, el sistema solo habilitará la opción para *Acusar Recepción con un nuevo lote*.
-
 
 Si el usuario selecciona la modalidad de *Acusar Recepción con un lote existente en el sistema* deberá proceder a ingresar los datos solicitados.
 
@@ -107,10 +108,10 @@ El botón ``Guardar y Continuar`` permite guardar la *recepción del detalle* en
 
 Registrar Pedido
 ++++++++++++++++
-
 Si el usuario desea registrar la recepción del *Pedido a Laboratorio*, deberá presionar el botón ``Registrar``.
 
-CAPTURA
+.. image:: _static/btnregrecep.png
+   :align: center
 
 .. ATTENTION::
 	El sistema siempre validará que la información del *Pedido a de Farmacia* sea correcta. En caso de que esta información sea incorrecta el sistema lo informará.
@@ -121,16 +122,15 @@ CAPTURA
 
 Una vez presionado el botón ``Registrar``, el sistema se encargará de actualizar los detalles del *Pedido a Laboratorio* (de ser necesario también el estado del pedido) y se mostrará la siguiente ventana emergente (modal).
 
-CAPTURA
+.. image:: _static/regrecep.png
+   :align: center
 
 
 .. _formulario-busqueda-rpl:
 
 Formulario de Búsqueda
 ----------------------
-
 Si el usuario desea visualizar sólo aquellos *Pedidos a Laboratorio* que cumplan con algunos criterios en específico, deberá utilizar el formulario de búsqueda.
-
 
 CAPTURA
 

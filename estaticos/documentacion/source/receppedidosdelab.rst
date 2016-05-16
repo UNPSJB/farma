@@ -48,7 +48,7 @@ Acusar Recepción de un Detalle
 ++++++++++++++++++++++++++++++
 Si el usuario desea acusar la recepción de un detalle del *Pedido a Laboratorio*, deberá presionar el botón ``Acusar Recepción de un Detalle`` que se encuentra asociado al mismo (detalle). 
 
-.. image:: _static/btncausardetallerecep.png
+.. image:: _static/btnacusardetallerecep.png
    :align: center
 
 Una vez realizado el paso anterior el sistema lo redirigirá a la siguiente pantalla:

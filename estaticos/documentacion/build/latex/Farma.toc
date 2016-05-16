@@ -70,9 +70,9 @@
 \contentsline {subsection}{\numberline {3.3.5}Formulario de B\IeC {\'u}squeda}{59}{subsection.3.3.5}
 \contentsline {section}{\numberline {3.4}Recepcion de Pedidos de Laboratorio}{60}{section.3.4}
 \contentsline {subsection}{\numberline {3.4.1}Registrar Recepci\IeC {\'o}n}{60}{subsection.3.4.1}
-\contentsline {subsubsection}{Acusar Recepci\IeC {\'o}n de un Detalle}{60}{subsubsection*.15}
-\contentsline {subsubsection}{Registrar Pedido}{61}{subsubsection*.16}
-\contentsline {subsection}{\numberline {3.4.2}Formulario de B\IeC {\'u}squeda}{62}{subsection.3.4.2}
-\contentsline {section}{\numberline {3.5}Registrar Devoluci\IeC {\'o}n de Medicamentos Vencidos}{62}{section.3.5}
-\contentsline {chapter}{\numberline {4}Perfil}{65}{chapter.4}
-\contentsline {section}{\numberline {4.1}Agregar Usuario}{65}{section.4.1}
+\contentsline {subsubsection}{Acusar Recepci\IeC {\'o}n de un Detalle}{61}{subsubsection*.15}
+\contentsline {subsubsection}{Registrar Pedido}{63}{subsubsection*.16}
+\contentsline {subsection}{\numberline {3.4.2}Formulario de B\IeC {\'u}squeda}{64}{subsection.3.4.2}
+\contentsline {section}{\numberline {3.5}Registrar Devoluci\IeC {\'o}n de Medicamentos Vencidos}{64}{section.3.5}
+\contentsline {chapter}{\numberline {4}Perfil}{67}{chapter.4}
+\contentsline {section}{\numberline {4.1}Agregar Usuario}{67}{section.4.1}
