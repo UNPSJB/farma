@@ -20,15 +20,15 @@ Estas funcionalidades son:
 
 Alta Medicamento
 ----------------
-
 Si el usuario desea crear un nuevo *Medicamento*, deberá presionar el botón ``Alta``. 
 
-.. image:: _static/botonalta.png
+.. image:: _static/btnaltamed.png
    :align: center
 
 A continuación el sistema lo redirigirá a la siguiente pantalla:
 
-CAPTURA
+.. image:: _static/altamed.png
+   :align: center
 
 En esta parte al usuario se le presentará un formulario y deberá ingresar los datos solicitados para dar de alta un nuevo *Medicamento*.
 
@@ -54,7 +54,6 @@ El botón ``Guardar y Continuar`` permite guardar el *Medicamento* en el sistema
 
 Modificar Stock Mínimo
 ----------------------
-
 Si el usuario desea modificar el stock mínimo de un *Medicamento*, deberá seleccionar el botón de **Acción** asociado al *Medicamento* y presionar la pestaña ``Modificar Stock Mínimo``.
 
 .. image:: _static/modifstockmin.png
@@ -109,8 +108,15 @@ Eliminar Medicamento
 --------------------
 Si el usuario desea eliminar un *Medicamento*, deberá seleccionar el botón de **Acción** asociado al *Medicamento* y presionar la pestaña ``Eliminar``.
 
-.. image:: _static/eliminar.png
+.. image:: _static/btneliminarmed.png
    :align: center
+
+Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
+
+.. image:: _static/eliminarmed.png
+   :align: center
+
+En esta parte el usuario deberá decidir si confirma la eliminación del *Medicamento* o no. Si desea confirmar la eliminación deberá presionar el botón ``Confirmar``, caso contrario, presionará el botón ``Cancelar``.
 
 .. NOTE::
     Aquellos *Medicamentos* que cumplan las siguientes condiciones **NO** podrán ser eliminados:
@@ -119,14 +125,10 @@ Si el usuario desea eliminar un *Medicamento*, deberá seleccionar el botón de 
         - Esten pendientes parcial o totalmente en un Pedido de Farmacia.
         - Posean lotes activos.
 
-    El sistema se encargará de informar al usuario las razones por las cuales el *Medicamento* seleccionado no puede eliminarse.
-
-Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
-
-.. image:: _static/eliminarmed.png
-   :align: center
-
-En esta parte el usuario deberá decidir si confirma la eliminación del *Medicamento* o no. Si desea confirmar la eliminación deberá presionar el botón ``Confirmar``, caso contrario, presionará el botón ``Cancelar``.
+    El sistema se encargará de informar al usuario las razones por las cuales el *Medicamento* seleccionado no puede eliminarse. En dicho caso, el sistema mostrara una ventana emergente (modal) como esta:
+    
+    .. image:: _static/fallaeliminarmed.png
+       :align: center
 
 .. _ver-lotes:
 
@@ -168,3 +170,8 @@ Este formulario cuenta con dos modalidades:
     Todos los campos son opcionales, de no especificarse ningún criterio de búsqueda el sistema mostrará todos los *Medicamentos*.
 
 El usuario tendrá que ingresar los parámetros de búsqueda en el formulario, y presionar el botón ``Buscar``. El sistema visualizará aquellos *Medicamentos* que cumplan con todas las condiciones especificadas.
+
+Si el usuario desea limpiar los filtros activos, deberá presionar el boton ``Limpiar``.
+
+.. image:: _static/limpiarbusquedamed.png
+   :align: center

@@ -1,9 +1,9 @@
 Nombres Fantasia
 ================
-
 Se presentará una pantalla que contendrá un listado con todos los *Nombres Fantasía* que se encuentren registrados en el sistema hasta la fecha. 
 
-CAPTURA
+.. image:: _static/nombresfantasia.png
+   :align: center
 
 Junto con el listado, se ofrecerán un conjunto de funcionalidades que permitirán manipular estos *Nombres Fantasía*
 
@@ -19,14 +19,15 @@ Estas funcionalidades son:
 
 Alta Nombre Fantasía
 --------------------
-
 Si el usuario desea crear un nuevo *Nombre Fantasía*, deberá presionar el botón ``Alta``. 
 
-CAPTURA BOTÓN
+.. image:: _static/btnaltanf.png
+   :align: center
 
 A continuación el sistema lo redirigirá a la siguiente pantalla:
 
-CAPTURA
+.. image:: _static/altanf.png
+   :align: center
 
 En esta parte el usuario se le presentará un formulario y deberá ingresar los datos solicitados para dar de alta un nuevo *Nombre Fantasía*.
 
@@ -51,14 +52,15 @@ El botón ``Guardar y Continuar`` permite guardar el *Nombre Fantasía* en el si
 
 Modificar Nombre Fantasía
 -------------------------
-
 Si el usuario desea modificar los datos de un *Nombre Fantasía*, deberá seleccionar el botón de **Acción** asociado al *Nombre Fantasía* y presionar la pestaña ``Modificar``.
 
-CAPTURA BOTÓN
+.. image:: _static/btnmodificarnf.png
+   :align: center
 
 Una vez realizado el paso anterior, el sistema lo redirigirá a la siguiente pantalla:
 
-CAPTURA
+.. image:: _static/modificarnf.png
+   :align: center
 
 En esta parte al usuario se le presentará un formulario y deberá actualizar los datos asociados al *Nombre Fantasía*.
 
@@ -75,33 +77,36 @@ Una vez completado el formulario, el usuario deberá presionar el botón ``Guard
 
 Eliminar Nombre Fantasía
 ------------------------
-
 Si el usuario desea eliminar un *Nombre Fantasía*, deberá seleccionar el botón de **Acción** asociado al *Nombre Fantasía* y presionar la pestaña ``Eliminar``.
 
-CAPTURA BOTÓN
+.. image:: _static/btneliminarnf.png
+   :align: center
+
+Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
+
+.. image:: _static/eliminarnf.png
+   :align: center
+
+En esta parte el usuario deberá decidir si confirma la eliminación del *Nombre Fantasía* o no. Si desea confirmar la eliminación deberá presionar el botón ``Confirmar``, caso contrario, presionará el botón ``Cancelar``.
 
 .. NOTE::
 	Aquellos *Nombres Fantasía* que cumplan las siguientes condiciones **NO** podrán ser eliminadas:
 
 		- Esten asociadas a un medicamento.
 
-	El sistema se encargará de informar al usuario las razones por las cuales el *Nombre Fantasía* seleccionado no puede eliminarse.
-
-
-Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
-
-CAPTURA
-
-En esta parte el usuario deberá decidir si confirma la eliminación del *Nombre Fantasía* o no. Si desea confirmar la eliminación deberá presionar el botón ``Confirmar``, caso contrario, presionará el botón ``Cancelar``.
+	El sistema se encargará de informar al usuario las razones por las cuales el *Nombre Fantasía* seleccionado no puede eliminarse. En dicho caso, el sistema mostrara una ventana emergente (modal) como esta:
+    
+    .. image:: _static/fallaeliminarnf.png
+       :align: center
 
 .. _formulario-busqueda-nombre-fantasia:
 
 Formulario de Búsqueda
 ----------------------
-
 Si el usuario desea visualizar sólo aquellos *Nombre Fantasía* que cumplan con algunos criterios en específico, deberá utilizar el formulario de búsqueda.
 
-CAPTURA
+.. image:: _static/busquedanf.png
+   :align: center
 
 Este formulario sólo cuenta con la opción de búsqueda simple en base al nombre del *Nombre Fantasía*. 
 

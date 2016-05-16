@@ -2,7 +2,8 @@ Pedidos de Farmacia
 ===================
 Se presentará una pantalla que contendrá un listado con todos los *Pedidos de Farmacia* que se encuentren registrados en el sistema hasta la fecha. 
 
-CAPTURA
+.. image:: _static/pedidosfarmacia.png
+   :align: center
 
 Junto con el listado, se ofrecerán un conjunto de funcionalidades que permitirán manipular estos *Pedidos de Farmacia*. 
 Estas funcionalidades son:
@@ -12,16 +13,20 @@ Estas funcionalidades son:
 - :ref:`Ver Remitos <ver-remitos-pf>`
 - :ref:`Formulario de Búsqueda <formulario-busqueda-pf>`
 
-
 .. _alta-pf:
 
 Alta Pedido
 -----------
+Si el usuario desea crear un nuevo *Pedido de Farmacia*, deberá presionar el botón ``Alta``.
 
-Si el usuario desea crear un nuevo *Pedido de Farmacia*, deberá presionar el botón ``Alta``. A continuación el sistema lo redirigirá a la siguiente pantalla:
+.. image:: _static/btnaltapedfarm.png
+   :align: center
 
-CAPTURA
+A continuación el sistema lo redirigirá a la siguiente pantalla:
 
+.. image:: _static/altapedfarm.png
+   :align: center
+   
 En este punto el usuario deberá seleccionar la fecha en que llegó el pedido y la farmacia que lo realizó. A continuación deberá presionar el botón ``Crear Pedido``.
 
 .. ATTENTION::
@@ -34,7 +39,8 @@ En este punto el usuario deberá seleccionar la fecha en que llegó el pedido y 
 
 Una vez presionado el botón ``Crear Pedido``, se mostrará la siguiente pantalla:
 
-CAPTURA
+.. image:: _static/adddetallespedfarm.png
+   :align: center
 
 Esta pantalla es la encargada de visualizar aquellos detalles que se irán asociando al *Pedido de Farmacia*. 
 La misma ofrece las siguientes funcionalidades:
@@ -44,19 +50,19 @@ La misma ofrece las siguientes funcionalidades:
     - :ref:`Eliminar Detalle <eliminar-detalle-pf>`
     - :ref:`Registrar Pedido <registrar-pedido-pf>`
 
-
 .. _agregar-detalle-pf:
 
 Agregar Detalle
 +++++++++++++++
-
 Si el usuario desea agregar un detalle al *Pedido de Farmacia*, deberá presionar el botón ``Alta Detalle``. 
 
-CAPTURA BOTÓN
+.. image:: _static/btnadddetallepedfarm.png
+   :align: center
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
-CAPTURA
+.. image:: _static/newdetallepedfarm.png
+   :align: center
 
 En esta parte, se presentará un formulario que el usuario deberá completar para poder dar de alta un nuevo detalle.
 
@@ -76,14 +82,15 @@ El usuario podrá seguir dando de alta nuevos detalles, hasta donde considere ne
 
 Modificar Detalle
 +++++++++++++++++
-
 Si el usuario desea modificar un detalle del *Pedido de Farmacia*, deberá seleccionar el detalle que desea actualizar y presionar el botón ``Modificar Detalle``.
 
-CAPTURA
+.. image:: _static/btnupddetallepedfarm.png
+   :align: center
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
-CAPTURA
+.. image:: _static/upddetallepedfarm.png
+   :align: center
 
 En esta parte, se presentará un formulario con la información actual del detalle y el usuario deberá actualizar aquella que considere necesaria.
 
@@ -97,31 +104,30 @@ En esta parte, se presentará un formulario con la información actual del detal
 
 Una vez completado el formulario, el usuario deberá presionar el botón ``Guardar`` y el sistema se encargará de actualizar la información de dicho detalle.
 
-
 .. _eliminar-detalle-pf:
 
 Eliminar Detalle
 ++++++++++++++++
-
 Si el usuario desea eliminar un detalle del *Pedido de Farmacia*, deberá seleccionar el detalle que desea eliminar y presionar el botón ``Baja Detalle``.
 
-CAPTURA BOTÓN
+.. image:: _static/btndeldetallepedfarm.png
+   :align: center
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
-CAPTURA
+.. image:: _static/deldetallepedfarm.png
+   :align: center
 
 En esta parte el usuario deberá decidir si confirma la eliminación del detalle o no. Si desea confirmar la eliminación deberá presionar el botón ``Confirmar``, caso contrario, presionará el botón ``Cancelar``.
-
 
 .. _registrar-pedido-pf:
 
 Registrar Pedido
 ++++++++++++++++
-
 Si el usuario desea registrar el *Pedido de Farmacia*, deberá presionar el botón ``Registrar``.
 
-CAPTURA
+.. image:: _static/btnregpedfarm.png
+   :align: center
 
 .. ATTENTION::
     El sistema siempre validará que la información del *Pedido a de Farmacia* sea correcta. En caso de que esta información sea incorrecta el sistema lo informará. 
@@ -132,20 +138,22 @@ CAPTURA
 
 Una vez presionado el botón ``Registrar``, el sistema se encargará de crear el *Pedido de Farmacia* y se mostrará la siguiente ventana emergente (modal).
 
-CAPTURA
+.. image:: _static/regpedfarm.png
+   :align: center
 
 .. _ver-detalles-pf:
 
 Ver Detalles
 ------------
-
 Si el usuario desea ver los detalles de un *Pedido de Farmacia*, deberá seleccionar el botón de **Acción** asociado a dicho pedido y presionar la pestaña ``Ver Detalles``.
 
-CAPTURA
+.. image:: _static/btndetallespedfarm.png
+   :align: center
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
-CAPTURA
+.. image:: _static/detallespedfarm.png
+   :align: center
 
 Esta ventana mostrará todos los detalles del *Pedido de Farmacia* seleccionado.
 
@@ -153,14 +161,15 @@ Esta ventana mostrará todos los detalles del *Pedido de Farmacia* seleccionado.
 
 Ver Remitos
 -----------
-
 Si el usuario desea ver los remitos asociados a un *Pedido de Farmacia*, deberá seleccionar el botón de **Acción** asociado a dicho pedido y presionar la pestaña ``Ver Remitos``.
 
-CAPTURA
+.. image:: _static/btnremitospedfarm.png
+   :align: center
 
 Una vez realizado el paso anterior aparecerá la siguiente ventana emergente (modal):
 
-CAPTURA
+.. image:: _static/remitospedfarm.png
+   :align: center
 
 Esta ventana mostrará todos los remitos vinculados al *Pedido de Farmacia* seleccionado.
 
@@ -169,16 +178,14 @@ Esta ventana mostrará todos los remitos vinculados al *Pedido de Farmacia* sele
 
 El usuario tendra la opción de visualizar un remito en PDF, presionanado el boton ``Descargar`` asociado a él.
 
-CAPTURA
-
 .. _formulario-busqueda-pf:
 
 Formulario de Búsqueda
 ----------------------
-
 Si el usuario desea visualizar sólo aquellos *Pedidos de Farmacia* que cumplan con algunos criterios en específico, deberá utilizar el formulario de búsqueda.
 
-CAPTURA
+.. image:: _static/busquedapedfarm.png
+   :align: center
 
 Este formulario cuenta con dos modalidades:
 
@@ -189,3 +196,8 @@ Este formulario cuenta con dos modalidades:
     Todos los campos son opcionales, de no especificarse ningún criterio de búsqueda el sistema mostrará todos los *Pedidos de Farmacia*.
 
 El usuario tendrá que ingresar los parámetros de búsqueda en el formulario, y presionar el botón ``Buscar``. El sistema visualizará aquellos *Pedidos de Farmacia* que cumplan con todas las condiciones especificadas.
+
+Si el usuario desea limpiar los filtros activos, deberá presionar el boton ``Limpiar``.
+
+.. image:: _static/limpiarpedfarm.png
+   :align: center
