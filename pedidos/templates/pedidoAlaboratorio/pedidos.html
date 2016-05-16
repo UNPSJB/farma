@@ -15,8 +15,12 @@
 {% endblock %}
 
 {% block form-fields-avanzados %} 
-    <input class="datepicker form-control form-field"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde" type="text" />
-    <input class="datepicker form-control form-field" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta" type="text" />
+    <div>
+        <input class="datepicker form-control form-field"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde" type="text" />
+    </div>
+    <div>
+        <input class="datepicker form-control form-field" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta" type="text" />
+    </div>
 {% endblock %}
 
 {% block botones-header-tabla %} 

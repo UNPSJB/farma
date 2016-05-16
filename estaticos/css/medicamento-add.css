@@ -1,0 +1,53 @@
+.sort-item{
+    margin: 2rem 0;
+}
+
+#container-form-right {
+    overflow-y: auto;
+}
+
+.form-actions {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding-top: 1.5rem;
+    position: relative;
+}
+
+.campos-obligatorios {
+    position: absolute;
+    right: 0; top: 50%;
+    transform: translateY(calc(-50% + 1rem));
+    -webkit-transform: translateY(calc(-50% + 1.5rem));
+}
+
+.formulas-title {
+    font-weight: bold;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.delete-form {
+    background-color: #c9302c;
+    border-color: #ac2925;
+    color: #FFF;
+}
+
+.delete-form:hover {
+    background-color: #FFF; 
+    border-color: #ac2925;
+    color: #c9302c;
+}
+
+.delete-form.disabled {
+    color: #c9302c;
+}
+
+.add-form {
+    background-color: #449d44;
+    border-color: #398439;
+    color: #FFF;
+}
+
+.add-form:hover {
+    background-color: #FFF;
+    border-color: #398439;
+    color: #449d44;
+}

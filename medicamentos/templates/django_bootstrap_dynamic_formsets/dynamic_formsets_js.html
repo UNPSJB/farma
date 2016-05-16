@@ -133,11 +133,11 @@
 
                 return function() {
                     if($inputTotalForms.attr('value') < 2 && !btnDeleteFormDisabled) {
-                        $('.sort-item:eq(0)').find('.delete-form').prop('disabled', true);
+                        $('.sort-item:eq(0)').find('.delete-form').prop('disabled', true).addClass('disabled');
                         btnDeleteFormDisabled = true;
                     }else {
                         if(btnDeleteFormDisabled) {
-                            $('.sort-item:eq(0)').find('.delete-form').prop('disabled', false);
+                            $('.sort-item:eq(0)').find('.delete-form').prop('disabled', false).addClass('disabled');
                             btnDeleteFormDisabled = false;
                         }
                     }

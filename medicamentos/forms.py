@@ -310,4 +310,4 @@ class DosisFormSetBase(BaseFormSet):
         monodroga = self.cleaned_data['monodroga']
         return monodroga
 
-DosisFormSet = formset_factory(DosisForm, formset=DosisFormSetBase, min_num=1, validate_min=True)
+DosisFormSet = formset_factory(DosisForm, formset=DosisFormSetBase, min_num=1)

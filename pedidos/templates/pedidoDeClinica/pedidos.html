@@ -16,8 +16,12 @@
 
 {% block form-fields-avanzados %} 
     <input class="form-control form-field" id="obra-social" name="obraSocial" value="{{filtros.obraSocial}}" placeholder="Obra Social" type="text">
-    <input class="datepicker form-control form-field"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
-    <input class="datepicker form-control form-field" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta">
+    <div>
+        <input class="datepicker form-control form-field"  id="desde" name="desde" value="{{filtros.desde}}" placeholder="Desde">
+    </div>
+    <div>
+        <input class="datepicker form-control form-field" id="hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Hasta">
+    </div>
 {% endblock %}
 
 {% block botones-header-tabla %} 

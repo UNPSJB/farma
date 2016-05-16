@@ -1,21 +1,57 @@
 {% extends "base-remito.html" %}
 
-{% block cliente %}Clinica: {{ remito.pedidoDeClinica.clinica.razonSocial }}{% endblock %}
-{% block direccion %}Direccion: {{ remito.pedidoDeClinica.clinica.direccion }}{% endblock %}
+{% block header %} 
+    <p class="logo"><img width="100%" src="images/logo-farma.jpg" /></p>
+    <p>
+        Tel (02965) 43-4159 <br>
+        Lezama 479 <br/>
+        Trelew, Chubut
+    </p>
+{% endblock%}
 
-{% block grid %}
+{% block cliente %}
+    <p class="bottom-10">
+        <strong>Clínica </strong> <span class="client">"{{remito.pedidoDeClinica.clinica}}"</span>
+    </p>
+    <p class="bottom-10">
+        {%if remito.pedidoDeClinica.clinica.direccion %}
+            {{ remito.pedidoDeClinica.clinica.direccion }}<br />
+        {% endif %}
+        {%if remito.pedidoDeClinica.clinica.localidad %}
+            {{ remito.pedidoDeClinica.clinica.localidad }}
+        {% endif %}        
+        {%if remito.pedidoDeClinica.clinica.telefono %}
+            {{ remito.pedidoDeClinica.clinica.telefono }}<br />
+        {% endif %}
+    </p>
+{% endblock %}
+
+{% block tipo-remito %}
+    Remito de Clínica
+{% endblock %}
+
+{% block remito-cabecera %}
+    <tr>
+        <td class="item-name"><strong>Remito Nº {{ remito.pk }}</strong></td>
+        <td><strong>{{ remito.fecha }}</strong></td>
+    </tr>
+{% endblock %}
+
+{% block remito-detalles %}
     <thead>
-       <tr class="info" align="center">
-          <th>Medicamento</th>
-          <th>Cantidad</th>
-       </tr>
+        <tr>
+            <th class="text-left">Medicamento</th>
+            <th class="text-right">Cantidad</th>
+            <th class="text-right">Lote</th>
+        </tr>
     </thead>
     <tbody>
-       {% for detalle in detallesRemito %}
-          <tr class="col-items">
-             <td class="nombre-med">{{ detalle.detallePedidoDeClinica.medicamento }}</td>
-             <td class="cant-med">{{ detalle.cantidad }}</td>
-          </tr>
-       {% endfor %}
+        {% for detalle in detallesRemito %}
+        <tr>
+            <td class="text-left">{{ detalle.detallePedidoDeClinica.medicamento }}</td>
+            <td class="text-right">{{ detalle.cantidad }}</td>
+            <td class="text-right">{{ detalle.lote }}</td>
+        </tr>
+        {% endfor %}
     </tbody>
 {% endblock %}

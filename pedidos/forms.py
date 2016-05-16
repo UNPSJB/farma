@@ -10,6 +10,7 @@ from medicamentos import models as mmodels
 from organizaciones import models as omodels
 import datetime
 import config
+import re
 
 
 # *******************************PEDIDO DE FARMACIA*******************************#
@@ -112,6 +113,12 @@ class PedidoDeClinicaForm(forms.ModelForm):
             if fecha < lim:
                 raise forms.ValidationError('La fecha minima permitida es el ' + lim.strftime('%d/%m/%Y'))
         return fecha
+
+    def clean_medicoAuditor(self):
+        medico = self.cleaned_data['medicoAuditor']
+        if medico and not re.match(r"^[a-zA-Z]+((\s[a-zA-Z]+)+)?$", medico):
+            raise forms.ValidationError('El nombre del medico auditor solo puede contener letras y espacios')
+        return medico
 
 
 class DetallePedidoDeClinicaForm(forms.ModelForm):

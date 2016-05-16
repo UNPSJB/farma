@@ -1,101 +1,115 @@
 {% extends "easy_pdf/base.html" %}
-{% load staticfiles %}
+
+{% block layout_style %}
+    <style type="text/css">
+        @page {
+            size: {{ pagesize|default:"A4" }};
+            margin-left: 5.5cm;
+            margin-right: 2.5cm;
+            margin-top: 2.5cm;
+            margin-bottom: 2cm;
+            @frame header {
+                -pdf-frame-content: page-header;
+                margin-top: 1.3cm;
+                margin-right: 2mm;
+                margin-bottom: 1cm;
+                margin-left: 1.2cm;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block extra_style %}
+    <style type="text/css">
+        @font-face { font-family: Lato; src: url(fonts/Lato-Bol.ttf); font-weight: bold; }
+        @font-face { font-family: Lato; src: url(fonts/Lato-Reg.ttf); }
+        @font-face { font-family: "Lato Light"; src: url(fonts/Lato-Lig.ttf); }
+        html {
+            font-family: "Lato", "Helvetica", "sans-serif";
+            color: #333333;
+        }
+        p {
+            margin: 0 0 6px 0;
+            font-size: 11pt;
+            font-family: "Lato", "Helvetica", "sans-serif";
+        }
+        table {
+            line-height: 140%;
+            margin-bottom: 20px;
+        }
+            table.bordered {
+                border-top: 0.1pt solid #999999;
+                border-bottom: 0.1pt solid #999999;
+            }
+            tr, td, th { border: none; }
+            th {
+                font-size: 10pt;
+                border-bottom: 0.1pt solid #999999;
+                padding: 3px 0;
+                line-height: 1;
+                font-weight: bold;
+            }
+            td {
+                font-size: 10pt;
+                font-family: "Lato", "Helvetica", "sans-serif";
+                vertical-align: top;
+                padding: 3px 0;
+            }
+            td:last-child { padding-bottom: 0; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .padding-40 { padding: 40px 0 0 0;}
+        .bottom-10 { margin-bottom: 10px; }
+        .bottom-20 { margin-bottom: 20px; }
+        .header { color: #7f7f7f; }
+        .header p { font-size: 13px; line-height: 1.5em; }
+        .header-link { font-weight: bold; text-decoration: none; color: #4F81BD; font-size: 14px; }
+        .logo { margin-bottom: 20px; margin-left: -5px; }
+        .logo img { zoom: 60%; }
+        .recipient { margin-left: 7cm; }
+        .main h1 {
+            margin: 18px 0 18px 0;
+            font-size: 250%;
+            font-weight: normal;
+            color: #4F81BD;
+        }
+        .main h2 {
+            margin: 18px 0 6px 0;
+            font-size: 180%;
+            font-weight: normal;
+        }
+        .info { border: 1px solid #4F81BD; padding: 10px; margin-top: 50px; margin-bottom: 50px; }
+        .info a { color: #4F81BD; text-decoration: none; }
+        .client { color: #DEAE3A; font-weight: 800}
+    </style>
+{% endblock %}
+
+{%block page_header%}
+    <div id="page-header">
+        <div class="header">
+            {% block header %}
+            {% endblock %}        
+        </div>
+    </div>
+{% endblock %}
 
 {% block content %}
-    <head>
-        <title>Remito N°: {{ remito.id }}</title>
-        <style>
-            .clearfix:after {
-              content: "";
-              display: table;
-              clear: both;
-            }
+    <div id="content">
+        <div class="recipient bottom-10">
+            {% block cliente %} {% endblock %}
+        </div>
 
-            h1 {
-              border-top: 1px solid  #5D6975;
-              border-bottom: 1px solid  #5D6975;
-              color: #5D6975;
-              font-size: 2.4em;
-              line-height: 1.0em;
-              font-weight: normal;
-              text-align: center;
-              margin: 0 0 20px 0;
-              padding: 5px 0 0 0;
-            }
+        <div class="main">
+            <h1>{% block tipo-remito %}{% endblock %}</h1>
 
-            tr {
-              padding: 2px 0 0 2px;
-            }
-
-            #vendedor {
-              float: right;
-              text-align: right;
-            }
-
-            #cliente {
-              float: left;
-            }
-
-            #items {
-              clear: both;
-              width: 100%;
-              margin: 30px 0 0 0;
-              border: 1px
-              solid black;
-            }
-
-            #items th {
-              background: #eee;
-            }
-
-            #items textarea {
-              width: 80px;
-              height: 0px;
-            }
-
-            #items tr.col-items td {
-              border: 0;
-            }
-
-            #items td.nombre-med {
-              width: 500px;
-            }
-
-            #items td.lote-med {
-              width: 75px;
-              text-align: center;
-            }
-
-            #items td.cant-med {
-              width: 75px;
-              text-align: center;
-            }
-
-            #items td.nombre-med textarea, #items td.cant-med textarea, #items td.lote-med textarea {
-              width: 100%;
-            }
-        </style>
-    </head>
-    <body>
-        <header class="clearfix">
-            <h1>Remito</h1>
-            <div id="vendedor" class="clearfix">
-                {% block vendedor %}
-                    <div>Drogueria Farma</div>
-                    <div>455 Foggy Heights</div>
-                    <div>Telefono</div>
-                {% endblock %}
-            </div>
-            <div id="cliente">
-                <div>{% block cliente %}{% endblock %}</div>
-                <div>{% block direccion %}{% endblock %}</div>
-                <div>Fecha: {{ remito.fecha }}</div>
-            </div>
-        </header>
-        <main>
-            <table id="items" class="table table-condensed table-responsive">
-                {% block grid %}{% endblock %}
+            <table class="bordered bottom-20">
+                {% block remito-cabezera %} {% endblock %}
             </table>
-        </main>
-    </body>
+
+            <table>
+                {% block remito-detalles %} {% endblock %}
+            </table>
+
+        </div>
+    </div>
 {% endblock %}

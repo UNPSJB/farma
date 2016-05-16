@@ -236,14 +236,18 @@ def medicamento_add(request):
             if '_volver' in request.POST:
                 return redirect('medicamentos')
             else:
+                request.session['successAdd'] = True
                 return redirect('medicamento_add')
     else:
         dosis_formset = forms.DosisFormSet()
         medicamento_form = forms.MedicamentoForm()
 
+    successAdd = hubo_alta(request.session)
+
     return render(request, "medicamento/medicamentoAdd.html", {
         "medicamento_form": medicamento_form,
-        "dosis_formset": dosis_formset
+        "dosis_formset": dosis_formset,
+        "successAdd": successAdd
     })
 
 

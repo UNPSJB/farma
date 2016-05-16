@@ -151,8 +151,8 @@ class ClinicaFormGenerico(forms.ModelForm):
             obraSocial.upper()
             obrasSociales = obraSocial.split(',')
             for obrasSocial in obrasSociales:
-                if not re.match(r"^[a-zA-Z\d]+((\s[a-zA-Z\d]+)+)?$", obrasSocial):
-                    raise forms.ValidationError('La Obra Social no puede contener carácteres especiales')
+                if not re.match(r"^[a-zA-Z]+((\s[a-zA-Z]+)+)?$", obrasSocial):
+                    raise forms.ValidationError('Las Obras Sociales solo puede contener letras y espacios')
             return obraSocial.upper()
         return obraSocial
 

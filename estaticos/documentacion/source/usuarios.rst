@@ -7,5 +7,6 @@ Contenido:
 .. toctree::
    :maxdepth: 2
    
+   entraralsistema
    agregarusuario
    cerrarsesion

@@ -107,4 +107,43 @@ hr {
 }
 
 
+.submenu {
+  min-width: 100%;
+  padding: 0;
+  overflow: hidden;
+}
 
+.submenu > li > a {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+#navbar-left a>span:first-child, 
+#navbar-right a>span:first-child{
+  color: #004693;
+}
+
+@media (max-width: 767px) {
+  .navbar-left > li {
+      margin-right: 0;
+  }
+
+  #navbar-left, 
+  #navbar-right {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .text-center {
+    text-align: left;
+  }
+
+  .submenu > li > a {
+    padding-bottom: 10px!important;
+    padding-top: 10px!important;
+  }
+}

@@ -13,6 +13,8 @@
     {{ dosis_formset.media.js }}
     <link rel="stylesheet" href="{%  static 'css/selectize.css' %}">
     <link rel="stylesheet" href="{%  static 'css/selectize.bootstrap3.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base-add-update.css' %}">
+    <link rel="stylesheet" href="{% static 'css/medicamento-add.css' %}">
 {% endblock %}
 
 {% block title %} Alta de Medicamento {% endblock%}
@@ -27,22 +29,50 @@
 
 {% block header-title %} Alta de Medicamento {% endblock %}
 
-{% block content %}                 
-<div class="container">
+{% block content %}     
+{% if successAdd %}
+    <div id="alert-success-add" class="alert alert-success text-center" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        El medicamento fue agregado exitosamente al sistema.
+    </div>
+{% endif %}            
+<div class="container container-main">
     <div class="row">
-        <div class="col-xs-offset-1 col-xs-10">
+        <div class="col-md-offset-1 col-md-10">
+            <div class="page-header">
+                <h2 class="page-header-title">
+                    Agregar nuevo medicamento
+                    <div class="pull-right">
+                        <span class="glyphicon glyphicon-plus page-header-icon"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                </h2>
+                <p class="page-header-sub">
+                    Complete los siguientes campos
+                </p>
+            </div>
+            <!--FORMULARIO-->
             <form class="form" method="post"> {% csrf_token %}
-    
-                {% crispy medicamento_form %}
-
-                {{ dosis_formset.non_form_errors }}
-                {% bootstrap_dynamic_formset dosis_formset can_delete=True %}
- {{ formset.management_form }}
-                <button class="btn btn-primary">Guardar</button>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6" id="container-form-left">
+                        {% crispy medicamento_form %}
+                    </div>
+                    <div class="col-xs-12 col-md-6" id="container-form-right">
+                        <p class="formulas-title">Fórmulas <span class="asteriskField">*</span></p>          
+                        {{ dosis_formset.non_form_errors }}
+                        {% bootstrap_dynamic_formset dosis_formset can_delete=True %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 form-actions">
+                        <button class="btn btn-primary" name="_continuar" value="_continuar" id="btn-guardar-continuar">Guardar y Continuar</button>
+                        <button class="btn btn-primary" name="_volver" value="_volver" id="btn-guardar-volver">Guardar y Volver</button>
+                        <p class="campos-obligatorios pull-right"><span class="glyphicon glyphicon-info-sign"></span> Estos campos son obligatorios (*)</p>
+                    </div>
+                </div>
             </form>
         </div>
-    </div>
-
+    </div>        
 </div>
 
 {% endblock %}
@@ -52,13 +82,21 @@
 {% block scripts %}
     <script type="text/javascript" src="{%  static 'js/selectize.js' %}"></script>
     <script>
-        /*$('select').selectize({
+        $('#container-form-left select').selectize({
             sortField: {
                 field: 'text',
                 direction: 'asc'
             },
             dropdownParent: 'body'
-        });*/
+        });
+        
+        var $alertSuccessAdd = $('#alert-success-add'),
+            time = 4000;
+        setTimeout(function() {
+            $alertSuccessAdd.slideUp('slow', function() {
+                $alertSuccessAdd.alert('close');
+            });
+        }, time);
 
         $(document).on("keyup", function(e){
             if(e.keyCode == 112){
@@ -72,7 +110,7 @@
 
         var $sortItems = $('#sortable .sort-item'),
             txt;   
-        $sortItems.removeClass('well');
+        $sortItems.removeClass('well').find('.form-group').removeClass('has-success');
 
         $sortItems.each(function(i, el){
             var $errors = $(el).find('.has-error .help-block');
@@ -81,5 +119,8 @@
                 $(elem).html('<strong>' + txt + '</strong>')
             });
         });
+
+        var h = $('#container-form-left').height();
+        $('#container-form-right').css('height', h - 20 + 'px');
     </script>
 {% endblock %}

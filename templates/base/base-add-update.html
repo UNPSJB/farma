@@ -18,7 +18,9 @@
 						{% block panel-heading-add %} {% endblock %}
 					</div>
                     <div class="panel-body">							
-                        {% crispy form %}
+                        {% block form %}
+                        	{% crispy form %}
+                    	{% endblock %}
                     </div>
 				</div>
 			</div>
