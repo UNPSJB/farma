@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import permission_required
 from pedidos import models as pmodels
 from bokeh.charts import Bar
 from bokeh.embed import components
+from bokeh.resources import CDN
 
 
 def get_filtros(get, modelo):
@@ -109,10 +110,11 @@ def farmacias_top10volumen(request):
     if request.method == "POST":
         form = forms.RangoFechaReporteForm(request.POST)
         if form.is_valid():
-            top10 = utils.top_10_volumen_farmacia(form.clean())
+            dict = utils.top_10_volumen_farmacia(form.clean())
+            top10 = {"Farmacias": dict.keys(), "Cantidad": dict.values()}
             graf = Bar(top10, 'Farmacias', values='Cantidad', title="Cantidad de Medicamentos por Farmacia")
-            script, plot = components(graf)
-            return render(request, "farmacias_top10volumen", {"script": script, "plot": plot})
+            script, div = components(graf, CDN)
+            return render(request, "farmacia/farmaciasTop10Volumen.html", {"script": script, "div": div})
     else:
         form = forms.RangoFechaReporteForm()
 

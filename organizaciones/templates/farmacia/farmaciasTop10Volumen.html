@@ -4,11 +4,15 @@
 
 {% block stylesheets %}
 	<link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css' %}">
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.css" rel="stylesheet" type="text/css">
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.js"></script>
 {% endblock %}
 
 {% block content %}
-    {% crispy form %}
-    {{ plot|safe }}
+    {% if form %}
+        {% crispy form %}
+    {% endif %}
+    {{ div|safe }}
 {% endblock %}
 
 {% block scripts %}
