@@ -93,7 +93,6 @@ body {
   border-radius: 5px;
   border: 1px solid rgb(214,215,219);
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
 }
 .header-tabla-title {
   display: inline-block;
@@ -198,4 +197,26 @@ body {
 
 .informe{
   margin-top: 1rem;
+}
+
+.dropdown-reportes {
+    display: inline-block;
+    margin: 0 2rem 0 0;
+}
+
+.dropdown-reportes .dropdown-menu {
+    left: auto;
+    right: 0;
+}
+
+.dropdown-reportes .dropdown-toggle {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+}
+
+.dropdown-reportes.open .dropdown-toggle,
+.dropdown-reportes .dropdown-toggle:active{
+    background-color: transparent!important;
 }

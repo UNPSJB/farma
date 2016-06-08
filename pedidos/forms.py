@@ -332,8 +332,8 @@ class ControlDetalleConNuevoLotePedidoAlaboratorioForm(forms.Form):
     )
 
     lote = forms.IntegerField(label='Lote', min_value=1)
-    fechaVencimiento = forms.DateField(label= 'Fecha de vencimiento')
-    precio = forms.FloatField(label= 'Precio', min_value=1)
+    fechaVencimiento = forms.DateField(label='Fecha de vencimiento')
+    precio = forms.FloatField(label='Precio', min_value=1)
     cantidad = forms.IntegerField(label='Cantidad recibida', min_value=1)
 
     def is_valid(self, cantidadPendiente, lotesEnSesion):

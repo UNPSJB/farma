@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from jsonview.decorators import json_view
 from django.contrib.auth.decorators import permission_required
 from pedidos import models as pmodels
+from bokeh.charts import Bar
+from bokeh.embed import components
 
 
 def get_filtros(get, modelo):
@@ -15,6 +17,7 @@ def get_filtros(get, modelo):
             mfilter[attr] = get[attr]
     return mfilter
 
+
 def hubo_alta(session):
     if 'successAdd' in session:
         del session['successAdd']
@@ -22,6 +25,7 @@ def hubo_alta(session):
     return False
     
 # ****** FARMACIAS ******
+
 
 @login_required(login_url='login')
 def farmacias(request):
@@ -74,6 +78,7 @@ def farmacia_try_delete(request, id_farmacia):
     infoBaja = utils.puedo_eliminar_farmacia(id_farmacia)
     return infoBaja
 
+
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def farmacia_delete(request, id_farmacia):
@@ -96,6 +101,22 @@ def farmacia_delete(request, id_farmacia):
 
         farmacia.delete()
         return redirect('farmacias')
+
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def farmacias_top10volumen(request):
+    if request.method == "POST":
+        form = forms.RangoFechaReporteForm(request.POST)
+        if form.is_valid():
+            top10 = utils.top_10_volumen_farmacia(form.clean())
+            graf = Bar(top10, 'Farmacias', values='Cantidad', title="Cantidad de Medicamentos por Farmacia")
+            script, plot = components(graf)
+            return render(request, "farmacias_top10volumen", {"script": script, "plot": plot})
+    else:
+        form = forms.RangoFechaReporteForm()
+
+    return render(request, "farmacia/farmaciasTop10Volumen.html", {"form": form})
 
 
 # ****** CLINICAS ******

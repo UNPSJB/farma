@@ -4,6 +4,7 @@ from django.db.models import Q
 from . import models
 from pedidos import models as pmodels
 from medicamentos import models as mmodels
+from collections import OrderedDict
 
 
 def puedo_eliminar_farmacia(id_farmacia):
@@ -55,3 +56,32 @@ def puedo_eliminar_laboratorio(id_laboratorio):
     infoBaja['success'] = contadorPedidosPendientesAlaboratorio == 0 and contadorMedicamentosConStock == 0
     infoBaja['informe'] = mensajeInforme
     return infoBaja
+
+
+def top_10_volumen_farmacia(fechas):
+    pedidos = pmodels.PedidoDeFarmacia.objects.filter(fecha__gte=fechas["fechaMin"], fecha__lte=fechas["fechaMax"])
+    estadisticas = {}
+    for pedido in pedidos:
+        totMed = 0
+        detalles = pmodels.DetallePedidoDeFarmacia.objects.filter(pedidoDeFarmacia=pedido)
+        for detalle in detalles:
+            totMed += detalle.cantidad
+
+        farmacia = pedido.farmacia.razonSocial
+        if farmacia in estadisticas:
+            estadisticas[farmacia] += totMed
+        else:
+            estadisticas[farmacia] = totMed
+    return dict(OrderedDict(sorted(estadisticas.items(), key=lambda t: t[1], reverse=True)))
+
+
+def top_10_pedidos_farmacia(fechas):
+    pedidos = pmodels.PedidoDeFarmacia.objects.filter(fecha__gte=fechas["fechaMin"], fecha__lte=fechas["fechaMax"])
+    estadisticas = {}
+    for pedido in pedidos:
+        farmacia = pedido.farmacia.razonSocial
+        if farmacia in estadisticas:
+            estadisticas[farmacia] += 1
+        else:
+            estadisticas[farmacia] = 1
+    return dict(OrderedDict(sorted(estadisticas.items(), key=lambda t: t[1], reverse=True)))

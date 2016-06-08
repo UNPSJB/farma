@@ -8,6 +8,20 @@ from crispy_forms.bootstrap import StrictButton, FormActions
 import re
 
 
+class RangoFechaReporteForm(forms.Form):
+    helper = FormHelper()
+    helper.form_class = 'form'
+    helper.layout = Layout(
+        Field('fechaMin', placeholder='Fecha Mínima', css_class="datepicker"),
+        Field('fechaMax', placeholder='Fecha Máxima', css_class="datepicker"),
+        FormActions(
+            StrictButton('Continuar', type="submit", css_class="btn btn-primary"),
+        )
+    )
+    fechaMin = forms.DateField(label='Fecha Mínima')
+    fechaMax = forms.DateField(label='Fecha Máxima')
+
+
 class FarmaciaFormGenerico(forms.ModelForm):
     class Meta:
         model = models.Farmacia

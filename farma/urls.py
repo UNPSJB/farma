@@ -62,6 +62,8 @@ urlpatterns = [
     url(r'^farmacias/update/(?P<id_farmacia>\d+)/$', oviews.farmacia_update, name="farmacia_update"),
     url(r'^farmacias/tryDelete/(?P<id_farmacia>\d+)/$', oviews.farmacia_try_delete, name="farmacia_try_delete"),
     url(r'^farmacias/delete/(?P<id_farmacia>\d+)/$', oviews.farmacia_delete, name="farmacia_delete"),
+    url(r'^farmacias/reportes/top10Volumen/$', oviews.farmacias_top10volumen, name="farmacias_top10volumen"),
+    # url(r'^farmacias/reportes/top10Pedidos/$', oviews.farmacias_top10pedidos, name="farmacias_top10pedidos"),
 
     # ***************************************** Clinica *******************************************
     url(r'^clinicas/$',oviews.clinicas, name="clinicas"),
@@ -135,12 +137,8 @@ urlpatterns = [
     url(r'^recepcionPedidoAlaboratorio/(?P<id_pedido>\d+)/controlPedido/registrar/$', pviews.recepcionPedidoAlaboratorio_registrar, name="recepcionPedidoAlaboratorio_registrar"),
 
     # **************************************** Otros Pedidos ******************************************
-    url(r'^devolucionMedicamentosVencidos/$', pviews.devolucionMedicamentosVencidos,name="devolucionMedicamentosVencidos"),
+    url(r'^devolucionMedicamentosVencidos/$', pviews.devolucionMedicamentosVencidos, name="devolucionMedicamentosVencidos"),
     url(r'^devolucionMedicamentosVencidos/detalles/(?P<id_laboratorio>\d+)/$', pviews.devolucionMedicamentosVencidos_detalle, name="devolucionMedicamentosVencidos_detalle"),
     url(r'^devolucionMedicamentosVencidos/detalles/(?P<id_laboratorio>\d+)/registar/$', pviews.devolucionMedicamentosVencidos_registrar, name="devolucionMedicamentosVencidos_registrar"),
     url(r'^devolucionMedicamentosVencidos/remitoDevolucion/(?P<id_remito>\d+)/$', pviews.remitoDevolucion.as_view(), name="remitoDevolucion"),
-
-    url(r'^recepcionReemplazoMedicamentos/$', views.recepcionReemplazoMedicamentos, name="recepcionReemplazoMedicamentos"),
-    
-    # **************************************** PDFs ******************************************
 ]

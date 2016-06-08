@@ -1,0 +1,17 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% crispy form %}
+    {{ plot|safe }}
+{% endblock %}
+
+{% block scripts %}
+	<script src="{% static 'js/datepicker.js' %}"></script>
+    {{ script|safe }}
+{% endblock %}

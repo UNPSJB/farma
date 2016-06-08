@@ -20,6 +20,16 @@
 
 {% block botones-header-tabla %} 
     {% if perms.usuarios.encargado_general %}
+        <div class="dropdown dropdown-reportes">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Reportes
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="{% url 'farmacias_top10volumen' %}">Top 10 solicitudes por volumen</a></li>
+            <li><a href="#">Top 10 solicitudes por pedidos</a></li>
+          </ul>
+        </div>
         <a class="btn-alta" href="{% url 'farmacia_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
     {% endif %}
 {% endblock %}
