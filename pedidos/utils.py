@@ -4,6 +4,10 @@ from django.db.models import Q
 import datetime
 from medicamentos import models as mmodels
 from pedidos import models, config
+from collections import OrderedDict
+from django.db.models import Sum
+import itertools
+import re
 
 
 # **********************
@@ -495,3 +499,293 @@ def hay_medicamentos_con_stock():
         if medicamento.get_stock() > 0:
             return True     
     return False
+
+
+
+
+def top_por_cantidad_medicamentos_farmacia(get_filtros, get):
+    mfilters = get_filtros(get, models.PedidoDeFarmacia)
+    pedidos = models.PedidoDeFarmacia.objects.filter(**mfilters)
+    detalle = models.DetallePedidoDeFarmacia
+    estadisticas = {}
+
+    totalMedicamentosVendidos = 0
+
+    for pedido in pedidos:
+        totalMedicamentosPedidoActual = (detalle.objects.filter(pedidoDeFarmacia=pedido).aggregate(Sum('cantidad'))).get('cantidad__sum')
+        totalMedicamentosVendidos += totalMedicamentosPedidoActual
+        farmacia = pedido.farmacia.razonSocial
+        if farmacia in estadisticas:
+            estadisticas[farmacia] += totalMedicamentosPedidoActual
+        else:
+            estadisticas[farmacia] = totalMedicamentosPedidoActual
+
+    # ordeno y selecciono top10
+    top = OrderedDict(sorted(estadisticas.items(), key=lambda t: t[1], reverse=True))
+    top10 = dict(itertools.islice(top.items(), 10))
+    top10 = OrderedDict(sorted(top10.items(), key=lambda t: t[1], reverse=True))
+    
+
+    estadisticas = {
+        'columnChart': {'farmacias': [], 'cantidades': []},
+        'pieChart': [],
+        'excel': []
+    }
+
+    resto = totalMedicamentosVendidos
+    for farmacia, cantidad in top10.items():
+        estadisticas['columnChart']['farmacias'].append(farmacia)
+        estadisticas['columnChart']['cantidades'].append(cantidad)
+
+        avg = float("%.3f" % ((cantidad * 100) / float(totalMedicamentosVendidos)))
+        estadisticas['pieChart'].append({'name': farmacia, 'y': avg})
+
+        estadisticas['excel'].append({'farmacia': farmacia, 'cantidad': cantidad})
+
+        resto -= cantidad
+
+    
+    if resto > 0:
+        avg = float("%.3f" % ((resto * 100) / float(totalMedicamentosVendidos)))
+        estadisticas['pieChart'].append({'name': u'otros', 'y': avg})
+
+    return estadisticas
+
+def top_por_cantidad_pedidos_farmacia(get_filtros, get):
+    mfilters = get_filtros(get, models.PedidoDeFarmacia)
+    pedidos = models.PedidoDeFarmacia.objects.filter(**mfilters)
+    estadisticas = {}
+
+    totalPedidosDeFarmacia = 0
+
+    for pedido in pedidos:
+        if pedido.farmacia.razonSocial in estadisticas:
+            estadisticas[pedido.farmacia.razonSocial] += 1
+        else:
+            estadisticas[pedido.farmacia.razonSocial] = 1
+
+        totalPedidosDeFarmacia += 1
+
+    # ordeno y selecciono top10
+    top = OrderedDict(sorted(estadisticas.items(), key=lambda t: t[1], reverse=True))
+    top10 = dict(itertools.islice(top.items(), 10))
+    top10 = OrderedDict(sorted(top10.items(), key=lambda t: t[1], reverse=True))
+    
+
+    estadisticas = {
+        'columnChart': {'farmacias': [], 'cantidades': []},
+        'pieChart': [],
+        'excel': []
+    }
+
+    resto = totalPedidosDeFarmacia
+    for farmacia, cantidad in top10.items():
+        estadisticas['columnChart']['farmacias'].append(farmacia)
+        estadisticas['columnChart']['cantidades'].append(cantidad)
+
+        avg = float("%.3f" % ((cantidad * 100) / float(totalPedidosDeFarmacia)))
+        estadisticas['pieChart'].append({'name': farmacia, 'y': avg})
+
+        estadisticas['excel'].append({'farmacia': farmacia, 'cantidad': cantidad})
+
+        resto -= cantidad
+
+    
+    if resto > 0:
+        avg = float("%.3f" % ((resto * 100) / float(totalPedidosDeFarmacia)))
+        estadisticas['pieChart'].append({'name': u'otros', 'y': avg})
+
+    return estadisticas
+
+
+
+def top_por_cantidad_medicamentos_clinica(get_filtros, get):
+    mfilters = get_filtros(get, models.PedidoDeClinica)
+    pedidos = models.PedidoDeClinica.objects.filter(**mfilters)
+    detalle = models.DetallePedidoDeClinica
+    estadisticas = {}
+
+    totalMedicamentosVendidos = 0
+
+    for pedido in pedidos:
+        totalMedicamentosPedidoActual = (detalle.objects.filter(pedidoDeClinica=pedido).aggregate(Sum('cantidad'))).get('cantidad__sum')
+        totalMedicamentosVendidos += totalMedicamentosPedidoActual
+        clinica = pedido.clinica.razonSocial
+        if clinica in estadisticas:
+            estadisticas[clinica] += totalMedicamentosPedidoActual
+        else:
+            estadisticas[clinica] = totalMedicamentosPedidoActual
+
+    # ordeno y selecciono top10
+    top = OrderedDict(sorted(estadisticas.items(), key=lambda t: t[1], reverse=True))
+    top10 = dict(itertools.islice(top.items(), 10))
+    top10 = OrderedDict(sorted(top10.items(), key=lambda t: t[1], reverse=True))
+    
+
+    estadisticas = {
+        'columnChart': {'clinicas': [], 'cantidades': []},
+        'pieChart': [],
+        'excel': []
+    }
+
+    resto = totalMedicamentosVendidos
+    for clinica, cantidad in top10.items():
+        estadisticas['columnChart']['clinicas'].append(clinica)
+        estadisticas['columnChart']['cantidades'].append(cantidad)
+
+        avg = float("%.3f" % ((cantidad * 100) / float(totalMedicamentosVendidos)))
+        estadisticas['pieChart'].append({'name': clinica, 'y': avg})
+
+        estadisticas['excel'].append({'clinica': clinica, 'cantidad': cantidad})
+
+        resto -= cantidad
+
+    
+    if resto > 0:
+        avg = float("%.3f" % ((resto * 100) / float(totalMedicamentosVendidos)))
+        estadisticas['pieChart'].append({'name': u'otros', 'y': avg})
+
+    return estadisticas
+
+def top_por_cantidad_pedidos_clinica(get_filtros, get):
+    mfilters = get_filtros(get, models.PedidoDeClinica)
+    pedidos = models.PedidoDeClinica.objects.filter(**mfilters)
+    estadisticas = {}
+
+    totalPedidosDeClinica = 0
+
+    for pedido in pedidos:
+        if pedido.clinica.razonSocial in estadisticas:
+            estadisticas[pedido.clinica.razonSocial] += 1
+        else:
+            estadisticas[pedido.clinica.razonSocial] = 1
+
+        totalPedidosDeClinica += 1
+
+    # ordeno y selecciono top10
+    top = OrderedDict(sorted(estadisticas.items(), key=lambda t: t[1], reverse=True))
+    top10 = dict(itertools.islice(top.items(), 10))
+    top10 = OrderedDict(sorted(top10.items(), key=lambda t: t[1], reverse=True))
+    
+
+    estadisticas = {
+        'columnChart': {'clinicas': [], 'cantidades': []},
+        'pieChart': [],
+        'excel': []
+    }
+
+    resto = totalPedidosDeClinica
+    for clinica, cantidad in top10.items():
+        estadisticas['columnChart']['clinicas'].append(clinica)
+        estadisticas['columnChart']['cantidades'].append(cantidad)
+
+        avg = float("%.3f" % ((cantidad * 100) / float(totalPedidosDeClinica)))
+        estadisticas['pieChart'].append({'name': clinica, 'y': avg})
+
+        estadisticas['excel'].append({'clinica': clinica, 'cantidad': cantidad})
+
+        resto -= cantidad
+
+    
+    if resto > 0:
+        avg = float("%.3f" % ((resto * 100) / float(totalPedidosDeClinica)))
+        estadisticas['pieChart'].append({'name': u'otros', 'y': avg})
+
+    return estadisticas
+
+
+
+def top_por_solicitud_medicamentos_laboratorio(get_filtros, get):
+    mfilters = get_filtros(get, models.PedidoAlaboratorio)
+    pedidos = models.PedidoAlaboratorio.objects.filter(**mfilters)
+    detalle = models.DetallePedidoAlaboratorio
+    estadisticas = {}
+
+    totalMedicamentosComprados = 0
+
+    for pedido in pedidos:
+        totalMedicamentosPedidoActual = (detalle.objects.filter(pedido=pedido).aggregate(Sum('cantidad'))).get('cantidad__sum')
+        totalMedicamentosComprados += totalMedicamentosPedidoActual
+        laboratorio = pedido.laboratorio.razonSocial
+        if laboratorio in estadisticas:
+            estadisticas[laboratorio] += totalMedicamentosPedidoActual
+        else:
+            estadisticas[laboratorio] = totalMedicamentosPedidoActual
+
+    # ordeno y selecciono top10
+    top = OrderedDict(sorted(estadisticas.items(), key=lambda t: t[1], reverse=True))
+    top10 = dict(itertools.islice(top.items(), 10))
+    top10 = OrderedDict(sorted(top10.items(), key=lambda t: t[1], reverse=True))
+    
+
+    estadisticas = {
+        'columnChart': {'laboratorios': [], 'cantidades': []},
+        'pieChart': [],
+        'excel': []
+    }
+
+    resto = totalMedicamentosComprados
+    for laboratorio, cantidad in top10.items():
+        estadisticas['columnChart']['laboratorios'].append(laboratorio)
+        estadisticas['columnChart']['cantidades'].append(cantidad)
+
+        avg = float("%.3f" % ((cantidad * 100) / float(totalMedicamentosComprados)))
+        estadisticas['pieChart'].append({'name': laboratorio, 'y': avg})
+
+        estadisticas['excel'].append({'laboratorio': laboratorio, 'cantidad': cantidad})
+
+        resto -= cantidad
+
+    
+    if resto > 0:
+        avg = float("%.3f" % ((resto * 100) / float(totalMedicamentosComprados)))
+        estadisticas['pieChart'].append({'name': u'otros', 'y': avg})
+
+    return estadisticas
+
+
+def top_por_solicitud_pedidos_laboratorio(get_filtros, get):
+    mfilters = get_filtros(get, models.PedidoAlaboratorio)
+    pedidos = models.PedidoAlaboratorio.objects.filter(**mfilters)
+    estadisticas = {}
+
+    totalPedidosAlaboratorio = 0
+
+    for pedido in pedidos:
+        if pedido.laboratorio.razonSocial in estadisticas:
+            estadisticas[pedido.laboratorio.razonSocial] += 1
+        else:
+            estadisticas[pedido.laboratorio.razonSocial] = 1
+
+        totalPedidosAlaboratorio += 1
+
+    # ordeno y selecciono top10
+    top = OrderedDict(sorted(estadisticas.items(), key=lambda t: t[1], reverse=True))
+    top10 = dict(itertools.islice(top.items(), 10))
+    top10 = OrderedDict(sorted(top10.items(), key=lambda t: t[1], reverse=True))
+    
+
+    estadisticas = {
+        'columnChart': {'laboratorios': [], 'cantidades': []},
+        'pieChart': [],
+        'excel': []
+    }
+
+    resto = totalPedidosAlaboratorio
+    for laboratorio, cantidad in top10.items():
+        estadisticas['columnChart']['laboratorios'].append(laboratorio)
+        estadisticas['columnChart']['cantidades'].append(cantidad)
+
+        avg = float("%.3f" % ((cantidad * 100) / float(totalPedidosAlaboratorio)))
+        estadisticas['pieChart'].append({'name': laboratorio, 'y': avg})
+
+        estadisticas['excel'].append({'laboratorio': laboratorio, 'cantidad': cantidad})
+
+        resto -= cantidad
+
+    
+    if resto > 0:
+        avg = float("%.3f" % ((resto * 100) / float(totalPedidosAlaboratorio)))
+        estadisticas['pieChart'].append({'name': u'otros', 'y': avg})
+
+    return estadisticas

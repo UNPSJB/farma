@@ -311,3 +311,9 @@ class DosisFormSetBase(BaseFormSet):
         return monodroga
 
 DosisFormSet = formset_factory(DosisForm, formset=DosisFormSetBase, min_num=1)
+
+class RangoFechasForm(forms.Form):
+    desde = forms.DateField(label='Fecha Desde', widget=forms.TextInput(attrs={'class':'datepicker'})
+                            , required=False)
+    hasta = forms.DateField(label='Fecha Hasta', widget=forms.TextInput(attrs={'class':'datepicker'})
+                            , required=False)

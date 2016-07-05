@@ -23,17 +23,19 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'markupfield',
     'bootstrap3',
     'selectable',
     'crispy_forms',
-    'medicamentos',
-    'organizaciones',
-    'pedidos',
-    'usuarios',
     'django_bootstrap_dynamic_formsets',
     'easy_pdf',
     'reportlab',
+
+    'medicamentos',
+    'organizaciones',
+    'pedidos',
+    'usuarios'
 )
 
 MIDDLEWARE_CLASSES = (

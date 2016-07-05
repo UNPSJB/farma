@@ -25,6 +25,16 @@
 
 {% block botones-header-tabla %} 
     {% if perms.usuarios.encargado_pedido %}
+        <div class="dropdown dropdown-reportes">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Reportes
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="{% url 'pedidosAlaboratorio_topLabConMasSolicitudesMedicamentos' %}">Top 10 Laboratorios con mayor solicitud de medicamentos</a></li>
+            <li><a href="{% url 'pedidosAlaboratorio_topLabConMasSolicitudesPedidos' %}">Top 10 Laboratorios con mayor solicitud de pedidos</a></li>
+          </ul>
+        </div>
         <a class="btn-alta" href="{% url 'pedidoAlaboratorio_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
     {% endif %}
 {% endblock %}

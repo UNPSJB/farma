@@ -14,6 +14,11 @@ import re
 from medicamentos import models as mmodels
 from organizaciones import models as omodels
 from pedidos import forms, models, utils
+from django.http import HttpResponse
+import json
+from xlsxwriter import Workbook
+from collections import OrderedDict
+import io
 
 
 def get_filtros(get, modelo):
@@ -25,12 +30,16 @@ def get_filtros(get, modelo):
             if hasattr(modelo, "FILTERMAPPER") and filtro in modelo.FILTERMAPPER:
                 attr = modelo.FILTERMAPPER[filtro]
             if value.isdigit():
-                value = int(value)
+                mfilter[attr] = int(value)
             elif re.match(r"^[0-9]{2}/[0-9]{2}/[0-9]{4}$", value):
                 fechaAux = value.split("/")  # fecha separada por /
-                fechaModificada = datetime.date(month=int(fechaAux[1]), day=int(fechaAux[0]), year=int(fechaAux[2]))
-                value = fechaModificada
-            mfilter[attr] = value
+                try:
+                    fechaModificada = datetime.date(month=int(fechaAux[1]), day=int(fechaAux[0]), year=int(fechaAux[2]))
+                    mfilter[attr] = fechaModificada
+                except ValueError:
+                    pass
+            else:
+                mfilter[attr] = value
     return mfilter
 
 
@@ -767,3 +776,377 @@ class remitoDevolucion(PDFTemplateView):
             remito=remito,
             detallesRemito=detallesRemito
         )
+
+
+
+
+
+
+
+# ESTADISTICAS PEDIDOS DE FARMACIA
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def pedidosDeFarmacia_topFarmaciasConMasMedicamentos(request):
+    form = forms.RangoFechasForm(request.GET)
+    estadistica = None
+    if form.is_valid():
+        estadistica = utils.top_por_cantidad_medicamentos_farmacia(get_filtros, request.GET)
+        request.session['estadistica'] = estadistica
+    else:
+        estadistica = request.session['estadistica']
+    columnChart = estadistica['columnChart']
+    pieChart = estadistica['pieChart']
+    return render(request, "pedidoDeFarmacia/topFarmaciasConMasDemandaMedicamentos.html", {'columnChart': 
+            json.dumps(columnChart), 'pieChart': json.dumps(pieChart), 'form': form})
+
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def pedidosDeFarmacia_topFarmaciasConMasMedicamentosExcel(request):
+    datos = request.session['estadistica']['excel']
+    excel = io.BytesIO()
+    workbook = Workbook(excel, {'in_memory': True})
+    worksheet = workbook.add_worksheet()
+    titulo = workbook.add_format({
+        'font_name':'Arial',
+        'font_size': 12,
+        'font_color': 'navy',
+        'bold': True
+    })
+    encabezado = workbook.add_format({
+        'font_name':'Arial',
+        'bold': True
+    })
+    alignLeft = workbook.add_format({
+        'align':'left',
+    })
+    worksheet.write('A1:B1', 'Farmacias mas demandantes (por medicamento)', titulo)
+
+    worksheet.set_column('B:B', 40)
+    worksheet.set_column('C:C', 20)
+    worksheet.write('A2', '#', encabezado)
+    worksheet.write('B2', 'Farmacia', encabezado)
+    worksheet.write('C2', 'Cantidad', encabezado)
+    fila = 2
+    tope = len(datos)
+    for i in range(0, tope):
+        worksheet.write(fila, 0, i + 1, alignLeft)
+        worksheet.write(fila, 1, datos[i]['farmacia'], alignLeft)
+        worksheet.write(fila, 2, datos[i]['cantidad'], alignLeft)
+        fila += 1
+    workbook.close()
+
+    excel.seek(0)
+
+    response = HttpResponse(excel.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=FarmaciasMasDemandantesDeMedicamentos.xlsx"
+    return response
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def pedidosDeFarmacia_topFarmaciasConMasPedidos(request):
+    form = forms.RangoFechasForm(request.GET)
+    estadistica = None
+    if form.is_valid():
+        estadistica = utils.top_por_cantidad_pedidos_farmacia(get_filtros, request.GET)
+        request.session['estadistica'] = estadistica
+    else:
+        estadistica = request.session['estadistica']
+    columnChart = estadistica['columnChart']
+    pieChart = estadistica['pieChart']
+    return render(request, "pedidoDeFarmacia/topFarmaciasConMasDemandaPedido.html", {'columnChart': 
+            json.dumps(columnChart), 'pieChart': json.dumps(pieChart), 'form': form})
+
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def pedidosDeFarmacia_topFarmaciasConMasPedidosExcel(request):
+    datos = request.session['estadistica']['excel']
+    excel = io.BytesIO()
+    workbook = Workbook(excel, {'in_memory': True})
+    worksheet = workbook.add_worksheet()
+    titulo = workbook.add_format({
+        'font_name':'Arial',
+        'font_size': 12,
+        'font_color': 'navy',
+        'bold': True
+    })
+    encabezado = workbook.add_format({
+        'font_name':'Arial',
+        'bold': True
+    })
+    alignLeft = workbook.add_format({
+        'align':'left',
+    })
+    worksheet.write('A1:B1', 'Farmacias mas demandantes (por pedido)', titulo)
+
+    worksheet.set_column('B:B', 40)
+    worksheet.set_column('C:C', 20)
+    worksheet.write('A2', '#', encabezado)
+    worksheet.write('B2', 'Farmacia', encabezado)
+    worksheet.write('C2', 'Cantidad', encabezado)
+    fila = 2
+    tope = len(datos)
+    for i in range(0, tope):
+        worksheet.write(fila, 0, i + 1, alignLeft)
+        worksheet.write(fila, 1, datos[i]['farmacia'], alignLeft)
+        worksheet.write(fila, 2, datos[i]['cantidad'], alignLeft)
+        fila += 1
+    workbook.close()
+
+    excel.seek(0)
+
+    response = HttpResponse(excel.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=FarmaciasMasDemandantesDePedidos.xlsx"
+    return response
+
+
+
+
+
+
+
+# ESTADISTICAS PEDIDOS DE CLINICA
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def pedidosDeClinica_topClinicasConMasMedicamentos(request):
+    form = forms.RangoFechasForm(request.GET)
+    estadistica = None
+    if form.is_valid():
+        estadistica = utils.top_por_cantidad_medicamentos_clinica(get_filtros, request.GET)
+        request.session['estadistica'] = estadistica
+    else:
+        estadistica = request.session['estadistica']
+    columnChart = estadistica['columnChart']
+    pieChart = estadistica['pieChart']
+    return render(request, "pedidoDeClinica/topClinicasConMasDemandaMedicamentos.html", {'columnChart': 
+            json.dumps(columnChart), 'pieChart': json.dumps(pieChart), "form": form})
+
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def pedidosDeClinica_topClinicasConMasMedicamentosExcel(request):
+    datos = request.session['estadistica']['excel']
+    excel = io.BytesIO()
+    workbook = Workbook(excel, {'in_memory': True})
+    worksheet = workbook.add_worksheet()
+    titulo = workbook.add_format({
+        'font_name':'Arial',
+        'font_size': 12,
+        'font_color': 'navy',
+        'bold': True
+    })
+    encabezado = workbook.add_format({
+        'font_name':'Arial',
+        'bold': True
+    })
+    alignLeft = workbook.add_format({
+        'align':'left',
+    })
+    worksheet.write('A1:B1', 'Clinicas mas demandantes (por medicamento)', titulo)
+
+    worksheet.set_column('B:B', 40)
+    worksheet.set_column('C:C', 20)
+    worksheet.write('A2', '#', encabezado)
+    worksheet.write('B2', 'Clinica', encabezado)
+    worksheet.write('C2', 'Cantidad', encabezado)
+    fila = 2
+    tope = len(datos)
+    for i in range(0, tope):
+        worksheet.write(fila, 0, i + 1, alignLeft)
+        worksheet.write(fila, 1, datos[i]['clinica'], alignLeft)
+        worksheet.write(fila, 2, datos[i]['cantidad'], alignLeft)
+        fila += 1
+    workbook.close()
+
+    excel.seek(0)
+
+    response = HttpResponse(excel.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=ClinicasMasDemandantesDeMedicamentos.xlsx"
+    return response
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def pedidosDeClinica_topClinicasConMasPedidos(request):
+    form = forms.RangoFechasForm(request.GET)
+    estadistica = None
+    if form.is_valid():
+        estadistica = utils.top_por_cantidad_pedidos_clinica(get_filtros, request.GET)
+        request.session['estadistica'] = estadistica
+    else:
+        estadistica = request.session['estadistica']
+    columnChart = estadistica['columnChart']
+    pieChart = estadistica['pieChart']
+    return render(request, "pedidoDeClinica/topClinicasConMasDemandaPedido.html", {'columnChart': 
+            json.dumps(columnChart), 'pieChart': json.dumps(pieChart), "form": form})
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def pedidosDeClinica_topClinicasConMasPedidosExcel(request):
+    datos = request.session['estadistica']['excel']
+    excel = io.BytesIO()
+    workbook = Workbook(excel, {'in_memory': True})
+    worksheet = workbook.add_worksheet()
+    titulo = workbook.add_format({
+        'font_name':'Arial',
+        'font_size': 12,
+        'font_color': 'navy',
+        'bold': True
+    })
+    encabezado = workbook.add_format({
+        'font_name':'Arial',
+        'bold': True
+    })
+    alignLeft = workbook.add_format({
+        'align':'left',
+    })
+    worksheet.write('A1:B1', 'Clinicas mas demandantes (por pedido)', titulo)
+
+    worksheet.set_column('B:B', 40)
+    worksheet.set_column('C:C', 20)
+    worksheet.write('A2', '#', encabezado)
+    worksheet.write('B2', 'Clinica', encabezado)
+    worksheet.write('C2', 'Cantidad', encabezado)
+    fila = 2
+    tope = len(datos)
+    for i in range(0, tope):
+        worksheet.write(fila, 0, i + 1, alignLeft)
+        worksheet.write(fila, 1, datos[i]['clinica'], alignLeft)
+        worksheet.write(fila, 2, datos[i]['cantidad'], alignLeft)
+        fila += 1
+    workbook.close()
+
+    excel.seek(0)
+
+    response = HttpResponse(excel.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=ClinicasMasDemandantesDePedidos.xlsx"
+    return response
+
+
+
+
+
+
+
+
+# ESTADISTICAS PEDIDO A LABORATORIO
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def pedidosAlaboratorio_topLabConMasSolicitudesMedicamentos(request):
+    form = forms.RangoFechasForm(request.GET)
+    estadistica = None
+    if form.is_valid():
+        estadistica = utils.top_por_solicitud_medicamentos_laboratorio(get_filtros, request.GET)
+        request.session['estadistica'] = estadistica
+    else:
+        estadistica = request.session['estadistica']
+    columnChart = estadistica['columnChart']
+    pieChart = estadistica['pieChart']
+    return render(request, "pedidoAlaboratorio/topLaboratorioConMasSolicitudMedicamentos.html", {'columnChart': 
+            json.dumps(columnChart), 'pieChart': json.dumps(pieChart), "form": form})
+
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def pedidosAlaboratorio_topLabConMasSolicitudesMedicamentosExcel(request):
+    datos = request.session['estadistica']['excel']
+    excel = io.BytesIO()
+    workbook = Workbook(excel, {'in_memory': True})
+    worksheet = workbook.add_worksheet()
+    titulo = workbook.add_format({
+        'font_name':'Arial',
+        'font_size': 12,
+        'font_color': 'navy',
+        'bold': True
+    })
+    encabezado = workbook.add_format({
+        'font_name':'Arial',
+        'bold': True
+    })
+    alignLeft = workbook.add_format({
+        'align':'left',
+    })
+    worksheet.write('A1:B1', 'Laboratorios con mas solicitudes (por medicamento)', titulo)
+
+    worksheet.set_column('B:B', 40)
+    worksheet.set_column('C:C', 20)
+    worksheet.write('A2', '#', encabezado)
+    worksheet.write('B2', 'Laboratorio', encabezado)
+    worksheet.write('C2', 'Cantidad', encabezado)
+    fila = 2
+    tope = len(datos)
+    for i in range(0, tope):
+        worksheet.write(fila, 0, i + 1, alignLeft)
+        worksheet.write(fila, 1, datos[i]['laboratorio'], alignLeft)
+        worksheet.write(fila, 2, datos[i]['cantidad'], alignLeft)
+        fila += 1
+    workbook.close()
+
+    excel.seek(0)
+
+    response = HttpResponse(excel.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=LaboratoriosConMasSolicitudesDeMedicamentos.xlsx"
+    return response
+
+
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def pedidosAlaboratorio_topLabConMasSolicitudesPedidos(request):
+    form = forms.RangoFechasForm(request.GET)
+    estadistica = None
+    if form.is_valid():
+        estadistica = utils.top_por_solicitud_pedidos_laboratorio(get_filtros, request.GET)
+        request.session['estadistica'] = estadistica
+    else:
+        estadistica = request.session['estadistica']
+    columnChart = estadistica['columnChart']
+    pieChart = estadistica['pieChart']
+    return render(request, "pedidoAlaboratorio/topLaboratorioConMasSolicitudPedidos.html", {'columnChart': 
+            json.dumps(columnChart), 'pieChart': json.dumps(pieChart), "form": form})
+
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def pedidosAlaboratorio_topLabConMasSolicitudesPedidosExcel(request):
+    datos = request.session['estadistica']['excel']
+    excel = io.BytesIO()
+    workbook = Workbook(excel, {'in_memory': True})
+    worksheet = workbook.add_worksheet()
+    titulo = workbook.add_format({
+        'font_name':'Arial',
+        'font_size': 12,
+        'font_color': 'navy',
+        'bold': True
+    })
+    encabezado = workbook.add_format({
+        'font_name':'Arial',
+        'bold': True
+    })
+    alignLeft = workbook.add_format({
+        'align':'left',
+    })
+    worksheet.write('A1:B1', 'Laboratorios con mas solicitudes (por medicamento)', titulo)
+
+    worksheet.set_column('B:B', 40)
+    worksheet.set_column('C:C', 20)
+    worksheet.write('A2', '#', encabezado)
+    worksheet.write('B2', 'Laboratorio', encabezado)
+    worksheet.write('C2', 'Cantidad', encabezado)
+    fila = 2
+    tope = len(datos)
+    for i in range(0, tope):
+        worksheet.write(fila, 0, i + 1, alignLeft)
+        worksheet.write(fila, 1, datos[i]['laboratorio'], alignLeft)
+        worksheet.write(fila, 2, datos[i]['cantidad'], alignLeft)
+        fila += 1
+    workbook.close()
+
+    excel.seek(0)
+
+    response = HttpResponse(excel.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=LaboratoriosConMasSolicitudesDeMedicamentos.xlsx"
+    return response

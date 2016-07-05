@@ -4,7 +4,7 @@ from organizaciones import models
 from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, HTML
-from crispy_forms.bootstrap import StrictButton, FormActions
+from crispy_forms.bootstrap import StrictButton, FormActions, InlineField
 import re
 
 

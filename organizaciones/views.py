@@ -1,13 +1,17 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render, redirect, get_object_or_404
 from organizaciones import models, forms, utils
 from django.contrib.auth.decorators import login_required
 from jsonview.decorators import json_view
 from django.contrib.auth.decorators import permission_required
 from pedidos import models as pmodels
-from bokeh.charts import Bar
-from bokeh.embed import components
-from bokeh.resources import CDN
-
+from django.http import HttpResponse
+import json
+from xlsxwriter import Workbook
+from collections import OrderedDict
+import io
 
 def get_filtros(get, modelo):
     mfilter = {}
@@ -29,7 +33,7 @@ def hubo_alta(session):
 
 
 @login_required(login_url='login')
-def farmacias(request):
+def farmacias(request):  
     filters = get_filtros(request.GET, models.Farmacia)
     mfilters = dict(filter(lambda v: v[0] in models.Farmacia.FILTROS, filters.items()))
     lfarmacias = models.Farmacia.objects.filter(**mfilters)
@@ -104,21 +108,7 @@ def farmacia_delete(request, id_farmacia):
         return redirect('farmacias')
 
 
-@permission_required('usuarios.encargado_general', login_url='login')
-@login_required(login_url='login')
-def farmacias_top10volumen(request):
-    if request.method == "POST":
-        form = forms.RangoFechaReporteForm(request.POST)
-        if form.is_valid():
-            dict = utils.top_10_volumen_farmacia(form.clean())
-            top10 = {"Farmacias": dict.keys(), "Cantidad": dict.values()}
-            graf = Bar(top10, 'Farmacias', values='Cantidad', title="Cantidad de Medicamentos por Farmacia")
-            script, div = components(graf, CDN)
-            return render(request, "farmacia/farmaciasTop10Volumen.html", {"script": script, "div": div})
-    else:
-        form = forms.RangoFechaReporteForm()
 
-    return render(request, "farmacia/farmaciasTop10Volumen.html", {"form": form})
 
 
 # ****** CLINICAS ******

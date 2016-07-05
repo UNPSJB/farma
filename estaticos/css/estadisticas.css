@@ -1,0 +1,30 @@
+body {
+	color: #333;
+}
+
+.container-main {
+	margin-top: 3rem;
+}
+
+.container-actions {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border: 1px solid #CCC;
+	border-radius: 1rem;
+	box-shadow: 0 0 1rem rgba(220, 220, 220, 0.8);
+	padding: 1rem 2rem;	
+}
+
+.container-form .form-inline {
+	margin-bottom: 0;
+}
+
+.chart {
+	margin-top: 2rem;
+}
+
+.download-excel i{
+	color: rgb(42, 146, 0);
+	font-size: 3rem;
+}

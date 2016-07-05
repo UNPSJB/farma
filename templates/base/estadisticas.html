@@ -1,0 +1,169 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{%  static 'css/jquery-ui.custom.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/estadisticas.css' %}">
+	{% block more-stylesheets %} {% endblock %}
+{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block breadcrumb-items %}
+{% endblock %}
+
+{% block header-title %}{% endblock%}
+
+{% block url-volver %}{% endblock %}
+
+{% block content %}
+	<div class="container container-main">
+		<div class="row">
+			<div class="col-md-12 container-actions">
+				<div class="container-form">
+					<form class="form-inline" method="GET"> {% csrf_token %}
+					   {% block fields-form %} {% endblock%}
+					   <button type="submit" class="btn btn-default">Filtrar</button>
+					</form>
+				</div>
+				<div class="container-downloads">
+					<a href="{% block url-excel %}{% endblock %}" class="download-excel" data-toggle="tooltip" title="Descargar a Excel">
+						<i class="icon-file-excel"></i>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+
+		{% block charts %} 
+			<div class="row">
+				<div class="col-md-12 chart">			
+				    <div id="column-chart">
+				    </div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 chart">			
+				    <div id="pie-chart">
+				    </div>
+				</div>
+			</div>
+				
+		{% endblock %}
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="{% static 'js/datepicker.js' %}"></script>	
+	<script src="{% static 'js/highcharts.js' %}"></script>
+	<script src="{% static 'js/exporting.js' %}"></script>
+	<script>
+		var charts = (function() {
+			function columnChart(selector, settings) {
+				$(selector).highcharts({
+			        chart: {
+			            type: 'column',
+			            zoomType: 'xy'
+			        },
+			        title: {
+			            text: settings.title || 'Gráfico de Barras'
+			        },
+			        subtitle: {
+			            text: settings.subtitle || 'Top 10'
+			        },
+			        xAxis: {
+			            categories: settings.categories,
+			            crosshair: true
+			        },
+			        yAxis: {
+			            min: 0,
+			            title: {
+			                text: settings.yAxisTitle
+			            }
+			        },
+			        tooltip: {
+			            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+			            pointFormat: settings.pointFormat,
+			            footerFormat: '</table>',
+			            shared: true,
+			            useHTML: true
+			        },
+			        plotOptions: {
+			            column: {
+			                pointPadding: 0.2,
+			                borderWidth: 0
+			            }
+			        },
+			        series: settings.series
+			    });
+			}
+
+			function pieChart(selector, settings) {
+				$(selector).highcharts({
+			        chart: {
+			            plotBackgroundColor: null,
+			            plotBorderWidth: null,
+			            plotShadow: false,
+			            type: 'pie'
+			        },
+			        title: {
+			            text: settings.title || 'Gráfico de Torta'
+			        },
+			        subtitle: {
+			            text: settings.subtitle || 'Top 10'
+			        },
+			        tooltip: {
+			            pointFormat: settings.pointFormat
+			        },
+			        plotOptions: {
+			        	pie: {
+							allowPointSelect: true,
+							cursor: 'pointer',
+							dataLabels: {
+								enabled: false
+							},
+							showInLegend: true
+						}
+			        },
+			        series: settings.series
+			    });
+			}
+
+			return {
+				'initColumnChart': columnChart,
+				'initPieChart': pieChart
+			}
+		})();
+
+		function showErrorForm(){
+			var inputs = $('.form-inline').find('.form-group.has-error input');
+			console.log(inputs);
+			inputs.each(function(i, el) {
+				var $el = $(el);
+				$el.attr("data-toogle", "tooltip");
+				$el.attr("data-title", $el.val());
+				$el.tooltip("show");
+			});
+		}
+
+		function cleanErrorField(el) {
+			var $el = $(el),
+				$parent = $el.parent();
+			$el.tooltip('destroy');
+			$parent.removeClass('has-error');
+			
+		}
+
+		$(document).ready(function() {
+			// MUESTRO ERRORES FORMULARIO
+			showErrorForm();
+			// INICIALIZO TOOLTIPS
+			$('[data-toggle="tooltip"]').tooltip()
+			$('.form-inline .has-error input').on('change', cleanErrorField);
+			
+		});
+	</script>
+	{% block more-scripts %} 
+	{% endblock %}
+{% endblock %}

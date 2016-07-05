@@ -20,6 +20,16 @@
 
 {% block botones-header-tabla %} 
     {% if perms.usuarios.encargado_general %}
+        <div class="dropdown dropdown-reportes">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Reportes
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="{% url 'medicamentos_topPorCantidad' %}">Medicamentos más solicitados (por cantidad)</a></li>
+            <li><a href="{% url 'inicio' %}">Medicamentos más solicitados (por pedido)</a></li>
+          </ul>
+        </div>
         <a class="btn-alta" href="{% url 'medicamento_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
     {% endif %}
 {% endblock %}

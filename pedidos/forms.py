@@ -429,3 +429,9 @@ class RegistrarRecepcionForm(forms.Form):
             if fechaRemito < lim:
                 raise forms.ValidationError('La fecha minima permitida es el ' + lim.strftime('%d/%m/%Y'))
         return fechaRemito
+
+class RangoFechasForm(forms.Form):
+    desde = forms.DateField(label='Fecha Desde', widget=forms.TextInput(attrs={'class':'datepicker'})
+                            , required=False)
+    hasta = forms.DateField(label='Fecha Hasta', widget=forms.TextInput(attrs={'class':'datepicker'})
+                            , required=False)

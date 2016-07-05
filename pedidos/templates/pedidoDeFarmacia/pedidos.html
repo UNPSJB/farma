@@ -31,6 +31,16 @@
 
 {% block botones-header-tabla %}
     {% if perms.usuarios.empleado_despacho_pedido %} 
+        <div class="dropdown dropdown-reportes">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Reportes
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="{% url 'pedidosDeFarmacia_topFarmaciasConMasMedicamentos' %}">Top 10 Farmacias con mayor demanda de medicamentos</a></li>
+            <li><a href="{% url 'pedidosDeFarmacia_topFarmaciasConMasPedidos' %}">Top 10 Farmacias con mayor demanda de pedidos</a></li>
+          </ul>
+        </div>
         <a class="btn-alta" href="{% url 'pedidoDeFarmacia_add' %}"><span class="glyphicon glyphicon-plus"></span> Alta</a>
     {% endif %}
 {% endblock %}
