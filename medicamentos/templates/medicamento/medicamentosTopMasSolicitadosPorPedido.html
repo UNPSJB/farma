@@ -1,10 +1,11 @@
 {% extends "base/estadisticas.html" %}
 {% load staticfiles %}
+{% load bootstrap3 %}
 
 {% block title %} Medicamentos más solicitados (por pedido) {% endblock %}
 
-{% block breadcrumb-items %}
-    <li><a href="{% url 'farmacias' %}">Medicamentos</a></li>
+{% block more-breadcrumb-items %}
+    <li><a href="{% url 'medicamentos' %}">Medicamentos</a></li>
     <li class="active">Top medicamentos más solicitados (por pedido)</li>
 {% endblock %}
 
@@ -12,39 +13,31 @@
 
 {% block url-volver %}{% url 'medicamentos' %}{% endblock %}
 
-{% block fields-form %} 
-	<div class="form-group">
-	  <label for="fecha-desde">Fecha Desde</label>
-	  <input type="text" class="form-control datepicker" id="fecha-desde" name="desde" value="{{filtros.desde}}" placeholder="Fecha Desde">
-	</div>
-	<div class="form-group">
-	  <label for="fecha-hasta">Fecha Hasta</label>
-	  <input type="text" class="form-control datepicker" id="fecha-hasta" name="hasta" value="{{filtros.hasta}}" placeholder="Fecha Hasta">
-	</div>
+{% block fields-form %}
+	{% bootstrap_form form layout='inline' %}
 {% endblock %}
 
-{% block url-excel %}{% url 'inicio' %}{% endblock %}
+{% block url-excel %}{% url 'medicamentos_topPorPedidoExcel' %}{% endblock %}
 
 {% block more-scripts %}
 	<script>
 		(function() {
-
-			/*var columnChart = JSON.parse("{{ columnChart }}".replace(/&quot;/g, '\"')),
+			var columnChart = JSON.parse("{{ columnChart }}".replace(/&quot;/g, '\"')),
 				pieChart = JSON.parse("{{ pieChart }}".replace(/&quot;/g, '\"')),
 				settingsColumnChart = {
-					'categories': columnChart.farmacias,
-					'yAxisTitle': 'Medicamentos (cantidad)',
-					'pointFormat': '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y} medicamentos</b></td></tr>',
-					'series': [{'colorByPoint': true, 'data': columnChart.cantidades }]
+					'categories': columnChart.medicamentos,
+					'yAxisTitle': 'Medicamentos (pedidos)',
+					'pointFormat': '<tr><td style="color:{series.color};padding:0"></td>' + '<td style="padding:0"><b>{point.y:1f} Apariciones en pedidos</b></td></tr>',
+					'series': [{colorByPoint: true, name:' ', data: columnChart.cantidades }]
 				},
 				settingsPieChart = {
-					'pointFormat': '{series.name}: <b>{point.percentage:.1f}%</b>',
+					'pointFormat': '<b>{point.percentage:.2f}%</b>',
 					'series': [{colorByPoint: true, data: pieChart}]
 				};
 			// COLUMN CHART
 			charts.initColumnChart("#column-chart", settingsColumnChart);
 			// PIE CHART
-			charts.initPieChart("#pie-chart", settingsPieChart);*/
+			charts.initPieChart("#pie-chart", settingsPieChart);
 		})();
 	</script>
 {% endblock %}

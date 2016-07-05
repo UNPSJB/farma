@@ -7,7 +7,6 @@ from pedidos import models as pmodels
 from django.http import HttpResponse
 import json
 from xlsxwriter import Workbook
-from collections import OrderedDict
 import io
 
 
@@ -20,11 +19,13 @@ def get_filtros(get, modelo):
             mfilter[attr] = get[attr]
     return mfilter
 
+
 def hubo_alta(session):
     if 'successAdd' in session:
         del session['successAdd']
         return True
     return False
+
 
 def clone_query(query):
     clone = {}
@@ -32,6 +33,7 @@ def clone_query(query):
         if val:
             clone[key] = val
     return clone
+
 
 @login_required(login_url='login')
 def monodrogas(request):
@@ -352,22 +354,6 @@ def medicamento_delete(request, id_medicamento):
         return redirect('medicamentos')
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def medicamentos_topPorCantidad(request):
@@ -382,6 +368,7 @@ def medicamentos_topPorCantidad(request):
     pieChart = estadistica['pieChart']
     return render(request, "medicamento/medicamentosTopMasSolicitadoPorCantidad.html", {'columnChart': 
             json.dumps(columnChart), 'pieChart': json.dumps(pieChart), 'form': form})
+
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
@@ -426,33 +413,21 @@ def medicamentos_topPorCantidadExcel(request):
     return response
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def medicamentos_topPorPedido(request):
-    """
-    query = clone_query(request.GET)
-    estadistica = utils.top_10_pedido_medicamentos(query)
-    request.session['estadistica'] = estadistica
+    form = forms.RangoFechasForm(request.GET)
+    estadistica = None
+    if form.is_valid():
+        estadistica = utils.top_10_pedido_medicamentos(request.GET)
+        request.session['estadistica'] = estadistica
+    else:
+        estadistica = request.session['estadistica']
     columnChart = estadistica['columnChart']
     pieChart = estadistica['pieChart']
-    return render(request, "medicamentos/medicamentosTopMasSolicitadoPorPedido.html", {'columnChart': 
-            json.dumps(columnChart), 'pieChart': json.dumps(pieChart), "filtros": query})
-    """
-    return render(request, "medicamentos/medicamentosTopMasSolicitadoPorPedido.html")
+    return render(request, "medicamento/medicamentosTopMasSolicitadosPorPedido.html", {'columnChart':
+            json.dumps(columnChart), 'pieChart': json.dumps(pieChart), 'form': form})
+
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
@@ -476,7 +451,6 @@ def medicamentos_topPorPedidoExcel(request):
     })
     worksheet.write('A1:B1', 'Medicamentos mas solicitados (por pedido)', titulo)
 
-    """
     worksheet.set_column('B:B', 40)
     worksheet.set_column('C:C', 20)
     worksheet.write('A2', '#', encabezado)
@@ -488,7 +462,7 @@ def medicamentos_topPorPedidoExcel(request):
         worksheet.write(fila, 0, i + 1, alignLeft)
         worksheet.write(fila, 1, datos[i]['medicamento'], alignLeft)
         worksheet.write(fila, 2, datos[i]['cantidad'], alignLeft)
-        fila += 1"""
+        fila += 1
     workbook.close()
 
     excel.seek(0)
@@ -497,3 +471,122 @@ def medicamentos_topPorPedidoExcel(request):
     response['Content-Disposition'] = "attachment; filename=MedicamentoMasSolicitadoPorPedido.xlsx"
     return response
 
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def medicamentos_topOrganizacionesPorCantidad(request):
+    form = forms.RangoFechasMedForm(request.GET)
+    estadistica = None
+    if form.is_valid():
+        estadistica = utils.top_10_organizaciones_cantidad_medicamentos(get_filtros, form.clean())
+        request.session['estadistica'] = estadistica
+    else:
+        estadistica = request.session['estadistica']
+    columnChart = estadistica['columnChart']
+    pieChart = estadistica['pieChart']
+    return render(request, "medicamento/medicamentosTopOrganizacionesMasDemandantesCantidad.html", {'columnChart':
+            json.dumps(columnChart), 'pieChart': json.dumps(pieChart), 'form': form})
+
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def medicamentos_topOrganizacionesPorCantidadExcel(request):
+    datos = request.session['estadistica']['excel']['datos']
+    medicamento = request.session['estadistica']['excel']['medicamento']
+    excel = io.BytesIO()
+    workbook = Workbook(excel, {'in_memory': True})
+    worksheet = workbook.add_worksheet()
+    titulo = workbook.add_format({
+        'font_name': 'Arial',
+        'font_size': 12,
+        'font_color': 'navy',
+        'bold': True
+    })
+    encabezado = workbook.add_format({
+        'font_name': 'Arial',
+        'bold': True
+    })
+    alignLeft = workbook.add_format({
+        'align': 'left',
+    })
+    worksheet.write('A1:B1', 'Organizaciones mas demandantes del medicamento '+medicamento+' (por cantidad)', titulo)
+
+    worksheet.set_column('B:B', 40)
+    worksheet.set_column('C:C', 20)
+    worksheet.write('A2', '#', encabezado)
+    worksheet.write('B2', 'Organizacion', encabezado)
+    worksheet.write('C2', 'Cantidad', encabezado)
+    fila = 2
+    tope = len(datos)
+    for i in range(0, tope):
+        worksheet.write(fila, 0, i + 1, alignLeft)
+        worksheet.write(fila, 1, datos[i]['organizacion'], alignLeft)
+        worksheet.write(fila, 2, datos[i]['cantidad'], alignLeft)
+        fila += 1
+    workbook.close()
+
+    excel.seek(0)
+
+    response = HttpResponse(excel.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=OrganizacionesMasDemandantesDeMedicamentoPorCantidad.xlsx"
+    return response
+
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def medicamentos_topOrganizacionesPorPedidos(request):
+    form = forms.RangoFechasMedForm(request.GET)
+    estadistica = None
+    if form.is_valid():
+        estadistica = utils.top_10_organizaciones_pedidos_medicamentos(get_filtros, form.clean())
+        request.session['estadistica'] = estadistica
+    else:
+        estadistica = request.session['estadistica']
+    columnChart = estadistica['columnChart']
+    pieChart = estadistica['pieChart']
+    return render(request, "medicamento/medicamentosTopOrganizacionesMasDemandantesPedidos.html", {'columnChart':
+            json.dumps(columnChart), 'pieChart': json.dumps(pieChart), 'form': form})
+
+
+@permission_required('usuarios.encargado_general', login_url='login')
+@login_required(login_url='login')
+def medicamentos_topOrganizacionesPorPedidoExcel(request):
+    datos = request.session['estadistica']['excel']['datos']
+    medicamento = request.session['estadistica']['excel']['medicamento']
+    excel = io.BytesIO()
+    workbook = Workbook(excel, {'in_memory': True})
+    worksheet = workbook.add_worksheet()
+    titulo = workbook.add_format({
+        'font_name':'Arial',
+        'font_size': 12,
+        'font_color': 'navy',
+        'bold': True
+    })
+    encabezado = workbook.add_format({
+        'font_name': 'Arial',
+        'bold': True
+    })
+    alignLeft = workbook.add_format({
+        'align': 'left',
+    })
+    worksheet.write('A1:B1', 'Organizaciones mas demandantes del medicamento '+medicamento+' (por pedido)', titulo)
+
+    worksheet.set_column('B:B', 40)
+    worksheet.set_column('C:C', 20)
+    worksheet.write('A2', '#', encabezado)
+    worksheet.write('B2', 'Organizacion', encabezado)
+    worksheet.write('C2', 'Cantidad', encabezado)
+    fila = 2
+    tope = len(datos)
+    for i in range(0, tope):
+        worksheet.write(fila, 0, i + 1, alignLeft)
+        worksheet.write(fila, 1, datos[i]['organizacion'], alignLeft)
+        worksheet.write(fila, 2, datos[i]['cantidad'], alignLeft)
+        fila += 1
+    workbook.close()
+
+    excel.seek(0)
+
+    response = HttpResponse(excel.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=OrganizacionesMasDemandantesDeMedicamentoPorPedido.xlsx"
+    return response

@@ -204,27 +204,11 @@ body {
     margin: 0 1rem 0 0;
 }
 
+.dropdown-reportes .dropdown-toggle {
+    cursor: pointer
+}
+
 .dropdown-reportes .dropdown-menu {
     left: auto;
     right: 0;
-}
-
-.dropdown-reportes .dropdown-toggle {
-    padding: 0;
-    margin: 0;
-    border: none;
-    background-color: transparent;
-    color: rgb(35,82,124);
-    font-weight: bold;
-}
-
-.dropdown-reportes .dropdown-toggle:active,
-.dropdown-reportes .dropdown-toggle:focus,
-.dropdown-reportes .dropdown-toggle:hover {
-  color: rgb(35,82,124)!important;
-}
-
-.dropdown-reportes.open .dropdown-toggle,
-.dropdown-reportes .dropdown-toggle:active{
-    background-color: transparent!important;
 }

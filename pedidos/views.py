@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse
-from django.shortcuts import render, redirect, RequestContext
+from django.shortcuts import render, redirect
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
@@ -17,7 +17,6 @@ from pedidos import forms, models, utils
 from django.http import HttpResponse
 import json
 from xlsxwriter import Workbook
-from collections import OrderedDict
 import io
 
 
@@ -778,11 +777,6 @@ class remitoDevolucion(PDFTemplateView):
         )
 
 
-
-
-
-
-
 # ESTADISTICAS PEDIDOS DE FARMACIA
 
 @permission_required('usuarios.encargado_general', login_url='login')
@@ -843,6 +837,7 @@ def pedidosDeFarmacia_topFarmaciasConMasMedicamentosExcel(request):
     response['Content-Disposition'] = "attachment; filename=FarmaciasMasDemandantesDeMedicamentos.xlsx"
     return response
 
+
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def pedidosDeFarmacia_topFarmaciasConMasPedidos(request):
@@ -900,11 +895,6 @@ def pedidosDeFarmacia_topFarmaciasConMasPedidosExcel(request):
     response = HttpResponse(excel.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     response['Content-Disposition'] = "attachment; filename=FarmaciasMasDemandantesDePedidos.xlsx"
     return response
-
-
-
-
-
 
 
 # ESTADISTICAS PEDIDOS DE CLINICA
@@ -967,6 +957,7 @@ def pedidosDeClinica_topClinicasConMasMedicamentosExcel(request):
     response['Content-Disposition'] = "attachment; filename=ClinicasMasDemandantesDeMedicamentos.xlsx"
     return response
 
+
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
 def pedidosDeClinica_topClinicasConMasPedidos(request):
@@ -981,6 +972,7 @@ def pedidosDeClinica_topClinicasConMasPedidos(request):
     pieChart = estadistica['pieChart']
     return render(request, "pedidoDeClinica/topClinicasConMasDemandaPedido.html", {'columnChart': 
             json.dumps(columnChart), 'pieChart': json.dumps(pieChart), "form": form})
+
 
 @permission_required('usuarios.encargado_general', login_url='login')
 @login_required(login_url='login')
@@ -1023,12 +1015,6 @@ def pedidosDeClinica_topClinicasConMasPedidosExcel(request):
     response = HttpResponse(excel.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     response['Content-Disposition'] = "attachment; filename=ClinicasMasDemandantesDePedidos.xlsx"
     return response
-
-
-
-
-
-
 
 
 # ESTADISTICAS PEDIDO A LABORATORIO
@@ -1090,7 +1076,6 @@ def pedidosAlaboratorio_topLabConMasSolicitudesMedicamentosExcel(request):
     response = HttpResponse(excel.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     response['Content-Disposition'] = "attachment; filename=LaboratoriosConMasSolicitudesDeMedicamentos.xlsx"
     return response
-
 
 
 @permission_required('usuarios.encargado_general', login_url='login')

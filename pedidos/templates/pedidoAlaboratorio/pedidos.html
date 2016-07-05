@@ -26,10 +26,10 @@
 {% block botones-header-tabla %} 
     {% if perms.usuarios.encargado_pedido %}
         <div class="dropdown dropdown-reportes">
-          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Reportes
+          <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span class="glyphicon glyphicon-signal"></span> Reportes
             <span class="caret"></span>
-          </button>
+          </a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             <li><a href="{% url 'pedidosAlaboratorio_topLabConMasSolicitudesMedicamentos' %}">Top 10 Laboratorios con mayor solicitud de medicamentos</a></li>
             <li><a href="{% url 'pedidosAlaboratorio_topLabConMasSolicitudesPedidos' %}">Top 10 Laboratorios con mayor solicitud de pedidos</a></li>

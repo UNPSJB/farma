@@ -55,6 +55,11 @@ urlpatterns = [
     url(r'^medicamentos/estadisticas/topPorCantidad/downloadExcel/$', mviews.medicamentos_topPorCantidadExcel, name="medicamentos_topPorCantidadExcel"),
     url(r'^medicamentos/estadisticas/topPorPedido/$', mviews.medicamentos_topPorPedido, name="medicamentos_topPorPedido"),
     url(r'^medicamentos/estadisticas/topPorPedido/downloadExcel/$', mviews.medicamentos_topPorPedidoExcel, name="medicamentos_topPorPedidoExcel"),
+    url(r'^medicamentos/estadisticas/topOrganizacionesPorCantidad/$', mviews.medicamentos_topOrganizacionesPorCantidad, name="medicamentos_topOrganizacionesPorCantidad"),
+    url(r'^medicamentos/estadisticas/topOrganizacionesPorCantidad/downloadExcel/$', mviews.medicamentos_topOrganizacionesPorCantidadExcel, name="medicamentos_topOrganizacionesPorCantidadExcel"),
+    url(r'^medicamentos/estadisticas/topOrganizacionesPorPedidos/$', mviews.medicamentos_topOrganizacionesPorPedidos, name="medicamentos_topOrganizacionesPorPedidos"),
+url(r'^medicamentos/estadisticas/topOrganizacionesPorPedido/downloadExcel/$', mviews.medicamentos_topOrganizacionesPorPedidoExcel, name="medicamentos_topOrganizacionesPorPedidoExcel"),
+
     # =============================================================================================== #
     #                                       ORGANIZACIONES
     # =============================================================================================== #

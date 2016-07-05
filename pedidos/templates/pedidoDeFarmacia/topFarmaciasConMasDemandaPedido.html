@@ -4,7 +4,7 @@
 
 {% block title %} Farmacias mas demandantes (por pedido) {% endblock %}
 
-{% block breadcrumb-items %}
+{% block more-breadcrumb-items %}
     <li><a href="{% url 'farmacias' %}">Pedidos De Farmacia</a></li>
     <li class="active">Farmacias mas demandantes (por pedido)</li>
 {% endblock %}
@@ -28,11 +28,11 @@
 				settingsColumnChart = {
 					'categories': columnChart.farmacias,
 					'yAxisTitle': 'Pedidos (cantidad)',
-					'pointFormat': '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y} pedidos</b></td></tr>',
-					'series': [{colorByPoint: true, 'data': columnChart.cantidades }]
+					'pointFormat': '<tr><td style="color:{series.color};padding:0"></td>' + '<td style="padding:0"><b>{point.y:1f} Pedidos recibidos</b></td></tr>',
+					'series': [{colorByPoint: true, name:' ', 'data': columnChart.cantidades }]
 				},
 				settingsPieChart = {
-					'pointFormat': '{series.name}: <b>{point.percentage:.3f}%</b>',
+					'pointFormat': '<b>{point.percentage:.2f}%</b>',
 					'series': [{colorByPoint: true, data: pieChart}]
 				};
 			// COLUMN CHART
