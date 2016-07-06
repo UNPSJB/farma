@@ -38,19 +38,30 @@
 		</div>
 
 		{% block charts %} 
-			<div class="row">
-				<div class="col-md-12 chart">			
-				    <div id="column-chart">
-				    </div>
+			<div id="charts">
+				<div class="row">
+					<div class="col-md-12 chart">			
+					    <div id="column-chart">
+					    </div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 chart">			
+					    <div id="pie-chart">
+					    </div>
+					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-12 chart">			
-				    <div id="pie-chart">
-				    </div>
+			
+			<div class="row hidden">
+				<div class="col-md-12">
+					<div id="sin-resultados">
+						<span class="glyphicon glyphicon-signal"></span>
+						<p>Sin resultados ...</p>
+
+					</div>
 				</div>
 			</div>
-				
 		{% endblock %}
 	</div>
 {% endblock %}

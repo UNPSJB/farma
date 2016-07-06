@@ -28,3 +28,23 @@ body {
 	color: rgb(42, 146, 0);
 	font-size: 3rem;
 }
+
+#sin-resultados {
+	border: 4px dashed rgb(222,174,58);
+	height: 30rem;
+	margin: 2rem -15px 0 -15px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: rgb(0,70,147);
+}
+
+#sin-resultados .glyphicon {
+	font-size: 15rem;
+}
+
+#sin-resultados p {
+	margin-top: 1rem;
+	font-size: 2rem;
+}

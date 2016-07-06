@@ -431,7 +431,5 @@ class RegistrarRecepcionForm(forms.Form):
         return fechaRemito
 
 class RangoFechasForm(forms.Form):
-    desde = forms.DateField(label='Fecha Desde', widget=forms.TextInput(attrs={'class':'datepicker'})
-                            , required=False)
-    hasta = forms.DateField(label='Fecha Hasta', widget=forms.TextInput(attrs={'class':'datepicker'})
-                            , required=False)
+    desde = forms.DateField(label='Fecha Desde', required=False, widget=forms.TextInput(attrs={'class':'datepicker'}))
+    hasta = forms.DateField(label='Fecha Hasta', widget=forms.TextInput(attrs={'class':'datepicker'}), required=False)

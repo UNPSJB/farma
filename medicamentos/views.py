@@ -3,6 +3,7 @@ from . import models, forms, utils
 from django.contrib.auth.decorators import login_required
 from jsonview.decorators import json_view
 from django.contrib.auth.decorators import permission_required
+from pedidos.views import get_filtros as get_filtros_pedidos
 from pedidos import models as pmodels
 from django.http import HttpResponse
 import json
@@ -360,7 +361,7 @@ def medicamentos_topPorCantidad(request):
     form = forms.RangoFechasForm(request.GET)
     estadistica = None
     if form.is_valid():
-        estadistica = utils.top_10_cantidad_medicamentos(request.GET)
+        estadistica = utils.top_10_cantidad_medicamentos(form.clean())
         request.session['estadistica'] = estadistica
     else:
         estadistica = request.session['estadistica']
@@ -419,7 +420,7 @@ def medicamentos_topPorPedido(request):
     form = forms.RangoFechasForm(request.GET)
     estadistica = None
     if form.is_valid():
-        estadistica = utils.top_10_pedido_medicamentos(request.GET)
+        estadistica = utils.top_10_pedido_medicamentos(form.clean())
         request.session['estadistica'] = estadistica
     else:
         estadistica = request.session['estadistica']
@@ -478,7 +479,7 @@ def medicamentos_topOrganizacionesPorCantidad(request):
     form = forms.RangoFechasMedForm(request.GET)
     estadistica = None
     if form.is_valid():
-        estadistica = utils.top_10_organizaciones_cantidad_medicamentos(get_filtros, form.clean())
+        estadistica = utils.top_10_organizaciones_cantidad_medicamentos(get_filtros_pedidos, form.clean())
         request.session['estadistica'] = estadistica
     else:
         estadistica = request.session['estadistica']
@@ -538,7 +539,7 @@ def medicamentos_topOrganizacionesPorPedidos(request):
     form = forms.RangoFechasMedForm(request.GET)
     estadistica = None
     if form.is_valid():
-        estadistica = utils.top_10_organizaciones_pedidos_medicamentos(get_filtros, form.clean())
+        estadistica = utils.top_10_organizaciones_pedidos_medicamentos(get_filtros_pedidos, form.clean())
         request.session['estadistica'] = estadistica
     else:
         estadistica = request.session['estadistica']

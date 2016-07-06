@@ -35,10 +35,17 @@
 					'pointFormat': '<b>{point.percentage:.2f}%</b>',
 					'series': [{'colorByPoint': true, 'data': pieChart}]
 				};
-			// COLUMN CHART
-			charts.initColumnChart("#column-chart", settingsColumnChart);
-			// PIE CHART
-			charts.initPieChart("#pie-chart", settingsPieChart);
+
+			if(columnChart.laboratorios.length > 0 && pieChart.length > 0) {
+				// COLUMN CHART
+				charts.initColumnChart("#column-chart", settingsColumnChart);
+				// PIE CHART
+				charts.initPieChart("#pie-chart", settingsPieChart);
+			} else {
+				$("#charts").addClass("hidden");
+				$("#sin-resultados").closest(".row").removeClass("hidden");
+				$(".download-excel").addClass("hidden");
+			}
 		})();
 	</script>
 {% endblock %}

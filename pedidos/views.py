@@ -28,9 +28,9 @@ def get_filtros(get, modelo):
             value = get[filtro]
             if hasattr(modelo, "FILTERMAPPER") and filtro in modelo.FILTERMAPPER:
                 attr = modelo.FILTERMAPPER[filtro]
-            if value.isdigit():
+            if hasattr(value, "isdigit") and value.isdigit():
                 mfilter[attr] = int(value)
-            elif re.match(r"^[0-9]{2}/[0-9]{2}/[0-9]{4}$", value):
+            elif isinstance(value, str) and re.match(r"^[0-9]{2}/[0-9]{2}/[0-9]{4}$", value):
                 fechaAux = value.split("/")  # fecha separada por /
                 try:
                     fechaModificada = datetime.date(month=int(fechaAux[1]), day=int(fechaAux[0]), year=int(fechaAux[2]))
@@ -785,7 +785,7 @@ def pedidosDeFarmacia_topFarmaciasConMasMedicamentos(request):
     form = forms.RangoFechasForm(request.GET)
     estadistica = None
     if form.is_valid():
-        estadistica = utils.top_por_cantidad_medicamentos_farmacia(get_filtros, request.GET)
+        estadistica = utils.top_por_cantidad_medicamentos_farmacia(get_filtros, form.clean())
         request.session['estadistica'] = estadistica
     else:
         estadistica = request.session['estadistica']
@@ -844,7 +844,7 @@ def pedidosDeFarmacia_topFarmaciasConMasPedidos(request):
     form = forms.RangoFechasForm(request.GET)
     estadistica = None
     if form.is_valid():
-        estadistica = utils.top_por_cantidad_pedidos_farmacia(get_filtros, request.GET)
+        estadistica = utils.top_por_cantidad_pedidos_farmacia(get_filtros, form.clean())
         request.session['estadistica'] = estadistica
     else:
         estadistica = request.session['estadistica']
@@ -905,7 +905,7 @@ def pedidosDeClinica_topClinicasConMasMedicamentos(request):
     form = forms.RangoFechasForm(request.GET)
     estadistica = None
     if form.is_valid():
-        estadistica = utils.top_por_cantidad_medicamentos_clinica(get_filtros, request.GET)
+        estadistica = utils.top_por_cantidad_medicamentos_clinica(get_filtros, form.clean())
         request.session['estadistica'] = estadistica
     else:
         estadistica = request.session['estadistica']
@@ -964,7 +964,7 @@ def pedidosDeClinica_topClinicasConMasPedidos(request):
     form = forms.RangoFechasForm(request.GET)
     estadistica = None
     if form.is_valid():
-        estadistica = utils.top_por_cantidad_pedidos_clinica(get_filtros, request.GET)
+        estadistica = utils.top_por_cantidad_pedidos_clinica(get_filtros, form.clean())
         request.session['estadistica'] = estadistica
     else:
         estadistica = request.session['estadistica']
@@ -1025,7 +1025,7 @@ def pedidosAlaboratorio_topLabConMasSolicitudesMedicamentos(request):
     form = forms.RangoFechasForm(request.GET)
     estadistica = None
     if form.is_valid():
-        estadistica = utils.top_por_solicitud_medicamentos_laboratorio(get_filtros, request.GET)
+        estadistica = utils.top_por_solicitud_medicamentos_laboratorio(get_filtros, form.clean())
         request.session['estadistica'] = estadistica
     else:
         estadistica = request.session['estadistica']
@@ -1084,7 +1084,7 @@ def pedidosAlaboratorio_topLabConMasSolicitudesPedidos(request):
     form = forms.RangoFechasForm(request.GET)
     estadistica = None
     if form.is_valid():
-        estadistica = utils.top_por_solicitud_pedidos_laboratorio(get_filtros, request.GET)
+        estadistica = utils.top_por_solicitud_pedidos_laboratorio(get_filtros, form.clean())
         request.session['estadistica'] = estadistica
     else:
         estadistica = request.session['estadistica']
